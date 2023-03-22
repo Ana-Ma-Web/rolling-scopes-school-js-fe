@@ -1,0 +1,45 @@
+/* START-SCREEN */
+.start-screen {
+  width: 100%;
+  height: min(908px, max(83vw, 96vh));
+  background: url(../img/bg.png),
+    radial-gradient(100% 215.42% at 0% 0%, #5B483A 0%, #262425 100%);
+}
+
+.start-screen__wrapper {
+  padding: min(179px, 20%) 0 0 min(40px, 4%);
+  display: flex;
+  justify-content: space-between;
+}
+
+.start-screen__content {
+  padding: min(164px, 13vw) 0 44px;
+  width: min(464px, 40%);
+  min-width: 208px;
+}
+
+.start-screen__title {
+  max-width: 390px;
+  color: var(--color-light-xl);
+  font-weight: normal;
+  font-size: 44px;
+  line-height: 130%;
+}
+
+.start-screen__subtitle {
+  padding: max(5px, 9%) 0 max(16px, 8.8%);
+  color: var(--color-dark-s);
+  font-family: 'Arial';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 15px;
+  line-height: 160%;
+}
+
+.start-screen__image {
+  width: min(699px, 60%);
+  height: min(729px, 57vw);
+  background-image: url(../img/start-screen-puppy.png);
+  background-size: cover;
+  margin: auto min(40px, 4%) 0 0;
+}

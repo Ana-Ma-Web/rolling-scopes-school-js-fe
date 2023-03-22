@@ -1,0 +1,19 @@
+.header {}
+
+.header__wrapper {
+  position: absolute;
+}
+
+.logo {}
+
+.logo__title {}
+
+.logo__subtitle {}
+
+.nav {}
+
+.nav__list {}
+
+.nav__item {}
+
+.nav__link {}
