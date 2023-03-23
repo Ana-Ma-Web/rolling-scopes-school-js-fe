@@ -58,7 +58,6 @@ body {
   font-style: normal;
   font-weight: 400;
   font-size: 35px;
-  line-height: 130%;
   line-height: 129%;
   letter-spacing: 0.06em;
   color: var(--color-dark-l);
@@ -82,6 +81,7 @@ body {
   background-color: transparent;
   border: 2px solid var(--color-primary);
   border-radius: 26px;
+  cursor: pointer;
 }
 
 .button_primary {
