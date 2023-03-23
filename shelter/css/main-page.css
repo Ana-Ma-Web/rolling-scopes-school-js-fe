@@ -21,19 +21,13 @@
 .start-screen__title {
   max-width: 390px;
   color: var(--color-light-xl);
-  font-weight: normal;
   font-size: 44px;
-  line-height: 130%;
+  letter-spacing: normal;
 }
 
 .start-screen__subtitle {
   padding: max(5px, 9%) 0 max(16px, 8.8%);
   color: var(--color-dark-s);
-  font-family: 'Arial';
-  font-style: normal;
-  font-weight: 400;
-  font-size: 15px;
-  line-height: 160%;
 }
 
 .start-screen__image {
@@ -42,4 +36,73 @@
   background-image: url(../img/start-screen-puppy.png);
   background-size: cover;
   margin: auto min(40px, 4%) 0 0;
+}
+
+/* ABOUT */
+
+.about {
+  display: flex;
+  justify-content: center;
+  padding: 80px 0px 100px;
+  gap: 9.4%;
+}
+
+.about__image {
+  width: min(300px, 100vw);
+  height: 408px;
+  background-image: url(../img/about-pets.png);
+  background-size: cover;
+}
+
+.about__content {
+  max-width: min(429px, 41vw);
+  padding-top: 15px;
+}
+
+.about__title {
+  padding: 0 20px 23px 0;
+}
+
+.about__subtitle:not(:last-child) {
+  padding-bottom: 25px;
+}
+
+/* PETS */
+
+.pets {
+  width: 100%;
+  background-color: var(--color-light-l);
+  padding-bottom: min(100px, 14%);
+  padding-top: min(81px, 14%);
+}
+
+.pets_wrapper {
+  text-align: center;
+}
+
+.pets__title {
+  max-width: 449px;
+  margin: 0 auto min(60px, 6%);
+}
+
+.slider {
+  display: flex;
+  justify-content: center;
+  margin-bottom: min(58px, 6%);
+  align-items: center;
+  gap: 53px;
+}
+
+.slider__cards {
+  display: flex;
+  gap: 90px;
+}
+
+.slider__button-left {
+  background: url(../img/icons/Arrow.svg) no-repeat center;
+}
+
+.slider__button-right {
+  background: url(../img/icons/Arrow.svg) no-repeat center;
+  transform: scaleX(-1);
 }
