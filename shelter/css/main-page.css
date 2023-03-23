@@ -1,7 +1,7 @@
 /* START-SCREEN */
 .start-screen {
   width: 100%;
-  height: min(908px, max(83vw, 96vh));
+  /* height: min(908px, max(83vw, 96vh)); */
   background: url(../img/bg.png),
     radial-gradient(100% 215.42% at 0% 0%, #5B483A 0%, #262425 100%);
 }
@@ -34,7 +34,9 @@
   width: min(699px, 60%);
   height: min(729px, 57vw);
   background-image: url(../img/start-screen-puppy.png);
-  background-size: cover;
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center bottom;
   margin: auto min(40px, 4%) 0 0;
 }
 
@@ -51,7 +53,8 @@
   width: min(300px, 100vw);
   height: 408px;
   background-image: url(../img/about-pets.png);
-  background-size: cover;
+  background-repeat: no-repeat;
+  background-size: contain;
 }
 
 .about__content {
@@ -170,6 +173,7 @@
   height: 261px;
   background-image: url(../img/donation-dog.png);
   background-repeat: no-repeat;
+  background-size: contain;
   margin-top: 25px;
 }
 
