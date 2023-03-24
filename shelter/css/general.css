@@ -124,7 +124,7 @@ a, button {
 .button_inactive:hover {
   background-color: transparent;
   border-color: var(--color-dark-s);
-  cursor: url(../img/icons/icon-inactive.svg), not-allowed;
+  cursor: url(../img/icons/cursor.svg), default;
 }
 
 .card {
