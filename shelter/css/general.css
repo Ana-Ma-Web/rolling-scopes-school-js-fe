@@ -12,6 +12,7 @@
   --color-primary-light: #FDDCC4;
 }
 
+
 @font-face {
   font-family: 'Arial';
   src: url(../fonts/arial-regular.ttf) format('ttf');
@@ -44,8 +45,17 @@
   font-weight: 700;
 }
 
+html {
+  scroll-behavior: smooth;
+}
+
 body {
   font-family: 'Georgia';
+  cursor: url(../img/icons/cursor.svg), default;
+}
+
+a, button {
+  cursor: url(../img/icons/icon-pointer.svg), pointer;
 }
 
 .container {
@@ -73,6 +83,7 @@ body {
 }
 
 .button {
+  display: inline-block;
   font-family: 'Georgia';
   padding: 14px 43px;
   color: var(--color-dark-3xl);
@@ -82,7 +93,7 @@ body {
   background-color: transparent;
   border: 2px solid var(--color-primary);
   border-radius: 26px;
-  cursor: pointer;
+  cursor: url(../img/icons/icon-pointer.svg), pointer;
   transition: 0.3s;
 
 }
@@ -105,10 +116,24 @@ body {
   transition: 0.3s;
 }
 
+.button_inactive {
+  border-color: var(--color-dark-s);
+  color: var(--color-dark-s);
+}
+
+.button_inactive:hover {
+  background-color: transparent;
+  border-color: var(--color-dark-s);
+  cursor: url(../img/icons/icon-inactive.svg), not-allowed;
+}
+
 .card {
   background-color: var(--color-light-s);
+  width: 270px;
   border-radius: 9px;
   padding-bottom: 30px;
+  text-align: center;
+  cursor: url(../img/icons/icon-pointer.svg), pointer;
 }
 
 .card__img {

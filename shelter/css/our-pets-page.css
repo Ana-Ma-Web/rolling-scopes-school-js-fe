@@ -1,0 +1,71 @@
+/* HEADER */
+.header__wrapper {
+  position: static;
+  padding: 31px 40px 30px;
+}
+
+.logo__title,
+.logo__subtitle,
+.nav__link {
+  color: var(--color-dark-l)
+}
+
+.nav__item:hover .nav__link {
+  color: var(--color-dark-3xl);
+}
+
+.nav__item_active .nav__link {
+  color: var(--color-dark-3xl);
+}
+
+/* PETS */
+
+.pets {
+  background-color: var(--color-light-l);
+  text-align: center;
+}
+
+.pets__wrapper {
+  padding: 81px 0px 100px;
+}
+
+.pets__title {
+  max-width: 403px;
+  margin: 0 auto 59px;
+}
+
+.pet__cards {
+  display: grid;
+  grid-template-columns: repeat(4, auto);
+  /* margin: 0 0 60px 40px; */
+  padding: 0 40px;
+  margin-bottom: 60px;
+  /* column-gap: 40px; */
+  column-gap: 3.3%;
+  row-gap: 30px;
+}
+
+.pagination {
+  display: grid;
+  grid-template-columns: repeat(5, auto);
+  column-gap: 20px;
+  max-width: 341px;
+  text-align: center;
+  margin: 0 auto;
+}
+
+.pagination__button {
+  padding: 0px 0px 4px;
+  font-family: 'Georgia';
+  font-size: 20px;
+  line-height: 115%;
+  letter-spacing: 0.06em;
+}
+
+/* .pagination__button_before {}
+
+.pagination__button_number {}
+
+.pagination__button_next {}
+
+.pagination__button_end {} */

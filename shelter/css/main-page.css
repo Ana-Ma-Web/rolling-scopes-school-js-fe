@@ -26,7 +26,7 @@
 }
 
 .start-screen__subtitle {
-  padding: max(5px, 9%) 0 max(16px, 8.8%);
+  padding: max(5px, 9%) 0 min(40px, 18.8%);
   color: var(--color-dark-s);
 }
 
