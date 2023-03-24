@@ -73,6 +73,7 @@ body {
 }
 
 .button {
+  font-family: 'Georgia';
   padding: 14px 43px;
   color: var(--color-dark-3xl);
   line-height: 130%;
@@ -82,16 +83,26 @@ body {
   border: 2px solid var(--color-primary);
   border-radius: 26px;
   cursor: pointer;
+  transition: 0.3s;
+
 }
 
 .button_primary {
   background-color: var(--color-primary);
+  transition: 0.3s;
+
 }
 
 .button_round {
   width: 52px;
   height: 52px;
   padding: 14px 14px;
+}
+
+.button:hover {
+  background-color: var(--color-primary-light);
+  border-color: var(--color-primary-light);
+  transition: 0.3s;
 }
 
 .card {
@@ -116,4 +127,8 @@ body {
   margin: 25px 0 29px;
 }
 
-.card__button {}
+.card:hover .card__button {
+  background-color: var(--color-primary-light);
+  border-color: var(--color-primary-light);
+  transition: 0.3s;
+}
