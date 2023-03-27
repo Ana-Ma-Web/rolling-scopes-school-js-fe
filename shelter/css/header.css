@@ -13,6 +13,10 @@
 
 .logo {}
 
+.logo:hover .logo__title {
+  color: var(--color-primary-light)
+}
+
 .logo__title {
   font-family: 'Georgia';
   font-weight: 400;
@@ -20,7 +24,9 @@
   line-height: 110%;
   color: var(--color-primary);
   letter-spacing: 0.06em;
+  transition: 0.3s
 }
+
 
 .logo__subtitle {
   padding: 9px 1px 0 0;
