@@ -1,0 +1,6 @@
+@import url(./../general/null-style.css);
+@import url(./../general/general.css);
+@import url(./../general/header.css);
+@import url(./../general/footer.css);
+@import url(./header-our-page.css);
+@import url(./pets.css);

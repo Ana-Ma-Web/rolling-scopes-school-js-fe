@@ -1,7 +1,7 @@
 .footer {
   width: 100%;
   height: min(352px, max(41vw, 41vh));
-  background: url(../img/bg.png),
+  background: url(../../img/bg.png),
     radial-gradient(100% 215.42% at 0% 0%, #5B483A 0%, #262425 100%);
 }
 
@@ -55,7 +55,7 @@
 .footer__image {
   width: min(300px, 100vw);
   height: 310px;
-  background-image: url(../img/footer-puppy.png);
+  background-image: url(../../img/footer-puppy.png);
   background-size: contain;
   background-repeat: no-repeat;
   margin-left: 21px;
@@ -64,19 +64,19 @@
 }
 
 .footer__link_email {
-  background-image: url(../img/icons/icon-email.svg);
+  background-image: url(../../img/icons/icon-email.svg);
   background-repeat: no-repeat;
   background-position: 0px 1px;
 }
 
 .footer__link_phone {
-  background-image: url(../img/icons/icon-phone.svg);
+  background-image: url(../../img/icons/icon-phone.svg);
   background-repeat: no-repeat;
   background-position: 0px 1px;
 }
 
 .footer__link_location {
-  background-image: url(../img/icons/icon-marker.svg);
+  background-image: url(../../img/icons/icon-marker.svg);
   background-repeat: no-repeat;
   background-position: 0px center;
   padding: 5px 3px 4px 43px;

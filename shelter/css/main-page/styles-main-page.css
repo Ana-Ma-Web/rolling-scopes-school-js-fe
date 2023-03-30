@@ -1,0 +1,9 @@
+@import url(./../general/null-style.css);
+@import url(./../general/general.css);
+@import url(./../general/header.css);
+@import url(./../general/footer.css);
+@import url(./start-screen.css);
+@import url(./about.css);
+@import url(./pets.css);
+@import url(./help.css);
+@import url(./donation.css);

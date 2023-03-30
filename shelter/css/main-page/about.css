@@ -1,0 +1,27 @@
+.about {
+  display: flex;
+  justify-content: center;
+  padding: 80px 0px 100px;
+  gap: 9.4%;
+}
+
+.about__image {
+  width: min(300px, 100vw);
+  height: 408px;
+  background-image: url(../../img/about-pets.png);
+  background-repeat: no-repeat;
+  background-size: contain;
+}
+
+.about__content {
+  max-width: min(429px, 41vw);
+  padding-top: 15px;
+}
+
+.about__title {
+  padding: 0 20px 23px 0;
+}
+
+.about__subtitle:not(:last-child) {
+  padding-bottom: 25px;
+}

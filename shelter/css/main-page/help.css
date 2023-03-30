@@ -1,0 +1,40 @@
+.help {
+  padding-bottom: min(100px, 14%);
+  padding-top: min(80px, 14%);
+  text-align: center;
+}
+
+.help__title {
+  max-width: 359px;
+  margin: 0 auto min(60px, 6%);
+}
+
+.help__content {}
+
+.help__row {
+  display: grid;
+  grid-template-columns: repeat(4, auto);
+  padding: 0 min(151px, 13%);
+}
+
+.help__row:not(:last-child) {
+  grid-template-columns: repeat(5, auto);
+  padding: 0 min(67px, 6%);
+  margin-bottom: 57px;
+}
+
+.help__item {}
+
+.help__icon {
+  width: 60px;
+  height: 60px;
+}
+
+.help__text {
+  font-family: 'Georgia';
+  font-weight: 400;
+  font-size: 20px;
+  line-height: 115%;
+  letter-spacing: 0.06em;
+  margin-top: 24px;
+}

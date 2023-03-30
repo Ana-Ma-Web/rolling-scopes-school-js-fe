@@ -1,0 +1,37 @@
+.pets {
+  width: 100%;
+  background-color: var(--color-light-l);
+  padding-bottom: min(100px, 14%);
+  padding-top: min(81px, 14%);
+}
+
+.pets__wrapper {
+  text-align: center;
+}
+
+.pets__title {
+  max-width: 449px;
+  margin: 0 auto min(60px, 6%);
+}
+
+.slider {
+  display: flex;
+  justify-content: center;
+  margin-bottom: min(58px, 6%);
+  align-items: center;
+  gap: 53px;
+}
+
+.slider__cards {
+  display: flex;
+  gap: 90px;
+}
+
+.slider__button-left {
+  background: url(../../img/icons/Arrow.svg) no-repeat center;
+}
+
+.slider__button-right {
+  background: url(../../img/icons/Arrow.svg) no-repeat center;
+  transform: scaleX(-1);
+}

@@ -1,0 +1,18 @@
+.header__wrapper {
+  position: static;
+  padding: 31px 40px 30px;
+}
+
+.logo__title,
+.logo__subtitle,
+.nav__link {
+  color: var(--color-dark-l)
+}
+
+.nav__item:hover .nav__link {
+  color: var(--color-dark-3xl);
+}
+
+.nav__item_active .nav__link {
+  color: var(--color-dark-3xl);
+}
