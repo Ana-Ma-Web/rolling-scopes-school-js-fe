@@ -38,3 +38,61 @@
   background-position: center bottom;
   margin: auto min(40px, 4%) 0 0;
 }
+
+@media (max-width: 860px) {
+  .start-screen__wrapper {
+    flex-direction: column;
+    align-items: center;
+    padding: 0;
+  }
+
+  .start-screen__content {
+    padding: min(150px, 20vw) 0 44px;
+    width: max(460px, 60%);
+    display: flex;
+    flex-direction: column;
+  }
+
+  .start-screen__subtitle {
+    padding: max(5px, 9.4%) 0 min(40px, 18.8%);
+  }
+
+  .start-screen__button {
+    align-self: center;
+  }
+
+  .start-screen__image {
+    width: min(704px, 82vw);
+    height: min(596px, 80vw);
+    margin: min(52px, 8vw) 0 0 min(142px, 18vw);
+  }
+}
+@media (max-width: 560px) {
+  .start-screen__wrapper {
+    text-align: center;
+  }
+
+  .start-screen__content {
+    width: initial;
+    padding: 149px 0 44px;
+    align-items: center;
+  }
+
+  .start-screen__title {
+    font-size: 25px;
+    max-width: 225px;
+    letter-spacing: 0.06em;
+  }
+
+  .start-screen__subtitle {
+    padding: 42px 10px min(41px, 18.8%);
+  }
+
+  .start-screen__button {
+  }
+
+  .start-screen__image {
+    margin: max(60px, 16vw) 0 0 max(41px, 10vw);
+    height: max(272px, 84vw);
+  }
+}
