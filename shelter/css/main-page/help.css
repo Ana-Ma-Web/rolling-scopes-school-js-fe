@@ -44,7 +44,7 @@
     display: grid;
     grid-template-columns: repeat(3, auto);
     row-gap: min(55px, 8vw);
-    column-gap: max(63px, ((17vw - 130px)));
+    column-gap: min(63px, ((31vw - 170px)));
   }
 
   .help__item {
