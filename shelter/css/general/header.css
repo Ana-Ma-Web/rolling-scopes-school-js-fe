@@ -11,8 +11,6 @@
 
 }
 
-.logo {}
-
 .logo:hover .logo__title {
   color: var(--color-primary-light)
 }
@@ -26,7 +24,6 @@
   letter-spacing: 0.06em;
   transition: 0.3s
 }
-
 
 .logo__subtitle {
   padding: 9px 1px 0 0;
@@ -42,6 +39,7 @@
 .burger {
   display: none;
   align-self: center;
+  cursor: url(../../img/icons/icon-pointer.svg), pointer;
 }
 
 .burger__icon {
@@ -50,6 +48,7 @@
   height: 22px;
   margin-bottom: 2px;
 }
+
 .burger__icon::before {
   content: '';
   width: 100%;
@@ -57,9 +56,9 @@
   background-color: var(--color-primary);
   position: absolute;
   top: 0;
-  /* top: 50%; */
   left: 0;
 }
+
 .burger__icon::after {
   content: '';
   width: 100%;
@@ -85,12 +84,13 @@
     padding: 31px 30px 0;
   }
 }
+
 @media (max-width: 767px) {
 
   .header__wrapper {
     padding: 31px 20px 0;
   }
-  
+
   .nav {
     display: none;
   }
@@ -99,8 +99,6 @@
     display: block;
   }
 }
-
-.nav {}
 
 .nav__list {
   display: flex;
@@ -133,8 +131,9 @@
   width: 100%;
   height: 3px;
   background-color: var(--color-primary);
-  
+
 }
+
 .nav__item:hover .nav__link {
   color: var(--color-light-s);
   transition: 0.3s;

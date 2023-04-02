@@ -21,23 +21,20 @@
 .burger__icon::after,
 .burger__middle-line {
   background-color: black;
-
 }
 
 @media (max-width: 860px) {
   .header__wrapper {
     padding: 31px 30px 30px;
   }
-
-
 }
 
 @media (max-width: 720px) {
 
   .header__wrapper {
     padding: 31px 20px 30px;
-    }
-  
+  }
+
   .nav {
     display: none;
   }

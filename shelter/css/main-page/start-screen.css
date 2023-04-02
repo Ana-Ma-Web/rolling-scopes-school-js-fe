@@ -88,9 +88,6 @@
     padding: 42px 10px min(41px, 18.8%);
   }
 
-  .start-screen__button {
-  }
-
   .start-screen__image {
     margin: max(60px, 16vw) 0 0 max(41px, 10vw);
     height: max(272px, 84vw);

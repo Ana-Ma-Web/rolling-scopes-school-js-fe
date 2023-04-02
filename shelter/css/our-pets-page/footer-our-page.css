@@ -1,7 +1,5 @@
 @media (max-width: 640px) {
   .footer__column:nth-child(2) .footer__item:nth-child(2) {
     margin-bottom: 32px;
-        /* background-color: bisque; */
-    
   }
 }

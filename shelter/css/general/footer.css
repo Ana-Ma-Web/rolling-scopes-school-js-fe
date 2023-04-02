@@ -9,7 +9,6 @@
   padding: min(41px, 4%) min(40px, 4%) 0;
   display: flex;
   justify-content: space-between;
-
 }
 
 .footer__column {
@@ -48,7 +47,6 @@
 .footer__link:hover {
   color: var(--color-light-s);
   transition: 0.2s;
-
 }
 
 
@@ -60,9 +58,7 @@
   background-repeat: no-repeat;
   margin-left: 21px;
   background-position: bottom;
-
   width: min(300px, 27vw);
-  /* height: min(310px, 28vw); */
 }
 
 .footer__link_email {
@@ -104,23 +100,15 @@
   .footer__image {
     margin: 0;
     width: min(300px, 40vw);
-    /* height: min(310px, 28vw); */
-
   }
 }
 
 @media (max-width: 560px) {
-  .footer {}
 
   .footer__wrapper {
     padding: max(30px, 4%) max(10px, 1%) 0;
     row-gap: max(5px, 1vw);
   }
-
-  .footer__column {
-    /* max-width: max(252px, 78vw); */
-  }
-
 
   .footer__title {
     text-align: center;
