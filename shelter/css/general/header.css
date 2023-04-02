@@ -11,8 +11,6 @@
 
 }
 
-.logo {}
-
 .logo:hover .logo__title {
   color: var(--color-primary-light)
 }
@@ -27,7 +25,6 @@
   transition: 0.3s
 }
 
-
 .logo__subtitle {
   padding: 9px 1px 0 0;
   font-family: 'Arial';
@@ -39,7 +36,69 @@
   text-align: right;
 }
 
-.nav {}
+.burger {
+  display: none;
+  align-self: center;
+  cursor: url(../../img/icons/icon-pointer.svg), pointer;
+}
+
+.burger__icon {
+  position: relative;
+  width: 30px;
+  height: 22px;
+  margin-bottom: 2px;
+}
+
+.burger__icon::before {
+  content: '';
+  width: 100%;
+  height: 2px;
+  background-color: var(--color-primary);
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.burger__icon::after {
+  content: '';
+  width: 100%;
+  height: 2px;
+  background-color: var(--color-primary);
+  position: absolute;
+  bottom: 0;
+  left: 0;
+}
+
+.burger__middle-line {
+  content: '';
+  width: 100%;
+  height: 2px;
+  background-color: var(--color-primary);
+  position: absolute;
+  top: calc(50% - 1px);
+  left: 0;
+}
+
+@media (max-width: 860px) {
+  .header__wrapper {
+    padding: 31px 30px 0;
+  }
+}
+
+@media (max-width: 767px) {
+
+  .header__wrapper {
+    padding: 31px 20px 0;
+  }
+
+  .nav {
+    display: none;
+  }
+
+  .burger {
+    display: block;
+  }
+}
 
 .nav__list {
   display: flex;
@@ -72,8 +131,9 @@
   width: 100%;
   height: 3px;
   background-color: var(--color-primary);
-  
+
 }
+
 .nav__item:hover .nav__link {
   color: var(--color-light-s);
   transition: 0.3s;

@@ -1,0 +1,135 @@
+.donation {
+  width: 100%;
+  background-color: var(--color-light-l);
+  padding-bottom: min(100px, 14%);
+  padding-top: min(65px, 14%);
+}
+
+.donation__wrapper {
+  display: flex;
+  justify-content: center;
+  gap: 2.4%;
+}
+
+.donation__image {
+  width: min(505px, 100vw);
+  height: 261px;
+  background-image: url(../../img/donation-dog.png);
+  background-repeat: no-repeat;
+  background-size: contain;
+  margin-top: 25px;
+}
+
+.donation__content {
+  max-width: min(379px, 41vw);
+  padding-top: 15px;
+}
+
+.donation__title {
+  max-width: 310px;
+  margin-bottom: 20px;
+}
+
+.donation__subtitle {
+  font-family: 'Georgia';
+  font-weight: 400;
+  font-size: 15px;
+  line-height: 110%;
+  letter-spacing: 0.06em;
+  color: var(--color-dark-l);
+  margin-bottom: 19px;
+}
+
+.donation__button {
+  font-family: 'Georgia';
+  font-weight: 400;
+  font-size: 20px;
+  line-height: 115%;
+  letter-spacing: 0.06em;
+  color: var(--color-dark-l);
+  background-image: url(../../img/icons/credit-card.svg);
+  background-repeat: no-repeat;
+  background-position: 14px 7px;
+  border-radius: 9px;
+  padding: 8px 12px 8px 58px;
+}
+
+.donation__info {
+  font-family: 'Arial';
+  font-style: italic;
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 18px;
+  color: var(--color-dark-m);
+  margin-top: 20px;
+  margin-right: 19px;
+}
+
+@media (max-width: 900px) {
+  .donation__wrapper {
+    flex-direction: column-reverse;
+    align-items: center;
+  }
+
+  .donation__content {
+    max-width: max(380px, 48vw);
+  }
+
+  .donation__title {
+    max-width: 319px;
+  }
+
+  .donation__image {
+    margin-top: 61px;
+  }
+}
+
+@media (max-width: 560px) {
+  .donation {
+    padding: max(27px, 7%) 17px max(39px, 5%);
+    text-align: justify;
+  }
+
+  .donation__content {
+    max-width: initial;
+    text-align: center;
+  }
+
+  .donation__title {
+    max-width: initial;
+    padding: 0 30px;
+    text-align: center;
+    margin-bottom: 23px;
+  }
+
+  .donation__button {
+    font-size: 15px;
+    line-height: 110%;
+    padding: 12px 13px 11px 58px;
+    background-position: 13px 8px;
+  }
+
+  .donation__subtitle {
+    letter-spacing: initial;
+    margin-bottom: 23px;
+    text-align: center;
+  }
+
+  .donation__info {
+    padding: 0 10px;
+    margin-right: 0;
+  }
+
+  .donation__image {
+    margin-top: 42px;
+    width: max(261px, 80vw);
+    height: max(138px, 40vw);
+  }
+}
+
+@media (max-width: 360px) {
+  .donation__info {
+    padding: 0 2px;
+    text-align: justify;
+  }
+}

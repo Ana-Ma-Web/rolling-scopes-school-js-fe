@@ -15,33 +15,33 @@
 
 @font-face {
   font-family: 'Arial';
-  src: url(../fonts/arial-regular.ttf) format('ttf');
+  src: url(../../fonts/arial-regular.ttf) format('ttf');
   font-weight: 400;
 }
 
 @font-face {
   font-family: 'Arial';
-  src: url(../fonts/arial-narrow-italic.ttf) format('ttf');
+  src: url(../../fonts/arial-narrow-italic.ttf) format('ttf');
   font-style: italic;
   font-weight: 400;
 }
 
 @font-face {
   font-family: 'Georgia';
-  src: url(../fonts/georgia-regular.ttf) format('ttf');
+  src: url(../../fonts/georgia-regular.ttf) format('ttf');
   font-weight: 400;
 }
 
 @font-face {
   font-family: 'Georgia';
-  src: url(../fonts/georgia-italic.ttf) format('ttf');
+  src: url(../../fonts/georgia-italic.ttf) format('ttf');
   font-style: italic;
   font-weight: 400;
 }
 
 @font-face {
   font-family: 'Georgia';
-  src: url(../fonts/georgia-bold.ttf) format('ttf');
+  src: url(../../fonts/georgia-bold.ttf) format('ttf');
   font-weight: 700;
 }
 
@@ -51,11 +51,12 @@ html {
 
 body {
   font-family: 'Georgia';
-  cursor: url(../img/icons/cursor.svg), default;
+  cursor: url(../../img/icons/cursor.svg), default;
 }
 
-a, button {
-  cursor: url(../img/icons/icon-pointer.svg), pointer;
+a,
+button {
+  cursor: url(../../img/icons/icon-pointer.svg), pointer;
 }
 
 .container {
@@ -93,7 +94,7 @@ a, button {
   background-color: transparent;
   border: 2px solid var(--color-primary);
   border-radius: 26px;
-  cursor: url(../img/icons/icon-pointer.svg), pointer;
+  cursor: url(../../img/icons/icon-pointer.svg), pointer;
   transition: 0.3s;
 
 }
@@ -124,7 +125,7 @@ a, button {
 .button_inactive:hover {
   background-color: transparent;
   border-color: var(--color-dark-s);
-  cursor: url(../img/icons/cursor.svg), default;
+  cursor: url(../../img/icons/cursor.svg), default;
 }
 
 .card {
@@ -133,14 +134,18 @@ a, button {
   border-radius: 9px;
   padding-bottom: 30px;
   text-align: center;
-  cursor: url(../img/icons/icon-pointer.svg), pointer;
+  cursor: url(../../img/icons/icon-pointer.svg), pointer;
+  box-shadow: 0px 2px 35px 14px rgba(13, 13, 13, 0.00);
+
   transition: 0.3s;
 
 }
 
 .card:hover {
-  transform: scale(1.1);
+  transform: scale(1.05);
   transition: 0.3s;
+  background-color: var(--color-light-xl);
+  box-shadow: 0px 2px 35px 14px rgba(13, 13, 13, 0.04);
 }
 
 .card__img {
@@ -163,4 +168,11 @@ a, button {
   background-color: var(--color-primary-light);
   border-color: var(--color-primary-light);
   transition: 0.3s;
+}
+
+@media (max-width: 640px) {
+  .title {
+    font-size: 25px;
+    line-height: 130%;
+  }
 }
