@@ -82,17 +82,12 @@
 @media (max-width: 560px) {
 
   .pets {
-    /* padding-top: min(42px, 14%);
-    padding-bottom: max(41px, 10%); */
     padding: min(42px, 14%) 0 max(41px, 10%);
   }
 
   .pets__title {
     margin: 0 auto min(41px, 15%);
   }
-
-  /* .slider {
-  } */
 
   .slider .card:not(:first-child) {
     display: none;
