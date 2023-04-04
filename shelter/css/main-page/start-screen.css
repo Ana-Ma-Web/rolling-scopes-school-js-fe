@@ -64,9 +64,17 @@
   .start-screen__image {
     width: min(704px, 82vw);
     height: min(596px, 80vw);
-    margin: min(52px, 8vw) 0 0 min(142px, 18vw);
+    margin: max(53px, 7vw) 0 0 max(41px, 13vw);
   }
 }
+
+@media (max-width: 768px) {
+  .start-screen__image {
+    margin: max(53px, 7vw) 0px 0 min(75px, 18vw);
+    background-position: right bottom;
+  }
+}
+
 @media (max-width: 560px) {
   .start-screen__wrapper {
     text-align: center;
@@ -74,7 +82,7 @@
 
   .start-screen__content {
     width: initial;
-    padding: 149px 0 44px;
+    padding: 149px 0 51px;
     align-items: center;
   }
 
@@ -89,7 +97,7 @@
   }
 
   .start-screen__image {
-    margin: max(60px, 16vw) 0 0 max(41px, 10vw);
+    margin: max(55px, 16vw) 0 0 max(41px, 10vw);
     height: max(272px, 84vw);
   }
 }
