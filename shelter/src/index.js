@@ -13,19 +13,20 @@ window.onload = function () {
 
 const addBurgerClickHandler = () => {
   const burger = document.querySelector('.burger')
-  const nav = document.querySelector('.nav')
   const header = document.querySelector('.header__wrapper')
-  
-
+  const blackout = document.querySelector('.blackout')
 
   burger.addEventListener('click', () => {
-    
     if (data.interface.isBurgerOpen) {
       header.classList.remove('open-menu')
     }else{
       header.classList.add('open-menu')
     }
     data.interface.isBurgerOpen = !data.interface.isBurgerOpen
-    console.log(data.interface.isBurgerOpen);
+  })
+
+  blackout.addEventListener('click', () => {
+    data.interface.isBurgerOpen = false
+    header.classList.remove('open-menu')
   })
 }

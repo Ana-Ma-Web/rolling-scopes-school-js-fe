@@ -108,8 +108,8 @@
   }
 }
 
-.nav-bg {
-  position: absolute;
+.blackout {
+  position: fixed;
   top: 0;
   left: 0;
   width: 100vw;
@@ -119,7 +119,7 @@
   display: none;
 }
 
-.open-menu .nav-bg {
+.open-menu .blackout {
   display: block;
   
 }
