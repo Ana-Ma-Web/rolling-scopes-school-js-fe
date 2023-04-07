@@ -103,6 +103,8 @@
   }
 
   .open-menu .burger {
+    position: fixed;
+    right: 20px;
     transform: rotate(90deg);
     transition: 0.3s;
   }
