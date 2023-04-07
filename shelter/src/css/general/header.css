@@ -195,7 +195,8 @@
 
   .nav__list {
     flex-direction: column;
-    padding-top: 249px;
+    margin-top: 249px;
+    padding: 0;
     align-items: center;
     gap: 41px;
   }

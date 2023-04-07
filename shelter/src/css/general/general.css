@@ -54,6 +54,8 @@ body {
   cursor: url(../../img/icons/cursor.svg), default;
 }
 
+
+
 a,
 button {
   cursor: url(../../img/icons/icon-pointer.svg), pointer;
@@ -175,4 +177,8 @@ button {
     font-size: 25px;
     line-height: 130%;
   }
+}
+
+.stop-scroll {
+  overflow: hidden;
 }

@@ -4,8 +4,7 @@
 }
 
 .logo__title,
-.logo__subtitle,
-.nav__link {
+.logo__subtitle {
   color: var(--color-dark-l)
 }
 
@@ -18,13 +17,17 @@
     color: var(--color-dark-3xl);
   }
 
+  .nav__link {
+    color: var(--color-dark-l)
+  }
+
 }
 
 .open-menu .burger__icon::before,
 .open-menu .burger__icon::after,
 .open-menu .burger__middle-line {
   background-color: var(--color-primary);
-  
+
 }
 
 
