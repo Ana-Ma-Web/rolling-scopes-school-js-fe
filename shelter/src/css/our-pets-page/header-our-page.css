@@ -9,13 +9,24 @@
   color: var(--color-dark-l)
 }
 
-.nav__item:hover .nav__link {
-  color: var(--color-dark-3xl);
+@media (min-width: 768px) {
+  .nav__item:hover .nav__link {
+    color: var(--color-dark-3xl);
+  }
+
+  .nav__item_active .nav__link {
+    color: var(--color-dark-3xl);
+  }
+
 }
 
-.nav__item_active .nav__link {
-  color: var(--color-dark-3xl);
+.open-menu .burger__icon::before,
+.open-menu .burger__icon::after,
+.open-menu .burger__middle-line {
+  background-color: var(--color-primary);
+  
 }
+
 
 .burger__icon::before,
 .burger__icon::after,
@@ -36,6 +47,6 @@
   }
 
   .nav {
-    display: none;
+    /* display: none; */
   }
 }

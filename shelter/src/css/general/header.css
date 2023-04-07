@@ -52,8 +52,10 @@
 .burger {
   display: none;
   align-self: center;
-  cursor: url(../../img/icons/icon-pointer.svg), pointer;
+  /* cursor: url(../../img/icons/icon-pointer.svg), pointer; */
   z-index: 10;
+  background-color: transparent;
+  border: none;
   transition: 0.3s;
 }
 
@@ -100,13 +102,27 @@
     display: block;
   }
 
-  .open-menu + .burger {
-    transform: rotate(180deg);
+  .open-menu .burger {
+    transform: rotate(90deg);
     transition: 0.3s;
   }
 }
 
+.nav-bg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(41, 41, 41, 0.6);
+  font: none;
+  display: none;
+}
 
+.open-menu .nav-bg {
+  display: block;
+  
+}
 
 .nav__list {
   display: flex;
@@ -166,13 +182,13 @@
   .nav {
     position: fixed;
     top: 0;
-    right: -100%;
+    right: -150%;
     width: 320px;
     height: 100vh;
     background-color: var(--color-dark-3xl);
     z-index: 10;
     transition: 0.3s;
-    display: none;
+    /* display: none; */
   }
 
   .nav__list {
@@ -198,7 +214,8 @@
 }
 
 @media (max-width: 767px) {
-  .open-menu {
+  .open-menu .nav {
+    /* display: block; */
     right: 0;
     transition: 0.3s;
   }
