@@ -20,12 +20,6 @@
   color: var(--color-dark-l)
 }
 
-@media (max-width: 720px) {
-  .nav {
-    /* display: none; */
-  }
-}
-
 @media (min-width: 768px) {
   .nav__item:hover .nav__link {
     color: var(--color-dark-3xl);

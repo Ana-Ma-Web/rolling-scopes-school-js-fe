@@ -1,4 +1,4 @@
-const stringData =  `[
+const stringData = `[
   {
     "name": "Jennifer",
     "img": "./src/img/pets/pets-jennifer.png",
@@ -92,7 +92,8 @@ const stringData =  `[
 const data = {
   pets: JSON.parse(stringData),
   interface: {
-    isBurgerOpen: false
+    isBurgerOpen: false,
+    idBlackoutShow: false,
   }
 }
 class Card {
@@ -114,72 +115,142 @@ class Card {
     let card = document.createElement('article')
     card.className = 'card'
     card.setAttribute('data-name', this.name)
-    
+
     this.img && this.name &&
-    (template += `<img class="card__img" src=${this.img} alt=${this.name}>
+      (template += `<img class="card__img" src=${this.img} alt=${this.name}>
     <div class="card__title">${this.name}</div>
     <button class="button card__button">Learn more</button>`)
-    
+
     card.innerHTML = template
     return card
   }
 }
 
+class Modal {
+  constructor(classes) {
+    this.modal = ''
+  }
+
+  generateModal(petData) {
+    let modal = document.createElement('div')
+    modal.className = 'modal'
+    modal.innerHTML = `
+    <img src="${petData.img}" alt="${petData.name}" class="modal__img">
+    <div class="modal__content">
+      <div class="title modal__title">${petData.name}</div>
+      <div class="modal__subtitle">
+      <span>${petData.type}</span> -
+      <span>${petData.breed}</span>
+    </div>
+      <div class="modal__desc">${petData.description}</div>
+      <ul class="modal__list">
+        <li class="modal__list-item"><span>Age: </span>${petData.age}</li>
+        <li class="modal__list-item"><span>Inoculations: </span>${petData.inoculations}</li>
+        <li class="modal__list-item"><span>Diseases: </span>${petData.diseases}</li>
+        <li class="modal__list-item"><span>Parasites: </span>${petData.parasites}</li>
+      </ul>
+    </div>
+    <button class="button button_round modal__button"></button>`
+    return modal
+  }
+}
+
 window.onload = function () {
-  addBurgerClickHandler()
 
   if (data.pets) {
     renderCardsToPetsPage()
     renderCardsToMainPage()
   }
+
+  addBurgerClickHandler()
+  addBlackoutClickHandler()
+  addCardClickHandler()
+}
+
+const addBlackout = () => {
+  const blackout = document.querySelector('.blackout')
+  blackout.classList.add('blackout_show')
+  data.interface.idBlackoutShow = true
+}
+
+const removeBlackout = () => {
+  const blackout = document.querySelector('.blackout')
+  blackout.classList.remove('blackout_show')
+  data.interface.idBlackoutShow = false
+}
+
+const addModalShow = () => {
+  const modalWrapper = getWrapper('.modal-wrapper')
+  modalWrapper.classList.add('modal_show')
+}
+const removeModalShow = () => {
+  const modalWrapper = getWrapper('.modal-wrapper')
+  modalWrapper.classList.remove('modal_show')
+}
+const addOpenMenu = () => {
+  const header = document.querySelector('.header__wrapper')
+  header.classList.add('open-menu')
+  data.interface.isBurgerOpen = true
+
+}
+const removeOpenMenu = () => {
+  const header = document.querySelector('.header__wrapper')
+  header.classList.remove('open-menu')
+  data.interface.isBurgerOpen = false
+}
+const addStopScroll = () => {
+  const body = document.querySelector('body')
+  body.classList.add('stop-scroll')
+}
+const removeStopScroll = () => {
+  const body = document.querySelector('body')
+  body.classList.remove('stop-scroll')
+}
+
+const addBlackoutClickHandler = () => {
+  const blackout = document.querySelector('.blackout')
+  blackout.addEventListener('click', () => {
+    removeBlackout()
+    removeModalShow()
+    removeOpenMenu()
+    removeStopScroll()
+  })
 }
 
 const addBurgerClickHandler = () => {
-  const header = document.querySelector('.header__wrapper')
   const burger = document.querySelector('.burger')
-  const blackout = document.querySelector('.blackout')
   const navList = document.querySelector('.nav__list')
-  const body = document.querySelector('body')
 
   burger.addEventListener('click', () => {
     if (data.interface.isBurgerOpen) {
-      blackout.classList.remove('blackout_show')
-      header.classList.remove('open-menu')
-      body.classList.remove('stop-scroll')
+      removeOpenMenu()
+      removeBlackout()
+      removeStopScroll()
     } else {
-      blackout.classList.add('blackout_show')
-      header.classList.add('open-menu')
-      body.classList.add('stop-scroll')
+      addBlackout()
+      addOpenMenu()
+      addStopScroll()
     }
-    data.interface.isBurgerOpen = !data.interface.isBurgerOpen
-  })
-
-  blackout.addEventListener('click', () => {
-    data.interface.isBurgerOpen = false
-    blackout.classList.remove('blackout_show')
-    header.classList.remove('open-menu')
-    body.classList.remove('stop-scroll')
   })
 
   navList.addEventListener('click', (e) => {
     if (e.target.classList.contains('nav__link')) {
-      data.interface.isBurgerOpen = false
-      blackout.classList.remove('blackout_show')
-      header.classList.remove('open-menu')
-      body.classList.remove('stop-scroll')
+      removeBlackout()
+      removeOpenMenu()
+      removeStopScroll()
     }
   })
 }
 
 const renderCardsToPetsPage = () => {
-  const cardsWrapper = getCardsWrapper('.pets__cards')
+  const cardsWrapper = getWrapper('.pets__cards')
   cardsWrapper && (generateCards(data.pets).forEach(card => {
     cardsWrapper.append(card.generateCard())
   }))
 }
 
 const renderCardsToMainPage = () => {
-  const cardsWrapper = getCardsWrapper('.slider__cards')
+  const cardsWrapper = getWrapper('.slider__cards')
   const curData = data.pets.slice(0, 3)
 
   cardsWrapper && (generateCards(curData).forEach(card => {
@@ -187,10 +258,10 @@ const renderCardsToMainPage = () => {
   }))
 }
 
-const getCardsWrapper = (selector) => {
-  const cardsContainer = document.querySelector(selector)
-  cardsContainer && (cardsContainer.innerHTML = '')
-  return cardsContainer
+const getWrapper = (selector) => {
+  const container = document.querySelector(selector)
+  container && (container.innerHTML = '')
+  return container
 }
 
 const generateCards = (data) => {
@@ -199,4 +270,34 @@ const generateCards = (data) => {
     cards.push(new Card(card))
   });
   return cards
+}
+
+const addCardClickHandler = () => {
+  const cards = document.querySelectorAll('.card')
+
+  for (const card of cards) {
+    card.addEventListener('click', (e) => {
+      renderModalWindow(findPet(data.pets, card.dataset.name))
+    })
+  }
+}
+
+const findPet = (data, name) => {
+  return data.find(pet => pet.name === name)
+}
+
+const renderModalWindow = (petData) => {
+  const modalWrapper = getWrapper('.modal-wrapper')
+  let modal = new Modal('modal')
+  addBlackout()
+  addModalShow()
+  addStopScroll()
+  modalWrapper.append(modal.generateModal(petData))
+
+  const modalBtn = document.querySelector('.modal__button')
+  modalBtn.addEventListener('click', () => {
+    removeBlackout()
+    removeModalShow()
+    removeStopScroll()
+  })
 }
