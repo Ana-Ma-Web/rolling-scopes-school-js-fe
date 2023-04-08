@@ -120,7 +120,6 @@ class Card {
     <div class="card__title">${this.name}</div>
     <button class="button card__button">Learn more</button>`)
     
-    console.log(card, 'card');
     card.innerHTML = template
     return card
   }
@@ -131,6 +130,7 @@ window.onload = function () {
 
   if (data.pets) {
     renderCardsToPetsPage()
+    renderCardsToMainPage()
   }
 }
 
@@ -172,15 +172,24 @@ const addBurgerClickHandler = () => {
 }
 
 const renderCardsToPetsPage = () => {
-  const cardsWrapper = getCardsWrapper()
-  generateCards(data.pets).forEach(card => {
+  const cardsWrapper = getCardsWrapper('.pets__cards')
+  cardsWrapper && (generateCards(data.pets).forEach(card => {
     cardsWrapper.append(card.generateCard())
-  })
+  }))
 }
 
-const getCardsWrapper = () => {
-  const cardsContainer = document.querySelector('.pets__cards')
-  cardsContainer.innerHTML = ''
+const renderCardsToMainPage = () => {
+  const cardsWrapper = getCardsWrapper('.slider__cards')
+  const curData = data.pets.slice(0, 3)
+
+  cardsWrapper && (generateCards(curData).forEach(card => {
+    cardsWrapper.append(card.generateCard())
+  }))
+}
+
+const getCardsWrapper = (selector) => {
+  const cardsContainer = document.querySelector(selector)
+  cardsContainer && (cardsContainer.innerHTML = '')
   return cardsContainer
 }
 
@@ -189,6 +198,5 @@ const generateCards = (data) => {
   data.forEach(card => {
     cards.push(new Card(card))
   });
-  console.log(cards);
   return cards
 }
