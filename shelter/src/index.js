@@ -93,7 +93,12 @@ const data = {
   pets: JSON.parse(stringData),
   interface: {
     isBurgerOpen: false,
-    idBlackoutShow: false,
+    isBlackoutShow: false,
+    slider: {
+      pastArr: [],
+      curArr: [],
+      nextArr: [],
+    }
   }
 }
 class Card {
@@ -159,26 +164,26 @@ window.onload = function () {
 
   if (data.pets) {
     renderCardsToPetsPage()
-    renderCardsToMainPage()
+    initSlider()
+    renderSlider()
   }
 
   addBurgerClickHandler()
   addBlackoutClickHandler()
   addCardClickHandler()
+  addSliderClickHandler()
 }
 
 const addBlackout = () => {
   const blackout = document.querySelector('.blackout')
   blackout.classList.add('blackout_show')
-  data.interface.idBlackoutShow = true
+  data.interface.isBlackoutShow = true
 }
-
 const removeBlackout = () => {
   const blackout = document.querySelector('.blackout')
   blackout.classList.remove('blackout_show')
-  data.interface.idBlackoutShow = false
+  data.interface.isBlackoutShow = false
 }
-
 const addModalShow = () => {
   const modalWrapper = getWrapper('.modal-wrapper')
   modalWrapper.classList.add('modal_show')
@@ -206,6 +211,8 @@ const removeStopScroll = () => {
   const body = document.querySelector('body')
   body.classList.remove('stop-scroll')
 }
+
+// ============ BURGER ============== //
 
 const addBlackoutClickHandler = () => {
   const blackout = document.querySelector('.blackout')
@@ -242,26 +249,18 @@ const addBurgerClickHandler = () => {
   })
 }
 
+const getWrapper = (selector) => {
+  const container = document.querySelector(selector)
+  container && (container.innerHTML = '')
+  return container
+}
+// ============ CARDS ============== //
+
 const renderCardsToPetsPage = () => {
   const cardsWrapper = getWrapper('.pets__cards')
   cardsWrapper && (generateCards(data.pets).forEach(card => {
     cardsWrapper.append(card.generateCard())
   }))
-}
-
-const renderCardsToMainPage = () => {
-  const cardsWrapper = getWrapper('.slider__cards')
-  const curData = data.pets.slice(0, 3)
-
-  cardsWrapper && (generateCards(curData).forEach(card => {
-    cardsWrapper.append(card.generateCard())
-  }))
-}
-
-const getWrapper = (selector) => {
-  const container = document.querySelector(selector)
-  container && (container.innerHTML = '')
-  return container
 }
 
 const generateCards = (data) => {
@@ -271,6 +270,8 @@ const generateCards = (data) => {
   });
   return cards
 }
+
+// ============ MODAL ============== //
 
 const addCardClickHandler = () => {
   const cards = document.querySelectorAll('.card')
@@ -299,5 +300,110 @@ const renderModalWindow = (petData) => {
     removeBlackout()
     removeModalShow()
     removeStopScroll()
+  })
+}
+
+// ============ SLIDER ============== //
+
+const initSlider = () => {
+
+  forwardSliderMove()
+  forwardSliderMove()
+  forwardSliderMove()
+}
+
+const forwardSliderMove = () => {
+  data.interface.slider.pastArr = data.interface.slider.curArr
+  data.interface.slider.curArr = data.interface.slider.nextArr
+  data.interface.slider.nextArr = generateNumberArr(data.interface.slider.curArr)
+  renderSlider()
+}
+
+const backwardSliderMove = () => {
+  data.interface.slider.nextArr = data.interface.slider.curArr
+  data.interface.slider.curArr = data.interface.slider.pastArr
+  data.interface.slider.pastArr = generateNumberArr(data.interface.slider.curArr)
+  renderSlider()
+}
+
+const generateNumberArr = (curArr) => {
+  let result = []
+  
+  for (let i = 0; i < 3; i++) {
+    const generateRandomNumber = () => {
+      number = Math.floor(Math.random() * 8)
+      if (result.includes(number) || curArr?.includes(number)) {
+        generateRandomNumber()
+      } else {
+        result.push(number)
+      }
+    }
+    generateRandomNumber()
+  }
+  
+  return result
+}
+
+const renderSlider = () => {
+  const sliderLeftWrapper = getWrapper('.slider__cards-left')
+  const sliderMiddleWrapper = getWrapper('.slider__cards-middle')
+  const sliderRightWrapper = getWrapper('.slider__cards-right')
+  const pastData = []
+  const curData = []
+  const nextData = []
+  data.interface.slider.pastArr.forEach(e => {
+    pastData.push(data.pets[e])
+  })
+  data.interface.slider.curArr.forEach(e => {
+    curData.push(data.pets[e])
+  })
+  data.interface.slider.nextArr.forEach(e => {
+    nextData.push(data.pets[e])
+  })
+
+  sliderLeftWrapper && (generateCards(pastData).forEach(card => {
+    sliderLeftWrapper.append(card.generateCard())
+  }))
+  sliderMiddleWrapper && (generateCards(curData).forEach(card => {
+    sliderMiddleWrapper.append(card.generateCard())
+  }))
+  sliderRightWrapper && (generateCards(nextData).forEach(card => {
+    sliderRightWrapper.append(card.generateCard())
+  }))
+}
+
+const addSliderClickHandler = () => {
+  const slider = document.querySelector('.slider__cards')
+  const leftBtn = document.querySelector('.slider__button-left')
+  const rightBtn = document.querySelector('.slider__button-right')
+
+
+  const moveLeft = () => {
+    slider.classList.add('transition-left')
+    leftBtn.removeEventListener('click', moveLeft)
+    rightBtn.removeEventListener('click', moveRight)
+
+    setTimeout(backwardSliderMove, 1500)
+  }
+
+  const moveRight = () => {
+    slider.classList.add('transition-right')
+    rightBtn.removeEventListener('click', moveRight)
+    leftBtn.removeEventListener('click', moveLeft)
+
+    setTimeout(forwardSliderMove, 1500)
+  }
+
+  leftBtn?.addEventListener('click', moveLeft)
+  rightBtn?.addEventListener('click', moveRight)
+
+  slider?.addEventListener('animationend', (event) => {
+    if (event.animationName === 'move-left') {
+      slider.classList.remove('transition-left')
+    } else {
+      slider.classList.remove('transition-right')
+    }
+    leftBtn?.addEventListener('click', moveLeft)
+    rightBtn?.addEventListener('click', moveRight)
   })
 }

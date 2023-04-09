@@ -58,30 +58,102 @@
   }
 }
 
-.slider__cards {
-  display: flex;
-  gap: min(90px, 11.1%);
-  justify-content: center;
+.slider__cards_wrapper {
+  width: 1000px;
+  overflow: hidden;
+  position: relative;
+  height: 435px;
 }
 
-@media (max-width: 1220px) {
-  .slider .card:last-child {
-    display: none;
+@media (max-width: 580px) {
+  .slider__cards_wrapper {
+    order: 1;
+    width: 100%;
   }
+}
 
+.slider__cards {
+  display: flex;
+  justify-content: center;
+  gap: 90px;
+  position: absolute;
+  top: 50%;
+  transform: translate(-1075px, -50%);
+}
+
+@keyframes move-right {
+  from{
+    transform: translate(-1075px, -50%);
+  }
+  to{
+    transform: translate(-2155px, -50%);
+  }
+}
+@keyframes move-left {
+  from{
+    transform: translate(-1075px, -50%);
+  }
+  to{
+    transform: translate(5px, -50%);
+  }
+}
+
+.transition-right{
+  animation: move-right 1.5s;
+}
+.transition-left{
+  animation: move-left 1.5s;
+
+}
+
+
+@media (max-width: 1220px) {
+  
   .slider__cards {
     gap: max(40px, 4.3vw);
   }
 }
 
-@media (max-width: 760px) {
-  .slider .card:not(:first-child) {
-    display: none;
-  }
 
+@media (max-width: 760px) {
   .slider__cards {
     order: 1;
     width: 100%;
+  }
+}
+@media (max-width: 560px) {
+  .slider__cards {
+    order: 1;
+    width: 100%;
+  }
+}
+
+
+.slider__cards-left{
+  display: flex;
+  gap: 90px;
+    justify-content: center;
+}
+.slider__cards-middle{
+  display: flex;
+  gap: 90px;
+  justify-content: center;
+}
+.slider__cards-right{
+  display: flex;
+  gap: 90px;
+  justify-content: center;
+}
+
+@media (max-width: 1220px) {
+  .slider .card:nth-child(n + 3) {
+    display: none;
+  }
+}
+
+@media (max-width: 760px) {
+  .slider .card:nth-child(n + 2) {
+    display: none;
   }
 }
 
@@ -89,13 +161,7 @@
   .slider .card:not(:first-child) {
     display: none;
   }
-
-  .slider__cards {
-    order: 1;
-    width: 100%;
-  }
 }
-
 .slider__button-left {
   background: url(../../img/icons/Arrow.svg) no-repeat center;
 }
@@ -104,5 +170,3 @@
   background: url(../../img/icons/Arrow.svg) no-repeat center;
   transform: scaleX(-1);
 }
-
-
