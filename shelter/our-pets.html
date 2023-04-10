@@ -65,7 +65,7 @@
     <div class="pets__wrapper container">
       <h1 class="title pets__title">Our friends who<br>
         are looking for a house</h1>
-      <div class="pets__cards">
+      <div class="pets__cards" data-page="1">
 
         <!-- <div class="card">
           <img class="card__img" src="./src/img/pets/pets-katrine.png" alt="Katrine">
@@ -109,11 +109,11 @@
         </div> -->
       </div>
       <div class="pagination">
-        <button class="button button_round pagination__button button_inactive" disabled>&lt;&lt;</button>
-        <button class="button button_round pagination__button button_inactive" disabled>&lt;</button>
-        <button class="button  button_round pagination__button button_primary">1</button>
-        <button class="button button_round pagination__button">&gt;</button>
-        <button class="button button_round pagination__button">&gt;&gt;</button>
+        <button class="button button_round pagination__button pagination__button_start" >&lt;&lt;</button>
+        <button class="button button_round pagination__button pagination__button_back" >&lt;</button>
+        <button class="button  button_round pagination__button pagination__button_page button_primary">1</button>
+        <button class="button button_round pagination__button pagination__button_next">&gt;</button>
+        <button class="button button_round pagination__button pagination__button_end">&gt;&gt;</button>
       </div>
     </div>
   </div>

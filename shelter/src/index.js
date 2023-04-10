@@ -98,7 +98,12 @@ const data = {
       pastArr: [],
       curArr: [],
       nextArr: [],
-    }
+    },
+    pagination: {
+      seed: [],
+      randomArr: [],
+      pageNumber: 1,
+    },
   }
 }
 class Card {
@@ -163,16 +168,20 @@ class Modal {
 window.onload = function () {
 
   if (data.pets) {
-    renderCardsToPetsPage()
-    initSlider(cardsCount())
-    renderSlider()
-  }
+    if (window.location.href.slice(-10) === 'index.html') {
+      initSlider(cardsCount())
+      renderSlider()
+      addSliderClickHandler()
+      changeWidthHandler()
+    } else {
+      renderCardsToPetsPage()
+      paginationBtnHandler()
 
-  addBurgerClickHandler()
-  addBlackoutClickHandler()
-  addCardClickHandler()
-  addSliderClickHandler()
-  changeWidthHandler()
+    }
+    addBurgerClickHandler()
+    addBlackoutClickHandler()
+    addCardClickHandler()
+  }
 }
 
 const addBlackout = () => {
@@ -257,12 +266,12 @@ const getWrapper = (selector) => {
 }
 // ============ CARDS ============== //
 
-const renderCardsToPetsPage = () => {
-  const cardsWrapper = getWrapper('.pets__cards')
-  cardsWrapper && (generateCards(data.pets).forEach(card => {
-    cardsWrapper.append(card.generateCard())
-  }))
-}
+// const renderCardsToPetsPage = () => {
+//   const cardsWrapper = getWrapper('.pets__cards')
+//   cardsWrapper && (generateCards(data.pets).forEach(card => {
+//     cardsWrapper.append(card.generateCard())
+//   }))
+// }
 
 const generateCards = (data) => {
   let cards = []
@@ -329,7 +338,7 @@ const backwardSliderMove = (cardsCount) => {
 
 const generateNumberArr = (curArr, cardCount) => {
   let result = []
-  
+
   for (let i = 0; i < cardCount; i++) {
     const generateRandomNumber = () => {
       number = Math.floor(Math.random() * 8)
@@ -341,7 +350,7 @@ const generateNumberArr = (curArr, cardCount) => {
     }
     generateRandomNumber()
   }
-  
+
   return result
 }
 
@@ -378,13 +387,12 @@ const addSliderClickHandler = () => {
   const leftBtn = document.querySelector('.slider__button-left')
   const rightBtn = document.querySelector('.slider__button-right')
 
-
   const moveLeft = () => {
     slider.classList.add('transition-left')
     leftBtn.removeEventListener('click', moveLeft)
     rightBtn.removeEventListener('click', moveRight)
 
-    setTimeout(() => {backwardSliderMove(cardsCount())}, 1500)
+    setTimeout(() => { backwardSliderMove(cardsCount()) }, 1500)
   }
 
   const moveRight = () => {
@@ -392,7 +400,7 @@ const addSliderClickHandler = () => {
     rightBtn.removeEventListener('click', moveRight)
     leftBtn.removeEventListener('click', moveLeft)
 
-    setTimeout(() => {forwardSliderMove(cardsCount())}, 1500)
+    setTimeout(() => { forwardSliderMove(cardsCount()) }, 1500)
   }
 
   leftBtn?.addEventListener('click', moveLeft)
@@ -411,11 +419,9 @@ const addSliderClickHandler = () => {
 
 const cardsCount = () => {
   const sliderWrapper = document.querySelector('.slider__cards_wrapper')
-  console.log(sliderWrapper.clientWidth)
-  if(sliderWrapper.clientWidth >= 1000) {
-    // console.log('return 3');
+  if (sliderWrapper.clientWidth >= 1000) {
     return 3
-  } else if(sliderWrapper.clientWidth >= 580) {
+  } else if (sliderWrapper.clientWidth >= 580) {
     return 2
   } else {
     return 1
@@ -430,4 +436,172 @@ const changeWidthHandler = () => {
 
 // ============ PAGINATION ============== //
 
+const generateSeed = () => {
+  let result = []
+
+  for (let i = 0; i < 8; i++) {
+    const generateRandomNumber = () => {
+      number = Math.floor(Math.random() * 8)
+      if (result.includes(number)) {
+        generateRandomNumber()
+      } else {
+        result.push(number)
+      }
+    }
+    generateRandomNumber()
+  }
+
+  return result
+}
+
+const shuffleArr = (arr) => {
+  let result = []
+
+  arr.forEach((e) => {
+    const generateRandomNumber = () => {
+      number = Math.floor(Math.random() * 8)
+      if (!result.includes(number) && arr.includes(number)) {
+        result.push(number)
+      } else {
+        generateRandomNumber()
+      }
+    }
+    generateRandomNumber()
+  })
+
+  return result
+  // for (let i = 0; i < 8; i++) {
+  // }
+}
+
+const generateRandomArr = (seed) => {
+  let resultArr = []
+
+  resultArr.push([seed[0], seed[1], seed[2]])
+  resultArr.push([seed[3], seed[4], seed[5]])
+  resultArr.push([seed[6], seed[7]])
+  resultArr[0] = shuffleArr(resultArr[0])
+  resultArr[1] = shuffleArr(resultArr[1])
+  resultArr[2] = shuffleArr(resultArr[2])
+  resultArr = resultArr.flat(3)
+  return resultArr
+}
+
+const generatePetsData = () => {
+  const seed = generateSeed()
+  let petsData = []
+  for (let i = 0; i < 6; i++) {
+    data.interface.pagination.randomArr.push(generateRandomArr(seed))
+    data.interface.pagination.randomArr = data.interface.pagination.randomArr.flat(3)
+  }
+  data.interface.pagination.randomArr.forEach(e => {
+    petsData.push(data.pets[e])
+  })
+  return petsData
+}
+
+const renderCardsToPetsPage = () => {
+  const cardsWrapper = getWrapper('.pets__cards')
+
+  cardsWrapper && (generateCards(generatePetsData()).forEach(card => {
+    cardsWrapper.append(card.generateCard())
+  }))
+}
+
+const paginationBtnHandler = () => {
+  const cards = document.querySelector('.pets__cards')
+  const paginationWrapper = document.querySelector('.pagination')
+  const startBtn = document.querySelector('.pagination__button_start')
+  const backBtn = document.querySelector('.pagination__button_back')
+  const pageBtn = document.querySelector('.pagination__button_page')
+  const nextBtn = document.querySelector('.pagination__button_next')
+  const endBtn = document.querySelector('.pagination__button_end')
+
+  updatePagination()
+
+  paginationWrapper.addEventListener('click', (e) => {
+    switch (e.target) {
+      case startBtn:
+        data.interface.pagination.pageNumber = 1
+        cards.dataset.page = data.interface.pagination.pageNumber
+        break;
+      case backBtn:
+        data.interface.pagination.pageNumber -= 1
+        cards.dataset.page = data.interface.pagination.pageNumber
+        break;
+      case nextBtn:
+        data.interface.pagination.pageNumber += 1
+        cards.dataset.page = data.interface.pagination.pageNumber
+        break;
+      case endBtn:
+        if (window.innerWidth >= 1250) {
+          data.interface.pagination.pageNumber = 6
+          cards.dataset.page = data.interface.pagination.pageNumber
+        }else {
+          data.interface.pagination.pageNumber = 8
+          cards.dataset.page = data.interface.pagination.pageNumber
+        }
+        break;
+
+      default:
+        break;
+    }
+
+    updatePagination()
+  })
+}
+
+const updatePagination = () => {
+  const pageNumber = data.interface.pagination.pageNumber
+  const cards = document.querySelector('.pets__cards')
+  const paginationWrapper = document.querySelector('.pagination')
+  const startBtn = document.querySelector('.pagination__button_start')
+  const backBtn = document.querySelector('.pagination__button_back')
+  const pageBtn = document.querySelector('.pagination__button_page')
+  const nextBtn = document.querySelector('.pagination__button_next')
+  const endBtn = document.querySelector('.pagination__button_end')
+  let winWidth = window.innerWidth
+  console.log(winWidth);
+
+  pageBtn.innerHTML = pageNumber
+  console.log(pageBtn.innerHTML);
+
+  if (pageNumber === 1) {
+    backBtn.disabled = true
+    backBtn.classList.add('button_inactive')
+    startBtn.disabled = true
+    startBtn.classList.add('button_inactive')
+  } else {
+    backBtn.disabled = false
+    backBtn.classList.remove('button_inactive')
+    startBtn.disabled = false
+    startBtn.classList.remove('button_inactive')
+  }
+
+  if (winWidth >= 1250) {
+    if (pageNumber === 6) {
+      nextBtn.disabled = true
+      nextBtn.classList.add('button_inactive')
+      endBtn.disabled = true
+      endBtn.classList.add('button_inactive')
+    } else {
+      nextBtn.disabled = false
+      nextBtn.classList.remove('button_inactive')
+      endBtn.disabled = false
+      endBtn.classList.remove('button_inactive')
+    }
+  } else {
+    if (pageNumber === 8) {
+      nextBtn.disabled = true
+      nextBtn.classList.add('button_inactive')
+      endBtn.disabled = true
+      endBtn.classList.add('button_inactive')
+    } else {
+      nextBtn.disabled = false
+      nextBtn.classList.remove('button_inactive')
+      endBtn.disabled = false
+      endBtn.classList.remove('button_inactive')
+    }
+  }
+}
 
