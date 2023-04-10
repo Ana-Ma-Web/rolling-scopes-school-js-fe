@@ -426,6 +426,7 @@ const cardsCount = () => {
 const changeMainPageWidthHandler = () => {
   window.addEventListener("resize", () => {
     initSlider(cardsCount())
+    addCardClickHandler()
   });
 }
 
