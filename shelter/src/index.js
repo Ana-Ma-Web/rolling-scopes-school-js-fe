@@ -609,6 +609,7 @@ const countCurrentMaxPage = () => {
 const changePetsPageWidthHandler = () => {
   window.addEventListener("resize", () => {
     updatePagination()
+    addCardClickHandler()
   });
 }
 
