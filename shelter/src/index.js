@@ -103,6 +103,7 @@ const data = {
       seed: [],
       randomArr: [],
       pageNumber: 1,
+      curPagePetsData: [],
     },
   }
 }
@@ -172,10 +173,11 @@ window.onload = function () {
       initSlider(cardsCount())
       renderSlider()
       addSliderClickHandler()
-      changeWidthHandler()
+      changeMainPageWidthHandler()
     } else {
       renderCardsToPetsPage()
       paginationBtnHandler()
+      changePetsPageWidthHandler()
 
     }
     addBurgerClickHandler()
@@ -265,13 +267,6 @@ const getWrapper = (selector) => {
   return container
 }
 // ============ CARDS ============== //
-
-// const renderCardsToPetsPage = () => {
-//   const cardsWrapper = getWrapper('.pets__cards')
-//   cardsWrapper && (generateCards(data.pets).forEach(card => {
-//     cardsWrapper.append(card.generateCard())
-//   }))
-// }
 
 const generateCards = (data) => {
   let cards = []
@@ -428,7 +423,7 @@ const cardsCount = () => {
   }
 }
 
-const changeWidthHandler = () => {
+const changeMainPageWidthHandler = () => {
   window.addEventListener("resize", () => {
     initSlider(cardsCount())
   });
@@ -470,8 +465,6 @@ const shuffleArr = (arr) => {
   })
 
   return result
-  // for (let i = 0; i < 8; i++) {
-  // }
 }
 
 const generateRandomArr = (seed) => {
@@ -490,6 +483,7 @@ const generateRandomArr = (seed) => {
 const generatePetsData = () => {
   const seed = generateSeed()
   let petsData = []
+  data.interface.pagination.randomArr = []
   for (let i = 0; i < 6; i++) {
     data.interface.pagination.randomArr.push(generateRandomArr(seed))
     data.interface.pagination.randomArr = data.interface.pagination.randomArr.flat(3)
@@ -497,13 +491,31 @@ const generatePetsData = () => {
   data.interface.pagination.randomArr.forEach(e => {
     petsData.push(data.pets[e])
   })
-  return petsData
+  data.interface.pagination.curPagePetsData = petsData
+}
+
+const currentPagePetsData = () => {
+  const curPage = data.interface.pagination.pageNumber
+  const maxPage = countCurrentMaxPage()
+  let petsData = []
+  if (data.interface.pagination.curPagePetsData[0]) {
+    petsData = data.interface.pagination.curPagePetsData
+  } else {
+    generatePetsData()
+    petsData = data.interface.pagination.curPagePetsData
+  }
+  const cardsPerPage = Math.floor(petsData.length / maxPage)
+  const firstCardIndexInCurPage = cardsPerPage * (curPage - 1)
+  const curPagePetsData = petsData.filter((pet, i) => {
+    return ((i >= firstCardIndexInCurPage) && (i < (firstCardIndexInCurPage + cardsPerPage)))
+  })
+  return curPagePetsData
 }
 
 const renderCardsToPetsPage = () => {
   const cardsWrapper = getWrapper('.pets__cards')
 
-  cardsWrapper && (generateCards(generatePetsData()).forEach(card => {
+  cardsWrapper && (generateCards(currentPagePetsData()).forEach(card => {
     cardsWrapper.append(card.generateCard())
   }))
 }
@@ -513,7 +525,6 @@ const paginationBtnHandler = () => {
   const paginationWrapper = document.querySelector('.pagination')
   const startBtn = document.querySelector('.pagination__button_start')
   const backBtn = document.querySelector('.pagination__button_back')
-  const pageBtn = document.querySelector('.pagination__button_page')
   const nextBtn = document.querySelector('.pagination__button_next')
   const endBtn = document.querySelector('.pagination__button_end')
 
@@ -534,37 +545,27 @@ const paginationBtnHandler = () => {
         cards.dataset.page = data.interface.pagination.pageNumber
         break;
       case endBtn:
-        if (window.innerWidth >= 1250) {
-          data.interface.pagination.pageNumber = 6
-          cards.dataset.page = data.interface.pagination.pageNumber
-        }else {
-          data.interface.pagination.pageNumber = 8
-          cards.dataset.page = data.interface.pagination.pageNumber
-        }
+        data.interface.pagination.pageNumber = countCurrentMaxPage()
+        cards.dataset.page = data.interface.pagination.pageNumber
         break;
-
       default:
         break;
     }
-
     updatePagination()
   })
 }
 
+
+
 const updatePagination = () => {
   const pageNumber = data.interface.pagination.pageNumber
-  const cards = document.querySelector('.pets__cards')
-  const paginationWrapper = document.querySelector('.pagination')
   const startBtn = document.querySelector('.pagination__button_start')
   const backBtn = document.querySelector('.pagination__button_back')
   const pageBtn = document.querySelector('.pagination__button_page')
   const nextBtn = document.querySelector('.pagination__button_next')
   const endBtn = document.querySelector('.pagination__button_end')
-  let winWidth = window.innerWidth
-  console.log(winWidth);
 
   pageBtn.innerHTML = pageNumber
-  console.log(pageBtn.innerHTML);
 
   if (pageNumber === 1) {
     backBtn.disabled = true
@@ -578,30 +579,36 @@ const updatePagination = () => {
     startBtn.classList.remove('button_inactive')
   }
 
-  if (winWidth >= 1250) {
-    if (pageNumber === 6) {
-      nextBtn.disabled = true
-      nextBtn.classList.add('button_inactive')
-      endBtn.disabled = true
-      endBtn.classList.add('button_inactive')
-    } else {
-      nextBtn.disabled = false
-      nextBtn.classList.remove('button_inactive')
-      endBtn.disabled = false
-      endBtn.classList.remove('button_inactive')
-    }
+  if (countCurrentMaxPage() === pageNumber) {
+    nextBtn.disabled = true
+    nextBtn.classList.add('button_inactive')
+    endBtn.disabled = true
+    endBtn.classList.add('button_inactive')
   } else {
-    if (pageNumber === 8) {
-      nextBtn.disabled = true
-      nextBtn.classList.add('button_inactive')
-      endBtn.disabled = true
-      endBtn.classList.add('button_inactive')
-    } else {
-      nextBtn.disabled = false
-      nextBtn.classList.remove('button_inactive')
-      endBtn.disabled = false
-      endBtn.classList.remove('button_inactive')
-    }
+    nextBtn.disabled = false
+    nextBtn.classList.remove('button_inactive')
+    endBtn.disabled = false
+    endBtn.classList.remove('button_inactive')
+  }
+  renderCardsToPetsPage()
+}
+
+
+const countCurrentMaxPage = () => {
+  let winWidth = window.innerWidth
+  if (winWidth >= 1250) {
+    return 6
+  } else if (winWidth >= 641  ){
+    return 8
+  } else {
+    return 16
   }
 }
 
+const changePetsPageWidthHandler = () => {
+  window.addEventListener("resize", () => {
+    updatePagination()
+  });
+}
+
+console.log('Все пункты задания выполнены');
