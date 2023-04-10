@@ -409,6 +409,7 @@ const addSliderClickHandler = () => {
     }
     leftBtn?.addEventListener('click', moveLeft)
     rightBtn?.addEventListener('click', moveRight)
+    addCardClickHandler()
   })
 }
 
@@ -554,6 +555,7 @@ const paginationBtnHandler = () => {
     }
     updatePagination()
   })
+
 }
 
 const updatePagination = () => {
