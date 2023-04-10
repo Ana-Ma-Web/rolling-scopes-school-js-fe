@@ -1,0 +1,180 @@
+.pets {
+  background-color: var(--color-light-l);
+  text-align: center;
+}
+
+.pets__wrapper {
+  padding: 81px 0px 99px;
+}
+
+@media (max-width: 900px) {
+  .pets__wrapper {
+    padding: 81px 0px 76px;
+  }
+}
+
+@media (max-width: 640px) {
+  .pets__wrapper {
+    padding: 42px 0px 42px;
+    
+  }
+}
+
+.pets__title {
+  max-width: 403px;
+  margin: 0 auto 59px;
+}
+
+@media (max-width: 1250px) {
+  .pets__title {
+    margin: 0 auto 29px;
+  }
+}
+
+@media (max-width: 640px) {
+  .pets__title {
+    margin: 0 auto 41px;
+  }
+}
+
+.pets__cards {
+  display: grid;
+  grid-template-columns: repeat(4, auto);
+  margin-bottom: 60px;
+  column-gap: min(40px, 3.2vw);
+  row-gap: 30px;
+  justify-content: center;
+}
+/* .pets__cards .card:nth-child(n + 9) {
+  display: none;
+} */
+
+@media (max-width: 1250px) {
+  .pets__cards {
+    grid-template-columns: repeat(3, auto);
+    column-gap: min(75px, ((17vw - 130px)));
+  }
+
+  .pets__cards .card:nth-child(n + 7) {
+    display: none;
+  }
+}
+
+@media (max-width: 900px) {
+  .pets__cards {
+    grid-template-columns: repeat(2, auto);
+    column-gap: min(40px, ((23vw - 130px)));
+    grid-template-rows: repeat(3, auto);
+    margin-bottom: 39px;
+  }
+
+  .pets__cards .card:nth-child(n + 7) {
+    display: none;
+  }
+}
+
+@media (max-width: 640px) {
+  .pets__cards {
+    grid-template-columns: repeat(1, auto);
+    column-gap: min(40px, ((23vw - 130px)));
+    margin-bottom: 42px;
+  }
+
+  .pets__cards .card:nth-child(n + 4) {
+    display: none;
+  }
+}
+
+
+
+
+
+
+.pets__cards[data-page="1"] .card:nth-child(n + 9) {
+  display: none;
+}
+.pets__cards[data-page="2"] .card:nth-child(n + 17),
+.pets__cards[data-page="2"] .card:nth-child(-n + 8) {
+  display: none;
+}
+.pets__cards[data-page="3"] .card:nth-child(n + 25),
+.pets__cards[data-page="3"] .card:nth-child(-n + 16) {
+  display: none;
+}
+.pets__cards[data-page="4"] .card:nth-child(n + 33),
+.pets__cards[data-page="4"] .card:nth-child(-n + 24) {
+  display: none;
+}
+.pets__cards[data-page="5"] .card:nth-child(n + 41),
+.pets__cards[data-page="5"] .card:nth-child(-n + 32) {
+  display: none;
+}
+.pets__cards[data-page="6"] .card:nth-child(n + 49),
+.pets__cards[data-page="6"] .card:nth-child(-n + 40) {
+  display: none;
+}
+
+@media (max-width: 1250px) {
+  .pets__cards[data-page="1"] .card:nth-child(n + 7) {
+    display: none;
+  }
+  .pets__cards[data-page="2"] .card:nth-child(n + 13),
+  .pets__cards[data-page="2"] .card:nth-child(-n + 6) {
+    display: none;
+  }
+  .pets__cards[data-page="3"] .card:nth-child(n + 19),
+  .pets__cards[data-page="3"] .card:nth-child(-n + 16) {
+    display: none;
+  }
+  .pets__cards[data-page="4"] .card:nth-child(n + 25),
+  .pets__cards[data-page="4"] .card:nth-child(-n + 24) {
+    display: none;
+  }
+  .pets__cards[data-page="5"] .card:nth-child(n + 31),
+  .pets__cards[data-page="5"] .card:nth-child(-n + 32) {
+    display: none;
+  }
+  .pets__cards[data-page="6"] .card:nth-child(n + 37),
+  .pets__cards[data-page="6"] .card:nth-child(-n + 40) {
+    display: none;
+  }
+  .pets__cards[data-page="7"] .card:nth-child(n + 43),
+  .pets__cards[data-page="7"] .card:nth-child(-n + 40) {
+    display: none;
+  }
+  .pets__cards[data-page="8"] .card:nth-child(n + 49),
+  .pets__cards[data-page="8"] .card:nth-child(-n + 40) {
+    display: none;
+  }
+}
+@media (max-width: 640px) {
+  .pets__cards[data-page="1"] {
+    width: 400px;
+  }
+}
+
+
+.pagination {
+  display: grid;
+  grid-template-columns: repeat(5, auto);
+  column-gap: 20px;
+  max-width: 341px;
+  text-align: center;
+  margin: 0 auto;
+}
+
+@media (max-width: 640px) {
+  .pagination {
+    column-gap: 10px;
+    max-width: initial;
+    justify-content: center;
+  }
+}
+
+.pagination__button {
+  padding: 0px 0px 4px;
+  font-family: 'Georgia';
+  font-size: 20px;
+  line-height: 115%;
+  letter-spacing: 0.06em;
+}
