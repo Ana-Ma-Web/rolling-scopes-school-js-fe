@@ -555,16 +555,17 @@ const paginationBtnHandler = () => {
   })
 }
 
-
-
 const updatePagination = () => {
-  const pageNumber = data.interface.pagination.pageNumber
+  const maxPage = countCurrentMaxPage()
+  if (data.interface.pagination.pageNumber > maxPage) {
+    data.interface.pagination.pageNumber = maxPage
+  }
+  let pageNumber = data.interface.pagination.pageNumber
   const startBtn = document.querySelector('.pagination__button_start')
   const backBtn = document.querySelector('.pagination__button_back')
   const pageBtn = document.querySelector('.pagination__button_page')
   const nextBtn = document.querySelector('.pagination__button_next')
   const endBtn = document.querySelector('.pagination__button_end')
-
   pageBtn.innerHTML = pageNumber
 
   if (pageNumber === 1) {
@@ -579,7 +580,7 @@ const updatePagination = () => {
     startBtn.classList.remove('button_inactive')
   }
 
-  if (countCurrentMaxPage() === pageNumber) {
+  if (maxPage === pageNumber) {
     nextBtn.disabled = true
     nextBtn.classList.add('button_inactive')
     endBtn.disabled = true
@@ -598,7 +599,7 @@ const countCurrentMaxPage = () => {
   let winWidth = window.innerWidth
   if (winWidth >= 1250) {
     return 6
-  } else if (winWidth >= 641  ){
+  } else if (winWidth >= 641) {
     return 8
   } else {
     return 16
