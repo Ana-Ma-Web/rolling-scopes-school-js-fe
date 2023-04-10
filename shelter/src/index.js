@@ -593,6 +593,7 @@ const updatePagination = () => {
     endBtn.classList.remove('button_inactive')
   }
   renderCardsToPetsPage()
+  addCardClickHandler()
 }
 
 
