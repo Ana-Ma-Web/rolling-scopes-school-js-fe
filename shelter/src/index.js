@@ -164,7 +164,7 @@ window.onload = function () {
 
   if (data.pets) {
     renderCardsToPetsPage()
-    initSlider()
+    initSlider(cardsCount())
     renderSlider()
   }
 
@@ -172,6 +172,7 @@ window.onload = function () {
   addBlackoutClickHandler()
   addCardClickHandler()
   addSliderClickHandler()
+  changeWidthHandler()
 }
 
 const addBlackout = () => {
@@ -305,31 +306,31 @@ const renderModalWindow = (petData) => {
 
 // ============ SLIDER ============== //
 
-const initSlider = () => {
+const initSlider = (cardCount) => {
 
-  forwardSliderMove()
-  forwardSliderMove()
-  forwardSliderMove()
+  forwardSliderMove(cardCount)
+  forwardSliderMove(cardCount)
+  forwardSliderMove(cardCount)
 }
 
-const forwardSliderMove = () => {
+const forwardSliderMove = (cardsCount) => {
   data.interface.slider.pastArr = data.interface.slider.curArr
   data.interface.slider.curArr = data.interface.slider.nextArr
-  data.interface.slider.nextArr = generateNumberArr(data.interface.slider.curArr)
+  data.interface.slider.nextArr = generateNumberArr(data.interface.slider.curArr, cardsCount)
   renderSlider()
 }
 
-const backwardSliderMove = () => {
+const backwardSliderMove = (cardsCount) => {
   data.interface.slider.nextArr = data.interface.slider.curArr
   data.interface.slider.curArr = data.interface.slider.pastArr
-  data.interface.slider.pastArr = generateNumberArr(data.interface.slider.curArr)
+  data.interface.slider.pastArr = generateNumberArr(data.interface.slider.curArr, cardsCount)
   renderSlider()
 }
 
-const generateNumberArr = (curArr) => {
+const generateNumberArr = (curArr, cardCount) => {
   let result = []
   
-  for (let i = 0; i < 3; i++) {
+  for (let i = 0; i < cardCount; i++) {
     const generateRandomNumber = () => {
       number = Math.floor(Math.random() * 8)
       if (result.includes(number) || curArr?.includes(number)) {
@@ -383,7 +384,7 @@ const addSliderClickHandler = () => {
     leftBtn.removeEventListener('click', moveLeft)
     rightBtn.removeEventListener('click', moveRight)
 
-    setTimeout(backwardSliderMove, 1500)
+    setTimeout(() => {backwardSliderMove(cardsCount())}, 1500)
   }
 
   const moveRight = () => {
@@ -391,7 +392,7 @@ const addSliderClickHandler = () => {
     rightBtn.removeEventListener('click', moveRight)
     leftBtn.removeEventListener('click', moveLeft)
 
-    setTimeout(forwardSliderMove, 1500)
+    setTimeout(() => {forwardSliderMove(cardsCount())}, 1500)
   }
 
   leftBtn?.addEventListener('click', moveLeft)
@@ -407,3 +408,26 @@ const addSliderClickHandler = () => {
     rightBtn?.addEventListener('click', moveRight)
   })
 }
+
+const cardsCount = () => {
+  const sliderWrapper = document.querySelector('.slider__cards_wrapper')
+  console.log(sliderWrapper.clientWidth)
+  if(sliderWrapper.clientWidth >= 1000) {
+    // console.log('return 3');
+    return 3
+  } else if(sliderWrapper.clientWidth >= 580) {
+    return 2
+  } else {
+    return 1
+  }
+}
+
+const changeWidthHandler = () => {
+  window.addEventListener("resize", () => {
+    initSlider(cardsCount())
+  });
+}
+
+// ============ PAGINATION ============== //
+
+
