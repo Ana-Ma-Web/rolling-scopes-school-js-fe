@@ -1,0 +1,11 @@
+.settings {
+  &__title {
+    position: relative;
+    text-align: center;
+    margin: 20px auto 0;
+
+    &_range-input {
+      margin: 20px auto 5px;
+    }
+  }
+}

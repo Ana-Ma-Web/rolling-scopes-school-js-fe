@@ -1,0 +1,60 @@
+.btn {
+  background-color: transparent;
+  padding: 0;
+  border: none;
+  opacity: 0.8;
+  cursor: pointer;
+  display: block;
+
+  & svg {
+    display: block;
+    align-self: center;
+  }
+
+  & .path-bg {
+    transition: 0.3s;
+  }
+
+  &_line {
+    & .path-bg {
+      fill: var(--text-color);
+    }
+  }
+
+  &_fill {
+    background: url(@img/bg.png),
+      linear-gradient(
+        180deg,
+        var(--bg-light-color) 0%,
+        var(--bg-dark-color) 100%
+      );
+    box-shadow: 0px 2px 5px var(--darkest-color),
+      inset 0px 2px 2px var(--bg-light-color);
+  }
+
+  &_new-game {
+    font-size: 32px;
+    font-weight: bold;
+    margin: 10px auto;
+    display: block;
+    color: var(--text-color);
+    position: relative;
+
+    &:before,
+    &:after {
+      content: "Start new game";
+      color: var(--title-shadow-color);
+      position: absolute;
+      width: 237px;
+      opacity: 0.1;
+    }
+    &:before {
+      top: 1px;
+      left: 1px;
+    }
+    &:after {
+      top: 2px;
+      left: 2px;
+    }
+  }
+}

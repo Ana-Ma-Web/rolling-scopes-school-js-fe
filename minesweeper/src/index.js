@@ -1,3 +1,1 @@
-import "./css/style.scss";
-
-console.log("meow");
+import "./scss/main.scss";

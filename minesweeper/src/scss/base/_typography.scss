@@ -1,0 +1,58 @@
+.body {
+  font-family: "Quicksand";
+  color: var(--title-shadow-color);
+}
+
+.title {
+  color: var(--text-color);
+  font-weight: bold;
+  font-size: 44px;
+
+  &::after {
+    content: "Minesweeper";
+    color: var(--title-shadow-color);
+    opacity: 0.1;
+  }
+  &::before {
+    content: "Minesweeper";
+    color: var(--title-shadow-color);
+    opacity: 0.1;
+  }
+}
+
+.subtitle {
+  color: var(--text-color);
+  font-size: 16px;
+  text-shadow: 0 1px 1px var(--lightest-color);
+  font-weight: 600;
+}
+
+.cell {
+  font-size: 14px;
+  font-weight: 300;
+  text-shadow: 0 1px 1px var(--lightest-color), -0.5px -1px 1px var(--text-color);
+}
+.cell[data-num="1"] {
+  color: rgb(107, 173, 219);
+}
+.cell[data-num="2"] {
+  color: rgb(117, 201, 141);
+}
+.cell[data-num="3"] {
+  color: rgb(246, 142, 159);
+}
+.cell[data-num="4"] {
+  color: rgb(168, 139, 248);
+}
+.cell[data-num="5"] {
+  color: rgb(240, 137, 199);
+}
+.cell[data-num="6"] {
+  color: rgb(73, 187, 191);
+}
+.cell[data-num="7"] {
+  color: var(--darkest-color);
+}
+.cell[data-num="8"] {
+  color: var(--backlight-color);
+}

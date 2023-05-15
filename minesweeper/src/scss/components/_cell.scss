@@ -1,0 +1,80 @@
+.cell {
+  width: 20px;
+  height: 20px;
+  border-radius: 8px;
+
+  &:active {
+    background: url(@img/bg.png),
+      linear-gradient(
+        180deg,
+        var(--bg-dark-color) 0%,
+        var(--bg-light-color) 100%
+      );
+  }
+
+  &:hover {
+    box-shadow: 0px 2px 5px var(--darkest-color),
+      inset 0px 2px 2px var(--lightest-color);
+    transition: 0.3s;
+  }
+
+  &_open {
+    cursor: default;
+    background: transparent;
+    box-shadow: none;
+  }
+
+  &_open {
+    cursor: default;
+    &:hover {
+      box-shadow: none;
+    }
+    &:active {
+      background: none;
+    }
+  }
+
+  &_flag {
+    position: relative;
+
+    &::after {
+      position: absolute;
+      content: "";
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 6px;
+      height: 6px;
+      background-color: var(--backlight-color);
+      background-color: white;
+      border-radius: 50%;
+      box-shadow: inset 0px 1px 2px var(--text-color),
+        0px 1px 2px var(--lightest-color);
+    }
+  }
+
+  &_mine {
+    position: relative;
+
+    &::after {
+      position: absolute;
+      content: "";
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 6px;
+      height: 6px;
+      background-color: var(--backlight-color);
+      background-color: var(--darkest-color);
+      border-radius: 50%;
+      box-shadow: inset 0px 1px 2px var(--text-color),
+        0px 1px 2px var(--lightest-color);
+    }
+  }
+
+  &_expl {
+    &::after {
+      background-color: rgb(174, 26, 26);
+    }
+  }
+}

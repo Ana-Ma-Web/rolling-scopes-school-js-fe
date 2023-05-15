@@ -1,0 +1,10 @@
+.btn_active {
+  & .path-bg {
+    fill: var(--backlight-color);
+    transition: 0.3s;
+  }
+
+  & svg {
+    filter: drop-shadow(0px -1px 1px var(--darkest-shadow));
+  }
+}
