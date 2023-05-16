@@ -1,8 +1,7 @@
 .game-field {
   display: grid;
-  grid-template-columns: repeat(3, auto);
-  padding: 4px;
-  gap: 4px;
+  padding: 2px;
+  gap: 2px;
   background: var(--bg-dark-color);
   outline: none;
   -webkit-transition: 0.2s;
@@ -12,4 +11,39 @@
     0px 1px 2px var(--lightest-color);
   width: fit-content;
   margin: 20px auto;
+
+  &_easy {
+    grid-template-columns: repeat(10, auto);
+    border-radius: 8px;
+    padding: 4px;
+    gap: 4px;
+
+    & .cell {
+      width: 40px;
+      height: 40px;
+      border-radius: 8px;
+    }
+  }
+  &_medium {
+    grid-template-columns: repeat(15, auto);
+    border-radius: 3px;
+    padding: 3px;
+    gap: 3px;
+    & .cell {
+      width: 26px;
+      height: 26px;
+      border-radius: 3px;
+    }
+  }
+  &_hard {
+    grid-template-columns: repeat(25, auto);
+    border-radius: 3px;
+    padding: 2px;
+    gap: 2px;
+    & .cell {
+      width: 16px;
+      height: 16px;
+      border-radius: 2px;
+    }
+  }
 }
