@@ -19,6 +19,13 @@
     & .path-bg {
       fill: var(--text-color);
     }
+    
+    &:hover {
+      & .path-bg {
+        opacity: 0.5;
+      }
+
+    }
   }
 
   &_fill {
@@ -39,6 +46,10 @@
     display: block;
     color: var(--text-color);
     position: relative;
+    
+    &:hover {
+      color: var(--darkest-color);
+    }
 
     &:before,
     &:after {

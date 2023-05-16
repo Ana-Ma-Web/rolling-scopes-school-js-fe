@@ -38,6 +38,13 @@
         );
       box-shadow: 0px 2px 5px var(--darkest-color),
         inset 0px 2px 2px var(--bg-light-color);
+        transition: 0.3s;
+      
+      &:hover {
+        box-shadow: 0px 2px 5px var(--darkest-color),
+        inset 0px 2px 2px var(--lightest-color);
+        transition: 0.3s;
+      }
     }
   }
 }
