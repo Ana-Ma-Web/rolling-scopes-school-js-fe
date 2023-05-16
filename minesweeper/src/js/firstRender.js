@@ -1,4 +1,4 @@
-import countTime from "./countTime";
+import countTime from "./helpers.js/countTime";
 import rerenderField from "./rerenderField";
 
 const createSettingsElement = (minesNumber, fieldSize) => {
@@ -434,7 +434,7 @@ const firstRender = (data) => {
   title.classList.add("title");
   title.innerHTML = "Minesweeper";
 
-  const settings = createSettingsElement(data.minesNumber, data.fieldSize);
+  const settings = createSettingsElement(data.minesCurNumber, data.fieldSize);
   const newGameButton = document.createElement("button");
   newGameButton.classList.add("btn");
   newGameButton.classList.add("btn_new-game");
@@ -457,7 +457,7 @@ const firstRender = (data) => {
   body.append(newGameButton);
   body.append(info);
   body.append(gameField);
-  rerenderField(data.fieldSize, data.fieldArray);
+  rerenderField(data);
   body.append(lastGames);
 };
 

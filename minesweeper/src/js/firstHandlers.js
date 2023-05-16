@@ -1,6 +1,8 @@
+import cellHandler from "./handlers/cellHandler";
 import radioInputHandler from "./handlers/radioInputHandler";
 import rangeArrowsHandler from "./handlers/rangeArrowsHandler";
 import rangeInputHandler from "./handlers/rangeInputHandler";
+import setMines from "./helpers.js/setMines";
 import rerenderField from "./rerenderField";
 
 const firstHandlers = (data) => {
@@ -27,7 +29,9 @@ const firstHandlers = (data) => {
 
       // new game
       if (e.target.classList.contains("btn_new-game")) {
-        rerenderField(data.fieldSize, data.fieldArray);
+        data.isCellClicked = false;
+        data.minesInGameNumber = data.minesCurNumber;
+        rerenderField(data);
       }
 
       // volume
@@ -41,6 +45,16 @@ const firstHandlers = (data) => {
         data.isDarkTheme = !data.isDarkTheme;
         body.classList.toggle("dark-theme");
         e.target.closest(".btn_theme").classList.toggle("btn_active");
+      }
+
+      //cells
+      if (e.target.classList.contains("cell")) {
+        if (!data.isCellClicked) {
+          setMines(data, e.target.dataset.ij);
+          data.isCellClicked = true;
+        } else {
+          cellHandler(e.target.dataset.ij, data.fieldArray);
+        }
       }
     });
   };

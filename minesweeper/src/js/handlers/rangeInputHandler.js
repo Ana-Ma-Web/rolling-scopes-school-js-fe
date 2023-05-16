@@ -2,9 +2,9 @@ const rangeInputHandler = (value, data) => {
   const titleRangeInput = document.querySelector(
     ".settings__title_range-input"
   );
-  data.minesNumber = +value;
+  data.minesCurNumber = +value;
 
-  titleRangeInput.innerHTML = `Choose mines: ${data.minesNumber}`;
+  titleRangeInput.innerHTML = `Choose mines: ${data.minesCurNumber}`;
 };
 
 export default rangeInputHandler;

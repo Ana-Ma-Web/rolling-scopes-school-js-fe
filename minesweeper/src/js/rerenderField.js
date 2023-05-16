@@ -1,17 +1,17 @@
-const rerenderField = (fieldSize, fieldArray) => {
+const rerenderField = (data) => {
   const gameField = document.querySelector(".game-field");
   gameField.innerHTML = "";
 
-  switch (fieldSize) {
+  switch (data.fieldSize) {
     case "easy 10x10":
       gameField.classList.add("game-field_easy");
       gameField.classList.remove("game-field_medium");
       gameField.classList.remove("game-field_hard");
-      fieldArray = [];
+      data.fieldArray = [];
       for (let i = 0; i < 10; i++) {
-        fieldArray.push([]);
+        data.fieldArray.push([]);
         for (let j = 0; j < 10; j++) {
-          fieldArray[i].push({ isMine: false, ij: i + "-" + j });
+          data.fieldArray[i].push({ isMine: false, ij: i + "-" + j });
           const cell = document.createElement("button");
           cell.classList.add("cell");
           cell.classList.add("btn");
@@ -27,9 +27,9 @@ const rerenderField = (fieldSize, fieldArray) => {
       gameField.classList.remove("game-field_easy");
       gameField.classList.remove("game-field_hard");
       for (let i = 0; i < 15; i++) {
-        fieldArray.push([]);
+        data.fieldArray.push([]);
         for (let j = 0; j < 15; j++) {
-          fieldArray[i].push([]);
+          data.fieldArray[i].push([]);
           const cell = document.createElement("button");
           cell.classList.add("cell");
           cell.classList.add("btn");
@@ -45,9 +45,9 @@ const rerenderField = (fieldSize, fieldArray) => {
       gameField.classList.remove("game-field_medium");
       gameField.classList.remove("game-field_easy");
       for (let i = 0; i < 25; i++) {
-        fieldArray.push([]);
+        data.fieldArray.push([]);
         for (let j = 0; j < 25; j++) {
-          fieldArray[i].push([]);
+          data.fieldArray[i].push([]);
           const cell = document.createElement("button");
           cell.classList.add("cell");
           cell.classList.add("btn");

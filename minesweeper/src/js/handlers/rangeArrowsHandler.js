@@ -5,16 +5,16 @@ const rangeArrowsHandler = (button, data) => {
   const rangeInputField = document.querySelector(".range-input__field");
 
   if (button.classList.contains("range-input__arrow-right")) {
-    if (data.minesNumber < 99) {
-      data.minesNumber += 1;
-      rangeInputField.value = data.minesNumber;
-      titleRangeInput.innerHTML = `Choose mines: ${data.minesNumber}`;
+    if (data.minesCurNumber < 99) {
+      data.minesCurNumber += 1;
+      rangeInputField.value = data.minesCurNumber;
+      titleRangeInput.innerHTML = `Choose mines: ${data.minesCurNumber}`;
     }
   } else {
-    if (data.minesNumber > 10) {
-      data.minesNumber -= 1;
-      rangeInputField.value = data.minesNumber;
-      titleRangeInput.innerHTML = `Choose mines: ${data.minesNumber}`;
+    if (data.minesCurNumber > 10) {
+      data.minesCurNumber -= 1;
+      rangeInputField.value = data.minesCurNumber;
+      titleRangeInput.innerHTML = `Choose mines: ${data.minesCurNumber}`;
     }
   }
 };
