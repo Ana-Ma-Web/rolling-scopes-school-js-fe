@@ -29,6 +29,19 @@ const firstHandlers = (data) => {
       if (e.target.classList.contains("btn_new-game")) {
         rerenderField(data.fieldSize, data.fieldArray);
       }
+
+      // volume
+      if (e.target.closest(".btn_volume")) {
+        data.isSoundOn = !data.isSoundOn;
+        e.target.closest(".btn_volume").classList.toggle("btn_active");
+      }
+
+      // theme
+      if (e.target.closest(".btn_theme")) {
+        data.isDarkTheme = !data.isDarkTheme;
+        body.classList.toggle("dark-theme");
+        e.target.closest(".btn_theme").classList.toggle("btn_active");
+      }
     });
   };
 

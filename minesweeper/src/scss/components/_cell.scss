@@ -39,8 +39,8 @@
       top: 50%;
       left: 50%;
       transform: translate(-50%, -50%);
-      width: 6px;
-      height: 6px;
+      width: 12px;
+      height: 12px;
       background-color: var(--backlight-color);
       background-color: white;
       border-radius: 50%;
@@ -58,8 +58,8 @@
       top: 50%;
       left: 50%;
       transform: translate(-50%, -50%);
-      width: 6px;
-      height: 6px;
+      width: 12px;
+      height: 12px;
       background-color: var(--backlight-color);
       background-color: var(--darkest-color);
       border-radius: 50%;
@@ -72,5 +72,26 @@
     &::after {
       background-color: rgb(174, 26, 26);
     }
+  }
+}
+
+.game-field_easy {
+  & .cell::after {
+    width: 16px;
+    height: 16px;
+  }
+}
+
+.game-field_medium {
+  & .cell::after {
+    width: 12px;
+    height: 12px;
+  }
+}
+
+.game-field_hard {
+  & .cell::after {
+    width: 8px;
+    height: 8px;
   }
 }
