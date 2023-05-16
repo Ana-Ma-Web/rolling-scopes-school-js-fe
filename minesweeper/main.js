@@ -105,7 +105,7 @@ const firstHandlers = data => {
 
       // new game
       if (e.target.classList.contains("btn_new-game")) {
-        (0,_rerenderField__WEBPACK_IMPORTED_MODULE_3__["default"])();
+        (0,_rerenderField__WEBPACK_IMPORTED_MODULE_3__["default"])(data.fieldSize, data.fieldArray);
       }
     });
   };
@@ -134,6 +134,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
 /* harmony import */ var _countTime__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./countTime */ "./js/countTime.js");
+/* harmony import */ var _rerenderField__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./rerenderField */ "./js/rerenderField.js");
+
 
 const createSettingsElement = (minesNumber, fieldSize) => {
   const settings = document.createElement("div");
@@ -537,13 +539,15 @@ const firstRender = data => {
   newGameButton.classList.add("btn_new-game");
   newGameButton.innerHTML = "Start new game";
   const info = createInfoElement(data.isSoundOn, data.isDarkTheme, (0,_countTime__WEBPACK_IMPORTED_MODULE_0__["default"])(data.timeStart, data.timeEnd), data.clicks);
-  const gameField = createGameFieldElement(data.fieldSize, data.fieldArray);
+  const gameField = document.createElement("div");
+  gameField.classList.add("game-field");
   const lastGames = createLastGamesElement(data.latestResults);
   body.append(title);
   body.append(settings);
   body.append(newGameButton);
   body.append(info);
   body.append(gameField);
+  (0,_rerenderField__WEBPACK_IMPORTED_MODULE_1__["default"])(data.fieldSize, data.fieldArray);
   body.append(lastGames);
 };
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (firstRender);
@@ -649,7 +653,70 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-const rerenderField = () => {};
+const rerenderField = (fieldSize, fieldArray) => {
+  const gameField = document.querySelector(".game-field");
+  gameField.innerHTML = "";
+  switch (fieldSize) {
+    case "easy 10x10":
+      gameField.classList.add("game-field_easy");
+      gameField.classList.remove("game-field_medium");
+      gameField.classList.remove("game-field_hard");
+      fieldArray = [];
+      for (let i = 0; i < 10; i++) {
+        fieldArray.push([]);
+        for (let j = 0; j < 10; j++) {
+          fieldArray[i].push({
+            isMine: false,
+            ij: i + "-" + j
+          });
+          const cell = document.createElement("button");
+          cell.classList.add("cell");
+          cell.classList.add("btn");
+          cell.classList.add("btn_fill");
+          cell.dataset.ij = i + "-" + j;
+          gameField.append(cell);
+        }
+      }
+      break;
+    case "medium 15x15":
+      gameField.classList.add("game-field_medium");
+      gameField.classList.remove("game-field_easy");
+      gameField.classList.remove("game-field_hard");
+      for (let i = 0; i < 15; i++) {
+        fieldArray.push([]);
+        for (let j = 0; j < 15; j++) {
+          fieldArray[i].push([]);
+          const cell = document.createElement("button");
+          cell.classList.add("cell");
+          cell.classList.add("btn");
+          cell.classList.add("btn_fill");
+          cell.dataset.ij = i + "-" + j;
+          gameField.append(cell);
+        }
+      }
+      break;
+    case "hard 25x25":
+      gameField.classList.add("game-field_hard");
+      gameField.classList.remove("game-field_medium");
+      gameField.classList.remove("game-field_easy");
+      for (let i = 0; i < 25; i++) {
+        fieldArray.push([]);
+        for (let j = 0; j < 25; j++) {
+          fieldArray[i].push([]);
+          const cell = document.createElement("button");
+          cell.classList.add("cell");
+          cell.classList.add("btn");
+          cell.classList.add("btn_fill");
+          cell.dataset.ij = i + "-" + j;
+          gameField.append(cell);
+        }
+      }
+      break;
+    default:
+      break;
+  }
+  return gameField;
+};
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (rerenderField);
 
 /***/ }),
