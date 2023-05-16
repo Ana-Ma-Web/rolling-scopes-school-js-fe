@@ -2,42 +2,6 @@
 /******/ 	"use strict";
 /******/ 	var __webpack_modules__ = ({
 
-/***/ "./js/countTime.js":
-/*!*************************!*\
-  !*** ./js/countTime.js ***!
-  \*************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-function countTime(timeStart, timeEnd) {
-  const fullSeconds = (timeEnd - timeStart) / 1000;
-  if (fullSeconds === 0) {
-    return "0s";
-  }
-  const fullMinutes = Math.floor(fullSeconds / 60);
-  const fullHours = Math.floor(fullMinutes / 60);
-  const seconds = Math.floor(fullSeconds % 60);
-  const minutes = Math.floor(fullMinutes % 60);
-  const hours = Math.floor(fullHours % 24);
-  let result = "";
-  if (hours > 0) {
-    result += hours + "h ";
-  }
-  if (minutes > 0) {
-    result += minutes + "m ";
-  }
-  if (seconds > 0) {
-    result += seconds + "s ";
-  }
-  return result;
-}
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (countTime);
-
-/***/ }),
-
 /***/ "./js/data.js":
 /*!********************!*\
   !*** ./js/data.js ***!
@@ -49,8 +13,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
 let data = localStorage.getItem("minesweeper-data") ? localStorage.getItem("minesweeper-data") : {
-  minesNumber: 10,
+  minesCurNumber: 10,
+  minesInGameNumber: 10,
   fieldSize: "easy 10x10",
+  isCellClicked: false,
   fieldArray: [],
   isSoundOn: true,
   isDarkTheme: false,
@@ -81,10 +47,14 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony import */ var _handlers_radioInputHandler__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./handlers/radioInputHandler */ "./js/handlers/radioInputHandler.js");
-/* harmony import */ var _handlers_rangeArrowsHandler__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./handlers/rangeArrowsHandler */ "./js/handlers/rangeArrowsHandler.js");
-/* harmony import */ var _handlers_rangeInputHandler__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./handlers/rangeInputHandler */ "./js/handlers/rangeInputHandler.js");
-/* harmony import */ var _rerenderField__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./rerenderField */ "./js/rerenderField.js");
+/* harmony import */ var _handlers_cellHandler__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./handlers/cellHandler */ "./js/handlers/cellHandler.js");
+/* harmony import */ var _handlers_radioInputHandler__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./handlers/radioInputHandler */ "./js/handlers/radioInputHandler.js");
+/* harmony import */ var _handlers_rangeArrowsHandler__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./handlers/rangeArrowsHandler */ "./js/handlers/rangeArrowsHandler.js");
+/* harmony import */ var _handlers_rangeInputHandler__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./handlers/rangeInputHandler */ "./js/handlers/rangeInputHandler.js");
+/* harmony import */ var _helpers_js_setMines__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./helpers.js/setMines */ "./js/helpers.js/setMines.js");
+/* harmony import */ var _rerenderField__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./rerenderField */ "./js/rerenderField.js");
+
+
 
 
 
@@ -95,24 +65,49 @@ const firstHandlers = data => {
     body.addEventListener("click", e => {
       // input range
       if (e.target.closest("button")?.classList.contains("range-input__arrow-left") || e.target.closest("button")?.classList.contains("range-input__arrow-right")) {
-        (0,_handlers_rangeArrowsHandler__WEBPACK_IMPORTED_MODULE_1__["default"])(e.target.closest("button"), data);
+        (0,_handlers_rangeArrowsHandler__WEBPACK_IMPORTED_MODULE_2__["default"])(e.target.closest("button"), data);
       }
 
       // input radio
       if (e.target.classList.contains("radio-input__input")) {
-        (0,_handlers_radioInputHandler__WEBPACK_IMPORTED_MODULE_0__["default"])(e.target, data);
+        (0,_handlers_radioInputHandler__WEBPACK_IMPORTED_MODULE_1__["default"])(e.target, data);
       }
 
       // new game
       if (e.target.classList.contains("btn_new-game")) {
-        (0,_rerenderField__WEBPACK_IMPORTED_MODULE_3__["default"])(data.fieldSize, data.fieldArray);
+        data.isCellClicked = false;
+        data.minesInGameNumber = data.minesCurNumber;
+        (0,_rerenderField__WEBPACK_IMPORTED_MODULE_5__["default"])(data);
+      }
+
+      // volume
+      if (e.target.closest(".btn_volume")) {
+        data.isSoundOn = !data.isSoundOn;
+        e.target.closest(".btn_volume").classList.toggle("btn_active");
+      }
+
+      // theme
+      if (e.target.closest(".btn_theme")) {
+        data.isDarkTheme = !data.isDarkTheme;
+        body.classList.toggle("dark-theme");
+        e.target.closest(".btn_theme").classList.toggle("btn_active");
+      }
+
+      //cells
+      if (e.target.classList.contains("cell")) {
+        if (!data.isCellClicked) {
+          (0,_helpers_js_setMines__WEBPACK_IMPORTED_MODULE_4__["default"])(data, e.target.dataset.ij);
+          data.isCellClicked = true;
+        } else {
+          (0,_handlers_cellHandler__WEBPACK_IMPORTED_MODULE_0__["default"])(e.target.dataset.ij, data.fieldArray);
+        }
       }
     });
   };
   const keyDownHandler = () => {
     body.addEventListener("input", e => {
       if (e.target.classList.contains("range-input__field")) {
-        (0,_handlers_rangeInputHandler__WEBPACK_IMPORTED_MODULE_2__["default"])(e.target.value, data);
+        (0,_handlers_rangeInputHandler__WEBPACK_IMPORTED_MODULE_3__["default"])(e.target.value, data);
       }
     });
   };
@@ -133,7 +128,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony import */ var _countTime__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./countTime */ "./js/countTime.js");
+/* harmony import */ var _helpers_js_countTime__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./helpers.js/countTime */ "./js/helpers.js/countTime.js");
 /* harmony import */ var _rerenderField__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./rerenderField */ "./js/rerenderField.js");
 
 
@@ -513,7 +508,7 @@ const createLastGamesElement = latestResults => {
     latestResultsItem.classList.add("last-games__item");
     const latestResultsTime = document.createElement("div");
     latestResultsTime.classList.add("last-games__time");
-    latestResultsTime.innerHTML = `Time : ${(0,_countTime__WEBPACK_IMPORTED_MODULE_0__["default"])(item.timeStart, item.timeEnd)}`;
+    latestResultsTime.innerHTML = `Time : ${(0,_helpers_js_countTime__WEBPACK_IMPORTED_MODULE_0__["default"])(item.timeStart, item.timeEnd)}`;
     // console.log(item);
 
     const latestResultsClicks = document.createElement("div");
@@ -533,12 +528,12 @@ const firstRender = data => {
   const title = document.createElement("div");
   title.classList.add("title");
   title.innerHTML = "Minesweeper";
-  const settings = createSettingsElement(data.minesNumber, data.fieldSize);
+  const settings = createSettingsElement(data.minesCurNumber, data.fieldSize);
   const newGameButton = document.createElement("button");
   newGameButton.classList.add("btn");
   newGameButton.classList.add("btn_new-game");
   newGameButton.innerHTML = "Start new game";
-  const info = createInfoElement(data.isSoundOn, data.isDarkTheme, (0,_countTime__WEBPACK_IMPORTED_MODULE_0__["default"])(data.timeStart, data.timeEnd), data.clicks);
+  const info = createInfoElement(data.isSoundOn, data.isDarkTheme, (0,_helpers_js_countTime__WEBPACK_IMPORTED_MODULE_0__["default"])(data.timeStart, data.timeEnd), data.clicks);
   const gameField = document.createElement("div");
   gameField.classList.add("game-field");
   const lastGames = createLastGamesElement(data.latestResults);
@@ -547,10 +542,31 @@ const firstRender = data => {
   body.append(newGameButton);
   body.append(info);
   body.append(gameField);
-  (0,_rerenderField__WEBPACK_IMPORTED_MODULE_1__["default"])(data.fieldSize, data.fieldArray);
+  (0,_rerenderField__WEBPACK_IMPORTED_MODULE_1__["default"])(data);
   body.append(lastGames);
 };
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (firstRender);
+
+/***/ }),
+
+/***/ "./js/handlers/cellHandler.js":
+/*!************************************!*\
+  !*** ./js/handlers/cellHandler.js ***!
+  \************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _helpers_js_hasMine__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../helpers.js/hasMine */ "./js/helpers.js/hasMine.js");
+
+const cellHandler = (ij, fieldArray) => {
+  const ijArr = ij.split("-");
+  const i = ijArr[0];
+  const j = ijArr[1];
+};
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (cellHandler);
 
 /***/ }),
 
@@ -607,16 +623,16 @@ const rangeArrowsHandler = (button, data) => {
   const titleRangeInput = document.querySelector(".settings__title_range-input");
   const rangeInputField = document.querySelector(".range-input__field");
   if (button.classList.contains("range-input__arrow-right")) {
-    if (data.minesNumber < 99) {
-      data.minesNumber += 1;
-      rangeInputField.value = data.minesNumber;
-      titleRangeInput.innerHTML = `Choose mines: ${data.minesNumber}`;
+    if (data.minesCurNumber < 99) {
+      data.minesCurNumber += 1;
+      rangeInputField.value = data.minesCurNumber;
+      titleRangeInput.innerHTML = `Choose mines: ${data.minesCurNumber}`;
     }
   } else {
-    if (data.minesNumber > 10) {
-      data.minesNumber -= 1;
-      rangeInputField.value = data.minesNumber;
-      titleRangeInput.innerHTML = `Choose mines: ${data.minesNumber}`;
+    if (data.minesCurNumber > 10) {
+      data.minesCurNumber -= 1;
+      rangeInputField.value = data.minesCurNumber;
+      titleRangeInput.innerHTML = `Choose mines: ${data.minesCurNumber}`;
     }
   }
 };
@@ -636,10 +652,102 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 const rangeInputHandler = (value, data) => {
   const titleRangeInput = document.querySelector(".settings__title_range-input");
-  data.minesNumber = +value;
-  titleRangeInput.innerHTML = `Choose mines: ${data.minesNumber}`;
+  data.minesCurNumber = +value;
+  titleRangeInput.innerHTML = `Choose mines: ${data.minesCurNumber}`;
 };
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (rangeInputHandler);
+
+/***/ }),
+
+/***/ "./js/helpers.js/countTime.js":
+/*!************************************!*\
+  !*** ./js/helpers.js/countTime.js ***!
+  \************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+function countTime(timeStart, timeEnd) {
+  const fullSeconds = (timeEnd - timeStart) / 1000;
+  if (fullSeconds === 0) {
+    return "0s";
+  }
+  const fullMinutes = Math.floor(fullSeconds / 60);
+  const fullHours = Math.floor(fullMinutes / 60);
+  const seconds = Math.floor(fullSeconds % 60);
+  const minutes = Math.floor(fullMinutes % 60);
+  const hours = Math.floor(fullHours % 24);
+  let result = "";
+  if (hours > 0) {
+    result += hours + "h ";
+  }
+  if (minutes > 0) {
+    result += minutes + "m ";
+  }
+  if (seconds > 0) {
+    result += seconds + "s ";
+  }
+  return result;
+}
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (countTime);
+
+/***/ }),
+
+/***/ "./js/helpers.js/hasMine.js":
+/*!**********************************!*\
+  !*** ./js/helpers.js/hasMine.js ***!
+  \**********************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+const hasMine = (ij, fieldArray) => {
+  let result = false;
+  return result;
+};
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (hasMine);
+
+/***/ }),
+
+/***/ "./js/helpers.js/setMines.js":
+/*!***********************************!*\
+  !*** ./js/helpers.js/setMines.js ***!
+  \***********************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+const setMines = (data, ij) => {
+  let size = +data.fieldSize.slice(-2);
+  let minesCount = data.minesInGameNumber;
+  const ijArr = ij.split("-");
+  const curX = +ijArr[0];
+  const curY = +ijArr[1];
+  while (minesCount > 0) {
+    const x = Math.floor(Math.random() * size);
+    const y = Math.floor(Math.random() * size);
+    data.fieldArray.forEach((elX, indexX) => {
+      if (indexX === x) {
+        elX.forEach((elY, indexY) => {
+          if (indexY === y && !(curX === x && curY === y)) {
+            const cellWithMine = document.querySelector(`[data-ij="${x}-${y}"]`);
+            if (!cellWithMine.classList.contains("cell_mine")) {
+              elY.isMine = true;
+              minesCount--;
+            }
+          }
+        });
+      }
+    });
+  }
+};
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (setMines);
 
 /***/ }),
 
@@ -653,19 +761,19 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-const rerenderField = (fieldSize, fieldArray) => {
+const rerenderField = data => {
   const gameField = document.querySelector(".game-field");
   gameField.innerHTML = "";
-  switch (fieldSize) {
+  switch (data.fieldSize) {
     case "easy 10x10":
       gameField.classList.add("game-field_easy");
       gameField.classList.remove("game-field_medium");
       gameField.classList.remove("game-field_hard");
-      fieldArray = [];
+      data.fieldArray = [];
       for (let i = 0; i < 10; i++) {
-        fieldArray.push([]);
+        data.fieldArray.push([]);
         for (let j = 0; j < 10; j++) {
-          fieldArray[i].push({
+          data.fieldArray[i].push({
             isMine: false,
             ij: i + "-" + j
           });
@@ -683,9 +791,9 @@ const rerenderField = (fieldSize, fieldArray) => {
       gameField.classList.remove("game-field_easy");
       gameField.classList.remove("game-field_hard");
       for (let i = 0; i < 15; i++) {
-        fieldArray.push([]);
+        data.fieldArray.push([]);
         for (let j = 0; j < 15; j++) {
-          fieldArray[i].push([]);
+          data.fieldArray[i].push([]);
           const cell = document.createElement("button");
           cell.classList.add("cell");
           cell.classList.add("btn");
@@ -700,9 +808,9 @@ const rerenderField = (fieldSize, fieldArray) => {
       gameField.classList.remove("game-field_medium");
       gameField.classList.remove("game-field_easy");
       for (let i = 0; i < 25; i++) {
-        fieldArray.push([]);
+        data.fieldArray.push([]);
         for (let j = 0; j < 25; j++) {
-          fieldArray[i].push([]);
+          data.fieldArray[i].push([]);
           const cell = document.createElement("button");
           cell.classList.add("cell");
           cell.classList.add("btn");
@@ -746,7 +854,7 @@ var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBP
 ___CSS_LOADER_EXPORT___.push([module.id, "@import url(https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;600;700&family=Roboto&display=swap);"]);
 var ___CSS_LOADER_URL_REPLACEMENT_0___ = _node_modules_css_loader_dist_runtime_getUrl_js__WEBPACK_IMPORTED_MODULE_2___default()(___CSS_LOADER_URL_IMPORT_0___);
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "body {\n  --backlight-color: #ffffff;\n  --lightest-color: #ffffff;\n  --darkest-color: #2a2013;\n  --darkest-shadow: #5b4e3e;\n  --bg-light-color: #eae6df;\n  --bg-dark-color: #d8cfc0;\n  --text-color: #79654e;\n  --title-shadow-color: #d6cfc7; }\n\n.dark-theme {\n  --backlight-color: #e0dee1;\n  --lightest-color: #515051;\n  --darkest-color: #0b0b0b;\n  --darkest-shadow: #00000000;\n  --bg-light-color: #3b393c;\n  --bg-dark-color: #2f2f2f;\n  --text-color: #000000;\n  --title-shadow-color: #898785; }\n\n.body {\n  font-family: \"Quicksand\";\n  color: var(--title-shadow-color); }\n\n.title {\n  color: var(--text-color);\n  font-weight: bold;\n  font-size: 44px; }\n  .title::after {\n    content: \"Minesweeper\";\n    color: var(--title-shadow-color);\n    opacity: 0.1; }\n  .title::before {\n    content: \"Minesweeper\";\n    color: var(--title-shadow-color);\n    opacity: 0.1; }\n\n.subtitle {\n  color: var(--text-color);\n  font-size: 16px;\n  text-shadow: 0 1px 1px var(--lightest-color);\n  font-weight: 600; }\n\n.last-games {\n  color: var(--text-color);\n  font-size: 16px;\n  text-shadow: 0 1px 1px var(--lightest-color);\n  font-weight: 600; }\n\n.cell {\n  font-size: 14px;\n  font-weight: 300;\n  text-shadow: 0 1px 1px var(--lightest-color), -0.5px -1px 1px var(--text-color); }\n\n.cell[data-num=\"1\"] {\n  color: #6baddb; }\n\n.cell[data-num=\"2\"] {\n  color: #75c98d; }\n\n.cell[data-num=\"3\"] {\n  color: #f68e9f; }\n\n.cell[data-num=\"4\"] {\n  color: #a88bf8; }\n\n.cell[data-num=\"5\"] {\n  color: #f089c7; }\n\n.cell[data-num=\"6\"] {\n  color: #49bbbf; }\n\n.cell[data-num=\"7\"] {\n  color: var(--darkest-color); }\n\n.cell[data-num=\"8\"] {\n  color: var(--backlight-color); }\n\n.settings__title {\n  position: relative;\n  text-align: center;\n  margin: 20px auto 0; }\n  .settings__title_range-input {\n    margin: 20px auto 5px; }\n\n.game-field {\n  display: grid;\n  padding: 2px;\n  gap: 2px;\n  background: var(--bg-dark-color);\n  outline: none;\n  -webkit-transition: 0.2s;\n  transition: opacity 0.2s;\n  border-radius: 5px;\n  box-shadow: inset 0px 2px 5px var(--text-color), 0px 1px 2px var(--lightest-color);\n  width: fit-content;\n  margin: 20px auto; }\n  .game-field_easy {\n    grid-template-columns: repeat(10, auto);\n    border-radius: 8px;\n    padding: 4px;\n    gap: 4px; }\n    .game-field_easy .cell {\n      width: 40px;\n      height: 40px;\n      border-radius: 8px; }\n  .game-field_medium {\n    grid-template-columns: repeat(15, auto);\n    border-radius: 3px;\n    padding: 3px;\n    gap: 3px; }\n    .game-field_medium .cell {\n      width: 26px;\n      height: 26px;\n      border-radius: 3px; }\n  .game-field_hard {\n    grid-template-columns: repeat(25, auto);\n    border-radius: 3px;\n    padding: 2px;\n    gap: 2px; }\n    .game-field_hard .cell {\n      width: 16px;\n      height: 16px;\n      border-radius: 2px; }\n\n.last-games {\n  margin: 0 auto;\n  width: fit-content; }\n  .last-games__list {\n    display: flex;\n    flex-direction: column;\n    border-radius: 5px;\n    box-shadow: inset 0px 2px 5px var(--text-color), 0px 1px 2px var(--lightest-color);\n    padding: 6px;\n    gap: 6px;\n    background: var(--bg-dark-color); }\n  .last-games__item {\n    display: flex;\n    gap: 15px;\n    justify-content: space-between; }\n\n.info {\n  display: flex;\n  justify-content: center;\n  gap: 10px; }\n\n.btn {\n  background-color: transparent;\n  padding: 0;\n  border: none;\n  opacity: 0.8;\n  cursor: pointer;\n  display: block; }\n  .btn svg {\n    display: block;\n    align-self: center; }\n  .btn .path-bg {\n    transition: 0.3s; }\n  .btn_line .path-bg {\n    fill: var(--text-color); }\n  .btn_line:hover .path-bg {\n    opacity: 0.5; }\n  .btn_fill {\n    background: url(" + ___CSS_LOADER_URL_REPLACEMENT_0___ + "), linear-gradient(180deg, var(--bg-light-color) 0%, var(--bg-dark-color) 100%);\n    box-shadow: 0px 2px 5px var(--darkest-color), inset 0px 2px 2px var(--bg-light-color); }\n  .btn_new-game {\n    font-size: 32px;\n    font-weight: bold;\n    margin: 10px auto;\n    display: block;\n    color: var(--text-color);\n    position: relative; }\n    .btn_new-game:hover {\n      color: var(--darkest-color); }\n    .btn_new-game:before, .btn_new-game:after {\n      content: \"Start new game\";\n      color: var(--title-shadow-color);\n      position: absolute;\n      width: 237px;\n      opacity: 0.1; }\n    .btn_new-game:before {\n      top: 1px;\n      left: 1px; }\n    .btn_new-game:after {\n      top: 2px;\n      left: 2px; }\n\n.radio-input {\n  gap: 5px;\n  margin: 0 auto;\n  display: flex;\n  align-items: center;\n  width: fit-content; }\n  .radio-input__input {\n    -webkit-appearance: none;\n    -moz-appearance: none;\n    appearance: none;\n    border-radius: 50%;\n    padding: 5px;\n    cursor: pointer;\n    width: 12px;\n    height: 12px;\n    background-color: var(--bg-dark-color);\n    box-shadow: inset 0px 1px 2px var(--text-color), 0px 1px 2px var(--lightest-color);\n    transition: 0.2s all linear;\n    outline: none;\n    margin-right: 5px;\n    position: relative;\n    top: 4px; }\n    .radio-input__input__label {\n      padding-top: -10px; }\n    .radio-input__input:checked {\n      background-color: var(--backlight-color); }\n    .radio-input__input:hover {\n      opacity: 0.6; }\n\n.range-input {\n  width: 200px;\n  margin: 0 auto;\n  display: flex;\n  gap: 5px;\n  align-items: center; }\n  .range-input__arrow-left {\n    transform: rotate(180deg); }\n  .range-input__field {\n    -webkit-appearance: none;\n    appearance: none;\n    width: 100%;\n    height: 10px;\n    background: var(--bg-dark-color);\n    outline: none;\n    opacity: 0.7;\n    -webkit-transition: 0.2s;\n    transition: opacity 0.2s;\n    border-radius: 5px;\n    box-shadow: inset 0px 2px 5px var(--text-color), 0px 1px 2px var(--lightest-color); }\n    .range-input__field::-webkit-slider-thumb {\n      -webkit-appearance: none;\n      appearance: none;\n      width: 20px;\n      height: 20px;\n      cursor: pointer;\n      border-radius: 50%;\n      background: url(" + ___CSS_LOADER_URL_REPLACEMENT_0___ + "), linear-gradient(180deg, var(--bg-light-color) 0%, var(--bg-dark-color) 100%);\n      box-shadow: 0px 2px 5px var(--darkest-color), inset 0px 2px 2px var(--bg-light-color);\n      transition: 0.3s; }\n      .range-input__field::-webkit-slider-thumb:hover {\n        box-shadow: 0px 2px 5px var(--darkest-color), inset 0px 2px 2px var(--lightest-color);\n        transition: 0.3s; }\n      .range-input__field::-webkit-slider-thumb:active {\n        background: url(" + ___CSS_LOADER_URL_REPLACEMENT_0___ + "), linear-gradient(180deg, var(--bg-dark-color) 0%, var(--bg-light-color) 100%); }\n\n.title {\n  position: relative;\n  display: block;\n  width: fit-content;\n  margin: 20px auto; }\n  .title::before {\n    position: absolute;\n    top: 1px;\n    left: 1px; }\n  .title::after {\n    position: absolute;\n    top: 2px;\n    left: 2px; }\n\n.cell:active {\n  background: url(" + ___CSS_LOADER_URL_REPLACEMENT_0___ + "), linear-gradient(180deg, var(--bg-dark-color) 0%, var(--bg-light-color) 100%); }\n\n.cell:hover {\n  box-shadow: 0px 2px 5px var(--darkest-color), inset 0px 2px 2px var(--lightest-color);\n  transition: 0.3s; }\n\n.cell_open {\n  cursor: default;\n  background: transparent;\n  box-shadow: none; }\n\n.cell_open {\n  cursor: default; }\n  .cell_open:hover {\n    box-shadow: none; }\n  .cell_open:active {\n    background: none; }\n\n.cell_flag {\n  position: relative; }\n  .cell_flag::after {\n    position: absolute;\n    content: \"\";\n    top: 50%;\n    left: 50%;\n    transform: translate(-50%, -50%);\n    width: 6px;\n    height: 6px;\n    background-color: var(--backlight-color);\n    background-color: white;\n    border-radius: 50%;\n    box-shadow: inset 0px 1px 2px var(--text-color), 0px 1px 2px var(--lightest-color); }\n\n.cell_mine {\n  position: relative; }\n  .cell_mine::after {\n    position: absolute;\n    content: \"\";\n    top: 50%;\n    left: 50%;\n    transform: translate(-50%, -50%);\n    width: 6px;\n    height: 6px;\n    background-color: var(--backlight-color);\n    background-color: var(--darkest-color);\n    border-radius: 50%;\n    box-shadow: inset 0px 1px 2px var(--text-color), 0px 1px 2px var(--lightest-color); }\n\n.cell_expl::after {\n  background-color: #ae1a1a; }\n\n.html {\n  min-height: 100vh; }\n\n.body {\n  margin: 0;\n  padding: 0;\n  background: url(" + ___CSS_LOADER_URL_REPLACEMENT_0___ + "), linear-gradient(180deg, var(--bg-light-color) 0%, var(--bg-dark-color) 100%); }\n\n.btn_active .path-bg {\n  fill: var(--backlight-color);\n  transition: 0.3s; }\n\n.btn_active svg {\n  filter: drop-shadow(0px -1px 1px var(--darkest-shadow)); }\n", "",{"version":3,"sources":["webpack://./scss/abstracts/_variables.scss","webpack://./scss/themes/_dark-theme.scss","webpack://./scss/base/_typography.scss","webpack://./scss/layout/_settings.scss","webpack://./scss/layout/_game-field.scss","webpack://./scss/layout/_last-games.scss","webpack://./scss/layout/_info.scss","webpack://./scss/components/_buttons.scss","webpack://./scss/components/_radio-input.scss","webpack://./scss/components/_range-input.scss","webpack://./scss/components/_titles.scss","webpack://./scss/components/_cell.scss","webpack://./scss/pages/_home.scss","webpack://./scss/base/_helpers.scss"],"names":[],"mappings":"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","sourcesContent":["body {\r\n  --backlight-color: #ffffff;\r\n  --lightest-color: #ffffff;\r\n  --darkest-color: #2a2013;\r\n  --darkest-shadow: #5b4e3e;\r\n\r\n  --bg-light-color: #eae6df;\r\n  --bg-dark-color: #d8cfc0;\r\n\r\n  --text-color: #79654e;\r\n  --title-shadow-color: #d6cfc7;\r\n}",".dark-theme {\r\n  --backlight-color: #e0dee1;\r\n  --lightest-color: #515051;\r\n  --darkest-color: #0b0b0b;\r\n  --darkest-shadow: #00000000;\r\n\r\n\r\n  --bg-light-color: #3b393c;\r\n  --bg-dark-color: #2f2f2f;\r\n\r\n  --text-color: #000000;\r\n  --title-shadow-color: #898785;\r\n}\r\n",".body {\r\n  font-family: \"Quicksand\";\r\n  color: var(--title-shadow-color);\r\n}\r\n\r\n.title {\r\n  color: var(--text-color);\r\n  font-weight: bold;\r\n  font-size: 44px;\r\n\r\n  &::after {\r\n    content: \"Minesweeper\";\r\n    color: var(--title-shadow-color);\r\n    opacity: 0.1;\r\n  }\r\n  &::before {\r\n    content: \"Minesweeper\";\r\n    color: var(--title-shadow-color);\r\n    opacity: 0.1;\r\n  }\r\n}\r\n\r\n.subtitle {\r\n  color: var(--text-color);\r\n  font-size: 16px;\r\n  text-shadow: 0 1px 1px var(--lightest-color);\r\n  font-weight: 600;\r\n}\r\n\r\n.last-games {\r\n  color: var(--text-color);\r\n  font-size: 16px;\r\n  text-shadow: 0 1px 1px var(--lightest-color);\r\n  font-weight: 600;\r\n}\r\n\r\n.cell {\r\n  font-size: 14px;\r\n  font-weight: 300;\r\n  text-shadow: 0 1px 1px var(--lightest-color),\r\n    -0.5px -1px 1px var(--text-color);\r\n}\r\n.cell[data-num=\"1\"] {\r\n  color: rgb(107, 173, 219);\r\n}\r\n.cell[data-num=\"2\"] {\r\n  color: rgb(117, 201, 141);\r\n}\r\n.cell[data-num=\"3\"] {\r\n  color: rgb(246, 142, 159);\r\n}\r\n.cell[data-num=\"4\"] {\r\n  color: rgb(168, 139, 248);\r\n}\r\n.cell[data-num=\"5\"] {\r\n  color: rgb(240, 137, 199);\r\n}\r\n.cell[data-num=\"6\"] {\r\n  color: rgb(73, 187, 191);\r\n}\r\n.cell[data-num=\"7\"] {\r\n  color: var(--darkest-color);\r\n}\r\n.cell[data-num=\"8\"] {\r\n  color: var(--backlight-color);\r\n}\r\n",".settings {\r\n  &__title {\r\n    position: relative;\r\n    text-align: center;\r\n    margin: 20px auto 0;\r\n\r\n    &_range-input {\r\n      margin: 20px auto 5px;\r\n    }\r\n  }\r\n}\r\n",".game-field {\r\n  display: grid;\r\n  padding: 2px;\r\n  gap: 2px;\r\n  background: var(--bg-dark-color);\r\n  outline: none;\r\n  -webkit-transition: 0.2s;\r\n  transition: opacity 0.2s;\r\n  border-radius: 5px;\r\n  box-shadow: inset 0px 2px 5px var(--text-color),\r\n    0px 1px 2px var(--lightest-color);\r\n  width: fit-content;\r\n  margin: 20px auto;\r\n\r\n  &_easy {\r\n    grid-template-columns: repeat(10, auto);\r\n    border-radius: 8px;\r\n    padding: 4px;\r\n    gap: 4px;\r\n\r\n    & .cell {\r\n      width: 40px;\r\n      height: 40px;\r\n      border-radius: 8px;\r\n    }\r\n  }\r\n  &_medium {\r\n    grid-template-columns: repeat(15, auto);\r\n    border-radius: 3px;\r\n    padding: 3px;\r\n    gap: 3px;\r\n    & .cell {\r\n      width: 26px;\r\n      height: 26px;\r\n      border-radius: 3px;\r\n    }\r\n  }\r\n  &_hard {\r\n    grid-template-columns: repeat(25, auto);\r\n    border-radius: 3px;\r\n    padding: 2px;\r\n    gap: 2px;\r\n    & .cell {\r\n      width: 16px;\r\n      height: 16px;\r\n      border-radius: 2px;\r\n    }\r\n  }\r\n}\r\n",".last-games {\n  margin: 0 auto;\n  width: fit-content;\n\n  &__list {\n    display: flex;\n    flex-direction: column;\n    border-radius: 5px;\n    box-shadow: inset 0px 2px 5px var(--text-color),\n      0px 1px 2px var(--lightest-color);\n    padding: 6px;\n    gap: 6px;\n    background: var(--bg-dark-color);\n  }\n\n  &__item {\n    display: flex;\n    gap: 15px;\n    justify-content: space-between;\n  }\n}\n",".info {\r\n  display: flex;\r\n  justify-content: center;\r\n  gap: 10px;\r\n}",".btn {\r\n  background-color: transparent;\r\n  padding: 0;\r\n  border: none;\r\n  opacity: 0.8;\r\n  cursor: pointer;\r\n  display: block;\r\n\r\n  & svg {\r\n    display: block;\r\n    align-self: center;\r\n  }\r\n\r\n  & .path-bg {\r\n    transition: 0.3s;\r\n  }\r\n\r\n  &_line {\r\n    & .path-bg {\r\n      fill: var(--text-color);\r\n    }\r\n    \r\n    &:hover {\r\n      & .path-bg {\r\n        opacity: 0.5;\r\n      }\r\n\r\n    }\r\n  }\r\n\r\n  &_fill {\r\n    background: url(@img/bg.png),\r\n      linear-gradient(\r\n        180deg,\r\n        var(--bg-light-color) 0%,\r\n        var(--bg-dark-color) 100%\r\n      );\r\n    box-shadow: 0px 2px 5px var(--darkest-color),\r\n      inset 0px 2px 2px var(--bg-light-color);\r\n  }\r\n\r\n  &_new-game {\r\n    font-size: 32px;\r\n    font-weight: bold;\r\n    margin: 10px auto;\r\n    display: block;\r\n    color: var(--text-color);\r\n    position: relative;\r\n    \r\n    &:hover {\r\n      color: var(--darkest-color);\r\n    }\r\n\r\n    &:before,\r\n    &:after {\r\n      content: \"Start new game\";\r\n      color: var(--title-shadow-color);\r\n      position: absolute;\r\n      width: 237px;\r\n      opacity: 0.1;\r\n    }\r\n    &:before {\r\n      top: 1px;\r\n      left: 1px;\r\n    }\r\n    &:after {\r\n      top: 2px;\r\n      left: 2px;\r\n    }\r\n  }\r\n}\r\n",".radio-input {\r\n  gap: 5px;\r\n  margin: 0 auto;\r\n  display: flex;\r\n  align-items: center;\r\n  width: fit-content;\r\n\r\n  &__input {\r\n    -webkit-appearance: none;\r\n    -moz-appearance: none;\r\n    appearance: none;\r\n\r\n    border-radius: 50%;\r\n    padding: 5px;\r\n    cursor: pointer;\r\n    width: 12px;\r\n    height: 12px;\r\n    background-color: var(--bg-dark-color);\r\n    box-shadow: inset 0px 1px 2px var(--text-color), 0px 1px 2px var(--lightest-color); \r\n\r\n    transition: 0.2s all linear;\r\n    outline: none;\r\n    margin-right: 5px;\r\n\r\n    position: relative;\r\n    top: 4px;\r\n\r\n    &__label {\r\n      padding-top: -10px;\r\n    }\r\n\r\n    &:checked {\r\n      background-color: var(--backlight-color);\r\n    }\r\n\r\n    &:hover {\r\n      opacity: 0.6;\r\n    }\r\n  }\r\n}\r\n",".range-input {\r\n  width: 200px;\r\n  margin: 0 auto;\r\n  display: flex;\r\n  gap: 5px;\r\n  align-items: center;\r\n\r\n  &__arrow-left {\r\n    transform: rotate(180deg);\r\n  }\r\n\r\n  &__field {\r\n    -webkit-appearance: none;\r\n    appearance: none;\r\n    width: 100%;\r\n    height: 10px;\r\n    background: var(--bg-dark-color);\r\n    outline: none;\r\n    opacity: 0.7;\r\n    -webkit-transition: 0.2s;\r\n    transition: opacity 0.2s;\r\n    border-radius: 5px;\r\n    box-shadow: inset 0px 2px 5px var(--text-color),\r\n      0px 1px 2px var(--lightest-color);\r\n\r\n    &::-webkit-slider-thumb {\r\n      -webkit-appearance: none;\r\n      appearance: none;\r\n      width: 20px;\r\n      height: 20px;\r\n      cursor: pointer;\r\n      border-radius: 50%;\r\n      background: url(@img/bg.png),\r\n        linear-gradient(\r\n          180deg,\r\n          var(--bg-light-color) 0%,\r\n          var(--bg-dark-color) 100%\r\n        );\r\n      box-shadow: 0px 2px 5px var(--darkest-color),\r\n        inset 0px 2px 2px var(--bg-light-color);\r\n      transition: 0.3s;\r\n\r\n      &:hover {\r\n        box-shadow: 0px 2px 5px var(--darkest-color),\r\n          inset 0px 2px 2px var(--lightest-color);\r\n        transition: 0.3s;\r\n      }\r\n\r\n      &:active {\r\n        background: url(@img/bg.png),\r\n          linear-gradient(\r\n            180deg,\r\n            var(--bg-dark-color) 0%,\r\n            var(--bg-light-color) 100%\r\n          );\r\n      }\r\n    }\r\n  }\r\n}\r\n",".title {\r\n  position: relative;\r\n  display: block;\r\n  width: fit-content;\r\n  margin: 20px auto;\r\n\r\n  &::before {\r\n    position: absolute;\r\n    top: 1px;\r\n    left: 1px;\r\n  }\r\n\r\n  &::after {\r\n    position: absolute;\r\n    top: 2px;\r\n    left: 2px;\r\n  }\r\n}\r\n",".cell {\r\n  &:active {\r\n    background: url(@img/bg.png),\r\n      linear-gradient(\r\n        180deg,\r\n        var(--bg-dark-color) 0%,\r\n        var(--bg-light-color) 100%\r\n      );\r\n  }\r\n\r\n  &:hover {\r\n    box-shadow: 0px 2px 5px var(--darkest-color),\r\n      inset 0px 2px 2px var(--lightest-color);\r\n    transition: 0.3s;\r\n  }\r\n\r\n  &_open {\r\n    cursor: default;\r\n    background: transparent;\r\n    box-shadow: none;\r\n  }\r\n\r\n  &_open {\r\n    cursor: default;\r\n    &:hover {\r\n      box-shadow: none;\r\n    }\r\n    &:active {\r\n      background: none;\r\n    }\r\n  }\r\n\r\n  &_flag {\r\n    position: relative;\r\n\r\n    &::after {\r\n      position: absolute;\r\n      content: \"\";\r\n      top: 50%;\r\n      left: 50%;\r\n      transform: translate(-50%, -50%);\r\n      width: 6px;\r\n      height: 6px;\r\n      background-color: var(--backlight-color);\r\n      background-color: white;\r\n      border-radius: 50%;\r\n      box-shadow: inset 0px 1px 2px var(--text-color),\r\n        0px 1px 2px var(--lightest-color);\r\n    }\r\n  }\r\n\r\n  &_mine {\r\n    position: relative;\r\n\r\n    &::after {\r\n      position: absolute;\r\n      content: \"\";\r\n      top: 50%;\r\n      left: 50%;\r\n      transform: translate(-50%, -50%);\r\n      width: 6px;\r\n      height: 6px;\r\n      background-color: var(--backlight-color);\r\n      background-color: var(--darkest-color);\r\n      border-radius: 50%;\r\n      box-shadow: inset 0px 1px 2px var(--text-color),\r\n        0px 1px 2px var(--lightest-color);\r\n    }\r\n  }\r\n\r\n  &_expl {\r\n    &::after {\r\n      background-color: rgb(174, 26, 26);\r\n    }\r\n  }\r\n}\r\n",".html {\r\n  min-height: 100vh;\r\n}\r\n\r\n.body {\r\n  margin: 0;\r\n  padding: 0;\r\n  background: url(@img/bg.png),\r\n    linear-gradient(180deg, var(--bg-light-color) 0%, var(--bg-dark-color) 100%);\r\n}\r\n",".btn_active {\r\n  & .path-bg {\r\n    fill: var(--backlight-color);\r\n    transition: 0.3s;\r\n  }\r\n\r\n  & svg {\r\n    filter: drop-shadow(0px -1px 1px var(--darkest-shadow));\r\n  }\r\n}\r\n"],"sourceRoot":""}]);
+___CSS_LOADER_EXPORT___.push([module.id, "body {\n  --backlight-color: #ffffff;\n  --lightest-color: #ffffff;\n  --darkest-color: #2a2013;\n  --darkest-shadow: #5b4e3e;\n  --bg-light-color: #eae6df;\n  --bg-dark-color: #d8cfc0;\n  --text-color: #79654e;\n  --title-shadow-color: #d6cfc7; }\n\n.dark-theme {\n  --backlight-color: #e0dee1;\n  --lightest-color: #515051;\n  --darkest-color: #0b0b0b;\n  --darkest-shadow: #00000000;\n  --bg-light-color: #3b393c;\n  --bg-dark-color: #2f2f2f;\n  --text-color: #000000;\n  --title-shadow-color: #898785; }\n\n.body {\n  font-family: \"Quicksand\";\n  color: var(--title-shadow-color); }\n\n.title {\n  color: var(--text-color);\n  font-weight: bold;\n  font-size: 44px; }\n  .title::after {\n    content: \"Minesweeper\";\n    color: var(--title-shadow-color);\n    opacity: 0.1; }\n  .title::before {\n    content: \"Minesweeper\";\n    color: var(--title-shadow-color);\n    opacity: 0.1; }\n\n.subtitle {\n  color: var(--text-color);\n  font-size: 16px;\n  text-shadow: 0 1px 1px var(--lightest-color);\n  font-weight: 600; }\n\n.last-games {\n  color: var(--text-color);\n  font-size: 16px;\n  text-shadow: 0 1px 1px var(--lightest-color);\n  font-weight: 600; }\n\n.cell {\n  font-size: 14px;\n  font-weight: 300;\n  text-shadow: 0 1px 1px var(--lightest-color), -0.5px -1px 1px var(--text-color); }\n\n.cell[data-num=\"1\"] {\n  color: #6baddb; }\n\n.cell[data-num=\"2\"] {\n  color: #75c98d; }\n\n.cell[data-num=\"3\"] {\n  color: #f68e9f; }\n\n.cell[data-num=\"4\"] {\n  color: #a88bf8; }\n\n.cell[data-num=\"5\"] {\n  color: #f089c7; }\n\n.cell[data-num=\"6\"] {\n  color: #49bbbf; }\n\n.cell[data-num=\"7\"] {\n  color: var(--darkest-color); }\n\n.cell[data-num=\"8\"] {\n  color: var(--backlight-color); }\n\n.settings__title {\n  position: relative;\n  text-align: center;\n  margin: 20px auto 0; }\n  .settings__title_range-input {\n    margin: 20px auto 5px; }\n\n.game-field {\n  display: grid;\n  padding: 2px;\n  gap: 2px;\n  background: var(--bg-dark-color);\n  outline: none;\n  -webkit-transition: 0.2s;\n  transition: opacity 0.2s;\n  border-radius: 5px;\n  box-shadow: inset 0px 2px 5px var(--text-color), 0px 1px 2px var(--lightest-color);\n  width: fit-content;\n  margin: 20px auto; }\n  .game-field_easy {\n    grid-template-columns: repeat(10, auto);\n    border-radius: 8px;\n    padding: 4px;\n    gap: 4px; }\n    .game-field_easy .cell {\n      width: 40px;\n      height: 40px;\n      border-radius: 8px; }\n  .game-field_medium {\n    grid-template-columns: repeat(15, auto);\n    border-radius: 3px;\n    padding: 3px;\n    gap: 3px; }\n    .game-field_medium .cell {\n      width: 26px;\n      height: 26px;\n      border-radius: 3px; }\n  .game-field_hard {\n    grid-template-columns: repeat(25, auto);\n    border-radius: 3px;\n    padding: 2px;\n    gap: 2px; }\n    .game-field_hard .cell {\n      width: 16px;\n      height: 16px;\n      border-radius: 2px; }\n\n.last-games {\n  margin: 0 auto;\n  width: fit-content; }\n  .last-games__list {\n    display: flex;\n    flex-direction: column;\n    border-radius: 5px;\n    box-shadow: inset 0px 2px 5px var(--text-color), 0px 1px 2px var(--lightest-color);\n    padding: 6px;\n    gap: 6px;\n    background: var(--bg-dark-color); }\n  .last-games__item {\n    display: flex;\n    gap: 15px;\n    justify-content: space-between; }\n\n.info {\n  display: flex;\n  justify-content: center;\n  gap: 10px; }\n\n.btn {\n  background-color: transparent;\n  padding: 0;\n  border: none;\n  opacity: 0.8;\n  cursor: pointer;\n  display: block; }\n  .btn svg {\n    display: block;\n    align-self: center; }\n  .btn .path-bg {\n    transition: 0.3s; }\n  .btn_line .path-bg {\n    fill: var(--text-color); }\n  .btn_line:hover .path-bg {\n    opacity: 0.5; }\n  .btn_fill {\n    background: url(" + ___CSS_LOADER_URL_REPLACEMENT_0___ + "), linear-gradient(180deg, var(--bg-light-color) 0%, var(--bg-dark-color) 100%);\n    box-shadow: 0px 2px 5px var(--darkest-color), inset 0px 2px 2px var(--bg-light-color); }\n  .btn_new-game {\n    font-size: 32px;\n    font-weight: bold;\n    margin: 10px auto;\n    display: block;\n    color: var(--text-color);\n    position: relative; }\n    .btn_new-game:hover {\n      color: var(--darkest-color); }\n    .btn_new-game:before, .btn_new-game:after {\n      content: \"Start new game\";\n      color: var(--title-shadow-color);\n      position: absolute;\n      width: 237px;\n      opacity: 0.1; }\n    .btn_new-game:before {\n      top: 1px;\n      left: 1px; }\n    .btn_new-game:after {\n      top: 2px;\n      left: 2px; }\n\n.radio-input {\n  gap: 5px;\n  margin: 0 auto;\n  display: flex;\n  align-items: center;\n  width: fit-content; }\n  .radio-input__input {\n    -webkit-appearance: none;\n    -moz-appearance: none;\n    appearance: none;\n    border-radius: 50%;\n    padding: 5px;\n    cursor: pointer;\n    width: 12px;\n    height: 12px;\n    background-color: var(--bg-dark-color);\n    box-shadow: inset 0px 1px 2px var(--text-color), 0px 1px 2px var(--lightest-color);\n    transition: 0.2s all linear;\n    outline: none;\n    margin-right: 5px;\n    position: relative;\n    top: 4px; }\n    .radio-input__input__label {\n      padding-top: -10px; }\n    .radio-input__input:checked {\n      background-color: var(--backlight-color); }\n    .radio-input__input:hover {\n      opacity: 0.6; }\n\n.range-input {\n  width: 200px;\n  margin: 0 auto;\n  display: flex;\n  gap: 5px;\n  align-items: center; }\n  .range-input__arrow-left {\n    transform: rotate(180deg); }\n  .range-input__field {\n    -webkit-appearance: none;\n    appearance: none;\n    width: 100%;\n    height: 10px;\n    background: var(--bg-dark-color);\n    outline: none;\n    opacity: 0.7;\n    -webkit-transition: 0.2s;\n    transition: opacity 0.2s;\n    border-radius: 5px;\n    box-shadow: inset 0px 2px 5px var(--text-color), 0px 1px 2px var(--lightest-color); }\n    .range-input__field::-webkit-slider-thumb {\n      -webkit-appearance: none;\n      appearance: none;\n      width: 20px;\n      height: 20px;\n      cursor: pointer;\n      border-radius: 50%;\n      background: url(" + ___CSS_LOADER_URL_REPLACEMENT_0___ + "), linear-gradient(180deg, var(--bg-light-color) 0%, var(--bg-dark-color) 100%);\n      box-shadow: 0px 2px 5px var(--darkest-color), inset 0px 2px 2px var(--bg-light-color);\n      transition: 0.3s; }\n      .range-input__field::-webkit-slider-thumb:hover {\n        box-shadow: 0px 2px 5px var(--darkest-color), inset 0px 2px 2px var(--lightest-color);\n        transition: 0.3s; }\n      .range-input__field::-webkit-slider-thumb:active {\n        background: url(" + ___CSS_LOADER_URL_REPLACEMENT_0___ + "), linear-gradient(180deg, var(--bg-dark-color) 0%, var(--bg-light-color) 100%); }\n\n.title {\n  position: relative;\n  display: block;\n  width: fit-content;\n  margin: 20px auto; }\n  .title::before {\n    position: absolute;\n    top: 1px;\n    left: 1px; }\n  .title::after {\n    position: absolute;\n    top: 2px;\n    left: 2px; }\n\n.cell:active {\n  background: url(" + ___CSS_LOADER_URL_REPLACEMENT_0___ + "), linear-gradient(180deg, var(--bg-dark-color) 0%, var(--bg-light-color) 100%); }\n\n.cell:hover {\n  box-shadow: 0px 2px 5px var(--darkest-color), inset 0px 2px 2px var(--lightest-color);\n  transition: 0.3s; }\n\n.cell_open {\n  cursor: default;\n  background: transparent;\n  box-shadow: none; }\n\n.cell_open {\n  cursor: default; }\n  .cell_open:hover {\n    box-shadow: none; }\n  .cell_open:active {\n    background: none; }\n\n.cell_flag {\n  position: relative; }\n  .cell_flag::after {\n    position: absolute;\n    content: \"\";\n    top: 50%;\n    left: 50%;\n    transform: translate(-50%, -50%);\n    width: 12px;\n    height: 12px;\n    background-color: var(--backlight-color);\n    background-color: white;\n    border-radius: 50%;\n    box-shadow: inset 0px 1px 2px var(--text-color), 0px 1px 2px var(--lightest-color); }\n\n.cell_mine {\n  position: relative; }\n  .cell_mine::after {\n    position: absolute;\n    content: \"\";\n    top: 50%;\n    left: 50%;\n    transform: translate(-50%, -50%);\n    width: 12px;\n    height: 12px;\n    background-color: var(--backlight-color);\n    background-color: var(--darkest-color);\n    border-radius: 50%;\n    box-shadow: inset 0px 1px 2px var(--text-color), 0px 1px 2px var(--lightest-color); }\n\n.cell_expl::after {\n  background-color: #ae1a1a; }\n\n.game-field_easy .cell::after {\n  width: 16px;\n  height: 16px; }\n\n.game-field_medium .cell::after {\n  width: 12px;\n  height: 12px; }\n\n.game-field_hard .cell::after {\n  width: 8px;\n  height: 8px; }\n\n.html {\n  min-height: 100vh; }\n\n.body {\n  margin: 0;\n  padding: 0;\n  background: url(" + ___CSS_LOADER_URL_REPLACEMENT_0___ + "), linear-gradient(180deg, var(--bg-light-color) 0%, var(--bg-dark-color) 100%); }\n\n.btn_active .path-bg {\n  fill: var(--backlight-color);\n  transition: 0.3s; }\n\n.btn_active svg {\n  filter: drop-shadow(0px -1px 1px var(--darkest-shadow)); }\n", "",{"version":3,"sources":["webpack://./scss/abstracts/_variables.scss","webpack://./scss/themes/_dark-theme.scss","webpack://./scss/base/_typography.scss","webpack://./scss/layout/_settings.scss","webpack://./scss/layout/_game-field.scss","webpack://./scss/layout/_last-games.scss","webpack://./scss/layout/_info.scss","webpack://./scss/components/_buttons.scss","webpack://./scss/components/_radio-input.scss","webpack://./scss/components/_range-input.scss","webpack://./scss/components/_titles.scss","webpack://./scss/components/_cell.scss","webpack://./scss/pages/_home.scss","webpack://./scss/base/_helpers.scss"],"names":[],"mappings":"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","sourcesContent":["body {\r\n  --backlight-color: #ffffff;\r\n  --lightest-color: #ffffff;\r\n  --darkest-color: #2a2013;\r\n  --darkest-shadow: #5b4e3e;\r\n\r\n  --bg-light-color: #eae6df;\r\n  --bg-dark-color: #d8cfc0;\r\n\r\n  --text-color: #79654e;\r\n  --title-shadow-color: #d6cfc7;\r\n}",".dark-theme {\r\n  --backlight-color: #e0dee1;\r\n  --lightest-color: #515051;\r\n  --darkest-color: #0b0b0b;\r\n  --darkest-shadow: #00000000;\r\n\r\n\r\n  --bg-light-color: #3b393c;\r\n  --bg-dark-color: #2f2f2f;\r\n\r\n  --text-color: #000000;\r\n  --title-shadow-color: #898785;\r\n}\r\n",".body {\r\n  font-family: \"Quicksand\";\r\n  color: var(--title-shadow-color);\r\n}\r\n\r\n.title {\r\n  color: var(--text-color);\r\n  font-weight: bold;\r\n  font-size: 44px;\r\n\r\n  &::after {\r\n    content: \"Minesweeper\";\r\n    color: var(--title-shadow-color);\r\n    opacity: 0.1;\r\n  }\r\n  &::before {\r\n    content: \"Minesweeper\";\r\n    color: var(--title-shadow-color);\r\n    opacity: 0.1;\r\n  }\r\n}\r\n\r\n.subtitle {\r\n  color: var(--text-color);\r\n  font-size: 16px;\r\n  text-shadow: 0 1px 1px var(--lightest-color);\r\n  font-weight: 600;\r\n}\r\n\r\n.last-games {\r\n  color: var(--text-color);\r\n  font-size: 16px;\r\n  text-shadow: 0 1px 1px var(--lightest-color);\r\n  font-weight: 600;\r\n}\r\n\r\n.cell {\r\n  font-size: 14px;\r\n  font-weight: 300;\r\n  text-shadow: 0 1px 1px var(--lightest-color),\r\n    -0.5px -1px 1px var(--text-color);\r\n}\r\n.cell[data-num=\"1\"] {\r\n  color: rgb(107, 173, 219);\r\n}\r\n.cell[data-num=\"2\"] {\r\n  color: rgb(117, 201, 141);\r\n}\r\n.cell[data-num=\"3\"] {\r\n  color: rgb(246, 142, 159);\r\n}\r\n.cell[data-num=\"4\"] {\r\n  color: rgb(168, 139, 248);\r\n}\r\n.cell[data-num=\"5\"] {\r\n  color: rgb(240, 137, 199);\r\n}\r\n.cell[data-num=\"6\"] {\r\n  color: rgb(73, 187, 191);\r\n}\r\n.cell[data-num=\"7\"] {\r\n  color: var(--darkest-color);\r\n}\r\n.cell[data-num=\"8\"] {\r\n  color: var(--backlight-color);\r\n}\r\n",".settings {\r\n  &__title {\r\n    position: relative;\r\n    text-align: center;\r\n    margin: 20px auto 0;\r\n\r\n    &_range-input {\r\n      margin: 20px auto 5px;\r\n    }\r\n  }\r\n}\r\n",".game-field {\r\n  display: grid;\r\n  padding: 2px;\r\n  gap: 2px;\r\n  background: var(--bg-dark-color);\r\n  outline: none;\r\n  -webkit-transition: 0.2s;\r\n  transition: opacity 0.2s;\r\n  border-radius: 5px;\r\n  box-shadow: inset 0px 2px 5px var(--text-color),\r\n    0px 1px 2px var(--lightest-color);\r\n  width: fit-content;\r\n  margin: 20px auto;\r\n\r\n  &_easy {\r\n    grid-template-columns: repeat(10, auto);\r\n    border-radius: 8px;\r\n    padding: 4px;\r\n    gap: 4px;\r\n\r\n    & .cell {\r\n      width: 40px;\r\n      height: 40px;\r\n      border-radius: 8px;\r\n    }\r\n  }\r\n  &_medium {\r\n    grid-template-columns: repeat(15, auto);\r\n    border-radius: 3px;\r\n    padding: 3px;\r\n    gap: 3px;\r\n    & .cell {\r\n      width: 26px;\r\n      height: 26px;\r\n      border-radius: 3px;\r\n    }\r\n  }\r\n  &_hard {\r\n    grid-template-columns: repeat(25, auto);\r\n    border-radius: 3px;\r\n    padding: 2px;\r\n    gap: 2px;\r\n    & .cell {\r\n      width: 16px;\r\n      height: 16px;\r\n      border-radius: 2px;\r\n    }\r\n  }\r\n}\r\n",".last-games {\n  margin: 0 auto;\n  width: fit-content;\n\n  &__list {\n    display: flex;\n    flex-direction: column;\n    border-radius: 5px;\n    box-shadow: inset 0px 2px 5px var(--text-color),\n      0px 1px 2px var(--lightest-color);\n    padding: 6px;\n    gap: 6px;\n    background: var(--bg-dark-color);\n  }\n\n  &__item {\n    display: flex;\n    gap: 15px;\n    justify-content: space-between;\n  }\n}\n",".info {\r\n  display: flex;\r\n  justify-content: center;\r\n  gap: 10px;\r\n}",".btn {\r\n  background-color: transparent;\r\n  padding: 0;\r\n  border: none;\r\n  opacity: 0.8;\r\n  cursor: pointer;\r\n  display: block;\r\n\r\n  & svg {\r\n    display: block;\r\n    align-self: center;\r\n  }\r\n\r\n  & .path-bg {\r\n    transition: 0.3s;\r\n  }\r\n\r\n  &_line {\r\n    & .path-bg {\r\n      fill: var(--text-color);\r\n    }\r\n    \r\n    &:hover {\r\n      & .path-bg {\r\n        opacity: 0.5;\r\n      }\r\n\r\n    }\r\n  }\r\n\r\n  &_fill {\r\n    background: url(@img/bg.png),\r\n      linear-gradient(\r\n        180deg,\r\n        var(--bg-light-color) 0%,\r\n        var(--bg-dark-color) 100%\r\n      );\r\n    box-shadow: 0px 2px 5px var(--darkest-color),\r\n      inset 0px 2px 2px var(--bg-light-color);\r\n  }\r\n\r\n  &_new-game {\r\n    font-size: 32px;\r\n    font-weight: bold;\r\n    margin: 10px auto;\r\n    display: block;\r\n    color: var(--text-color);\r\n    position: relative;\r\n    \r\n    &:hover {\r\n      color: var(--darkest-color);\r\n    }\r\n\r\n    &:before,\r\n    &:after {\r\n      content: \"Start new game\";\r\n      color: var(--title-shadow-color);\r\n      position: absolute;\r\n      width: 237px;\r\n      opacity: 0.1;\r\n    }\r\n    &:before {\r\n      top: 1px;\r\n      left: 1px;\r\n    }\r\n    &:after {\r\n      top: 2px;\r\n      left: 2px;\r\n    }\r\n  }\r\n}\r\n",".radio-input {\r\n  gap: 5px;\r\n  margin: 0 auto;\r\n  display: flex;\r\n  align-items: center;\r\n  width: fit-content;\r\n\r\n  &__input {\r\n    -webkit-appearance: none;\r\n    -moz-appearance: none;\r\n    appearance: none;\r\n\r\n    border-radius: 50%;\r\n    padding: 5px;\r\n    cursor: pointer;\r\n    width: 12px;\r\n    height: 12px;\r\n    background-color: var(--bg-dark-color);\r\n    box-shadow: inset 0px 1px 2px var(--text-color), 0px 1px 2px var(--lightest-color); \r\n\r\n    transition: 0.2s all linear;\r\n    outline: none;\r\n    margin-right: 5px;\r\n\r\n    position: relative;\r\n    top: 4px;\r\n\r\n    &__label {\r\n      padding-top: -10px;\r\n    }\r\n\r\n    &:checked {\r\n      background-color: var(--backlight-color);\r\n    }\r\n\r\n    &:hover {\r\n      opacity: 0.6;\r\n    }\r\n  }\r\n}\r\n",".range-input {\r\n  width: 200px;\r\n  margin: 0 auto;\r\n  display: flex;\r\n  gap: 5px;\r\n  align-items: center;\r\n\r\n  &__arrow-left {\r\n    transform: rotate(180deg);\r\n  }\r\n\r\n  &__field {\r\n    -webkit-appearance: none;\r\n    appearance: none;\r\n    width: 100%;\r\n    height: 10px;\r\n    background: var(--bg-dark-color);\r\n    outline: none;\r\n    opacity: 0.7;\r\n    -webkit-transition: 0.2s;\r\n    transition: opacity 0.2s;\r\n    border-radius: 5px;\r\n    box-shadow: inset 0px 2px 5px var(--text-color),\r\n      0px 1px 2px var(--lightest-color);\r\n\r\n    &::-webkit-slider-thumb {\r\n      -webkit-appearance: none;\r\n      appearance: none;\r\n      width: 20px;\r\n      height: 20px;\r\n      cursor: pointer;\r\n      border-radius: 50%;\r\n      background: url(@img/bg.png),\r\n        linear-gradient(\r\n          180deg,\r\n          var(--bg-light-color) 0%,\r\n          var(--bg-dark-color) 100%\r\n        );\r\n      box-shadow: 0px 2px 5px var(--darkest-color),\r\n        inset 0px 2px 2px var(--bg-light-color);\r\n      transition: 0.3s;\r\n\r\n      &:hover {\r\n        box-shadow: 0px 2px 5px var(--darkest-color),\r\n          inset 0px 2px 2px var(--lightest-color);\r\n        transition: 0.3s;\r\n      }\r\n\r\n      &:active {\r\n        background: url(@img/bg.png),\r\n          linear-gradient(\r\n            180deg,\r\n            var(--bg-dark-color) 0%,\r\n            var(--bg-light-color) 100%\r\n          );\r\n      }\r\n    }\r\n  }\r\n}\r\n",".title {\r\n  position: relative;\r\n  display: block;\r\n  width: fit-content;\r\n  margin: 20px auto;\r\n\r\n  &::before {\r\n    position: absolute;\r\n    top: 1px;\r\n    left: 1px;\r\n  }\r\n\r\n  &::after {\r\n    position: absolute;\r\n    top: 2px;\r\n    left: 2px;\r\n  }\r\n}\r\n",".cell {\r\n  &:active {\r\n    background: url(@img/bg.png),\r\n      linear-gradient(\r\n        180deg,\r\n        var(--bg-dark-color) 0%,\r\n        var(--bg-light-color) 100%\r\n      );\r\n  }\r\n\r\n  &:hover {\r\n    box-shadow: 0px 2px 5px var(--darkest-color),\r\n      inset 0px 2px 2px var(--lightest-color);\r\n    transition: 0.3s;\r\n  }\r\n\r\n  &_open {\r\n    cursor: default;\r\n    background: transparent;\r\n    box-shadow: none;\r\n  }\r\n\r\n  &_open {\r\n    cursor: default;\r\n    &:hover {\r\n      box-shadow: none;\r\n    }\r\n    &:active {\r\n      background: none;\r\n    }\r\n  }\r\n\r\n  &_flag {\r\n    position: relative;\r\n\r\n    &::after {\r\n      position: absolute;\r\n      content: \"\";\r\n      top: 50%;\r\n      left: 50%;\r\n      transform: translate(-50%, -50%);\r\n      width: 12px;\r\n      height: 12px;\r\n      background-color: var(--backlight-color);\r\n      background-color: white;\r\n      border-radius: 50%;\r\n      box-shadow: inset 0px 1px 2px var(--text-color),\r\n        0px 1px 2px var(--lightest-color);\r\n    }\r\n  }\r\n\r\n  &_mine {\r\n    position: relative;\r\n\r\n    &::after {\r\n      position: absolute;\r\n      content: \"\";\r\n      top: 50%;\r\n      left: 50%;\r\n      transform: translate(-50%, -50%);\r\n      width: 12px;\r\n      height: 12px;\r\n      background-color: var(--backlight-color);\r\n      background-color: var(--darkest-color);\r\n      border-radius: 50%;\r\n      box-shadow: inset 0px 1px 2px var(--text-color),\r\n        0px 1px 2px var(--lightest-color);\r\n    }\r\n  }\r\n\r\n  &_expl {\r\n    &::after {\r\n      background-color: rgb(174, 26, 26);\r\n    }\r\n  }\r\n}\r\n\r\n.game-field_easy {\r\n  & .cell::after {\r\n    width: 16px;\r\n    height: 16px;\r\n  }\r\n}\r\n\r\n.game-field_medium {\r\n  & .cell::after {\r\n    width: 12px;\r\n    height: 12px;\r\n  }\r\n}\r\n\r\n.game-field_hard {\r\n  & .cell::after {\r\n    width: 8px;\r\n    height: 8px;\r\n  }\r\n}\r\n",".html {\r\n  min-height: 100vh;\r\n}\r\n\r\n.body {\r\n  margin: 0;\r\n  padding: 0;\r\n  background: url(@img/bg.png),\r\n    linear-gradient(180deg, var(--bg-light-color) 0%, var(--bg-dark-color) 100%);\r\n}\r\n",".btn_active {\r\n  & .path-bg {\r\n    fill: var(--backlight-color);\r\n    transition: 0.3s;\r\n  }\r\n\r\n  & svg {\r\n    filter: drop-shadow(0px -1px 1px var(--darkest-shadow));\r\n  }\r\n}\r\n"],"sourceRoot":""}]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
