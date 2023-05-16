@@ -14,7 +14,7 @@ const createSettingsElement = (minesNumber, fieldSize) => {
   radioInputTitle.classList.add("settings__title");
   radioInputTitle.classList.add("subtitle");
   radioInputTitle.classList.add("settings__title_radio-input");
-  radioInputTitle.innerHTML = `Choose field size: ${fieldSize}`;
+  radioInputTitle.innerHTML = `Field size: ${fieldSize}`;
 
   const arrowLeftBtn = document.createElement("button");
   arrowLeftBtn.classList.add("btn");
