@@ -27,7 +27,7 @@ const firstHandlers = (data) => {
 
       // new game
       if (e.target.classList.contains("btn_new-game")) {
-        rerenderField();
+        rerenderField(data.fieldSize, data.fieldArray);
       }
     });
   };

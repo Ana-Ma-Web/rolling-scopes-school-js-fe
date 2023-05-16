@@ -1,4 +1,5 @@
 import countTime from "./countTime";
+import rerenderField from "./rerenderField";
 
 const createSettingsElement = (minesNumber, fieldSize) => {
   const settings = document.createElement("div");
@@ -446,7 +447,8 @@ const firstRender = (data) => {
     data.clicks
   );
 
-  const gameField = createGameFieldElement(data.fieldSize, data.fieldArray);
+  const gameField = document.createElement("div");
+  gameField.classList.add("game-field");
 
   const lastGames = createLastGamesElement(data.latestResults);
 
@@ -455,6 +457,7 @@ const firstRender = (data) => {
   body.append(newGameButton);
   body.append(info);
   body.append(gameField);
+  rerenderField(data.fieldSize, data.fieldArray);
   body.append(lastGames);
 };
 
