@@ -25,19 +25,19 @@ const openCell = (x, y, fieldArray, fieldSize) => {
   }
 };
 
-const cellHandler = (ij, fieldArray, fieldSize) => {
+const cellHandler = (ij, fieldArray, fieldSize, isSoundOn) => {
   const ijArr = ij.split("-");
   const x = +ijArr[0];
   const y = +ijArr[1];
 
   if (fieldArray[x][y].isMine) {
-    soundAudio("expl");
+    soundAudio("expl", isSoundOn);
     finishGame();
   } else {
     const curCell = document.querySelector(`[data-ij="${x}-${y}"]`);
 
     if (!curCell.classList.contains("cell_open")) {
-      soundAudio(false);
+      soundAudio(false, isSoundOn);
 
       openCell(x, y, fieldArray, fieldSize);
     }

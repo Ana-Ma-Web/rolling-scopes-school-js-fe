@@ -53,7 +53,12 @@ const firstHandlers = (data) => {
           setMines(data, e.target.dataset.ij);
           data.isCellClicked = true;
         }
-        cellHandler(e.target.dataset.ij, data.fieldArray, data.fieldSize);
+        cellHandler(
+          e.target.dataset.ij,
+          data.fieldArray,
+          data.fieldSize,
+          data.isSoundOn
+        );
       }
     });
   };
