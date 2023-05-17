@@ -15,7 +15,9 @@ __webpack_require__.r(__webpack_exports__);
 let data = localStorage.getItem("minesweeper-data") ? localStorage.getItem("minesweeper-data") : {
   minesCurNumber: 10,
   minesInGameNumber: 10,
-  fieldSize: "easy 10x10",
+  openCellCount: 0,
+  fieldCurSize: "easy 10x10",
+  fieldInGameSize: "easy 10x10",
   isCellClicked: false,
   fieldArray: [],
   isSoundOn: true,
@@ -47,8 +49,14 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-const finishGame = () => {
-  console.log("finish");
+/* harmony import */ var _soundAudio__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./soundAudio */ "./js/soundAudio.js");
+
+const finishGame = (isWin, isSoundOn) => {
+  if (isWin) {
+    (0,_soundAudio__WEBPACK_IMPORTED_MODULE_0__["default"])("win", isSoundOn);
+  } else {
+    (0,_soundAudio__WEBPACK_IMPORTED_MODULE_0__["default"])("expl", isSoundOn);
+  }
 };
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (finishGame);
 
@@ -70,6 +78,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _handlers_rangeInputHandler__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./handlers/rangeInputHandler */ "./js/handlers/rangeInputHandler.js");
 /* harmony import */ var _setMines__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./setMines */ "./js/setMines.js");
 /* harmony import */ var _rerenderField__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./rerenderField */ "./js/rerenderField.js");
+/* harmony import */ var _helpers_js_updateInfoMenu__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./helpers.js/updateInfoMenu */ "./js/helpers.js/updateInfoMenu.js");
+
 
 
 
@@ -94,7 +104,10 @@ const firstHandlers = data => {
       if (e.target.classList.contains("btn_new-game")) {
         data.isCellClicked = false;
         data.minesInGameNumber = data.minesCurNumber;
+        data.fieldInGameSize = data.fieldCurSize;
+        data.openCellCount = 0;
         (0,_rerenderField__WEBPACK_IMPORTED_MODULE_5__["default"])(data);
+        (0,_helpers_js_updateInfoMenu__WEBPACK_IMPORTED_MODULE_6__["default"])(data.fieldInGameSize, data.openCellCount, data.minesInGameNumber, data.isSoundOn);
       }
 
       // volume
@@ -116,7 +129,7 @@ const firstHandlers = data => {
           (0,_setMines__WEBPACK_IMPORTED_MODULE_4__["default"])(data, e.target.dataset.ij);
           data.isCellClicked = true;
         }
-        (0,_handlers_cellHandler__WEBPACK_IMPORTED_MODULE_0__["default"])(e.target.dataset.ij, data.fieldArray, data.fieldSize, data.isSoundOn);
+        (0,_handlers_cellHandler__WEBPACK_IMPORTED_MODULE_0__["default"])(e.target.dataset.ij, data);
       }
     });
   };
@@ -145,26 +158,22 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
 /* harmony import */ var _helpers_js_countTime__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./helpers.js/countTime */ "./js/helpers.js/countTime.js");
-/* harmony import */ var _rerenderField__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./rerenderField */ "./js/rerenderField.js");
+/* harmony import */ var _helpers_js_restCellsCount__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./helpers.js/restCellsCount */ "./js/helpers.js/restCellsCount.js");
+/* harmony import */ var _rerenderField__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./rerenderField */ "./js/rerenderField.js");
 
 
-const createSettingsElement = (minesNumber, fieldSize) => {
+
+const createSettingsElement = (minesNumber, fieldCurSize) => {
   const settings = document.createElement("div");
   settings.classList.add("settings");
   const rangeInputTitle = document.createElement("h2");
-  rangeInputTitle.classList.add("settings__title");
-  rangeInputTitle.classList.add("subtitle");
-  rangeInputTitle.classList.add("settings__title_range-input");
+  rangeInputTitle.classList.add("settings__title", "subtitle", "settings__title_range-input");
   rangeInputTitle.innerHTML = `Choose mines: ${minesNumber}`;
   const radioInputTitle = document.createElement("h2");
-  radioInputTitle.classList.add("settings__title");
-  radioInputTitle.classList.add("subtitle");
-  radioInputTitle.classList.add("settings__title_radio-input");
-  radioInputTitle.innerHTML = `Field size: ${fieldSize}`;
+  radioInputTitle.classList.add("settings__title", "subtitle", "settings__title_radio-input");
+  radioInputTitle.innerHTML = `Field size: ${fieldCurSize}`;
   const arrowLeftBtn = document.createElement("button");
-  arrowLeftBtn.classList.add("btn");
-  arrowLeftBtn.classList.add("btn_line");
-  arrowLeftBtn.classList.add("range-input__arrow-left");
+  arrowLeftBtn.classList.add("btn", "btn_line", "range-input__arrow-left");
   arrowLeftBtn.innerHTML = `<svg
     width="12"
     height="12"
@@ -184,9 +193,7 @@ const createSettingsElement = (minesNumber, fieldSize) => {
     />
   </svg>`;
   const arrowRightBtn = document.createElement("button");
-  arrowRightBtn.classList.add("btn");
-  arrowRightBtn.classList.add("btn_line");
-  arrowRightBtn.classList.add("range-input__arrow-right");
+  arrowRightBtn.classList.add("btn", "btn_line", "range-input__arrow-right");
   arrowRightBtn.innerHTML = `<svg
     width="12"
     height="12"
@@ -213,9 +220,7 @@ const createSettingsElement = (minesNumber, fieldSize) => {
   rangeInputField.value = minesNumber;
   const rangeInput = document.createElement("div");
   rangeInput.classList.add("range-input");
-  rangeInput.append(arrowLeftBtn);
-  rangeInput.append(rangeInputField);
-  rangeInput.append(arrowRightBtn);
+  rangeInput.append(arrowLeftBtn, rangeInputField, arrowRightBtn);
   const radioInput = document.createElement("div");
   radioInput.classList.add("radio-input");
   for (let i = 0; i < 3; i++) {
@@ -226,7 +231,7 @@ const createSettingsElement = (minesNumber, fieldSize) => {
         itemLeft.type = "radio";
         itemLeft.name = "size";
         itemLeft.value = "easy";
-        itemLeft.checked = fieldSize === "easy 10x10" ? true : false;
+        itemLeft.checked = fieldCurSize === "easy 10x10" ? true : false;
         radioInput.append(itemLeft);
         break;
       case 1:
@@ -235,7 +240,7 @@ const createSettingsElement = (minesNumber, fieldSize) => {
         itemCenter.type = "radio";
         itemCenter.name = "size";
         itemCenter.value = "medium";
-        itemCenter.checked = fieldSize === "medium 15x15" ? true : false;
+        itemCenter.checked = fieldCurSize === "medium 15x15" ? true : false;
         radioInput.append(itemCenter);
         break;
       case 2:
@@ -244,31 +249,24 @@ const createSettingsElement = (minesNumber, fieldSize) => {
         itemRight.type = "radio";
         itemRight.name = "size";
         itemRight.value = "hard";
-        itemRight.checked = fieldSize === "hard 25x25" ? true : false;
+        itemRight.checked = fieldCurSize === "hard 25x25" ? true : false;
         radioInput.append(itemRight);
         break;
       default:
         break;
     }
   }
-  settings.append(rangeInputTitle);
-  settings.append(rangeInput);
-  settings.append(radioInputTitle);
-  settings.append(radioInput);
+  settings.append(rangeInputTitle, rangeInput, radioInputTitle, radioInput);
   return settings;
 };
-const createInfoElement = (isSoundOn, isDarkTheme, timeString, clicks) => {
+const createInfoElement = (isSoundOn, isDarkTheme, timeString, clicks, openCellCount, fieldInGameSize, minesInGameNumber) => {
   const info = document.createElement("div");
   info.classList.add("info");
   const btnVolume = document.createElement("button");
-  btnVolume.classList.add("btn");
-  btnVolume.classList.add("btn_line");
-  btnVolume.classList.add("btn_volume");
+  btnVolume.classList.add("btn", "btn_line", "btn_volume");
   if (isSoundOn) btnVolume.classList.add("btn_active");
   const btnTheme = document.createElement("button");
-  btnTheme.classList.add("btn");
-  btnTheme.classList.add("btn_line");
-  btnTheme.classList.add("btn_theme");
+  btnTheme.classList.add("btn", "btn_line", "btn_theme");
   if (!isDarkTheme) btnTheme.classList.add("btn_active");
   btnVolume.innerHTML = `<svg
     width="24"
@@ -450,69 +448,12 @@ const createInfoElement = (isSoundOn, isDarkTheme, timeString, clicks) => {
   infoClicks.classList.add("info__clicks");
   infoClicks.classList.add("subtitle");
   infoClicks.innerHTML = `Clicks: ${clicks}`;
-  info.append(btnVolume);
-  info.append(infoTime);
-  info.append(infoClicks);
-  info.append(btnTheme);
+  const restCells = document.createElement("div");
+  restCells.classList.add("info__rest-cells");
+  restCells.classList.add("subtitle");
+  restCells.innerHTML = `Rest Cells: ${(0,_helpers_js_restCellsCount__WEBPACK_IMPORTED_MODULE_1__["default"])(fieldInGameSize, openCellCount, minesInGameNumber)}`;
+  info.append(btnVolume, infoTime, infoClicks, restCells, btnTheme);
   return info;
-};
-const createGameFieldElement = (fieldSize, fieldArray) => {
-  const gameField = document.createElement("div");
-  gameField.classList.add("game-field");
-  switch (fieldSize) {
-    case "easy 10x10":
-      gameField.classList.add("game-field_easy");
-      fieldArray = [];
-      for (let i = 0; i < 10; i++) {
-        fieldArray.push([]);
-        for (let j = 0; j < 10; j++) {
-          fieldArray[i].push({
-            isMine: false,
-            ij: i + "-" + j
-          });
-          const cell = document.createElement("button");
-          cell.classList.add("cell");
-          cell.classList.add("btn");
-          cell.classList.add("btn_fill");
-          cell.dataset.ij = i + "-" + j;
-          gameField.append(cell);
-        }
-      }
-      break;
-    case "medium 15x15":
-      gameField.classList.add("game-field_medium");
-      for (let i = 0; i < 15; i++) {
-        fieldArray.push([]);
-        for (let j = 0; j < 15; j++) {
-          fieldArray[i].push([]);
-          const cell = document.createElement("button");
-          cell.classList.add("cell");
-          cell.classList.add("btn");
-          cell.classList.add("btn_fill");
-          cell.dataset.ij = i + "-" + j;
-          gameField.append(cell);
-        }
-      }
-      break;
-    case "hard 25x25":
-      gameField.classList.add("game-field_hard");
-      for (let i = 0; i < 25; i++) {
-        fieldArray.push([]);
-        for (let j = 0; j < 25; j++) {
-          fieldArray[i].push([]);
-          const cell = document.createElement("button");
-          cell.classList.add("cell");
-          cell.classList.add("btn");
-          cell.classList.add("btn_fill");
-          cell.dataset.ij = i + "-" + j;
-          gameField.append(cell);
-        }
-      }
-      break;
-    default:
-      break;
-  }
-  return gameField;
 };
 const createLastGamesElement = latestResults => {
   const latestResultsBlock = document.createElement("div");
@@ -528,8 +469,7 @@ const createLastGamesElement = latestResults => {
     const latestResultsClicks = document.createElement("div");
     latestResultsClicks.classList.add("last-games__clicks");
     latestResultsClicks.innerHTML = `Clicks : ${item.clicks}`;
-    latestResultsItem.append(latestResultsTime);
-    latestResultsItem.append(latestResultsClicks);
+    latestResultsItem.append(latestResultsTime, latestResultsClicks);
     latestResultsList.append(latestResultsItem);
   });
   latestResultsBlock.append(latestResultsList);
@@ -542,21 +482,16 @@ const firstRender = data => {
   const title = document.createElement("div");
   title.classList.add("title");
   title.innerHTML = "Minesweeper";
-  const settings = createSettingsElement(data.minesCurNumber, data.fieldSize);
+  const settings = createSettingsElement(data.minesCurNumber, data.fieldCurSize);
   const newGameButton = document.createElement("button");
-  newGameButton.classList.add("btn");
-  newGameButton.classList.add("btn_new-game");
+  newGameButton.classList.add("btn", "btn_new-game");
   newGameButton.innerHTML = "Start new game";
-  const info = createInfoElement(data.isSoundOn, data.isDarkTheme, (0,_helpers_js_countTime__WEBPACK_IMPORTED_MODULE_0__["default"])(data.timeStart, data.timeEnd), data.clicks);
+  const info = createInfoElement(data.isSoundOn, data.isDarkTheme, (0,_helpers_js_countTime__WEBPACK_IMPORTED_MODULE_0__["default"])(data.timeStart, data.timeEnd), data.clicks, data.openCellCount, data.fieldInGameSize, data.minesInGameNumber);
   const gameField = document.createElement("div");
   gameField.classList.add("game-field");
   const lastGames = createLastGamesElement(data.latestResults);
-  body.append(title);
-  body.append(settings);
-  body.append(newGameButton);
-  body.append(info);
-  body.append(gameField);
-  (0,_rerenderField__WEBPACK_IMPORTED_MODULE_1__["default"])(data);
+  body.append(title, settings, newGameButton, info, gameField);
+  (0,_rerenderField__WEBPACK_IMPORTED_MODULE_2__["default"])(data);
   body.append(lastGames);
 };
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (firstRender);
@@ -575,42 +510,48 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var _finishGame__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../finishGame */ "./js/finishGame.js");
 /* harmony import */ var _helpers_js_countClosestMines__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../helpers.js/countClosestMines */ "./js/helpers.js/countClosestMines.js");
-/* harmony import */ var _soundAudio__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../soundAudio */ "./js/soundAudio.js");
+/* harmony import */ var _helpers_js_updateInfoMenu__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../helpers.js/updateInfoMenu */ "./js/helpers.js/updateInfoMenu.js");
+/* harmony import */ var _soundAudio__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../soundAudio */ "./js/soundAudio.js");
 
 
 
-const openCell = (x, y, fieldArray, fieldSize) => {
-  const count = (0,_helpers_js_countClosestMines__WEBPACK_IMPORTED_MODULE_1__["default"])(x, y, fieldArray, fieldSize);
+
+const openCell = (x, y, data) => {
+  const count = (0,_helpers_js_countClosestMines__WEBPACK_IMPORTED_MODULE_1__["default"])(x, y, data.fieldArray, data.fieldInGameSize);
   const curCell = document.querySelector(`[data-ij="${x}-${y}"]`);
-  const size = +fieldSize.slice(-2);
-  curCell.classList.add("cell_open");
-  curCell.innerHTML = count > 0 ? count : "";
-  curCell.dataset.num = count;
+  const size = +data.fieldInGameSize.slice(-2);
+  if (!curCell.classList.contains("cell_open")) {
+    data.openCellCount++;
+    (0,_helpers_js_updateInfoMenu__WEBPACK_IMPORTED_MODULE_2__["default"])(data.fieldInGameSize, data.openCellCount, data.minesInGameNumber, data.isSoundOn, data.clicks);
+    curCell.classList.add("cell_open");
+    curCell.innerHTML = count > 0 ? count : "";
+    curCell.dataset.num = count;
+  }
   if (!count) {
     for (let i = x - 1; i <= x + 1; i++) {
       for (let j = y - 1; j <= y + 1; j++) {
         if (i >= 0 && j >= 0 && i < size && j < size) {
           const foundCell = document.querySelector(`[data-ij="${i}-${j}"]`);
           if (!foundCell.classList.contains("cell_open")) {
-            openCell(i, j, fieldArray, fieldSize);
+            openCell(i, j, data);
           }
         }
       }
     }
   }
 };
-const cellHandler = (ij, fieldArray, fieldSize, isSoundOn) => {
+const cellHandler = (ij, data) => {
   const ijArr = ij.split("-");
   const x = +ijArr[0];
   const y = +ijArr[1];
-  if (fieldArray[x][y].isMine) {
-    (0,_soundAudio__WEBPACK_IMPORTED_MODULE_2__["default"])("expl", isSoundOn);
-    (0,_finishGame__WEBPACK_IMPORTED_MODULE_0__["default"])();
+  if (data.fieldArray[x][y].isMine) {
+    (0,_finishGame__WEBPACK_IMPORTED_MODULE_0__["default"])(false, data.isSoundOn);
   } else {
     const curCell = document.querySelector(`[data-ij="${x}-${y}"]`);
     if (!curCell.classList.contains("cell_open")) {
-      (0,_soundAudio__WEBPACK_IMPORTED_MODULE_2__["default"])(false, isSoundOn);
-      openCell(x, y, fieldArray, fieldSize);
+      (0,_soundAudio__WEBPACK_IMPORTED_MODULE_3__["default"])(false, data.isSoundOn);
+      data.clicks++;
+      openCell(x, y, data);
     }
   }
 };
@@ -632,21 +573,21 @@ const radioInputHandler = (target, data) => {
   const titleRadioInput = document.querySelector(".settings__title_radio-input");
   switch (target.value) {
     case "easy":
-      if (data.fieldSize !== "easy 10x10") {
-        data.fieldSize = "easy 10x10";
-        titleRadioInput.innerHTML = `Field size: ${data.fieldSize}`;
+      if (data.fieldCurSize !== "easy 10x10") {
+        data.fieldCurSize = "easy 10x10";
+        titleRadioInput.innerHTML = `Field size: ${data.fieldCurSize}`;
       }
       break;
     case "medium":
-      if (data.fieldSize !== "medium 15x15") {
-        data.fieldSize = "medium 15x15";
-        titleRadioInput.innerHTML = `Field size: ${data.fieldSize}`;
+      if (data.fieldCurSize !== "medium 15x15") {
+        data.fieldCurSize = "medium 15x15";
+        titleRadioInput.innerHTML = `Field size: ${data.fieldCurSize}`;
       }
       break;
     case "hard":
-      if (data.fieldSize !== "hard 25x25") {
-        data.fieldSize = "hard 25x25";
-        titleRadioInput.innerHTML = `Field size: ${data.fieldSize}`;
+      if (data.fieldCurSize !== "hard 25x25") {
+        data.fieldCurSize = "hard 25x25";
+        titleRadioInput.innerHTML = `Field size: ${data.fieldCurSize}`;
       }
       break;
     default:
@@ -769,6 +710,62 @@ function countTime(timeStart, timeEnd) {
 
 /***/ }),
 
+/***/ "./js/helpers.js/restCellsCount.js":
+/*!*****************************************!*\
+  !*** ./js/helpers.js/restCellsCount.js ***!
+  \*****************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+const restCellsCount = (fieldInGameSize, openCellCount, minesInGameNumber) => {
+  const maxCellsCount = +fieldInGameSize.slice(-2) * +fieldInGameSize.slice(-2);
+  const restCellsCount = maxCellsCount - openCellCount - minesInGameNumber;
+  return restCellsCount;
+};
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (restCellsCount);
+
+/***/ }),
+
+/***/ "./js/helpers.js/updateInfoMenu.js":
+/*!*****************************************!*\
+  !*** ./js/helpers.js/updateInfoMenu.js ***!
+  \*****************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _finishGame__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../finishGame */ "./js/finishGame.js");
+/* harmony import */ var _restCellsCount__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./restCellsCount */ "./js/helpers.js/restCellsCount.js");
+
+
+const updateInfoMenu = (fieldInGameSize, openCellCount, minesInGameNumber, isSoundOn, clicks) => {
+  const updateRestCells = () => {
+    const targetElement = document.querySelector(".info__rest-cells");
+    const count = (0,_restCellsCount__WEBPACK_IMPORTED_MODULE_1__["default"])(fieldInGameSize, openCellCount, minesInGameNumber);
+    const restCells = document.createElement("div");
+    restCells.innerHTML = `Rest Cells: ${count}`;
+    targetElement.innerHTML = "";
+    targetElement.append(restCells);
+    if (count === 0) {
+      (0,_finishGame__WEBPACK_IMPORTED_MODULE_0__["default"])("win", isSoundOn);
+    }
+  };
+  const updateClicks = () => {
+    const targetElement = document.querySelector(".info__clicks");
+    targetElement.innerHTML = `Clicks: ${clicks}`;
+  };
+  updateClicks();
+  updateRestCells(fieldInGameSize, openCellCount, minesInGameNumber);
+};
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (updateInfoMenu);
+
+/***/ }),
+
 /***/ "./js/rerenderField.js":
 /*!*****************************!*\
   !*** ./js/rerenderField.js ***!
@@ -782,7 +779,7 @@ __webpack_require__.r(__webpack_exports__);
 const rerenderField = data => {
   const gameField = document.querySelector(".game-field");
   gameField.innerHTML = "";
-  switch (data.fieldSize) {
+  switch (data.fieldInGameSize) {
     case "easy 10x10":
       gameField.classList.add("game-field_easy");
       gameField.classList.remove("game-field_medium");
@@ -866,7 +863,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
 const setMines = (data, ij) => {
-  let size = +data.fieldSize.slice(-2);
+  let size = +data.fieldInGameSize.slice(-2);
   let minesCount = data.minesInGameNumber;
   const ijArr = ij.split("-");
   const curX = +ijArr[0];
