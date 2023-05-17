@@ -17,7 +17,7 @@ const setMines = (data, ij) => {
             const cellWithMine = document.querySelector(
               `[data-ij="${x}-${y}"]`
             );
-            if (!cellWithMine.classList.contains("cell_mine")) {
+            if (elY.isMine === false) {
               elY.isMine = true;
               minesCount--;
             }

@@ -2,7 +2,7 @@ import cellHandler from "./handlers/cellHandler";
 import radioInputHandler from "./handlers/radioInputHandler";
 import rangeArrowsHandler from "./handlers/rangeArrowsHandler";
 import rangeInputHandler from "./handlers/rangeInputHandler";
-import setMines from "./helpers.js/setMines";
+import setMines from "./setMines";
 import rerenderField from "./rerenderField";
 
 const firstHandlers = (data) => {
@@ -52,9 +52,8 @@ const firstHandlers = (data) => {
         if (!data.isCellClicked) {
           setMines(data, e.target.dataset.ij);
           data.isCellClicked = true;
-        } else {
-          cellHandler(e.target.dataset.ij, data.fieldArray);
         }
+        cellHandler(e.target.dataset.ij, data.fieldArray, data.fieldSize);
       }
     });
   };
