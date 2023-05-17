@@ -409,7 +409,6 @@ const createLastGamesElement = (latestResults) => {
       item.timeStart,
       item.timeEnd
     )}`;
-    // console.log(item);
 
     const latestResultsClicks = document.createElement("div");
     latestResultsClicks.classList.add("last-games__clicks");

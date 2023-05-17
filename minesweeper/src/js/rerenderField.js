@@ -26,10 +26,11 @@ const rerenderField = (data) => {
       gameField.classList.add("game-field_medium");
       gameField.classList.remove("game-field_easy");
       gameField.classList.remove("game-field_hard");
+      data.fieldArray = [];
       for (let i = 0; i < 15; i++) {
         data.fieldArray.push([]);
         for (let j = 0; j < 15; j++) {
-          data.fieldArray[i].push([]);
+          data.fieldArray[i].push({ isMine: false, ij: i + "-" + j });
           const cell = document.createElement("button");
           cell.classList.add("cell");
           cell.classList.add("btn");
@@ -44,10 +45,11 @@ const rerenderField = (data) => {
       gameField.classList.add("game-field_hard");
       gameField.classList.remove("game-field_medium");
       gameField.classList.remove("game-field_easy");
+      data.fieldArray = [];
       for (let i = 0; i < 25; i++) {
         data.fieldArray.push([]);
         for (let j = 0; j < 25; j++) {
-          data.fieldArray[i].push([]);
+          data.fieldArray[i].push({ isMine: false, ij: i + "-" + j });
           const cell = document.createElement("button");
           cell.classList.add("cell");
           cell.classList.add("btn");
