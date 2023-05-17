@@ -56,6 +56,10 @@ module.exports = {
         use: ["style-loader", "css-loader", "sass-loader"],
       },
       {
+        test: /\.mp3$/,
+        loader: "file-loader",
+      },
+      {
         // test: /\.(png|jpe?g|gif)$/i,
         // use: [
         //   {

@@ -1,5 +1,6 @@
 import finishGame from "../finishGame";
 import countClosestMines from "../helpers.js/countClosestMines";
+import soundAudio from "../soundAudio";
 
 const openCell = (x, y, fieldArray, fieldSize) => {
   const count = countClosestMines(x, y, fieldArray, fieldSize);
@@ -30,9 +31,16 @@ const cellHandler = (ij, fieldArray, fieldSize) => {
   const y = +ijArr[1];
 
   if (fieldArray[x][y].isMine) {
+    soundAudio("expl");
     finishGame();
   } else {
-    openCell(x, y, fieldArray, fieldSize);
+    const curCell = document.querySelector(`[data-ij="${x}-${y}"]`);
+
+    if (!curCell.classList.contains("cell_open")) {
+      soundAudio(false);
+
+      openCell(x, y, fieldArray, fieldSize);
+    }
   }
 };
 

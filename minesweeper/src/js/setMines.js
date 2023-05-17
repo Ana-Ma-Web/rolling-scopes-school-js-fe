@@ -14,9 +14,6 @@ const setMines = (data, ij) => {
       if (indexX === x) {
         elX.forEach((elY, indexY) => {
           if (indexY === y && !(curX === x && curY === y)) {
-            const cellWithMine = document.querySelector(
-              `[data-ij="${x}-${y}"]`
-            );
             if (elY.isMine === false) {
               elY.isMine = true;
               minesCount--;
