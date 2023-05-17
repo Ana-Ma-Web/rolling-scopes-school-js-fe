@@ -3,7 +3,9 @@ let data = localStorage.getItem("minesweeper-data")
   : {
       minesCurNumber: 10,
       minesInGameNumber: 10,
-      fieldSize: "easy 10x10",
+      openCellCount: 0,
+      fieldCurSize: "easy 10x10",
+      fieldInGameSize: "easy 10x10",
       isCellClicked: false,
       fieldArray: [],
       isSoundOn: true,

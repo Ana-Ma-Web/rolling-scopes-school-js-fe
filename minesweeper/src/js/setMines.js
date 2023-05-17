@@ -1,5 +1,5 @@
 const setMines = (data, ij) => {
-  let size = +data.fieldSize.slice(-2);
+  let size = +data.fieldInGameSize.slice(-2);
   let minesCount = data.minesInGameNumber;
 
   const ijArr = ij.split("-");

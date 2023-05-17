@@ -5,24 +5,24 @@ const radioInputHandler = (target, data) => {
 
   switch (target.value) {
     case "easy":
-      if (data.fieldSize !== "easy 10x10") {
-        data.fieldSize = "easy 10x10";
-        titleRadioInput.innerHTML = `Field size: ${data.fieldSize}`;
+      if (data.fieldCurSize !== "easy 10x10") {
+        data.fieldCurSize = "easy 10x10";
+        titleRadioInput.innerHTML = `Field size: ${data.fieldCurSize}`;
       }
       break;
 
     case "medium":
-      if (data.fieldSize !== "medium 15x15") {
-        data.fieldSize = "medium 15x15";
-        titleRadioInput.innerHTML = `Field size: ${data.fieldSize}`;
+      if (data.fieldCurSize !== "medium 15x15") {
+        data.fieldCurSize = "medium 15x15";
+        titleRadioInput.innerHTML = `Field size: ${data.fieldCurSize}`;
       }
 
       break;
 
     case "hard":
-      if (data.fieldSize !== "hard 25x25") {
-        data.fieldSize = "hard 25x25";
-        titleRadioInput.innerHTML = `Field size: ${data.fieldSize}`;
+      if (data.fieldCurSize !== "hard 25x25") {
+        data.fieldCurSize = "hard 25x25";
+        titleRadioInput.innerHTML = `Field size: ${data.fieldCurSize}`;
       }
 
       break;

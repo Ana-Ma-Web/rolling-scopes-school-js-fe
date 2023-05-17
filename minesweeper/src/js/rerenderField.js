@@ -2,7 +2,7 @@ const rerenderField = (data) => {
   const gameField = document.querySelector(".game-field");
   gameField.innerHTML = "";
 
-  switch (data.fieldSize) {
+  switch (data.fieldInGameSize) {
     case "easy 10x10":
       gameField.classList.add("game-field_easy");
       gameField.classList.remove("game-field_medium");

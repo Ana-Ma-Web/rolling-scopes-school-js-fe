@@ -1,26 +1,29 @@
 import countTime from "./helpers.js/countTime";
+import restCellsCount from "./helpers.js/restCellsCount";
 import rerenderField from "./rerenderField";
 
-const createSettingsElement = (minesNumber, fieldSize) => {
+const createSettingsElement = (minesNumber, fieldCurSize) => {
   const settings = document.createElement("div");
   settings.classList.add("settings");
 
   const rangeInputTitle = document.createElement("h2");
-  rangeInputTitle.classList.add("settings__title");
-  rangeInputTitle.classList.add("subtitle");
-  rangeInputTitle.classList.add("settings__title_range-input");
+  rangeInputTitle.classList.add(
+    "settings__title",
+    "subtitle",
+    "settings__title_range-input"
+  );
   rangeInputTitle.innerHTML = `Choose mines: ${minesNumber}`;
 
   const radioInputTitle = document.createElement("h2");
-  radioInputTitle.classList.add("settings__title");
-  radioInputTitle.classList.add("subtitle");
-  radioInputTitle.classList.add("settings__title_radio-input");
-  radioInputTitle.innerHTML = `Field size: ${fieldSize}`;
+  radioInputTitle.classList.add(
+    "settings__title",
+    "subtitle",
+    "settings__title_radio-input"
+  );
+  radioInputTitle.innerHTML = `Field size: ${fieldCurSize}`;
 
   const arrowLeftBtn = document.createElement("button");
-  arrowLeftBtn.classList.add("btn");
-  arrowLeftBtn.classList.add("btn_line");
-  arrowLeftBtn.classList.add("range-input__arrow-left");
+  arrowLeftBtn.classList.add("btn", "btn_line", "range-input__arrow-left");
   arrowLeftBtn.innerHTML = `<svg
     width="12"
     height="12"
@@ -41,9 +44,7 @@ const createSettingsElement = (minesNumber, fieldSize) => {
   </svg>`;
 
   const arrowRightBtn = document.createElement("button");
-  arrowRightBtn.classList.add("btn");
-  arrowRightBtn.classList.add("btn_line");
-  arrowRightBtn.classList.add("range-input__arrow-right");
+  arrowRightBtn.classList.add("btn", "btn_line", "range-input__arrow-right");
   arrowRightBtn.innerHTML = `<svg
     width="12"
     height="12"
@@ -72,9 +73,7 @@ const createSettingsElement = (minesNumber, fieldSize) => {
 
   const rangeInput = document.createElement("div");
   rangeInput.classList.add("range-input");
-  rangeInput.append(arrowLeftBtn);
-  rangeInput.append(rangeInputField);
-  rangeInput.append(arrowRightBtn);
+  rangeInput.append(arrowLeftBtn, rangeInputField, arrowRightBtn);
 
   const radioInput = document.createElement("div");
   radioInput.classList.add("radio-input");
@@ -87,7 +86,7 @@ const createSettingsElement = (minesNumber, fieldSize) => {
         itemLeft.type = "radio";
         itemLeft.name = "size";
         itemLeft.value = "easy";
-        itemLeft.checked = fieldSize === "easy 10x10" ? true : false;
+        itemLeft.checked = fieldCurSize === "easy 10x10" ? true : false;
         radioInput.append(itemLeft);
         break;
 
@@ -97,7 +96,7 @@ const createSettingsElement = (minesNumber, fieldSize) => {
         itemCenter.type = "radio";
         itemCenter.name = "size";
         itemCenter.value = "medium";
-        itemCenter.checked = fieldSize === "medium 15x15" ? true : false;
+        itemCenter.checked = fieldCurSize === "medium 15x15" ? true : false;
         radioInput.append(itemCenter);
         break;
 
@@ -107,7 +106,7 @@ const createSettingsElement = (minesNumber, fieldSize) => {
         itemRight.type = "radio";
         itemRight.name = "size";
         itemRight.value = "hard";
-        itemRight.checked = fieldSize === "hard 25x25" ? true : false;
+        itemRight.checked = fieldCurSize === "hard 25x25" ? true : false;
         radioInput.append(itemRight);
         break;
       default:
@@ -115,28 +114,29 @@ const createSettingsElement = (minesNumber, fieldSize) => {
     }
   }
 
-  settings.append(rangeInputTitle);
-  settings.append(rangeInput);
-  settings.append(radioInputTitle);
-  settings.append(radioInput);
+  settings.append(rangeInputTitle, rangeInput, radioInputTitle, radioInput);
 
   return settings;
 };
 
-const createInfoElement = (isSoundOn, isDarkTheme, timeString, clicks) => {
+const createInfoElement = (
+  isSoundOn,
+  isDarkTheme,
+  timeString,
+  clicks,
+  openCellCount,
+  fieldInGameSize,
+  minesInGameNumber
+) => {
   const info = document.createElement("div");
   info.classList.add("info");
 
   const btnVolume = document.createElement("button");
-  btnVolume.classList.add("btn");
-  btnVolume.classList.add("btn_line");
-  btnVolume.classList.add("btn_volume");
+  btnVolume.classList.add("btn", "btn_line", "btn_volume");
   if (isSoundOn) btnVolume.classList.add("btn_active");
 
   const btnTheme = document.createElement("button");
-  btnTheme.classList.add("btn");
-  btnTheme.classList.add("btn_line");
-  btnTheme.classList.add("btn_theme");
+  btnTheme.classList.add("btn", "btn_line", "btn_theme");
   if (!isDarkTheme) btnTheme.classList.add("btn_active");
 
   btnVolume.innerHTML = `<svg
@@ -323,73 +323,18 @@ const createInfoElement = (isSoundOn, isDarkTheme, timeString, clicks) => {
   infoClicks.classList.add("subtitle");
   infoClicks.innerHTML = `Clicks: ${clicks}`;
 
-  info.append(btnVolume);
-  info.append(infoTime);
-  info.append(infoClicks);
-  info.append(btnTheme);
+  const restCells = document.createElement("div");
+  restCells.classList.add("info__rest-cells");
+  restCells.classList.add("subtitle");
+  restCells.innerHTML = `Rest Cells: ${restCellsCount(
+    fieldInGameSize,
+    openCellCount,
+    minesInGameNumber
+  )}`;
+
+  info.append(btnVolume, infoTime, infoClicks, restCells, btnTheme);
 
   return info;
-};
-
-const createGameFieldElement = (fieldSize, fieldArray) => {
-  const gameField = document.createElement("div");
-  gameField.classList.add("game-field");
-
-  switch (fieldSize) {
-    case "easy 10x10":
-      gameField.classList.add("game-field_easy");
-      fieldArray = [];
-      for (let i = 0; i < 10; i++) {
-        fieldArray.push([]);
-        for (let j = 0; j < 10; j++) {
-          fieldArray[i].push({ isMine: false, ij: i + "-" + j });
-          const cell = document.createElement("button");
-          cell.classList.add("cell");
-          cell.classList.add("btn");
-          cell.classList.add("btn_fill");
-          cell.dataset.ij = i + "-" + j;
-          gameField.append(cell);
-        }
-      }
-      break;
-
-    case "medium 15x15":
-      gameField.classList.add("game-field_medium");
-      for (let i = 0; i < 15; i++) {
-        fieldArray.push([]);
-        for (let j = 0; j < 15; j++) {
-          fieldArray[i].push([]);
-          const cell = document.createElement("button");
-          cell.classList.add("cell");
-          cell.classList.add("btn");
-          cell.classList.add("btn_fill");
-          cell.dataset.ij = i + "-" + j;
-          gameField.append(cell);
-        }
-      }
-      break;
-
-    case "hard 25x25":
-      gameField.classList.add("game-field_hard");
-      for (let i = 0; i < 25; i++) {
-        fieldArray.push([]);
-        for (let j = 0; j < 25; j++) {
-          fieldArray[i].push([]);
-          const cell = document.createElement("button");
-          cell.classList.add("cell");
-          cell.classList.add("btn");
-          cell.classList.add("btn_fill");
-          cell.dataset.ij = i + "-" + j;
-          gameField.append(cell);
-        }
-      }
-      break;
-
-    default:
-      break;
-  }
-
-  return gameField;
 };
 
 const createLastGamesElement = (latestResults) => {
@@ -414,9 +359,7 @@ const createLastGamesElement = (latestResults) => {
     latestResultsClicks.classList.add("last-games__clicks");
     latestResultsClicks.innerHTML = `Clicks : ${item.clicks}`;
 
-    latestResultsItem.append(latestResultsTime);
-    latestResultsItem.append(latestResultsClicks);
-
+    latestResultsItem.append(latestResultsTime, latestResultsClicks);
     latestResultsList.append(latestResultsItem);
   });
 
@@ -433,17 +376,22 @@ const firstRender = (data) => {
   title.classList.add("title");
   title.innerHTML = "Minesweeper";
 
-  const settings = createSettingsElement(data.minesCurNumber, data.fieldSize);
+  const settings = createSettingsElement(
+    data.minesCurNumber,
+    data.fieldCurSize
+  );
   const newGameButton = document.createElement("button");
-  newGameButton.classList.add("btn");
-  newGameButton.classList.add("btn_new-game");
+  newGameButton.classList.add("btn", "btn_new-game");
   newGameButton.innerHTML = "Start new game";
 
   const info = createInfoElement(
     data.isSoundOn,
     data.isDarkTheme,
     countTime(data.timeStart, data.timeEnd),
-    data.clicks
+    data.clicks,
+    data.openCellCount,
+    data.fieldInGameSize,
+    data.minesInGameNumber
   );
 
   const gameField = document.createElement("div");
@@ -451,11 +399,8 @@ const firstRender = (data) => {
 
   const lastGames = createLastGamesElement(data.latestResults);
 
-  body.append(title);
-  body.append(settings);
-  body.append(newGameButton);
-  body.append(info);
-  body.append(gameField);
+  body.append(title, settings, newGameButton, info, gameField);
+
   rerenderField(data);
   body.append(lastGames);
 };

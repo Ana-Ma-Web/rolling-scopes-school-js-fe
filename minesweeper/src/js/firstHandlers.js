@@ -4,6 +4,7 @@ import rangeArrowsHandler from "./handlers/rangeArrowsHandler";
 import rangeInputHandler from "./handlers/rangeInputHandler";
 import setMines from "./setMines";
 import rerenderField from "./rerenderField";
+import updateInfoMenu from "./helpers.js/updateInfoMenu";
 
 const firstHandlers = (data) => {
   const body = document.querySelector("body");
@@ -31,7 +32,15 @@ const firstHandlers = (data) => {
       if (e.target.classList.contains("btn_new-game")) {
         data.isCellClicked = false;
         data.minesInGameNumber = data.minesCurNumber;
+        data.fieldInGameSize = data.fieldCurSize;
+        data.openCellCount = 0;
         rerenderField(data);
+        updateInfoMenu(
+          data.fieldInGameSize,
+          data.openCellCount,
+          data.minesInGameNumber,
+          data.isSoundOn
+        );
       }
 
       // volume
@@ -53,12 +62,7 @@ const firstHandlers = (data) => {
           setMines(data, e.target.dataset.ij);
           data.isCellClicked = true;
         }
-        cellHandler(
-          e.target.dataset.ij,
-          data.fieldArray,
-          data.fieldSize,
-          data.isSoundOn
-        );
+        cellHandler(e.target.dataset.ij, data);
       }
     });
   };
