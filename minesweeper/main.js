@@ -116,7 +116,7 @@ const firstHandlers = data => {
           (0,_setMines__WEBPACK_IMPORTED_MODULE_4__["default"])(data, e.target.dataset.ij);
           data.isCellClicked = true;
         }
-        (0,_handlers_cellHandler__WEBPACK_IMPORTED_MODULE_0__["default"])(e.target.dataset.ij, data.fieldArray, data.fieldSize);
+        (0,_handlers_cellHandler__WEBPACK_IMPORTED_MODULE_0__["default"])(e.target.dataset.ij, data.fieldArray, data.fieldSize, data.isSoundOn);
       }
     });
   };
@@ -599,17 +599,17 @@ const openCell = (x, y, fieldArray, fieldSize) => {
     }
   }
 };
-const cellHandler = (ij, fieldArray, fieldSize) => {
+const cellHandler = (ij, fieldArray, fieldSize, isSoundOn) => {
   const ijArr = ij.split("-");
   const x = +ijArr[0];
   const y = +ijArr[1];
   if (fieldArray[x][y].isMine) {
-    (0,_soundAudio__WEBPACK_IMPORTED_MODULE_2__["default"])("expl");
+    (0,_soundAudio__WEBPACK_IMPORTED_MODULE_2__["default"])("expl", isSoundOn);
     (0,_finishGame__WEBPACK_IMPORTED_MODULE_0__["default"])();
   } else {
     const curCell = document.querySelector(`[data-ij="${x}-${y}"]`);
     if (!curCell.classList.contains("cell_open")) {
-      (0,_soundAudio__WEBPACK_IMPORTED_MODULE_2__["default"])(false);
+      (0,_soundAudio__WEBPACK_IMPORTED_MODULE_2__["default"])(false, isSoundOn);
       openCell(x, y, fieldArray, fieldSize);
     }
   }
@@ -928,21 +928,23 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-const soundAudio = isOpen => {
-  if (!isOpen) {
-    const sounds = [_assets_sounds_01_mp3__WEBPACK_IMPORTED_MODULE_2__["default"], _assets_sounds_02_mp3__WEBPACK_IMPORTED_MODULE_3__["default"], _assets_sounds_03_mp3__WEBPACK_IMPORTED_MODULE_4__["default"], _assets_sounds_04_mp3__WEBPACK_IMPORTED_MODULE_5__["default"], _assets_sounds_05_mp3__WEBPACK_IMPORTED_MODULE_6__["default"], _assets_sounds_06_mp3__WEBPACK_IMPORTED_MODULE_7__["default"], _assets_sounds_07_mp3__WEBPACK_IMPORTED_MODULE_8__["default"], _assets_sounds_08_mp3__WEBPACK_IMPORTED_MODULE_9__["default"], _assets_sounds_09_mp3__WEBPACK_IMPORTED_MODULE_10__["default"], _assets_sounds_10_mp3__WEBPACK_IMPORTED_MODULE_11__["default"], _assets_sounds_11_mp3__WEBPACK_IMPORTED_MODULE_12__["default"]];
-    let audio = new Audio();
-    const index = Math.floor(Math.random() * 11);
-    audio.src = sounds[index];
-    audio.autoplay = true;
-  } else if (isOpen === "expl") {
-    let audio = new Audio();
-    audio.src = _assets_sounds_expl_mp3__WEBPACK_IMPORTED_MODULE_0__["default"];
-    audio.autoplay = true;
-  } else if (isOpen === "win") {
-    let audio = new Audio();
-    audio.src = _assets_sounds_win_mp3__WEBPACK_IMPORTED_MODULE_1__["default"];
-    audio.autoplay = true;
+const soundAudio = (isOpen, isSoundOn) => {
+  if (isSoundOn) {
+    if (!isOpen) {
+      const sounds = [_assets_sounds_01_mp3__WEBPACK_IMPORTED_MODULE_2__["default"], _assets_sounds_02_mp3__WEBPACK_IMPORTED_MODULE_3__["default"], _assets_sounds_03_mp3__WEBPACK_IMPORTED_MODULE_4__["default"], _assets_sounds_04_mp3__WEBPACK_IMPORTED_MODULE_5__["default"], _assets_sounds_05_mp3__WEBPACK_IMPORTED_MODULE_6__["default"], _assets_sounds_06_mp3__WEBPACK_IMPORTED_MODULE_7__["default"], _assets_sounds_07_mp3__WEBPACK_IMPORTED_MODULE_8__["default"], _assets_sounds_08_mp3__WEBPACK_IMPORTED_MODULE_9__["default"], _assets_sounds_09_mp3__WEBPACK_IMPORTED_MODULE_10__["default"], _assets_sounds_10_mp3__WEBPACK_IMPORTED_MODULE_11__["default"], _assets_sounds_11_mp3__WEBPACK_IMPORTED_MODULE_12__["default"]];
+      let audio = new Audio();
+      const index = Math.floor(Math.random() * 11);
+      audio.src = sounds[index];
+      audio.autoplay = true;
+    } else if (isOpen === "expl") {
+      let audio = new Audio();
+      audio.src = _assets_sounds_expl_mp3__WEBPACK_IMPORTED_MODULE_0__["default"];
+      audio.autoplay = true;
+    } else if (isOpen === "win") {
+      let audio = new Audio();
+      audio.src = _assets_sounds_win_mp3__WEBPACK_IMPORTED_MODULE_1__["default"];
+      audio.autoplay = true;
+    }
   }
 };
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (soundAudio);
