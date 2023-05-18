@@ -1,8 +1,8 @@
 import countTime from "./info-block/countTime";
-import createFieldElement from "./cell-field-block/createFieldElement";
 import createLastGamesElement from "./latest-results-block/createLastGamesElement";
 import createInfoElement from "./info-block/createInfoElement";
 import createSettingsElement from "./settings-block/createSettingsElement";
+import updateField from "./cell-field-block/updateField";
 
 const firstRender = (data) => {
   const body = document.querySelector("body");
@@ -18,6 +18,9 @@ const firstRender = (data) => {
 
   const menuBlock = document.createElement("div");
   menuBlock.classList.add("menu");
+
+  const gameField = document.createElement("div");
+  gameField.classList.add("game-field");
 
   const settings = createSettingsElement(
     data.minesCurNumber,
@@ -40,8 +43,10 @@ const firstRender = (data) => {
   const lastGames = createLastGamesElement(data.latestResults);
 
   menuBlock.append(settings, newGameButton, info);
-  mainBlock.append(menuBlock, createFieldElement(data), lastGames);
+  mainBlock.append(menuBlock, gameField, lastGames);
   body.append(title, mainBlock);
+
+  updateField(data);
 };
 
 export default firstRender;

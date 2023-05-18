@@ -1,4 +1,4 @@
-import data from "../data";
+import data from "../data/data";
 import restCellsCount from "./restCellsCount";
 
 const createInfoElement = () => {

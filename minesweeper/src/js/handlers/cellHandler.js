@@ -12,8 +12,6 @@ const cellHandler = (ij, data) => {
   } else {
     const curCell = document.querySelector(`[data-ij="${x}-${y}"]`);
 
-    console.log(data.cellsAtField);
-
     if (!data.cellsAtField[x][y].isOpen) {
       soundAudio(false, data.isSoundOn);
       data.clicks++;

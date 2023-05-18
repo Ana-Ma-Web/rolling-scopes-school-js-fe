@@ -3,11 +3,12 @@ import radioInputHandler from "./handlers/radioInputHandler";
 import rangeArrowsHandler from "./handlers/rangeArrowsHandler";
 import rangeInputHandler from "./handlers/rangeInputHandler";
 import setMines from "./cell-field-block/setMines";
-import createFieldElement from "./cell-field-block/createFieldElement";
 import updateInfoMenu from "./info-block/updateInfoMenu";
 import updateLocalStorage from "./updateLocalStorage";
 import soundAudio from "./soundAudio";
 import updateField from "./cell-field-block/updateField";
+import createDefaultCells from "./data/createDefaultCells";
+import resetFieldData from "./data/resetFieldData";
 
 const firstHandlers = (data) => {
   const body = document.querySelector("body");
@@ -37,7 +38,10 @@ const firstHandlers = (data) => {
         data.minesInGameNumber = data.minesCurNumber;
         data.fieldInGameSize = data.fieldCurSize;
         data.openCellCount = 0;
+        data.cellsAtField = createDefaultCells(+data.fieldInGameSize.slice(-2));
+        console.log(data.cellsAtField);
         updateField(data);
+        updateLocalStorage();
         updateInfoMenu(
           data.fieldInGameSize,
           data.openCellCount,

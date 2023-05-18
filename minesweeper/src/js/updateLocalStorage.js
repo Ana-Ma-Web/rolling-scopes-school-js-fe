@@ -1,7 +1,7 @@
-import data from "./data";
+import data from "./data/data";
 
 const updateLocalStorage = () => {
-  // localStorage.setItem("minesweeper-data", JSON.stringify(data));
+  localStorage.setItem("minesweeper-data", JSON.stringify(data));
 };
 
 export default updateLocalStorage;

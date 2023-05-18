@@ -12,7 +12,7 @@
   width: fit-content;
   margin: 20px auto;
 
-  &_easy {
+  &_size-10 {
     grid-template-columns: repeat(10, auto);
     border-radius: 8px;
     padding: 4px;
@@ -24,7 +24,7 @@
       border-radius: 8px;
     }
   }
-  &_medium {
+  &_size-15 {
     grid-template-columns: repeat(15, auto);
     border-radius: 3px;
     padding: 3px;
@@ -35,7 +35,7 @@
       border-radius: 3px;
     }
   }
-  &_hard {
+  &_size-25 {
     grid-template-columns: repeat(25, auto);
     border-radius: 3px;
     padding: 2px;

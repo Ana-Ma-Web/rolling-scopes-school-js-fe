@@ -8,10 +8,11 @@ const openCell = (x, y, data) => {
     data.cellsAtField,
     data.fieldInGameSize
   );
-  const curCell = document.querySelector(`[data-ij="${x}-${y}"]`);
+  const cellObj = data.cellsAtField[x][y];
+  const cellNode = document.querySelector(`[data-ij="${x}-${y}"]`);
   const size = +data.fieldInGameSize.slice(-2);
 
-  if (!curCell.classList.contains("cell_open")) {
+  if (!cellNode.classList.contains("cell_open")) {
     data.openCellCount++;
     updateInfoMenu(
       data.fieldInGameSize,
@@ -21,10 +22,11 @@ const openCell = (x, y, data) => {
       data.clicks
     );
 
-    data.cellsAtField[x][y].isOpen = true;
-    curCell.classList.add("cell_open");
-    curCell.innerHTML = count > 0 ? count : "";
-    curCell.dataset.num = count;
+    cellObj.isOpen = true;
+    cellNode.classList.add("cell_open");
+    cellNode.innerHTML = count > 0 ? count : "";
+    cellNode.dataset.num = count;
+    cellObj.text = count;
   }
   if (!count) {
     for (let i = x - 1; i <= x + 1; i++) {

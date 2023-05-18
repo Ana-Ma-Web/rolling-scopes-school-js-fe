@@ -14,11 +14,8 @@ const updateRestCells = (
     minesInGameNumber
   );
 
-  // const infoMessage = document.createElement("div");
   infoMessage.innerHTML = `You have to open ${count} more cells 👀`;
 
-  // targetElement.innerHTML = "";
-  // targetElement.append(restCells);
   if (count === 0) {
     finishGame("win", isSoundOn);
     infoMessage.innerHTML = `🎊 You have won!!! 🥳🎉`;

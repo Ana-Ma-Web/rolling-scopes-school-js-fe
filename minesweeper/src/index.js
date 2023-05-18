@@ -1,5 +1,5 @@
 import "./scss/main.scss";
-import data from "./js/data";
+import data from "./js/data/data";
 import firstRender from "./js/firstRender.js";
 import firstHandlers from "./js/firstHandlers";
 
