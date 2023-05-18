@@ -1,5 +1,16 @@
 .info {
   display: flex;
-  justify-content: center;
   gap: 10px;
+  flex-direction: column;
+  align-items: center;
+}
+
+.info__list {
+  display: flex;
+  gap: 15px;
+}
+
+.info__buttons {
+  display: flex;
+  gap: 20px;
 }

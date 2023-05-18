@@ -1,24 +1,23 @@
+import data from "../data";
 import restCellsCount from "./restCellsCount";
 
-const createInfoElement = (
-  isSoundOn,
-  isDarkTheme,
-  timeString,
-  clicks,
-  openCellCount,
-  fieldInGameSize,
-  minesInGameNumber
-) => {
+const createInfoElement = () => {
   const info = document.createElement("div");
   info.classList.add("info");
 
+  const infoButtons = document.createElement("div");
+  infoButtons.classList.add("info__buttons");
+
+  const infoList = document.createElement("div");
+  infoList.classList.add("info__list");
+
   const btnVolume = document.createElement("button");
   btnVolume.classList.add("btn", "btn_line", "btn_volume");
-  if (isSoundOn) btnVolume.classList.add("btn_active");
+  if (data.isSoundOn) btnVolume.classList.add("btn_active");
 
   const btnTheme = document.createElement("button");
   btnTheme.classList.add("btn", "btn_line", "btn_theme");
-  if (!isDarkTheme) btnTheme.classList.add("btn_active");
+  if (!data.isDarkTheme) btnTheme.classList.add("btn_active");
 
   btnVolume.innerHTML = `<svg
     width="24"
@@ -197,23 +196,33 @@ const createInfoElement = (
   const infoTime = document.createElement("div");
   infoTime.classList.add("info__time");
   infoTime.classList.add("subtitle");
-  infoTime.innerHTML = `Time: ${timeString}`;
+  infoTime.innerHTML = `Time: ${data.timeString}`;
 
   const infoClicks = document.createElement("div");
   infoClicks.classList.add("info__clicks");
   infoClicks.classList.add("subtitle");
-  infoClicks.innerHTML = `Clicks: ${clicks}`;
+  infoClicks.innerHTML = `Clicks: ${data.clicks}`;
 
   const restCells = document.createElement("div");
   restCells.classList.add("info__rest-cells");
   restCells.classList.add("subtitle");
-  restCells.innerHTML = `Rest Cells: ${restCellsCount(
-    fieldInGameSize,
-    openCellCount,
-    minesInGameNumber
+  restCells.innerHTML = `Cells: ${restCellsCount(
+    data.fieldInGameSize,
+    data.openCellCount,
+    data.minesInGameNumber
   )}`;
 
-  info.append(btnVolume, infoTime, infoClicks, restCells, btnTheme);
+  const infoMessage = document.createElement("div");
+  infoMessage.classList.add("info__message", "subtitle");
+  infoMessage.innerHTML = `You have to open ${restCellsCount(
+    data.fieldInGameSize,
+    data.openCellCount,
+    data.minesInGameNumber
+  )} more cells 👀`;
+
+  infoButtons.append(btnVolume, btnTheme);
+  infoList.append(infoTime, infoClicks);
+  info.append(infoButtons, infoList, infoMessage);
 
   return info;
 };

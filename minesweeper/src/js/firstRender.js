@@ -9,9 +9,15 @@ const firstRender = (data) => {
   if (data.isDarkTheme) body.classList.add("dark-theme");
   body.innerHTML = "";
 
-  const title = document.createElement("div");
+  const title = document.createElement("h1");
   title.classList.add("title");
   title.innerHTML = "Minesweeper";
+
+  const mainBlock = document.createElement("div");
+  mainBlock.classList.add("main");
+
+  const menuBlock = document.createElement("div");
+  menuBlock.classList.add("menu");
 
   const settings = createSettingsElement(
     data.minesCurNumber,
@@ -33,14 +39,9 @@ const firstRender = (data) => {
 
   const lastGames = createLastGamesElement(data.latestResults);
 
-  body.append(
-    title,
-    settings,
-    newGameButton,
-    info,
-    createFieldElement(data),
-    lastGames
-  );
+  menuBlock.append(settings, newGameButton, info);
+  mainBlock.append(menuBlock, createFieldElement(data), lastGames);
+  body.append(title, mainBlock);
 };
 
 export default firstRender;

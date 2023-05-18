@@ -7,20 +7,21 @@ const updateRestCells = (
   minesInGameNumber,
   isSoundOn
 ) => {
-  const targetElement = document.querySelector(".info__rest-cells");
+  const infoMessage = document.querySelector(".info__message");
   const count = restCellsCount(
     fieldInGameSize,
     openCellCount,
     minesInGameNumber
   );
 
-  const restCells = document.createElement("div");
-  restCells.innerHTML = `Rest Cells: ${count}`;
+  // const infoMessage = document.createElement("div");
+  infoMessage.innerHTML = `You have to open ${count} more cells 👀`;
 
-  targetElement.innerHTML = "";
-  targetElement.append(restCells);
+  // targetElement.innerHTML = "";
+  // targetElement.append(restCells);
   if (count === 0) {
     finishGame("win", isSoundOn);
+    infoMessage.innerHTML = `🎊 You have won!!! 🥳🎉`;
   }
 };
 
