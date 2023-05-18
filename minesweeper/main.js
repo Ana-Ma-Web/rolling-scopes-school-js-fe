@@ -2,6 +2,214 @@
 /******/ 	"use strict";
 /******/ 	var __webpack_modules__ = ({
 
+/***/ "./js/cell-field-block/countClosestMines.js":
+/*!**************************************************!*\
+  !*** ./js/cell-field-block/countClosestMines.js ***!
+  \**************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+const countClosestMines = (x, y, cellsAtField, fieldSize) => {
+  let count = 0;
+  const size = +fieldSize.slice(-2);
+  for (let i = x - 1; i <= x + 1; i++) {
+    for (let j = y - 1; j <= y + 1; j++) {
+      if (i >= 0 && j >= 0 && i < size && j < size) {
+        if (cellsAtField[i][j].isMine) count++;
+      }
+    }
+  }
+  return count;
+};
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (countClosestMines);
+
+/***/ }),
+
+/***/ "./js/cell-field-block/createFieldElement.js":
+/*!***************************************************!*\
+  !*** ./js/cell-field-block/createFieldElement.js ***!
+  \***************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+const createFieldElement = data => {
+  const gameField = document.createElement("div");
+  gameField.classList.add("game-field");
+  gameField.innerHTML = "";
+  switch (data.fieldInGameSize) {
+    case "easy 10x10":
+      gameField.classList.add("game-field_easy");
+      gameField.classList.remove("game-field_medium", "game-field_hard");
+      data.cellsAtField = [];
+      for (let i = 0; i < 10; i++) {
+        data.cellsAtField.push([]);
+        for (let j = 0; j < 10; j++) {
+          data.cellsAtField[i].push({
+            isOpen: false,
+            isFlag: false,
+            isMine: false,
+            isExpl: false,
+            ij: i + "-" + j
+          });
+          const cell = document.createElement("button");
+          cell.classList.add("cell", "btn", "btn_fill");
+          cell.dataset.ij = i + "-" + j;
+          gameField.append(cell);
+        }
+      }
+      break;
+    case "medium 15x15":
+      gameField.classList.add("game-field_medium");
+      gameField.classList.remove("game-field_easy", "game-field_hard");
+      data.cellsAtField = [];
+      for (let i = 0; i < 15; i++) {
+        data.cellsAtField.push([]);
+        for (let j = 0; j < 15; j++) {
+          data.cellsAtField[i].push({
+            isMine: false,
+            ij: i + "-" + j
+          });
+          const cell = document.createElement("button");
+          cell.classList.add("cell", "btn", "btn_fill");
+          cell.dataset.ij = i + "-" + j;
+          gameField.append(cell);
+        }
+      }
+      break;
+    case "hard 25x25":
+      gameField.classList.add("game-field_hard");
+      gameField.classList.remove("game-field_medium", "game-field_easy");
+      data.cellsAtField = [];
+      for (let i = 0; i < 25; i++) {
+        data.cellsAtField.push([]);
+        for (let j = 0; j < 25; j++) {
+          data.cellsAtField[i].push({
+            isMine: false,
+            ij: i + "-" + j
+          });
+          const cell = document.createElement("button");
+          cell.classList.add("cell", "btn", "btn_fill");
+          cell.dataset.ij = i + "-" + j;
+          gameField.append(cell);
+        }
+      }
+      break;
+    default:
+      break;
+  }
+  return gameField;
+};
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (createFieldElement);
+
+/***/ }),
+
+/***/ "./js/cell-field-block/openCell.js":
+/*!*****************************************!*\
+  !*** ./js/cell-field-block/openCell.js ***!
+  \*****************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _info_block_updateInfoMenu__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../info-block/updateInfoMenu */ "./js/info-block/updateInfoMenu.js");
+/* harmony import */ var _countClosestMines__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./countClosestMines */ "./js/cell-field-block/countClosestMines.js");
+
+
+const openCell = (x, y, data) => {
+  const count = (0,_countClosestMines__WEBPACK_IMPORTED_MODULE_1__["default"])(x, y, data.cellsAtField, data.fieldInGameSize);
+  const curCell = document.querySelector(`[data-ij="${x}-${y}"]`);
+  const size = +data.fieldInGameSize.slice(-2);
+  if (!curCell.classList.contains("cell_open")) {
+    data.openCellCount++;
+    (0,_info_block_updateInfoMenu__WEBPACK_IMPORTED_MODULE_0__["default"])(data.fieldInGameSize, data.openCellCount, data.minesInGameNumber, data.isSoundOn, data.clicks);
+    data.cellsAtField[x][y].isOpen = true;
+    curCell.classList.add("cell_open");
+    curCell.innerHTML = count > 0 ? count : "";
+    curCell.dataset.num = count;
+  }
+  if (!count) {
+    for (let i = x - 1; i <= x + 1; i++) {
+      for (let j = y - 1; j <= y + 1; j++) {
+        if (i >= 0 && j >= 0 && i < size && j < size) {
+          const foundCell = document.querySelector(`[data-ij="${i}-${j}"]`);
+          if (!foundCell.classList.contains("cell_open")) {
+            openCell(i, j, data);
+          }
+        }
+      }
+    }
+  }
+};
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (openCell);
+
+/***/ }),
+
+/***/ "./js/cell-field-block/setMines.js":
+/*!*****************************************!*\
+  !*** ./js/cell-field-block/setMines.js ***!
+  \*****************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+const setMines = (data, ij) => {
+  let size = +data.fieldInGameSize.slice(-2);
+  let minesCount = data.minesInGameNumber;
+  const ijArr = ij.split("-");
+  const curX = +ijArr[0];
+  const curY = +ijArr[1];
+  while (minesCount > 0) {
+    const x = Math.floor(Math.random() * size);
+    const y = Math.floor(Math.random() * size);
+    data.cellsAtField.forEach((elX, indexX) => {
+      if (indexX === x) {
+        elX.forEach((elY, indexY) => {
+          if (indexY === y && !(curX === x && curY === y)) {
+            if (elY.isMine === false) {
+              elY.isMine = true;
+              minesCount--;
+            }
+          }
+        });
+      }
+    });
+  }
+};
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (setMines);
+
+/***/ }),
+
+/***/ "./js/cell-field-block/updateField.js":
+/*!********************************************!*\
+  !*** ./js/cell-field-block/updateField.js ***!
+  \********************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _createFieldElement__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./createFieldElement */ "./js/cell-field-block/createFieldElement.js");
+
+const updateField = data => {
+  const field = document.querySelector(".game-field");
+  field.replaceWith((0,_createFieldElement__WEBPACK_IMPORTED_MODULE_0__["default"])(data));
+  console.log(field);
+};
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (updateField);
+
+/***/ }),
+
 /***/ "./js/data.js":
 /*!********************!*\
   !*** ./js/data.js ***!
@@ -12,14 +220,16 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-let data = localStorage.getItem("minesweeper-data") ? localStorage.getItem("minesweeper-data") : {
+let data = localStorage.getItem("minesweeper-data") ? JSON.parse(localStorage.getItem("minesweeper-data")) : {
   minesCurNumber: 10,
   minesInGameNumber: 10,
   openCellCount: 0,
   fieldCurSize: "easy 10x10",
   fieldInGameSize: "easy 10x10",
   isCellClicked: false,
-  fieldArray: [],
+  //isOpen: false, isFlag: false, isMine: false,
+  //isExpl: false, ij: i + "-" + j,
+  cellsAtField: [],
   isSoundOn: true,
   isDarkTheme: false,
   timeStart: 0,
@@ -76,9 +286,15 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _handlers_radioInputHandler__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./handlers/radioInputHandler */ "./js/handlers/radioInputHandler.js");
 /* harmony import */ var _handlers_rangeArrowsHandler__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./handlers/rangeArrowsHandler */ "./js/handlers/rangeArrowsHandler.js");
 /* harmony import */ var _handlers_rangeInputHandler__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./handlers/rangeInputHandler */ "./js/handlers/rangeInputHandler.js");
-/* harmony import */ var _setMines__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./setMines */ "./js/setMines.js");
-/* harmony import */ var _rerenderField__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./rerenderField */ "./js/rerenderField.js");
-/* harmony import */ var _helpers_js_updateInfoMenu__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./helpers.js/updateInfoMenu */ "./js/helpers.js/updateInfoMenu.js");
+/* harmony import */ var _cell_field_block_setMines__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./cell-field-block/setMines */ "./js/cell-field-block/setMines.js");
+/* harmony import */ var _cell_field_block_createFieldElement__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./cell-field-block/createFieldElement */ "./js/cell-field-block/createFieldElement.js");
+/* harmony import */ var _info_block_updateInfoMenu__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./info-block/updateInfoMenu */ "./js/info-block/updateInfoMenu.js");
+/* harmony import */ var _updateLocalStorage__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./updateLocalStorage */ "./js/updateLocalStorage.js");
+/* harmony import */ var _soundAudio__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./soundAudio */ "./js/soundAudio.js");
+/* harmony import */ var _cell_field_block_updateField__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./cell-field-block/updateField */ "./js/cell-field-block/updateField.js");
+
+
+
 
 
 
@@ -106,8 +322,8 @@ const firstHandlers = data => {
         data.minesInGameNumber = data.minesCurNumber;
         data.fieldInGameSize = data.fieldCurSize;
         data.openCellCount = 0;
-        (0,_rerenderField__WEBPACK_IMPORTED_MODULE_5__["default"])(data);
-        (0,_helpers_js_updateInfoMenu__WEBPACK_IMPORTED_MODULE_6__["default"])(data.fieldInGameSize, data.openCellCount, data.minesInGameNumber, data.isSoundOn);
+        (0,_cell_field_block_updateField__WEBPACK_IMPORTED_MODULE_9__["default"])(data);
+        (0,_info_block_updateInfoMenu__WEBPACK_IMPORTED_MODULE_6__["default"])(data.fieldInGameSize, data.openCellCount, data.minesInGameNumber, data.isSoundOn);
       }
 
       // volume
@@ -124,13 +340,14 @@ const firstHandlers = data => {
       }
 
       //cells
-      if (e.target.classList.contains("cell")) {
+      if (e.target.classList.contains("cell") && !e.target.classList.contains("cell_flag")) {
         if (!data.isCellClicked) {
-          (0,_setMines__WEBPACK_IMPORTED_MODULE_4__["default"])(data, e.target.dataset.ij);
+          (0,_cell_field_block_setMines__WEBPACK_IMPORTED_MODULE_4__["default"])(data, e.target.dataset.ij);
           data.isCellClicked = true;
         }
         (0,_handlers_cellHandler__WEBPACK_IMPORTED_MODULE_0__["default"])(e.target.dataset.ij, data);
       }
+      (0,_updateLocalStorage__WEBPACK_IMPORTED_MODULE_7__["default"])();
     });
   };
   const keyDownHandler = () => {
@@ -138,10 +355,26 @@ const firstHandlers = data => {
       if (e.target.classList.contains("range-input__field")) {
         (0,_handlers_rangeInputHandler__WEBPACK_IMPORTED_MODULE_3__["default"])(e.target.value, data);
       }
+      (0,_updateLocalStorage__WEBPACK_IMPORTED_MODULE_7__["default"])();
     });
+  };
+  const rightClickHandler = () => {
+    body.addEventListener("contextmenu", e => {
+      e.preventDefault();
+      if (e.target.classList.contains("cell")) {
+        const ijArr = e.target.dataset.ij.split("-");
+        const x = +ijArr[0];
+        const y = +ijArr[1];
+        data.cellsAtField[x][y].isFlag = !data.cellsAtField[x][y].isFlag;
+        e.target.classList.toggle("cell_flag");
+        (0,_soundAudio__WEBPACK_IMPORTED_MODULE_8__["default"])(false, data.isSoundOn);
+      }
+      (0,_updateLocalStorage__WEBPACK_IMPORTED_MODULE_7__["default"])();
+    }, false);
   };
   clickHandler();
   keyDownHandler();
+  rightClickHandler();
 };
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (firstHandlers);
 
@@ -157,108 +390,208 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony import */ var _helpers_js_countTime__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./helpers.js/countTime */ "./js/helpers.js/countTime.js");
-/* harmony import */ var _helpers_js_restCellsCount__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./helpers.js/restCellsCount */ "./js/helpers.js/restCellsCount.js");
-/* harmony import */ var _rerenderField__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./rerenderField */ "./js/rerenderField.js");
+/* harmony import */ var _info_block_countTime__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./info-block/countTime */ "./js/info-block/countTime.js");
+/* harmony import */ var _cell_field_block_createFieldElement__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./cell-field-block/createFieldElement */ "./js/cell-field-block/createFieldElement.js");
+/* harmony import */ var _latest_results_block_createLastGamesElement__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./latest-results-block/createLastGamesElement */ "./js/latest-results-block/createLastGamesElement.js");
+/* harmony import */ var _info_block_createInfoElement__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./info-block/createInfoElement */ "./js/info-block/createInfoElement.js");
+/* harmony import */ var _settings_block_createSettingsElement__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./settings-block/createSettingsElement */ "./js/settings-block/createSettingsElement.js");
 
 
 
-const createSettingsElement = (minesNumber, fieldCurSize) => {
-  const settings = document.createElement("div");
-  settings.classList.add("settings");
-  const rangeInputTitle = document.createElement("h2");
-  rangeInputTitle.classList.add("settings__title", "subtitle", "settings__title_range-input");
-  rangeInputTitle.innerHTML = `Choose mines: ${minesNumber}`;
-  const radioInputTitle = document.createElement("h2");
-  radioInputTitle.classList.add("settings__title", "subtitle", "settings__title_radio-input");
-  radioInputTitle.innerHTML = `Field size: ${fieldCurSize}`;
-  const arrowLeftBtn = document.createElement("button");
-  arrowLeftBtn.classList.add("btn", "btn_line", "range-input__arrow-left");
-  arrowLeftBtn.innerHTML = `<svg
-    width="12"
-    height="12"
-    viewBox="0 0 12 12"
-    fill="none"
-    xmlns="http://www.w3.org/2000/svg"
-  >
-    <path
-      class="path-bg"
-      d="M8.5 6.00006L3.68885 1.62624C3.32737 1.29761 3.34548 0.723624 
-      3.72697 0.418446V0.418446C4.02912 0.176732 4.4615 0.187961 4.7507 
-      0.445032L10.1592 5.25265C10.6067 5.65044 10.6067 6.34968 10.1592 
-      6.74747L4.7507 11.555C4.4615 11.812 4.02913 11.8233 3.72698 
-      11.5816V11.5816C3.34549 11.2764 3.32738 10.7024 3.68887 
-      10.3738L8.5 6.00006Z"
-      fill="black"
-    />
-  </svg>`;
-  const arrowRightBtn = document.createElement("button");
-  arrowRightBtn.classList.add("btn", "btn_line", "range-input__arrow-right");
-  arrowRightBtn.innerHTML = `<svg
-    width="12"
-    height="12"
-    viewBox="0 0 12 12"
-    fill="none"
-    xmlns="http://www.w3.org/2000/svg"
-  >
-    <path
-      class="path-bg"
-      d="M8.5 6.00006L3.68885 1.62624C3.32737 1.29761 3.34548 0.723624 
-      3.72697 0.418446V0.418446C4.02912 0.176732 4.4615 0.187961 4.7507 
-      0.445032L10.1592 5.25265C10.6067 5.65044 10.6067 6.34968 10.1592 
-      6.74747L4.7507 11.555C4.4615 11.812 4.02913 11.8233 3.72698 
-      11.5816V11.5816C3.34549 11.2764 3.32738 10.7024 3.68887 10.3738L8.5 
-      6.00006Z"
-      fill="black"
-    />
-  </svg>`;
-  const rangeInputField = document.createElement("input");
-  rangeInputField.classList.add("range-input__field");
-  rangeInputField.type = "range";
-  rangeInputField.min = 10;
-  rangeInputField.max = 99;
-  rangeInputField.value = minesNumber;
-  const rangeInput = document.createElement("div");
-  rangeInput.classList.add("range-input");
-  rangeInput.append(arrowLeftBtn, rangeInputField, arrowRightBtn);
-  const radioInput = document.createElement("div");
-  radioInput.classList.add("radio-input");
-  for (let i = 0; i < 3; i++) {
-    switch (i) {
-      case 0:
-        const itemLeft = document.createElement("input");
-        itemLeft.classList.add("radio-input__input");
-        itemLeft.type = "radio";
-        itemLeft.name = "size";
-        itemLeft.value = "easy";
-        itemLeft.checked = fieldCurSize === "easy 10x10" ? true : false;
-        radioInput.append(itemLeft);
-        break;
-      case 1:
-        const itemCenter = document.createElement("input");
-        itemCenter.classList.add("radio-input__input");
-        itemCenter.type = "radio";
-        itemCenter.name = "size";
-        itemCenter.value = "medium";
-        itemCenter.checked = fieldCurSize === "medium 15x15" ? true : false;
-        radioInput.append(itemCenter);
-        break;
-      case 2:
-        const itemRight = document.createElement("input");
-        itemRight.classList.add("radio-input__input");
-        itemRight.type = "radio";
-        itemRight.name = "size";
-        itemRight.value = "hard";
-        itemRight.checked = fieldCurSize === "hard 25x25" ? true : false;
-        radioInput.append(itemRight);
-        break;
-      default:
-        break;
+
+
+const firstRender = data => {
+  const body = document.querySelector("body");
+  if (data.isDarkTheme) body.classList.add("dark-theme");
+  body.innerHTML = "";
+  const title = document.createElement("div");
+  title.classList.add("title");
+  title.innerHTML = "Minesweeper";
+  const settings = (0,_settings_block_createSettingsElement__WEBPACK_IMPORTED_MODULE_4__["default"])(data.minesCurNumber, data.fieldCurSize);
+  const newGameButton = document.createElement("button");
+  newGameButton.classList.add("btn", "btn_new-game");
+  newGameButton.innerHTML = "Start new game";
+  const info = (0,_info_block_createInfoElement__WEBPACK_IMPORTED_MODULE_3__["default"])(data.isSoundOn, data.isDarkTheme, (0,_info_block_countTime__WEBPACK_IMPORTED_MODULE_0__["default"])(data.timeStart, data.timeEnd), data.clicks, data.openCellCount, data.fieldInGameSize, data.minesInGameNumber);
+  const lastGames = (0,_latest_results_block_createLastGamesElement__WEBPACK_IMPORTED_MODULE_2__["default"])(data.latestResults);
+  body.append(title, settings, newGameButton, info, (0,_cell_field_block_createFieldElement__WEBPACK_IMPORTED_MODULE_1__["default"])(data), lastGames);
+};
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (firstRender);
+
+/***/ }),
+
+/***/ "./js/handlers/cellHandler.js":
+/*!************************************!*\
+  !*** ./js/handlers/cellHandler.js ***!
+  \************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _finishGame__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../finishGame */ "./js/finishGame.js");
+/* harmony import */ var _soundAudio__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../soundAudio */ "./js/soundAudio.js");
+/* harmony import */ var _cell_field_block_openCell__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../cell-field-block/openCell */ "./js/cell-field-block/openCell.js");
+
+
+
+const cellHandler = (ij, data) => {
+  const ijArr = ij.split("-");
+  const x = +ijArr[0];
+  const y = +ijArr[1];
+  if (data.cellsAtField[x][y].isMine) {
+    (0,_finishGame__WEBPACK_IMPORTED_MODULE_0__["default"])(false, data.isSoundOn);
+  } else {
+    const curCell = document.querySelector(`[data-ij="${x}-${y}"]`);
+    console.log(data.cellsAtField);
+    if (!data.cellsAtField[x][y].isOpen) {
+      (0,_soundAudio__WEBPACK_IMPORTED_MODULE_1__["default"])(false, data.isSoundOn);
+      data.clicks++;
+      (0,_cell_field_block_openCell__WEBPACK_IMPORTED_MODULE_2__["default"])(x, y, data);
     }
   }
-  settings.append(rangeInputTitle, rangeInput, radioInputTitle, radioInput);
-  return settings;
 };
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (cellHandler);
+
+/***/ }),
+
+/***/ "./js/handlers/radioInputHandler.js":
+/*!******************************************!*\
+  !*** ./js/handlers/radioInputHandler.js ***!
+  \******************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+const radioInputHandler = (target, data) => {
+  const titleRadioInput = document.querySelector(".settings__title_radio-input");
+  switch (target.value) {
+    case "easy":
+      if (data.fieldCurSize !== "easy 10x10") {
+        data.fieldCurSize = "easy 10x10";
+        titleRadioInput.innerHTML = `Field size: ${data.fieldCurSize}`;
+      }
+      break;
+    case "medium":
+      if (data.fieldCurSize !== "medium 15x15") {
+        data.fieldCurSize = "medium 15x15";
+        titleRadioInput.innerHTML = `Field size: ${data.fieldCurSize}`;
+      }
+      break;
+    case "hard":
+      if (data.fieldCurSize !== "hard 25x25") {
+        data.fieldCurSize = "hard 25x25";
+        titleRadioInput.innerHTML = `Field size: ${data.fieldCurSize}`;
+      }
+      break;
+    default:
+      break;
+  }
+};
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (radioInputHandler);
+
+/***/ }),
+
+/***/ "./js/handlers/rangeArrowsHandler.js":
+/*!*******************************************!*\
+  !*** ./js/handlers/rangeArrowsHandler.js ***!
+  \*******************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+const rangeArrowsHandler = (button, data) => {
+  const titleRangeInput = document.querySelector(".settings__title_range-input");
+  const rangeInputField = document.querySelector(".range-input__field");
+  if (button.classList.contains("range-input__arrow-right")) {
+    if (data.minesCurNumber < 99) {
+      data.minesCurNumber += 1;
+      rangeInputField.value = data.minesCurNumber;
+      titleRangeInput.innerHTML = `Choose mines: ${data.minesCurNumber}`;
+    }
+  } else {
+    if (data.minesCurNumber > 10) {
+      data.minesCurNumber -= 1;
+      rangeInputField.value = data.minesCurNumber;
+      titleRangeInput.innerHTML = `Choose mines: ${data.minesCurNumber}`;
+    }
+  }
+};
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (rangeArrowsHandler);
+
+/***/ }),
+
+/***/ "./js/handlers/rangeInputHandler.js":
+/*!******************************************!*\
+  !*** ./js/handlers/rangeInputHandler.js ***!
+  \******************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+const rangeInputHandler = (value, data) => {
+  const titleRangeInput = document.querySelector(".settings__title_range-input");
+  data.minesCurNumber = +value;
+  titleRangeInput.innerHTML = `Choose mines: ${data.minesCurNumber}`;
+};
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (rangeInputHandler);
+
+/***/ }),
+
+/***/ "./js/info-block/countTime.js":
+/*!************************************!*\
+  !*** ./js/info-block/countTime.js ***!
+  \************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+function countTime(timeStart, timeEnd) {
+  const fullSeconds = (timeEnd - timeStart) / 1000;
+  if (fullSeconds === 0) {
+    return "0s";
+  }
+  const fullMinutes = Math.floor(fullSeconds / 60);
+  const fullHours = Math.floor(fullMinutes / 60);
+  const seconds = Math.floor(fullSeconds % 60);
+  const minutes = Math.floor(fullMinutes % 60);
+  const hours = Math.floor(fullHours % 24);
+  let result = "";
+  if (hours > 0) {
+    result += hours + "h ";
+  }
+  if (minutes > 0) {
+    result += minutes + "m ";
+  }
+  if (seconds > 0) {
+    result += seconds + "s ";
+  }
+  return result;
+}
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (countTime);
+
+/***/ }),
+
+/***/ "./js/info-block/createInfoElement.js":
+/*!********************************************!*\
+  !*** ./js/info-block/createInfoElement.js ***!
+  \********************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _restCellsCount__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./restCellsCount */ "./js/info-block/restCellsCount.js");
+
 const createInfoElement = (isSoundOn, isDarkTheme, timeString, clicks, openCellCount, fieldInGameSize, minesInGameNumber) => {
   const info = document.createElement("div");
   info.classList.add("info");
@@ -451,268 +784,17 @@ const createInfoElement = (isSoundOn, isDarkTheme, timeString, clicks, openCellC
   const restCells = document.createElement("div");
   restCells.classList.add("info__rest-cells");
   restCells.classList.add("subtitle");
-  restCells.innerHTML = `Rest Cells: ${(0,_helpers_js_restCellsCount__WEBPACK_IMPORTED_MODULE_1__["default"])(fieldInGameSize, openCellCount, minesInGameNumber)}`;
+  restCells.innerHTML = `Rest Cells: ${(0,_restCellsCount__WEBPACK_IMPORTED_MODULE_0__["default"])(fieldInGameSize, openCellCount, minesInGameNumber)}`;
   info.append(btnVolume, infoTime, infoClicks, restCells, btnTheme);
   return info;
 };
-const createLastGamesElement = latestResults => {
-  const latestResultsBlock = document.createElement("div");
-  latestResultsBlock.classList.add("last-games");
-  const latestResultsList = document.createElement("ul");
-  latestResultsList.classList.add("last-games__list");
-  latestResults.forEach(item => {
-    const latestResultsItem = document.createElement("li");
-    latestResultsItem.classList.add("last-games__item");
-    const latestResultsTime = document.createElement("div");
-    latestResultsTime.classList.add("last-games__time");
-    latestResultsTime.innerHTML = `Time : ${(0,_helpers_js_countTime__WEBPACK_IMPORTED_MODULE_0__["default"])(item.timeStart, item.timeEnd)}`;
-    const latestResultsClicks = document.createElement("div");
-    latestResultsClicks.classList.add("last-games__clicks");
-    latestResultsClicks.innerHTML = `Clicks : ${item.clicks}`;
-    latestResultsItem.append(latestResultsTime, latestResultsClicks);
-    latestResultsList.append(latestResultsItem);
-  });
-  latestResultsBlock.append(latestResultsList);
-  return latestResultsBlock;
-};
-const firstRender = data => {
-  const body = document.querySelector("body");
-  if (data.isDarkTheme) body.classList.add("dark-theme");
-  body.innerHTML = "";
-  const title = document.createElement("div");
-  title.classList.add("title");
-  title.innerHTML = "Minesweeper";
-  const settings = createSettingsElement(data.minesCurNumber, data.fieldCurSize);
-  const newGameButton = document.createElement("button");
-  newGameButton.classList.add("btn", "btn_new-game");
-  newGameButton.innerHTML = "Start new game";
-  const info = createInfoElement(data.isSoundOn, data.isDarkTheme, (0,_helpers_js_countTime__WEBPACK_IMPORTED_MODULE_0__["default"])(data.timeStart, data.timeEnd), data.clicks, data.openCellCount, data.fieldInGameSize, data.minesInGameNumber);
-  const gameField = document.createElement("div");
-  gameField.classList.add("game-field");
-  const lastGames = createLastGamesElement(data.latestResults);
-  body.append(title, settings, newGameButton, info, gameField);
-  (0,_rerenderField__WEBPACK_IMPORTED_MODULE_2__["default"])(data);
-  body.append(lastGames);
-};
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (firstRender);
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (createInfoElement);
 
 /***/ }),
 
-/***/ "./js/handlers/cellHandler.js":
-/*!************************************!*\
-  !*** ./js/handlers/cellHandler.js ***!
-  \************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-/* harmony import */ var _finishGame__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../finishGame */ "./js/finishGame.js");
-/* harmony import */ var _helpers_js_countClosestMines__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../helpers.js/countClosestMines */ "./js/helpers.js/countClosestMines.js");
-/* harmony import */ var _helpers_js_updateInfoMenu__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../helpers.js/updateInfoMenu */ "./js/helpers.js/updateInfoMenu.js");
-/* harmony import */ var _soundAudio__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../soundAudio */ "./js/soundAudio.js");
-
-
-
-
-const openCell = (x, y, data) => {
-  const count = (0,_helpers_js_countClosestMines__WEBPACK_IMPORTED_MODULE_1__["default"])(x, y, data.fieldArray, data.fieldInGameSize);
-  const curCell = document.querySelector(`[data-ij="${x}-${y}"]`);
-  const size = +data.fieldInGameSize.slice(-2);
-  if (!curCell.classList.contains("cell_open")) {
-    data.openCellCount++;
-    (0,_helpers_js_updateInfoMenu__WEBPACK_IMPORTED_MODULE_2__["default"])(data.fieldInGameSize, data.openCellCount, data.minesInGameNumber, data.isSoundOn, data.clicks);
-    curCell.classList.add("cell_open");
-    curCell.innerHTML = count > 0 ? count : "";
-    curCell.dataset.num = count;
-  }
-  if (!count) {
-    for (let i = x - 1; i <= x + 1; i++) {
-      for (let j = y - 1; j <= y + 1; j++) {
-        if (i >= 0 && j >= 0 && i < size && j < size) {
-          const foundCell = document.querySelector(`[data-ij="${i}-${j}"]`);
-          if (!foundCell.classList.contains("cell_open")) {
-            openCell(i, j, data);
-          }
-        }
-      }
-    }
-  }
-};
-const cellHandler = (ij, data) => {
-  const ijArr = ij.split("-");
-  const x = +ijArr[0];
-  const y = +ijArr[1];
-  if (data.fieldArray[x][y].isMine) {
-    (0,_finishGame__WEBPACK_IMPORTED_MODULE_0__["default"])(false, data.isSoundOn);
-  } else {
-    const curCell = document.querySelector(`[data-ij="${x}-${y}"]`);
-    if (!curCell.classList.contains("cell_open")) {
-      (0,_soundAudio__WEBPACK_IMPORTED_MODULE_3__["default"])(false, data.isSoundOn);
-      data.clicks++;
-      openCell(x, y, data);
-    }
-  }
-};
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (cellHandler);
-
-/***/ }),
-
-/***/ "./js/handlers/radioInputHandler.js":
-/*!******************************************!*\
-  !*** ./js/handlers/radioInputHandler.js ***!
-  \******************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-const radioInputHandler = (target, data) => {
-  const titleRadioInput = document.querySelector(".settings__title_radio-input");
-  switch (target.value) {
-    case "easy":
-      if (data.fieldCurSize !== "easy 10x10") {
-        data.fieldCurSize = "easy 10x10";
-        titleRadioInput.innerHTML = `Field size: ${data.fieldCurSize}`;
-      }
-      break;
-    case "medium":
-      if (data.fieldCurSize !== "medium 15x15") {
-        data.fieldCurSize = "medium 15x15";
-        titleRadioInput.innerHTML = `Field size: ${data.fieldCurSize}`;
-      }
-      break;
-    case "hard":
-      if (data.fieldCurSize !== "hard 25x25") {
-        data.fieldCurSize = "hard 25x25";
-        titleRadioInput.innerHTML = `Field size: ${data.fieldCurSize}`;
-      }
-      break;
-    default:
-      break;
-  }
-};
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (radioInputHandler);
-
-/***/ }),
-
-/***/ "./js/handlers/rangeArrowsHandler.js":
-/*!*******************************************!*\
-  !*** ./js/handlers/rangeArrowsHandler.js ***!
-  \*******************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-const rangeArrowsHandler = (button, data) => {
-  const titleRangeInput = document.querySelector(".settings__title_range-input");
-  const rangeInputField = document.querySelector(".range-input__field");
-  if (button.classList.contains("range-input__arrow-right")) {
-    if (data.minesCurNumber < 99) {
-      data.minesCurNumber += 1;
-      rangeInputField.value = data.minesCurNumber;
-      titleRangeInput.innerHTML = `Choose mines: ${data.minesCurNumber}`;
-    }
-  } else {
-    if (data.minesCurNumber > 10) {
-      data.minesCurNumber -= 1;
-      rangeInputField.value = data.minesCurNumber;
-      titleRangeInput.innerHTML = `Choose mines: ${data.minesCurNumber}`;
-    }
-  }
-};
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (rangeArrowsHandler);
-
-/***/ }),
-
-/***/ "./js/handlers/rangeInputHandler.js":
-/*!******************************************!*\
-  !*** ./js/handlers/rangeInputHandler.js ***!
-  \******************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-const rangeInputHandler = (value, data) => {
-  const titleRangeInput = document.querySelector(".settings__title_range-input");
-  data.minesCurNumber = +value;
-  titleRangeInput.innerHTML = `Choose mines: ${data.minesCurNumber}`;
-};
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (rangeInputHandler);
-
-/***/ }),
-
-/***/ "./js/helpers.js/countClosestMines.js":
-/*!********************************************!*\
-  !*** ./js/helpers.js/countClosestMines.js ***!
-  \********************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-const countClosestMines = (x, y, fieldArray, fieldSize) => {
-  let count = 0;
-  const size = +fieldSize.slice(-2);
-  for (let i = x - 1; i <= x + 1; i++) {
-    for (let j = y - 1; j <= y + 1; j++) {
-      if (i >= 0 && j >= 0 && i < size && j < size) {
-        if (fieldArray[i][j].isMine) count++;
-      }
-    }
-  }
-  return count;
-};
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (countClosestMines);
-
-/***/ }),
-
-/***/ "./js/helpers.js/countTime.js":
-/*!************************************!*\
-  !*** ./js/helpers.js/countTime.js ***!
-  \************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-function countTime(timeStart, timeEnd) {
-  const fullSeconds = (timeEnd - timeStart) / 1000;
-  if (fullSeconds === 0) {
-    return "0s";
-  }
-  const fullMinutes = Math.floor(fullSeconds / 60);
-  const fullHours = Math.floor(fullMinutes / 60);
-  const seconds = Math.floor(fullSeconds % 60);
-  const minutes = Math.floor(fullMinutes % 60);
-  const hours = Math.floor(fullHours % 24);
-  let result = "";
-  if (hours > 0) {
-    result += hours + "h ";
-  }
-  if (minutes > 0) {
-    result += minutes + "m ";
-  }
-  if (seconds > 0) {
-    result += seconds + "s ";
-  }
-  return result;
-}
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (countTime);
-
-/***/ }),
-
-/***/ "./js/helpers.js/restCellsCount.js":
+/***/ "./js/info-block/restCellsCount.js":
 /*!*****************************************!*\
-  !*** ./js/helpers.js/restCellsCount.js ***!
+  !*** ./js/info-block/restCellsCount.js ***!
   \*****************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
@@ -729,9 +811,27 @@ const restCellsCount = (fieldInGameSize, openCellCount, minesInGameNumber) => {
 
 /***/ }),
 
-/***/ "./js/helpers.js/updateInfoMenu.js":
+/***/ "./js/info-block/updateClicks.js":
+/*!***************************************!*\
+  !*** ./js/info-block/updateClicks.js ***!
+  \***************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+const updateClicks = clicks => {
+  const targetElement = document.querySelector(".info__clicks");
+  targetElement.innerHTML = `Clicks: ${clicks}`;
+};
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (updateClicks);
+
+/***/ }),
+
+/***/ "./js/info-block/updateInfoMenu.js":
 /*!*****************************************!*\
-  !*** ./js/helpers.js/updateInfoMenu.js ***!
+  !*** ./js/info-block/updateInfoMenu.js ***!
   \*****************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
@@ -739,153 +839,234 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony import */ var _finishGame__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../finishGame */ "./js/finishGame.js");
-/* harmony import */ var _restCellsCount__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./restCellsCount */ "./js/helpers.js/restCellsCount.js");
+/* harmony import */ var _updateClicks__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./updateClicks */ "./js/info-block/updateClicks.js");
+/* harmony import */ var _updateRestCells__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./updateRestCells */ "./js/info-block/updateRestCells.js");
 
 
 const updateInfoMenu = (fieldInGameSize, openCellCount, minesInGameNumber, isSoundOn, clicks) => {
-  const updateRestCells = () => {
-    const targetElement = document.querySelector(".info__rest-cells");
-    const count = (0,_restCellsCount__WEBPACK_IMPORTED_MODULE_1__["default"])(fieldInGameSize, openCellCount, minesInGameNumber);
-    const restCells = document.createElement("div");
-    restCells.innerHTML = `Rest Cells: ${count}`;
-    targetElement.innerHTML = "";
-    targetElement.append(restCells);
-    if (count === 0) {
-      (0,_finishGame__WEBPACK_IMPORTED_MODULE_0__["default"])("win", isSoundOn);
-    }
-  };
-  const updateClicks = () => {
-    const targetElement = document.querySelector(".info__clicks");
-    targetElement.innerHTML = `Clicks: ${clicks}`;
-  };
-  updateClicks();
-  updateRestCells(fieldInGameSize, openCellCount, minesInGameNumber);
+  (0,_updateClicks__WEBPACK_IMPORTED_MODULE_0__["default"])(clicks);
+  (0,_updateRestCells__WEBPACK_IMPORTED_MODULE_1__["default"])(fieldInGameSize, openCellCount, minesInGameNumber, isSoundOn);
 };
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (updateInfoMenu);
 
 /***/ }),
 
-/***/ "./js/rerenderField.js":
-/*!*****************************!*\
-  !*** ./js/rerenderField.js ***!
-  \*****************************/
+/***/ "./js/info-block/updateRestCells.js":
+/*!******************************************!*\
+  !*** ./js/info-block/updateRestCells.js ***!
+  \******************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-const rerenderField = data => {
-  const gameField = document.querySelector(".game-field");
-  gameField.innerHTML = "";
-  switch (data.fieldInGameSize) {
-    case "easy 10x10":
-      gameField.classList.add("game-field_easy");
-      gameField.classList.remove("game-field_medium");
-      gameField.classList.remove("game-field_hard");
-      data.fieldArray = [];
-      for (let i = 0; i < 10; i++) {
-        data.fieldArray.push([]);
-        for (let j = 0; j < 10; j++) {
-          data.fieldArray[i].push({
-            isMine: false,
-            ij: i + "-" + j
-          });
-          const cell = document.createElement("button");
-          cell.classList.add("cell");
-          cell.classList.add("btn");
-          cell.classList.add("btn_fill");
-          cell.dataset.ij = i + "-" + j;
-          gameField.append(cell);
-        }
-      }
-      break;
-    case "medium 15x15":
-      gameField.classList.add("game-field_medium");
-      gameField.classList.remove("game-field_easy");
-      gameField.classList.remove("game-field_hard");
-      data.fieldArray = [];
-      for (let i = 0; i < 15; i++) {
-        data.fieldArray.push([]);
-        for (let j = 0; j < 15; j++) {
-          data.fieldArray[i].push({
-            isMine: false,
-            ij: i + "-" + j
-          });
-          const cell = document.createElement("button");
-          cell.classList.add("cell");
-          cell.classList.add("btn");
-          cell.classList.add("btn_fill");
-          cell.dataset.ij = i + "-" + j;
-          gameField.append(cell);
-        }
-      }
-      break;
-    case "hard 25x25":
-      gameField.classList.add("game-field_hard");
-      gameField.classList.remove("game-field_medium");
-      gameField.classList.remove("game-field_easy");
-      data.fieldArray = [];
-      for (let i = 0; i < 25; i++) {
-        data.fieldArray.push([]);
-        for (let j = 0; j < 25; j++) {
-          data.fieldArray[i].push({
-            isMine: false,
-            ij: i + "-" + j
-          });
-          const cell = document.createElement("button");
-          cell.classList.add("cell");
-          cell.classList.add("btn");
-          cell.classList.add("btn_fill");
-          cell.dataset.ij = i + "-" + j;
-          gameField.append(cell);
-        }
-      }
-      break;
-    default:
-      break;
+/* harmony import */ var _finishGame__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../finishGame */ "./js/finishGame.js");
+/* harmony import */ var _restCellsCount__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./restCellsCount */ "./js/info-block/restCellsCount.js");
+
+
+const updateRestCells = (fieldInGameSize, openCellCount, minesInGameNumber, isSoundOn) => {
+  const targetElement = document.querySelector(".info__rest-cells");
+  const count = (0,_restCellsCount__WEBPACK_IMPORTED_MODULE_1__["default"])(fieldInGameSize, openCellCount, minesInGameNumber);
+  const restCells = document.createElement("div");
+  restCells.innerHTML = `Rest Cells: ${count}`;
+  targetElement.innerHTML = "";
+  targetElement.append(restCells);
+  if (count === 0) {
+    (0,_finishGame__WEBPACK_IMPORTED_MODULE_0__["default"])("win", isSoundOn);
   }
-  return gameField;
 };
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (rerenderField);
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (updateRestCells);
 
 /***/ }),
 
-/***/ "./js/setMines.js":
-/*!************************!*\
-  !*** ./js/setMines.js ***!
-  \************************/
+/***/ "./js/latest-results-block/createLastGamesElement.js":
+/*!***********************************************************!*\
+  !*** ./js/latest-results-block/createLastGamesElement.js ***!
+  \***********************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-const setMines = (data, ij) => {
-  let size = +data.fieldInGameSize.slice(-2);
-  let minesCount = data.minesInGameNumber;
-  const ijArr = ij.split("-");
-  const curX = +ijArr[0];
-  const curY = +ijArr[1];
-  while (minesCount > 0) {
-    const x = Math.floor(Math.random() * size);
-    const y = Math.floor(Math.random() * size);
-    data.fieldArray.forEach((elX, indexX) => {
-      if (indexX === x) {
-        elX.forEach((elY, indexY) => {
-          if (indexY === y && !(curX === x && curY === y)) {
-            if (elY.isMine === false) {
-              elY.isMine = true;
-              minesCount--;
-            }
-          }
-        });
-      }
-    });
-  }
+/* harmony import */ var _info_block_countTime__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../info-block/countTime */ "./js/info-block/countTime.js");
+
+const createLastGamesElement = latestResults => {
+  const latestResultsBlock = document.createElement("div");
+  latestResultsBlock.classList.add("last-games");
+  const latestResultsList = document.createElement("ul");
+  latestResultsList.classList.add("last-games__list");
+  latestResults.forEach(item => {
+    const latestResultsItem = document.createElement("li");
+    latestResultsItem.classList.add("last-games__item");
+    const latestResultsTime = document.createElement("div");
+    latestResultsTime.classList.add("last-games__time");
+    latestResultsTime.innerHTML = `Time : ${(0,_info_block_countTime__WEBPACK_IMPORTED_MODULE_0__["default"])(item.timeStart, item.timeEnd)}`;
+    const latestResultsClicks = document.createElement("div");
+    latestResultsClicks.classList.add("last-games__clicks");
+    latestResultsClicks.innerHTML = `Clicks : ${item.clicks}`;
+    latestResultsItem.append(latestResultsTime, latestResultsClicks);
+    latestResultsList.append(latestResultsItem);
+  });
+  latestResultsBlock.append(latestResultsList);
+  return latestResultsBlock;
 };
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (setMines);
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (createLastGamesElement);
+
+/***/ }),
+
+/***/ "./js/settings-block/createRadioInput.js":
+/*!***********************************************!*\
+  !*** ./js/settings-block/createRadioInput.js ***!
+  \***********************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+const createRadioInput = fieldCurSize => {
+  const radioInputBlock = document.createElement("div");
+  radioInputBlock.classList.add("radio-input-block");
+  const radioInputTitle = document.createElement("h2");
+  radioInputTitle.classList.add("settings__title", "subtitle", "settings__title_radio-input");
+  radioInputTitle.innerHTML = `Field size: ${fieldCurSize}`;
+  const radioInput = document.createElement("div");
+  radioInput.classList.add("radio-input");
+  for (let i = 0; i < 3; i++) {
+    switch (i) {
+      case 0:
+        const itemLeft = document.createElement("input");
+        itemLeft.classList.add("radio-input__input");
+        itemLeft.type = "radio";
+        itemLeft.name = "size";
+        itemLeft.value = "easy";
+        itemLeft.checked = fieldCurSize === "easy 10x10" ? true : false;
+        radioInput.append(itemLeft);
+        break;
+      case 1:
+        const itemCenter = document.createElement("input");
+        itemCenter.classList.add("radio-input__input");
+        itemCenter.type = "radio";
+        itemCenter.name = "size";
+        itemCenter.value = "medium";
+        itemCenter.checked = fieldCurSize === "medium 15x15" ? true : false;
+        radioInput.append(itemCenter);
+        break;
+      case 2:
+        const itemRight = document.createElement("input");
+        itemRight.classList.add("radio-input__input");
+        itemRight.type = "radio";
+        itemRight.name = "size";
+        itemRight.value = "hard";
+        itemRight.checked = fieldCurSize === "hard 25x25" ? true : false;
+        radioInput.append(itemRight);
+        break;
+      default:
+        break;
+    }
+  }
+  radioInputBlock.append(radioInputTitle, radioInput);
+  return radioInputBlock;
+};
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (createRadioInput);
+
+/***/ }),
+
+/***/ "./js/settings-block/createRangeInput.js":
+/*!***********************************************!*\
+  !*** ./js/settings-block/createRangeInput.js ***!
+  \***********************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+const createRangeInput = minesNumber => {
+  const rangeInputBlock = document.createElement("div");
+  rangeInputBlock.classList.add("range-input-block");
+  const rangeInputTitle = document.createElement("h2");
+  rangeInputTitle.classList.add("settings__title", "subtitle", "settings__title_range-input");
+  rangeInputTitle.innerHTML = `Choose mines: ${minesNumber}`;
+  const arrowLeftBtn = document.createElement("button");
+  arrowLeftBtn.classList.add("btn", "btn_line", "range-input__arrow-left");
+  arrowLeftBtn.innerHTML = `<svg
+    width="12"
+    height="12"
+    viewBox="0 0 12 12"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <path
+      class="path-bg"
+      d="M8.5 6.00006L3.68885 1.62624C3.32737 1.29761 3.34548 0.723624 
+      3.72697 0.418446V0.418446C4.02912 0.176732 4.4615 0.187961 4.7507 
+      0.445032L10.1592 5.25265C10.6067 5.65044 10.6067 6.34968 10.1592 
+      6.74747L4.7507 11.555C4.4615 11.812 4.02913 11.8233 3.72698 
+      11.5816V11.5816C3.34549 11.2764 3.32738 10.7024 3.68887 
+      10.3738L8.5 6.00006Z"
+      fill="black"
+    />
+  </svg>`;
+  const arrowRightBtn = document.createElement("button");
+  arrowRightBtn.classList.add("btn", "btn_line", "range-input__arrow-right");
+  arrowRightBtn.innerHTML = `<svg
+    width="12"
+    height="12"
+    viewBox="0 0 12 12"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <path
+      class="path-bg"
+      d="M8.5 6.00006L3.68885 1.62624C3.32737 1.29761 3.34548 0.723624 
+      3.72697 0.418446V0.418446C4.02912 0.176732 4.4615 0.187961 4.7507 
+      0.445032L10.1592 5.25265C10.6067 5.65044 10.6067 6.34968 10.1592 
+      6.74747L4.7507 11.555C4.4615 11.812 4.02913 11.8233 3.72698 
+      11.5816V11.5816C3.34549 11.2764 3.32738 10.7024 3.68887 10.3738L8.5 
+      6.00006Z"
+      fill="black"
+    />
+  </svg>`;
+  const rangeInputField = document.createElement("input");
+  rangeInputField.classList.add("range-input__field");
+  rangeInputField.type = "range";
+  rangeInputField.min = 10;
+  rangeInputField.max = 99;
+  rangeInputField.value = minesNumber;
+  const rangeInput = document.createElement("div");
+  rangeInput.classList.add("range-input");
+  rangeInput.append(arrowLeftBtn, rangeInputField, arrowRightBtn);
+  rangeInputBlock.append(rangeInputTitle, rangeInput);
+  return rangeInputBlock;
+};
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (createRangeInput);
+
+/***/ }),
+
+/***/ "./js/settings-block/createSettingsElement.js":
+/*!****************************************************!*\
+  !*** ./js/settings-block/createSettingsElement.js ***!
+  \****************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _createRadioInput__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./createRadioInput */ "./js/settings-block/createRadioInput.js");
+/* harmony import */ var _createRangeInput__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./createRangeInput */ "./js/settings-block/createRangeInput.js");
+
+
+const createSettingsElement = (minesNumber, fieldCurSize) => {
+  const settings = document.createElement("div");
+  settings.classList.add("settings");
+  settings.append((0,_createRangeInput__WEBPACK_IMPORTED_MODULE_1__["default"])(minesNumber), (0,_createRadioInput__WEBPACK_IMPORTED_MODULE_0__["default"])(fieldCurSize));
+  return settings;
+};
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (createSettingsElement);
 
 /***/ }),
 
@@ -901,17 +1082,17 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var _assets_sounds_expl_mp3__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./../assets/sounds/expl.mp3 */ "./assets/sounds/expl.mp3");
 /* harmony import */ var _assets_sounds_win_mp3__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./../assets/sounds/win.mp3 */ "./assets/sounds/win.mp3");
-/* harmony import */ var _assets_sounds_01_mp3__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./../assets/sounds/01.mp3 */ "./assets/sounds/01.mp3");
-/* harmony import */ var _assets_sounds_02_mp3__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./../assets/sounds/02.mp3 */ "./assets/sounds/02.mp3");
-/* harmony import */ var _assets_sounds_03_mp3__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./../assets/sounds/03.mp3 */ "./assets/sounds/03.mp3");
-/* harmony import */ var _assets_sounds_04_mp3__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./../assets/sounds/04.mp3 */ "./assets/sounds/04.mp3");
-/* harmony import */ var _assets_sounds_05_mp3__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./../assets/sounds/05.mp3 */ "./assets/sounds/05.mp3");
-/* harmony import */ var _assets_sounds_06_mp3__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./../assets/sounds/06.mp3 */ "./assets/sounds/06.mp3");
-/* harmony import */ var _assets_sounds_07_mp3__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./../assets/sounds/07.mp3 */ "./assets/sounds/07.mp3");
-/* harmony import */ var _assets_sounds_08_mp3__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./../assets/sounds/08.mp3 */ "./assets/sounds/08.mp3");
-/* harmony import */ var _assets_sounds_09_mp3__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./../assets/sounds/09.mp3 */ "./assets/sounds/09.mp3");
-/* harmony import */ var _assets_sounds_10_mp3__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./../assets/sounds/10.mp3 */ "./assets/sounds/10.mp3");
-/* harmony import */ var _assets_sounds_11_mp3__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ./../assets/sounds/11.mp3 */ "./assets/sounds/11.mp3");
+/* harmony import */ var _assets_sounds_11_mp3__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./../assets/sounds/11.mp3 */ "./assets/sounds/11.mp3");
+/* harmony import */ var _assets_sounds_01_mp3__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./../assets/sounds/01.mp3 */ "./assets/sounds/01.mp3");
+/* harmony import */ var _assets_sounds_02_mp3__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./../assets/sounds/02.mp3 */ "./assets/sounds/02.mp3");
+/* harmony import */ var _assets_sounds_03_mp3__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./../assets/sounds/03.mp3 */ "./assets/sounds/03.mp3");
+/* harmony import */ var _assets_sounds_04_mp3__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./../assets/sounds/04.mp3 */ "./assets/sounds/04.mp3");
+/* harmony import */ var _assets_sounds_05_mp3__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./../assets/sounds/05.mp3 */ "./assets/sounds/05.mp3");
+/* harmony import */ var _assets_sounds_06_mp3__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./../assets/sounds/06.mp3 */ "./assets/sounds/06.mp3");
+/* harmony import */ var _assets_sounds_07_mp3__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./../assets/sounds/07.mp3 */ "./assets/sounds/07.mp3");
+/* harmony import */ var _assets_sounds_08_mp3__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./../assets/sounds/08.mp3 */ "./assets/sounds/08.mp3");
+/* harmony import */ var _assets_sounds_09_mp3__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./../assets/sounds/09.mp3 */ "./assets/sounds/09.mp3");
+/* harmony import */ var _assets_sounds_10_mp3__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ./../assets/sounds/10.mp3 */ "./assets/sounds/10.mp3");
 
 
 
@@ -925,19 +1106,19 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-const soundAudio = (isOpen, isSoundOn) => {
+const soundAudio = (soundType, isSoundOn) => {
   if (isSoundOn) {
-    if (!isOpen) {
-      const sounds = [_assets_sounds_01_mp3__WEBPACK_IMPORTED_MODULE_2__["default"], _assets_sounds_02_mp3__WEBPACK_IMPORTED_MODULE_3__["default"], _assets_sounds_03_mp3__WEBPACK_IMPORTED_MODULE_4__["default"], _assets_sounds_04_mp3__WEBPACK_IMPORTED_MODULE_5__["default"], _assets_sounds_05_mp3__WEBPACK_IMPORTED_MODULE_6__["default"], _assets_sounds_06_mp3__WEBPACK_IMPORTED_MODULE_7__["default"], _assets_sounds_07_mp3__WEBPACK_IMPORTED_MODULE_8__["default"], _assets_sounds_08_mp3__WEBPACK_IMPORTED_MODULE_9__["default"], _assets_sounds_09_mp3__WEBPACK_IMPORTED_MODULE_10__["default"], _assets_sounds_10_mp3__WEBPACK_IMPORTED_MODULE_11__["default"], _assets_sounds_11_mp3__WEBPACK_IMPORTED_MODULE_12__["default"]];
+    if (!soundType) {
+      const sounds = [_assets_sounds_01_mp3__WEBPACK_IMPORTED_MODULE_3__["default"], _assets_sounds_02_mp3__WEBPACK_IMPORTED_MODULE_4__["default"], _assets_sounds_03_mp3__WEBPACK_IMPORTED_MODULE_5__["default"], _assets_sounds_04_mp3__WEBPACK_IMPORTED_MODULE_6__["default"], _assets_sounds_05_mp3__WEBPACK_IMPORTED_MODULE_7__["default"], _assets_sounds_06_mp3__WEBPACK_IMPORTED_MODULE_8__["default"], _assets_sounds_07_mp3__WEBPACK_IMPORTED_MODULE_9__["default"], _assets_sounds_08_mp3__WEBPACK_IMPORTED_MODULE_10__["default"], _assets_sounds_09_mp3__WEBPACK_IMPORTED_MODULE_11__["default"], _assets_sounds_10_mp3__WEBPACK_IMPORTED_MODULE_12__["default"]];
       let audio = new Audio();
-      const index = Math.floor(Math.random() * 11);
+      const index = Math.floor(Math.random() * 10);
       audio.src = sounds[index];
       audio.autoplay = true;
-    } else if (isOpen === "expl") {
+    } else if (soundType === "expl") {
       let audio = new Audio();
       audio.src = _assets_sounds_expl_mp3__WEBPACK_IMPORTED_MODULE_0__["default"];
       audio.autoplay = true;
-    } else if (isOpen === "win") {
+    } else if (soundType === "win") {
       let audio = new Audio();
       audio.src = _assets_sounds_win_mp3__WEBPACK_IMPORTED_MODULE_1__["default"];
       audio.autoplay = true;
@@ -945,6 +1126,25 @@ const soundAudio = (isOpen, isSoundOn) => {
   }
 };
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (soundAudio);
+
+/***/ }),
+
+/***/ "./js/updateLocalStorage.js":
+/*!**********************************!*\
+  !*** ./js/updateLocalStorage.js ***!
+  \**********************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _data__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./data */ "./js/data.js");
+
+const updateLocalStorage = () => {
+  // localStorage.setItem("minesweeper-data", JSON.stringify(data));
+};
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (updateLocalStorage);
 
 /***/ }),
 
