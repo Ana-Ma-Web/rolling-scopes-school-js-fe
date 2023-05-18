@@ -57,7 +57,10 @@ const firstHandlers = (data) => {
       }
 
       //cells
-      if (e.target.classList.contains("cell")) {
+      if (
+        e.target.classList.contains("cell") &&
+        !e.target.classList.contains("cell_flag")
+      ) {
         if (!data.isCellClicked) {
           setMines(data, e.target.dataset.ij);
           data.isCellClicked = true;
@@ -75,8 +78,22 @@ const firstHandlers = (data) => {
     });
   };
 
+  const rightClickHandler = () => {
+    body.addEventListener(
+      "contextmenu",
+      (e) => {
+        e.preventDefault();
+        if (e.target.classList.contains("cell")) {
+          e.target.classList.toggle("cell_flag");
+        }
+      },
+      false
+    );
+  };
+
   clickHandler();
   keyDownHandler();
+  rightClickHandler();
 };
 
 export default firstHandlers;
