@@ -39,69 +39,27 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
 const createFieldElement = data => {
+  const fieldSize = +data.fieldInGameSize.slice(-2);
+  const sizeClass = "game-field_size-" + fieldSize;
   const gameField = document.createElement("div");
-  gameField.classList.add("game-field");
-  gameField.innerHTML = "";
-  switch (data.fieldInGameSize) {
-    case "easy 10x10":
-      gameField.classList.add("game-field_easy");
-      gameField.classList.remove("game-field_medium", "game-field_hard");
-      data.cellsAtField = [];
-      for (let i = 0; i < 10; i++) {
-        data.cellsAtField.push([]);
-        for (let j = 0; j < 10; j++) {
-          data.cellsAtField[i].push({
-            isOpen: false,
-            isFlag: false,
-            isMine: false,
-            isExpl: false,
-            ij: i + "-" + j
-          });
-          const cell = document.createElement("button");
-          cell.classList.add("cell", "btn", "btn_fill");
-          cell.dataset.ij = i + "-" + j;
-          gameField.append(cell);
-        }
+  gameField.className = "game-field " + sizeClass;
+  for (let i = 0; i < fieldSize; i++) {
+    for (let j = 0; j < fieldSize; j++) {
+      const cellNode = document.createElement("button");
+      const cellObj = data.cellsAtField[i][j];
+      cellNode.classList.add("cell", "btn", "btn_fill");
+      if (cellObj.isFlag) {
+        cellNode.classList.add("cell_flag");
       }
-      break;
-    case "medium 15x15":
-      gameField.classList.add("game-field_medium");
-      gameField.classList.remove("game-field_easy", "game-field_hard");
-      data.cellsAtField = [];
-      for (let i = 0; i < 15; i++) {
-        data.cellsAtField.push([]);
-        for (let j = 0; j < 15; j++) {
-          data.cellsAtField[i].push({
-            isMine: false,
-            ij: i + "-" + j
-          });
-          const cell = document.createElement("button");
-          cell.classList.add("cell", "btn", "btn_fill");
-          cell.dataset.ij = i + "-" + j;
-          gameField.append(cell);
-        }
+      if (cellObj.isOpen) {
+        cellNode.classList.add("cell_open");
+        cellNode.innerHTML = cellObj.text ? cellObj.text : "";
+        cellNode.dataset.num = +cellObj.text;
+        console.log(cellObj);
       }
-      break;
-    case "hard 25x25":
-      gameField.classList.add("game-field_hard");
-      gameField.classList.remove("game-field_medium", "game-field_easy");
-      data.cellsAtField = [];
-      for (let i = 0; i < 25; i++) {
-        data.cellsAtField.push([]);
-        for (let j = 0; j < 25; j++) {
-          data.cellsAtField[i].push({
-            isMine: false,
-            ij: i + "-" + j
-          });
-          const cell = document.createElement("button");
-          cell.classList.add("cell", "btn", "btn_fill");
-          cell.dataset.ij = i + "-" + j;
-          gameField.append(cell);
-        }
-      }
-      break;
-    default:
-      break;
+      cellNode.dataset.ij = i + "-" + j;
+      gameField.append(cellNode);
+    }
   }
   return gameField;
 };
@@ -125,15 +83,17 @@ __webpack_require__.r(__webpack_exports__);
 
 const openCell = (x, y, data) => {
   const count = (0,_countClosestMines__WEBPACK_IMPORTED_MODULE_1__["default"])(x, y, data.cellsAtField, data.fieldInGameSize);
-  const curCell = document.querySelector(`[data-ij="${x}-${y}"]`);
+  const cellObj = data.cellsAtField[x][y];
+  const cellNode = document.querySelector(`[data-ij="${x}-${y}"]`);
   const size = +data.fieldInGameSize.slice(-2);
-  if (!curCell.classList.contains("cell_open")) {
+  if (!cellNode.classList.contains("cell_open")) {
     data.openCellCount++;
     (0,_info_block_updateInfoMenu__WEBPACK_IMPORTED_MODULE_0__["default"])(data.fieldInGameSize, data.openCellCount, data.minesInGameNumber, data.isSoundOn, data.clicks);
-    data.cellsAtField[x][y].isOpen = true;
-    curCell.classList.add("cell_open");
-    curCell.innerHTML = count > 0 ? count : "";
-    curCell.dataset.num = count;
+    cellObj.isOpen = true;
+    cellNode.classList.add("cell_open");
+    cellNode.innerHTML = count > 0 ? count : "";
+    cellNode.dataset.num = count;
+    cellObj.text = count;
   }
   if (!count) {
     for (let i = x - 1; i <= x + 1; i++) {
@@ -204,47 +164,101 @@ __webpack_require__.r(__webpack_exports__);
 const updateField = data => {
   const field = document.querySelector(".game-field");
   field.replaceWith((0,_createFieldElement__WEBPACK_IMPORTED_MODULE_0__["default"])(data));
-  console.log(field);
 };
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (updateField);
 
 /***/ }),
 
-/***/ "./js/data.js":
-/*!********************!*\
-  !*** ./js/data.js ***!
-  \********************/
+/***/ "./js/data/createDefaultCells.js":
+/*!***************************************!*\
+  !*** ./js/data/createDefaultCells.js ***!
+  \***************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-let data = localStorage.getItem("minesweeper-data") ? JSON.parse(localStorage.getItem("minesweeper-data")) : {
-  minesCurNumber: 10,
-  minesInGameNumber: 10,
-  openCellCount: 0,
-  fieldCurSize: "easy 10x10",
-  fieldInGameSize: "easy 10x10",
-  isCellClicked: false,
-  //isOpen: false, isFlag: false, isMine: false,
-  //isExpl: false, ij: i + "-" + j,
-  cellsAtField: [],
-  isSoundOn: true,
-  isDarkTheme: false,
-  timeStart: 0,
-  timeEnd: 0,
-  clicks: 0,
-  latestResults: [{
-    timeStart: 41234244,
-    timeEnd: 51254244,
-    clicks: 100
-  }, {
-    timeStart: 51234244,
-    timeEnd: 51256744,
-    clicks: 50
-  }]
+const createDefaultCells = size => {
+  const defaultCells = [];
+  for (let i = 0; i < size; i++) {
+    defaultCells.push([]);
+    for (let j = 0; j < size; j++) {
+      const defaultCell = {
+        isOpen: false,
+        isFlag: false,
+        isMine: false,
+        isExpl: false,
+        ij: i + "-" + j,
+        text: ""
+      };
+      defaultCells[i].push(defaultCell);
+    }
+  }
+  console.log(size);
+  return defaultCells;
 };
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (createDefaultCells);
+
+/***/ }),
+
+/***/ "./js/data/createDefaultData.js":
+/*!**************************************!*\
+  !*** ./js/data/createDefaultData.js ***!
+  \**************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _createDefaultCells__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./createDefaultCells */ "./js/data/createDefaultCells.js");
+
+const createDefaultData = () => {
+  const data = {
+    minesCurNumber: 10,
+    minesInGameNumber: 10,
+    openCellCount: 0,
+    fieldCurSize: "easy 10x10",
+    fieldInGameSize: "easy 10x10",
+    isCellClicked: false,
+    cellsAtField: [],
+    isSoundOn: true,
+    isDarkTheme: false,
+    timeStart: 0,
+    timeEnd: 0,
+    clicks: 0,
+    latestResults: [{
+      timeStart: 41234244,
+      timeEnd: 51254244,
+      clicks: 100
+    }, {
+      timeStart: 51234244,
+      timeEnd: 51256744,
+      clicks: 50
+    }]
+  };
+  const size = +data.fieldInGameSize.slice(-2);
+  data.cellsAtField = (0,_createDefaultCells__WEBPACK_IMPORTED_MODULE_0__["default"])(size);
+  return data;
+};
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (createDefaultData);
+
+/***/ }),
+
+/***/ "./js/data/data.js":
+/*!*************************!*\
+  !*** ./js/data/data.js ***!
+  \*************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _createDefaultData__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./createDefaultData */ "./js/data/createDefaultData.js");
+
+let data = localStorage.getItem("minesweeper-data") ? JSON.parse(localStorage.getItem("minesweeper-data")) : (0,_createDefaultData__WEBPACK_IMPORTED_MODULE_0__["default"])();
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (data);
 
 /***/ }),
@@ -287,11 +301,11 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _handlers_rangeArrowsHandler__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./handlers/rangeArrowsHandler */ "./js/handlers/rangeArrowsHandler.js");
 /* harmony import */ var _handlers_rangeInputHandler__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./handlers/rangeInputHandler */ "./js/handlers/rangeInputHandler.js");
 /* harmony import */ var _cell_field_block_setMines__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./cell-field-block/setMines */ "./js/cell-field-block/setMines.js");
-/* harmony import */ var _cell_field_block_createFieldElement__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./cell-field-block/createFieldElement */ "./js/cell-field-block/createFieldElement.js");
-/* harmony import */ var _info_block_updateInfoMenu__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./info-block/updateInfoMenu */ "./js/info-block/updateInfoMenu.js");
-/* harmony import */ var _updateLocalStorage__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./updateLocalStorage */ "./js/updateLocalStorage.js");
-/* harmony import */ var _soundAudio__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./soundAudio */ "./js/soundAudio.js");
-/* harmony import */ var _cell_field_block_updateField__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./cell-field-block/updateField */ "./js/cell-field-block/updateField.js");
+/* harmony import */ var _info_block_updateInfoMenu__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./info-block/updateInfoMenu */ "./js/info-block/updateInfoMenu.js");
+/* harmony import */ var _updateLocalStorage__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./updateLocalStorage */ "./js/updateLocalStorage.js");
+/* harmony import */ var _soundAudio__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./soundAudio */ "./js/soundAudio.js");
+/* harmony import */ var _cell_field_block_updateField__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./cell-field-block/updateField */ "./js/cell-field-block/updateField.js");
+/* harmony import */ var _data_createDefaultCells__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./data/createDefaultCells */ "./js/data/createDefaultCells.js");
 
 
 
@@ -322,8 +336,11 @@ const firstHandlers = data => {
         data.minesInGameNumber = data.minesCurNumber;
         data.fieldInGameSize = data.fieldCurSize;
         data.openCellCount = 0;
-        (0,_cell_field_block_updateField__WEBPACK_IMPORTED_MODULE_9__["default"])(data);
-        (0,_info_block_updateInfoMenu__WEBPACK_IMPORTED_MODULE_6__["default"])(data.fieldInGameSize, data.openCellCount, data.minesInGameNumber, data.isSoundOn);
+        data.cellsAtField = (0,_data_createDefaultCells__WEBPACK_IMPORTED_MODULE_9__["default"])(+data.fieldInGameSize.slice(-2));
+        console.log(data.cellsAtField);
+        (0,_cell_field_block_updateField__WEBPACK_IMPORTED_MODULE_8__["default"])(data);
+        (0,_updateLocalStorage__WEBPACK_IMPORTED_MODULE_6__["default"])();
+        (0,_info_block_updateInfoMenu__WEBPACK_IMPORTED_MODULE_5__["default"])(data.fieldInGameSize, data.openCellCount, data.minesInGameNumber, data.isSoundOn);
       }
 
       // volume
@@ -347,7 +364,7 @@ const firstHandlers = data => {
         }
         (0,_handlers_cellHandler__WEBPACK_IMPORTED_MODULE_0__["default"])(e.target.dataset.ij, data);
       }
-      (0,_updateLocalStorage__WEBPACK_IMPORTED_MODULE_7__["default"])();
+      (0,_updateLocalStorage__WEBPACK_IMPORTED_MODULE_6__["default"])();
     });
   };
   const keyDownHandler = () => {
@@ -355,7 +372,7 @@ const firstHandlers = data => {
       if (e.target.classList.contains("range-input__field")) {
         (0,_handlers_rangeInputHandler__WEBPACK_IMPORTED_MODULE_3__["default"])(e.target.value, data);
       }
-      (0,_updateLocalStorage__WEBPACK_IMPORTED_MODULE_7__["default"])();
+      (0,_updateLocalStorage__WEBPACK_IMPORTED_MODULE_6__["default"])();
     });
   };
   const rightClickHandler = () => {
@@ -367,9 +384,9 @@ const firstHandlers = data => {
         const y = +ijArr[1];
         data.cellsAtField[x][y].isFlag = !data.cellsAtField[x][y].isFlag;
         e.target.classList.toggle("cell_flag");
-        (0,_soundAudio__WEBPACK_IMPORTED_MODULE_8__["default"])(false, data.isSoundOn);
+        (0,_soundAudio__WEBPACK_IMPORTED_MODULE_7__["default"])(false, data.isSoundOn);
       }
-      (0,_updateLocalStorage__WEBPACK_IMPORTED_MODULE_7__["default"])();
+      (0,_updateLocalStorage__WEBPACK_IMPORTED_MODULE_6__["default"])();
     }, false);
   };
   clickHandler();
@@ -391,10 +408,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
 /* harmony import */ var _info_block_countTime__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./info-block/countTime */ "./js/info-block/countTime.js");
-/* harmony import */ var _cell_field_block_createFieldElement__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./cell-field-block/createFieldElement */ "./js/cell-field-block/createFieldElement.js");
-/* harmony import */ var _latest_results_block_createLastGamesElement__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./latest-results-block/createLastGamesElement */ "./js/latest-results-block/createLastGamesElement.js");
-/* harmony import */ var _info_block_createInfoElement__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./info-block/createInfoElement */ "./js/info-block/createInfoElement.js");
-/* harmony import */ var _settings_block_createSettingsElement__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./settings-block/createSettingsElement */ "./js/settings-block/createSettingsElement.js");
+/* harmony import */ var _latest_results_block_createLastGamesElement__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./latest-results-block/createLastGamesElement */ "./js/latest-results-block/createLastGamesElement.js");
+/* harmony import */ var _info_block_createInfoElement__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./info-block/createInfoElement */ "./js/info-block/createInfoElement.js");
+/* harmony import */ var _settings_block_createSettingsElement__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./settings-block/createSettingsElement */ "./js/settings-block/createSettingsElement.js");
+/* harmony import */ var _cell_field_block_updateField__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./cell-field-block/updateField */ "./js/cell-field-block/updateField.js");
 
 
 
@@ -404,16 +421,25 @@ const firstRender = data => {
   const body = document.querySelector("body");
   if (data.isDarkTheme) body.classList.add("dark-theme");
   body.innerHTML = "";
-  const title = document.createElement("div");
+  const title = document.createElement("h1");
   title.classList.add("title");
   title.innerHTML = "Minesweeper";
-  const settings = (0,_settings_block_createSettingsElement__WEBPACK_IMPORTED_MODULE_4__["default"])(data.minesCurNumber, data.fieldCurSize);
+  const mainBlock = document.createElement("div");
+  mainBlock.classList.add("main");
+  const menuBlock = document.createElement("div");
+  menuBlock.classList.add("menu");
+  const gameField = document.createElement("div");
+  gameField.classList.add("game-field");
+  const settings = (0,_settings_block_createSettingsElement__WEBPACK_IMPORTED_MODULE_3__["default"])(data.minesCurNumber, data.fieldCurSize);
   const newGameButton = document.createElement("button");
   newGameButton.classList.add("btn", "btn_new-game");
   newGameButton.innerHTML = "Start new game";
-  const info = (0,_info_block_createInfoElement__WEBPACK_IMPORTED_MODULE_3__["default"])(data.isSoundOn, data.isDarkTheme, (0,_info_block_countTime__WEBPACK_IMPORTED_MODULE_0__["default"])(data.timeStart, data.timeEnd), data.clicks, data.openCellCount, data.fieldInGameSize, data.minesInGameNumber);
-  const lastGames = (0,_latest_results_block_createLastGamesElement__WEBPACK_IMPORTED_MODULE_2__["default"])(data.latestResults);
-  body.append(title, settings, newGameButton, info, (0,_cell_field_block_createFieldElement__WEBPACK_IMPORTED_MODULE_1__["default"])(data), lastGames);
+  const info = (0,_info_block_createInfoElement__WEBPACK_IMPORTED_MODULE_2__["default"])(data.isSoundOn, data.isDarkTheme, (0,_info_block_countTime__WEBPACK_IMPORTED_MODULE_0__["default"])(data.timeStart, data.timeEnd), data.clicks, data.openCellCount, data.fieldInGameSize, data.minesInGameNumber);
+  const lastGames = (0,_latest_results_block_createLastGamesElement__WEBPACK_IMPORTED_MODULE_1__["default"])(data.latestResults);
+  menuBlock.append(settings, newGameButton, info);
+  mainBlock.append(menuBlock, gameField, lastGames);
+  body.append(title, mainBlock);
+  (0,_cell_field_block_updateField__WEBPACK_IMPORTED_MODULE_4__["default"])(data);
 };
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (firstRender);
 
@@ -443,7 +469,6 @@ const cellHandler = (ij, data) => {
     (0,_finishGame__WEBPACK_IMPORTED_MODULE_0__["default"])(false, data.isSoundOn);
   } else {
     const curCell = document.querySelector(`[data-ij="${x}-${y}"]`);
-    console.log(data.cellsAtField);
     if (!data.cellsAtField[x][y].isOpen) {
       (0,_soundAudio__WEBPACK_IMPORTED_MODULE_1__["default"])(false, data.isSoundOn);
       data.clicks++;
@@ -590,17 +615,23 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony import */ var _restCellsCount__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./restCellsCount */ "./js/info-block/restCellsCount.js");
+/* harmony import */ var _data_data__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../data/data */ "./js/data/data.js");
+/* harmony import */ var _restCellsCount__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./restCellsCount */ "./js/info-block/restCellsCount.js");
 
-const createInfoElement = (isSoundOn, isDarkTheme, timeString, clicks, openCellCount, fieldInGameSize, minesInGameNumber) => {
+
+const createInfoElement = () => {
   const info = document.createElement("div");
   info.classList.add("info");
+  const infoButtons = document.createElement("div");
+  infoButtons.classList.add("info__buttons");
+  const infoList = document.createElement("div");
+  infoList.classList.add("info__list");
   const btnVolume = document.createElement("button");
   btnVolume.classList.add("btn", "btn_line", "btn_volume");
-  if (isSoundOn) btnVolume.classList.add("btn_active");
+  if (_data_data__WEBPACK_IMPORTED_MODULE_0__["default"].isSoundOn) btnVolume.classList.add("btn_active");
   const btnTheme = document.createElement("button");
   btnTheme.classList.add("btn", "btn_line", "btn_theme");
-  if (!isDarkTheme) btnTheme.classList.add("btn_active");
+  if (!_data_data__WEBPACK_IMPORTED_MODULE_0__["default"].isDarkTheme) btnTheme.classList.add("btn_active");
   btnVolume.innerHTML = `<svg
     width="24"
     height="24"
@@ -776,16 +807,21 @@ const createInfoElement = (isSoundOn, isDarkTheme, timeString, clicks, openCellC
   const infoTime = document.createElement("div");
   infoTime.classList.add("info__time");
   infoTime.classList.add("subtitle");
-  infoTime.innerHTML = `Time: ${timeString}`;
+  infoTime.innerHTML = `Time: ${_data_data__WEBPACK_IMPORTED_MODULE_0__["default"].timeString}`;
   const infoClicks = document.createElement("div");
   infoClicks.classList.add("info__clicks");
   infoClicks.classList.add("subtitle");
-  infoClicks.innerHTML = `Clicks: ${clicks}`;
+  infoClicks.innerHTML = `Clicks: ${_data_data__WEBPACK_IMPORTED_MODULE_0__["default"].clicks}`;
   const restCells = document.createElement("div");
   restCells.classList.add("info__rest-cells");
   restCells.classList.add("subtitle");
-  restCells.innerHTML = `Rest Cells: ${(0,_restCellsCount__WEBPACK_IMPORTED_MODULE_0__["default"])(fieldInGameSize, openCellCount, minesInGameNumber)}`;
-  info.append(btnVolume, infoTime, infoClicks, restCells, btnTheme);
+  restCells.innerHTML = `Cells: ${(0,_restCellsCount__WEBPACK_IMPORTED_MODULE_1__["default"])(_data_data__WEBPACK_IMPORTED_MODULE_0__["default"].fieldInGameSize, _data_data__WEBPACK_IMPORTED_MODULE_0__["default"].openCellCount, _data_data__WEBPACK_IMPORTED_MODULE_0__["default"].minesInGameNumber)}`;
+  const infoMessage = document.createElement("div");
+  infoMessage.classList.add("info__message", "subtitle");
+  infoMessage.innerHTML = `You have to open ${(0,_restCellsCount__WEBPACK_IMPORTED_MODULE_1__["default"])(_data_data__WEBPACK_IMPORTED_MODULE_0__["default"].fieldInGameSize, _data_data__WEBPACK_IMPORTED_MODULE_0__["default"].openCellCount, _data_data__WEBPACK_IMPORTED_MODULE_0__["default"].minesInGameNumber)} more cells 👀`;
+  infoButtons.append(btnVolume, btnTheme);
+  infoList.append(infoTime, infoClicks);
+  info.append(infoButtons, infoList, infoMessage);
   return info;
 };
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (createInfoElement);
@@ -866,14 +902,12 @@ __webpack_require__.r(__webpack_exports__);
 
 
 const updateRestCells = (fieldInGameSize, openCellCount, minesInGameNumber, isSoundOn) => {
-  const targetElement = document.querySelector(".info__rest-cells");
+  const infoMessage = document.querySelector(".info__message");
   const count = (0,_restCellsCount__WEBPACK_IMPORTED_MODULE_1__["default"])(fieldInGameSize, openCellCount, minesInGameNumber);
-  const restCells = document.createElement("div");
-  restCells.innerHTML = `Rest Cells: ${count}`;
-  targetElement.innerHTML = "";
-  targetElement.append(restCells);
+  infoMessage.innerHTML = `You have to open ${count} more cells 👀`;
   if (count === 0) {
     (0,_finishGame__WEBPACK_IMPORTED_MODULE_0__["default"])("win", isSoundOn);
+    infoMessage.innerHTML = `🎊 You have won!!! 🥳🎉`;
   }
 };
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (updateRestCells);
@@ -1139,10 +1173,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony import */ var _data__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./data */ "./js/data.js");
+/* harmony import */ var _data_data__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./data/data */ "./js/data/data.js");
 
 const updateLocalStorage = () => {
-  // localStorage.setItem("minesweeper-data", JSON.stringify(data));
+  localStorage.setItem("minesweeper-data", JSON.stringify(_data_data__WEBPACK_IMPORTED_MODULE_0__["default"]));
 };
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (updateLocalStorage);
 
@@ -1173,7 +1207,7 @@ var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBP
 ___CSS_LOADER_EXPORT___.push([module.id, "@import url(https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;600;700&family=Roboto&display=swap);"]);
 var ___CSS_LOADER_URL_REPLACEMENT_0___ = _node_modules_css_loader_dist_runtime_getUrl_js__WEBPACK_IMPORTED_MODULE_2___default()(___CSS_LOADER_URL_IMPORT_0___);
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "body {\n  --backlight-color: #ffffff;\n  --lightest-color: #ffffff;\n  --darkest-color: #2a2013;\n  --darkest-shadow: #5b4e3e;\n  --bg-light-color: #eae6df;\n  --bg-dark-color: #d8cfc0;\n  --text-color: #79654e;\n  --title-shadow-color: #d6cfc7; }\n\n.dark-theme {\n  --backlight-color: #e0dee1;\n  --lightest-color: #515051;\n  --darkest-color: #0b0b0b;\n  --darkest-shadow: #00000000;\n  --bg-light-color: #3b393c;\n  --bg-dark-color: #2f2f2f;\n  --text-color: #000000;\n  --title-shadow-color: #898785; }\n\n.body {\n  font-family: \"Quicksand\";\n  color: var(--title-shadow-color); }\n\n.title {\n  color: var(--text-color);\n  font-weight: bold;\n  font-size: 44px; }\n  .title::after {\n    content: \"Minesweeper\";\n    color: var(--title-shadow-color);\n    opacity: 0.1; }\n  .title::before {\n    content: \"Minesweeper\";\n    color: var(--title-shadow-color);\n    opacity: 0.1; }\n\n.subtitle {\n  color: var(--text-color);\n  font-size: 16px;\n  text-shadow: 0 1px 1px var(--lightest-color);\n  font-weight: 600; }\n\n.last-games {\n  color: var(--text-color);\n  font-size: 16px;\n  text-shadow: 0 1px 1px var(--lightest-color);\n  font-weight: 600; }\n\n.cell {\n  font-size: 14px;\n  font-weight: 300;\n  text-shadow: 0 1px 1px var(--lightest-color), -0.5px -1px 1px var(--text-color); }\n\n.cell[data-num=\"1\"] {\n  color: #498ec0; }\n\n.cell[data-num=\"2\"] {\n  color: #4bae67; }\n\n.cell[data-num=\"3\"] {\n  color: #e77588; }\n\n.cell[data-num=\"4\"] {\n  color: #9676ed; }\n\n.cell[data-num=\"5\"] {\n  color: #dd89f0; }\n\n.cell[data-num=\"6\"] {\n  color: #36b0b0; }\n\n.cell[data-num=\"7\"] {\n  color: var(--darkest-color); }\n\n.cell[data-num=\"8\"] {\n  color: var(--backlight-color); }\n\n.settings__title {\n  position: relative;\n  text-align: center;\n  margin: 20px auto 0; }\n  .settings__title_range-input {\n    margin: 20px auto 5px; }\n\n.game-field {\n  display: grid;\n  padding: 2px;\n  gap: 2px;\n  background: var(--bg-dark-color);\n  outline: none;\n  -webkit-transition: 0.2s;\n  transition: opacity 0.2s;\n  border-radius: 5px;\n  box-shadow: inset 0px 2px 5px var(--text-color), 0px 1px 2px var(--lightest-color);\n  width: fit-content;\n  margin: 20px auto; }\n  .game-field_easy {\n    grid-template-columns: repeat(10, auto);\n    border-radius: 8px;\n    padding: 4px;\n    gap: 4px; }\n    .game-field_easy .cell {\n      width: 40px;\n      height: 40px;\n      border-radius: 8px; }\n  .game-field_medium {\n    grid-template-columns: repeat(15, auto);\n    border-radius: 3px;\n    padding: 3px;\n    gap: 3px; }\n    .game-field_medium .cell {\n      width: 26px;\n      height: 26px;\n      border-radius: 3px; }\n  .game-field_hard {\n    grid-template-columns: repeat(25, auto);\n    border-radius: 3px;\n    padding: 2px;\n    gap: 2px; }\n    .game-field_hard .cell {\n      width: 16px;\n      height: 16px;\n      border-radius: 2px; }\n\n.last-games {\n  margin: 0 auto;\n  width: fit-content; }\n  .last-games__list {\n    display: flex;\n    flex-direction: column;\n    border-radius: 5px;\n    box-shadow: inset 0px 2px 5px var(--text-color), 0px 1px 2px var(--lightest-color);\n    padding: 6px;\n    gap: 6px;\n    background: var(--bg-dark-color); }\n  .last-games__item {\n    display: flex;\n    gap: 15px;\n    justify-content: space-between; }\n\n.info {\n  display: flex;\n  justify-content: center;\n  gap: 10px; }\n\n.btn {\n  background-color: transparent;\n  padding: 0;\n  border: none;\n  opacity: 0.8;\n  cursor: pointer;\n  display: block; }\n  .btn svg {\n    display: block;\n    align-self: center; }\n  .btn .path-bg {\n    transition: 0.3s; }\n  .btn_line .path-bg {\n    fill: var(--text-color); }\n  .btn_line:hover .path-bg {\n    opacity: 0.5; }\n  .btn_fill {\n    background: url(" + ___CSS_LOADER_URL_REPLACEMENT_0___ + "), linear-gradient(180deg, var(--bg-light-color) 0%, var(--bg-dark-color) 100%);\n    box-shadow: 0px 2px 5px var(--darkest-color), inset 0px 2px 2px var(--bg-light-color); }\n  .btn_new-game {\n    font-size: 32px;\n    font-weight: bold;\n    margin: 10px auto;\n    display: block;\n    color: var(--text-color);\n    position: relative; }\n    .btn_new-game:hover {\n      color: var(--darkest-color); }\n    .btn_new-game:before, .btn_new-game:after {\n      content: \"Start new game\";\n      color: var(--title-shadow-color);\n      position: absolute;\n      width: 237px;\n      opacity: 0.1; }\n    .btn_new-game:before {\n      top: 1px;\n      left: 1px; }\n    .btn_new-game:after {\n      top: 2px;\n      left: 2px; }\n\n.radio-input {\n  gap: 5px;\n  margin: 0 auto;\n  display: flex;\n  align-items: center;\n  width: fit-content; }\n  .radio-input__input {\n    -webkit-appearance: none;\n    -moz-appearance: none;\n    appearance: none;\n    border-radius: 50%;\n    padding: 5px;\n    cursor: pointer;\n    width: 12px;\n    height: 12px;\n    background-color: var(--bg-dark-color);\n    box-shadow: inset 0px 1px 2px var(--text-color), 0px 1px 2px var(--lightest-color);\n    transition: 0.2s all linear;\n    outline: none;\n    margin-right: 5px;\n    position: relative;\n    top: 4px; }\n    .radio-input__input__label {\n      padding-top: -10px; }\n    .radio-input__input:checked {\n      background-color: var(--backlight-color); }\n    .radio-input__input:hover {\n      opacity: 0.6; }\n\n.range-input {\n  width: 200px;\n  margin: 0 auto;\n  display: flex;\n  gap: 5px;\n  align-items: center; }\n  .range-input__arrow-left {\n    transform: rotate(180deg); }\n  .range-input__field {\n    -webkit-appearance: none;\n    appearance: none;\n    width: 100%;\n    height: 10px;\n    background: var(--bg-dark-color);\n    outline: none;\n    opacity: 0.7;\n    -webkit-transition: 0.2s;\n    transition: opacity 0.2s;\n    border-radius: 5px;\n    box-shadow: inset 0px 2px 5px var(--text-color), 0px 1px 2px var(--lightest-color); }\n    .range-input__field::-webkit-slider-thumb {\n      -webkit-appearance: none;\n      appearance: none;\n      width: 20px;\n      height: 20px;\n      cursor: pointer;\n      border-radius: 50%;\n      background: url(" + ___CSS_LOADER_URL_REPLACEMENT_0___ + "), linear-gradient(180deg, var(--bg-light-color) 0%, var(--bg-dark-color) 100%);\n      box-shadow: 0px 2px 5px var(--darkest-color), inset 0px 2px 2px var(--bg-light-color);\n      transition: 0.3s; }\n      .range-input__field::-webkit-slider-thumb:hover {\n        box-shadow: 0px 2px 5px var(--darkest-color), inset 0px 2px 2px var(--lightest-color);\n        transition: 0.3s; }\n      .range-input__field::-webkit-slider-thumb:active {\n        background: url(" + ___CSS_LOADER_URL_REPLACEMENT_0___ + "), linear-gradient(180deg, var(--bg-dark-color) 0%, var(--bg-light-color) 100%); }\n\n.title {\n  position: relative;\n  display: block;\n  width: fit-content;\n  margin: 20px auto; }\n  .title::before {\n    position: absolute;\n    top: 1px;\n    left: 1px; }\n  .title::after {\n    position: absolute;\n    top: 2px;\n    left: 2px; }\n\n.cell:active {\n  background: url(" + ___CSS_LOADER_URL_REPLACEMENT_0___ + "), linear-gradient(180deg, var(--bg-dark-color) 0%, var(--bg-light-color) 100%); }\n\n.cell:hover {\n  box-shadow: 0px 2px 5px var(--darkest-color), inset 0px 2px 2px var(--lightest-color);\n  transition: 0.3s; }\n\n.cell_open {\n  cursor: default;\n  background: transparent;\n  box-shadow: none; }\n\n.cell_open {\n  cursor: default; }\n  .cell_open:hover {\n    box-shadow: none; }\n  .cell_open:active {\n    background: none; }\n\n.cell_flag {\n  position: relative; }\n  .cell_flag::after {\n    position: absolute;\n    content: \"\";\n    top: 50%;\n    left: 50%;\n    transform: translate(-50%, -50%);\n    width: 12px;\n    height: 12px;\n    background-color: var(--backlight-color);\n    background-color: white;\n    border-radius: 50%;\n    box-shadow: inset 0px 1px 2px var(--text-color), 0px 1px 2px var(--lightest-color); }\n\n.cell_mine {\n  position: relative; }\n  .cell_mine::after {\n    position: absolute;\n    content: \"\";\n    top: 50%;\n    left: 50%;\n    transform: translate(-50%, -50%);\n    width: 12px;\n    height: 12px;\n    background-color: var(--backlight-color);\n    background-color: var(--darkest-color);\n    border-radius: 50%;\n    box-shadow: inset 0px 1px 2px var(--text-color), 0px 1px 2px var(--lightest-color); }\n\n.cell_expl::after {\n  background-color: #ae1a1a; }\n\n.game-field_easy .cell::after {\n  width: 16px;\n  height: 16px; }\n\n.game-field_medium .cell::after {\n  width: 12px;\n  height: 12px; }\n\n.game-field_hard .cell::after {\n  width: 8px;\n  height: 8px; }\n\n.html {\n  min-height: 100vh; }\n\n.body {\n  margin: 0;\n  padding: 0;\n  background: url(" + ___CSS_LOADER_URL_REPLACEMENT_0___ + "), linear-gradient(180deg, var(--bg-light-color) 0%, var(--bg-dark-color) 100%); }\n\n.btn_active .path-bg {\n  fill: var(--backlight-color);\n  transition: 0.3s; }\n\n.btn_active svg {\n  filter: drop-shadow(0px -1px 1px var(--darkest-shadow)); }\n", "",{"version":3,"sources":["webpack://./scss/abstracts/_variables.scss","webpack://./scss/themes/_dark-theme.scss","webpack://./scss/base/_typography.scss","webpack://./scss/layout/_settings.scss","webpack://./scss/layout/_game-field.scss","webpack://./scss/layout/_last-games.scss","webpack://./scss/layout/_info.scss","webpack://./scss/components/_buttons.scss","webpack://./scss/components/_radio-input.scss","webpack://./scss/components/_range-input.scss","webpack://./scss/components/_titles.scss","webpack://./scss/components/_cell.scss","webpack://./scss/pages/_home.scss","webpack://./scss/base/_helpers.scss"],"names":[],"mappings":"AAAA;EACE,0BAAkB;EAClB,yBAAiB;EACjB,wBAAgB;EAChB,yBAAiB;EAEjB,yBAAiB;EACjB,wBAAgB;EAEhB,qBAAa;EACb,6BAAqB,EAAA;;ACVvB;EACE,0BAAkB;EAClB,yBAAiB;EACjB,wBAAgB;EAChB,2BAAiB;EAGjB,yBAAiB;EACjB,wBAAgB;EAEhB,qBAAa;EACb,6BAAqB,EAAA;;ACXvB;EACE,wBAAwB;EACxB,gCAAgC,EAAA;;AAGlC;EACE,wBAAwB;EACxB,iBAAiB;EACjB,eAAe,EAAA;EAHjB;IAMI,sBAAsB;IACtB,gCAAgC;IAChC,YAAY,EAAA;EARhB;IAWI,sBAAsB;IACtB,gCAAgC;IAChC,YAAY,EAAA;;AAIhB;EACE,wBAAwB;EACxB,eAAe;EACf,4CAA4C;EAC5C,gBAAgB,EAAA;;AAGlB;EACE,wBAAwB;EACxB,eAAe;EACf,4CAA4C;EAC5C,gBAAgB,EAAA;;AAGlB;EACE,eAAe;EACf,gBAAgB;EAChB,+EACmC,EAAA;;AAErC;EACE,cAAwB,EAAA;;AAE1B;EACE,cAAwB,EAAA;;AAE1B;EACE,cAAyB,EAAA;;AAE3B;EACE,cAAyB,EAAA;;AAE3B;EACE,cAAyB,EAAA;;AAE3B;EACE,cAAwB,EAAA;;AAE1B;EACE,2BAA2B,EAAA;;AAE7B;EACE,6BAA6B,EAAA;;AC/D7B;EACE,kBAAkB;EAClB,kBAAkB;EAClB,mBAAmB,EAAA;EAEnB;IACE,qBAAqB,EAAA;;ACP3B;EACE,aAAa;EACb,YAAY;EACZ,QAAQ;EACR,gCAAgC;EAChC,aAAa;EACb,wBAAwB;EACxB,wBAAwB;EACxB,kBAAkB;EAClB,kFACmC;EACnC,kBAAkB;EAClB,iBAAiB,EAAA;EAEjB;IACE,uCAAuC;IACvC,kBAAkB;IAClB,YAAY;IACZ,QAAQ,EAAA;IAJT;MAOG,WAAW;MACX,YAAY;MACZ,kBAAkB,EAAA;EAGtB;IACE,uCAAuC;IACvC,kBAAkB;IAClB,YAAY;IACZ,QAAQ,EAAA;IAJT;MAMG,WAAW;MACX,YAAY;MACZ,kBAAkB,EAAA;EAGtB;IACE,uCAAuC;IACvC,kBAAkB;IAClB,YAAY;IACZ,QAAQ,EAAA;IAJT;MAMG,WAAW;MACX,YAAY;MACZ,kBAAkB,EAAA;;AC7CxB;EACE,cAAc;EACd,kBAAkB,EAAA;EAElB;IACE,aAAa;IACb,sBAAsB;IACtB,kBAAkB;IAClB,kFACmC;IACnC,YAAY;IACZ,QAAQ;IACR,gCAAgC,EAAA;EAGlC;IACE,aAAa;IACb,SAAS;IACT,8BAA8B,EAAA;;AClBlC;EACE,aAAa;EACb,uBAAuB;EACvB,SAAS,EAAA;;ACHX;EACE,6BAA6B;EAC7B,UAAU;EACV,YAAY;EACZ,YAAY;EACZ,eAAe;EACf,cAAc,EAAA;EANhB;IASI,cAAc;IACd,kBAAkB,EAAA;EAVtB;IAcI,gBAAgB,EAAA;EAGjB;IAEG,uBAAuB,EAAA;EAF1B;IAOK,YAAY,EAAA;EAMlB;IACE,iIAKG;IACH,qFACyC,EAAA;EAG3C;IACE,eAAe;IACf,iBAAiB;IACjB,iBAAiB;IACjB,cAAc;IACd,wBAAwB;IACxB,kBAAkB,EAAA;IANnB;MASG,2BAA2B,EAAA;IAT9B;MAcG,yBAAyB;MACzB,gCAAgC;MAChC,kBAAkB;MAClB,YAAY;MACZ,YAAY,EAAA;IAlBf;MAqBG,QAAQ;MACR,SAAS,EAAA;IAtBZ;MAyBG,QAAQ;MACR,SAAS,EAAA;;ACnEf;EACE,QAAQ;EACR,cAAc;EACd,aAAa;EACb,mBAAmB;EACnB,kBAAkB,EAAA;EAElB;IACE,wBAAwB;IACxB,qBAAqB;IACrB,gBAAgB;IAEhB,kBAAkB;IAClB,YAAY;IACZ,eAAe;IACf,WAAW;IACX,YAAY;IACZ,sCAAsC;IACtC,kFAAkF;IAElF,2BAA2B;IAC3B,aAAa;IACb,iBAAiB;IAEjB,kBAAkB;IAClB,QAAQ,EAAA;IAER;MACE,kBAAkB,EAAA;IArBrB;MAyBG,wCAAwC,EAAA;IAzB3C;MA6BG,YAAY,EAAA;;ACpClB;EACE,YAAY;EACZ,cAAc;EACd,aAAa;EACb,QAAQ;EACR,mBAAmB,EAAA;EAEnB;IACE,yBAAyB,EAAA;EAG3B;IACE,wBAAwB;IACxB,gBAAgB;IAChB,WAAW;IACX,YAAY;IACZ,gCAAgC;IAChC,aAAa;IACb,YAAY;IACZ,wBAAwB;IACxB,wBAAwB;IACxB,kBAAkB;IAClB,kFACmC,EAAA;IAZpC;MAeG,wBAAwB;MACxB,gBAAgB;MAChB,WAAW;MACX,YAAY;MACZ,eAAe;MACf,kBAAkB;MAClB,iIAKG;MACH,qFACyC;MACzC,gBAAgB,EAAA;MA7BnB;QAgCK,qFACyC;QACzC,gBAAgB,EAAA;MAlCrB;QAsCK,iIAKG,EAAA;;ACtDX;EACE,kBAAkB;EAClB,cAAc;EACd,kBAAkB;EAClB,iBAAiB,EAAA;EAJnB;IAOI,kBAAkB;IAClB,QAAQ;IACR,SAAS,EAAA;EATb;IAaI,kBAAkB;IAClB,QAAQ;IACR,SAAS,EAAA;;ACfb;EAEI,iIAKG,EAAA;;AAPP;EAWI,qFACyC;EACzC,gBAAgB,EAAA;;AAGlB;EACE,eAAe;EACf,uBAAuB;EACvB,gBAAgB,EAAA;;AAGlB;EACE,eAAe,EAAA;EADhB;IAGG,gBAAgB,EAAA;EAHnB;IAMG,gBAAgB,EAAA;;AAIpB;EACE,kBAAkB,EAAA;EADnB;IAIG,kBAAkB;IAClB,WAAW;IACX,QAAQ;IACR,SAAS;IACT,gCAAgC;IAChC,WAAW;IACX,YAAY;IACZ,wCAAwC;IACxC,uBAAuB;IACvB,kBAAkB;IAClB,kFACmC,EAAA;;AAIvC;EACE,kBAAkB,EAAA;EADnB;IAIG,kBAAkB;IAClB,WAAW;IACX,QAAQ;IACR,SAAS;IACT,gCAAgC;IAChC,WAAW;IACX,YAAY;IACZ,wCAAwC;IACxC,sCAAsC;IACtC,kBAAkB;IAClB,kFACmC,EAAA;;AAItC;EAEG,yBAAkC,EAAA;;AAKxC;EAEI,WAAW;EACX,YAAY,EAAA;;AAIhB;EAEI,WAAW;EACX,YAAY,EAAA;;AAIhB;EAEI,UAAU;EACV,WAAW,EAAA;;AC9Ff;EACE,iBAAiB,EAAA;;AAGnB;EACE,SAAS;EACT,UAAU;EACV,iIAC8E,EAAA;;ACRhF;EAEI,4BAA4B;EAC5B,gBAAgB,EAAA;;AAHpB;EAOI,uDAAuD,EAAA","sourcesContent":["body {\r\n  --backlight-color: #ffffff;\r\n  --lightest-color: #ffffff;\r\n  --darkest-color: #2a2013;\r\n  --darkest-shadow: #5b4e3e;\r\n\r\n  --bg-light-color: #eae6df;\r\n  --bg-dark-color: #d8cfc0;\r\n\r\n  --text-color: #79654e;\r\n  --title-shadow-color: #d6cfc7;\r\n}",".dark-theme {\r\n  --backlight-color: #e0dee1;\r\n  --lightest-color: #515051;\r\n  --darkest-color: #0b0b0b;\r\n  --darkest-shadow: #00000000;\r\n\r\n\r\n  --bg-light-color: #3b393c;\r\n  --bg-dark-color: #2f2f2f;\r\n\r\n  --text-color: #000000;\r\n  --title-shadow-color: #898785;\r\n}\r\n",".body {\r\n  font-family: \"Quicksand\";\r\n  color: var(--title-shadow-color);\r\n}\r\n\r\n.title {\r\n  color: var(--text-color);\r\n  font-weight: bold;\r\n  font-size: 44px;\r\n\r\n  &::after {\r\n    content: \"Minesweeper\";\r\n    color: var(--title-shadow-color);\r\n    opacity: 0.1;\r\n  }\r\n  &::before {\r\n    content: \"Minesweeper\";\r\n    color: var(--title-shadow-color);\r\n    opacity: 0.1;\r\n  }\r\n}\r\n\r\n.subtitle {\r\n  color: var(--text-color);\r\n  font-size: 16px;\r\n  text-shadow: 0 1px 1px var(--lightest-color);\r\n  font-weight: 600;\r\n}\r\n\r\n.last-games {\r\n  color: var(--text-color);\r\n  font-size: 16px;\r\n  text-shadow: 0 1px 1px var(--lightest-color);\r\n  font-weight: 600;\r\n}\r\n\r\n.cell {\r\n  font-size: 14px;\r\n  font-weight: 300;\r\n  text-shadow: 0 1px 1px var(--lightest-color),\r\n    -0.5px -1px 1px var(--text-color);\r\n}\r\n.cell[data-num=\"1\"] {\r\n  color: rgb(73, 142, 192);\r\n}\r\n.cell[data-num=\"2\"] {\r\n  color: rgb(75, 174, 103);\r\n}\r\n.cell[data-num=\"3\"] {\r\n  color: rgb(231, 117, 136);\r\n}\r\n.cell[data-num=\"4\"] {\r\n  color: rgb(150, 118, 237);\r\n}\r\n.cell[data-num=\"5\"] {\r\n  color: rgb(221, 137, 240);\r\n}\r\n.cell[data-num=\"6\"] {\r\n  color: rgb(54, 176, 176);\r\n}\r\n.cell[data-num=\"7\"] {\r\n  color: var(--darkest-color);\r\n}\r\n.cell[data-num=\"8\"] {\r\n  color: var(--backlight-color);\r\n}\r\n",".settings {\r\n  &__title {\r\n    position: relative;\r\n    text-align: center;\r\n    margin: 20px auto 0;\r\n\r\n    &_range-input {\r\n      margin: 20px auto 5px;\r\n    }\r\n  }\r\n}\r\n",".game-field {\r\n  display: grid;\r\n  padding: 2px;\r\n  gap: 2px;\r\n  background: var(--bg-dark-color);\r\n  outline: none;\r\n  -webkit-transition: 0.2s;\r\n  transition: opacity 0.2s;\r\n  border-radius: 5px;\r\n  box-shadow: inset 0px 2px 5px var(--text-color),\r\n    0px 1px 2px var(--lightest-color);\r\n  width: fit-content;\r\n  margin: 20px auto;\r\n\r\n  &_easy {\r\n    grid-template-columns: repeat(10, auto);\r\n    border-radius: 8px;\r\n    padding: 4px;\r\n    gap: 4px;\r\n\r\n    & .cell {\r\n      width: 40px;\r\n      height: 40px;\r\n      border-radius: 8px;\r\n    }\r\n  }\r\n  &_medium {\r\n    grid-template-columns: repeat(15, auto);\r\n    border-radius: 3px;\r\n    padding: 3px;\r\n    gap: 3px;\r\n    & .cell {\r\n      width: 26px;\r\n      height: 26px;\r\n      border-radius: 3px;\r\n    }\r\n  }\r\n  &_hard {\r\n    grid-template-columns: repeat(25, auto);\r\n    border-radius: 3px;\r\n    padding: 2px;\r\n    gap: 2px;\r\n    & .cell {\r\n      width: 16px;\r\n      height: 16px;\r\n      border-radius: 2px;\r\n    }\r\n  }\r\n}\r\n",".last-games {\n  margin: 0 auto;\n  width: fit-content;\n\n  &__list {\n    display: flex;\n    flex-direction: column;\n    border-radius: 5px;\n    box-shadow: inset 0px 2px 5px var(--text-color),\n      0px 1px 2px var(--lightest-color);\n    padding: 6px;\n    gap: 6px;\n    background: var(--bg-dark-color);\n  }\n\n  &__item {\n    display: flex;\n    gap: 15px;\n    justify-content: space-between;\n  }\n}\n",".info {\r\n  display: flex;\r\n  justify-content: center;\r\n  gap: 10px;\r\n}",".btn {\r\n  background-color: transparent;\r\n  padding: 0;\r\n  border: none;\r\n  opacity: 0.8;\r\n  cursor: pointer;\r\n  display: block;\r\n\r\n  & svg {\r\n    display: block;\r\n    align-self: center;\r\n  }\r\n\r\n  & .path-bg {\r\n    transition: 0.3s;\r\n  }\r\n\r\n  &_line {\r\n    & .path-bg {\r\n      fill: var(--text-color);\r\n    }\r\n    \r\n    &:hover {\r\n      & .path-bg {\r\n        opacity: 0.5;\r\n      }\r\n\r\n    }\r\n  }\r\n\r\n  &_fill {\r\n    background: url(@img/bg.png),\r\n      linear-gradient(\r\n        180deg,\r\n        var(--bg-light-color) 0%,\r\n        var(--bg-dark-color) 100%\r\n      );\r\n    box-shadow: 0px 2px 5px var(--darkest-color),\r\n      inset 0px 2px 2px var(--bg-light-color);\r\n  }\r\n\r\n  &_new-game {\r\n    font-size: 32px;\r\n    font-weight: bold;\r\n    margin: 10px auto;\r\n    display: block;\r\n    color: var(--text-color);\r\n    position: relative;\r\n    \r\n    &:hover {\r\n      color: var(--darkest-color);\r\n    }\r\n\r\n    &:before,\r\n    &:after {\r\n      content: \"Start new game\";\r\n      color: var(--title-shadow-color);\r\n      position: absolute;\r\n      width: 237px;\r\n      opacity: 0.1;\r\n    }\r\n    &:before {\r\n      top: 1px;\r\n      left: 1px;\r\n    }\r\n    &:after {\r\n      top: 2px;\r\n      left: 2px;\r\n    }\r\n  }\r\n}\r\n",".radio-input {\r\n  gap: 5px;\r\n  margin: 0 auto;\r\n  display: flex;\r\n  align-items: center;\r\n  width: fit-content;\r\n\r\n  &__input {\r\n    -webkit-appearance: none;\r\n    -moz-appearance: none;\r\n    appearance: none;\r\n\r\n    border-radius: 50%;\r\n    padding: 5px;\r\n    cursor: pointer;\r\n    width: 12px;\r\n    height: 12px;\r\n    background-color: var(--bg-dark-color);\r\n    box-shadow: inset 0px 1px 2px var(--text-color), 0px 1px 2px var(--lightest-color); \r\n\r\n    transition: 0.2s all linear;\r\n    outline: none;\r\n    margin-right: 5px;\r\n\r\n    position: relative;\r\n    top: 4px;\r\n\r\n    &__label {\r\n      padding-top: -10px;\r\n    }\r\n\r\n    &:checked {\r\n      background-color: var(--backlight-color);\r\n    }\r\n\r\n    &:hover {\r\n      opacity: 0.6;\r\n    }\r\n  }\r\n}\r\n",".range-input {\r\n  width: 200px;\r\n  margin: 0 auto;\r\n  display: flex;\r\n  gap: 5px;\r\n  align-items: center;\r\n\r\n  &__arrow-left {\r\n    transform: rotate(180deg);\r\n  }\r\n\r\n  &__field {\r\n    -webkit-appearance: none;\r\n    appearance: none;\r\n    width: 100%;\r\n    height: 10px;\r\n    background: var(--bg-dark-color);\r\n    outline: none;\r\n    opacity: 0.7;\r\n    -webkit-transition: 0.2s;\r\n    transition: opacity 0.2s;\r\n    border-radius: 5px;\r\n    box-shadow: inset 0px 2px 5px var(--text-color),\r\n      0px 1px 2px var(--lightest-color);\r\n\r\n    &::-webkit-slider-thumb {\r\n      -webkit-appearance: none;\r\n      appearance: none;\r\n      width: 20px;\r\n      height: 20px;\r\n      cursor: pointer;\r\n      border-radius: 50%;\r\n      background: url(@img/bg.png),\r\n        linear-gradient(\r\n          180deg,\r\n          var(--bg-light-color) 0%,\r\n          var(--bg-dark-color) 100%\r\n        );\r\n      box-shadow: 0px 2px 5px var(--darkest-color),\r\n        inset 0px 2px 2px var(--bg-light-color);\r\n      transition: 0.3s;\r\n\r\n      &:hover {\r\n        box-shadow: 0px 2px 5px var(--darkest-color),\r\n          inset 0px 2px 2px var(--lightest-color);\r\n        transition: 0.3s;\r\n      }\r\n\r\n      &:active {\r\n        background: url(@img/bg.png),\r\n          linear-gradient(\r\n            180deg,\r\n            var(--bg-dark-color) 0%,\r\n            var(--bg-light-color) 100%\r\n          );\r\n      }\r\n    }\r\n  }\r\n}\r\n",".title {\r\n  position: relative;\r\n  display: block;\r\n  width: fit-content;\r\n  margin: 20px auto;\r\n\r\n  &::before {\r\n    position: absolute;\r\n    top: 1px;\r\n    left: 1px;\r\n  }\r\n\r\n  &::after {\r\n    position: absolute;\r\n    top: 2px;\r\n    left: 2px;\r\n  }\r\n}\r\n",".cell {\r\n  &:active {\r\n    background: url(@img/bg.png),\r\n      linear-gradient(\r\n        180deg,\r\n        var(--bg-dark-color) 0%,\r\n        var(--bg-light-color) 100%\r\n      );\r\n  }\r\n\r\n  &:hover {\r\n    box-shadow: 0px 2px 5px var(--darkest-color),\r\n      inset 0px 2px 2px var(--lightest-color);\r\n    transition: 0.3s;\r\n  }\r\n\r\n  &_open {\r\n    cursor: default;\r\n    background: transparent;\r\n    box-shadow: none;\r\n  }\r\n\r\n  &_open {\r\n    cursor: default;\r\n    &:hover {\r\n      box-shadow: none;\r\n    }\r\n    &:active {\r\n      background: none;\r\n    }\r\n  }\r\n\r\n  &_flag {\r\n    position: relative;\r\n\r\n    &::after {\r\n      position: absolute;\r\n      content: \"\";\r\n      top: 50%;\r\n      left: 50%;\r\n      transform: translate(-50%, -50%);\r\n      width: 12px;\r\n      height: 12px;\r\n      background-color: var(--backlight-color);\r\n      background-color: white;\r\n      border-radius: 50%;\r\n      box-shadow: inset 0px 1px 2px var(--text-color),\r\n        0px 1px 2px var(--lightest-color);\r\n    }\r\n  }\r\n\r\n  &_mine {\r\n    position: relative;\r\n\r\n    &::after {\r\n      position: absolute;\r\n      content: \"\";\r\n      top: 50%;\r\n      left: 50%;\r\n      transform: translate(-50%, -50%);\r\n      width: 12px;\r\n      height: 12px;\r\n      background-color: var(--backlight-color);\r\n      background-color: var(--darkest-color);\r\n      border-radius: 50%;\r\n      box-shadow: inset 0px 1px 2px var(--text-color),\r\n        0px 1px 2px var(--lightest-color);\r\n    }\r\n  }\r\n\r\n  &_expl {\r\n    &::after {\r\n      background-color: rgb(174, 26, 26);\r\n    }\r\n  }\r\n}\r\n\r\n.game-field_easy {\r\n  & .cell::after {\r\n    width: 16px;\r\n    height: 16px;\r\n  }\r\n}\r\n\r\n.game-field_medium {\r\n  & .cell::after {\r\n    width: 12px;\r\n    height: 12px;\r\n  }\r\n}\r\n\r\n.game-field_hard {\r\n  & .cell::after {\r\n    width: 8px;\r\n    height: 8px;\r\n  }\r\n}\r\n",".html {\r\n  min-height: 100vh;\r\n}\r\n\r\n.body {\r\n  margin: 0;\r\n  padding: 0;\r\n  background: url(@img/bg.png),\r\n    linear-gradient(180deg, var(--bg-light-color) 0%, var(--bg-dark-color) 100%);\r\n}\r\n",".btn_active {\r\n  & .path-bg {\r\n    fill: var(--backlight-color);\r\n    transition: 0.3s;\r\n  }\r\n\r\n  & svg {\r\n    filter: drop-shadow(0px -1px 1px var(--darkest-shadow));\r\n  }\r\n}\r\n"],"sourceRoot":""}]);
+___CSS_LOADER_EXPORT___.push([module.id, "body {\n  --backlight-color: #ffffff;\n  --lightest-color: #ffffff;\n  --darkest-color: #2a2013;\n  --darkest-shadow: #5b4e3e;\n  --bg-light-color: #eae6df;\n  --bg-dark-color: #d8cfc0;\n  --text-color: #79654e;\n  --title-shadow-color: #d6cfc7; }\n\n.dark-theme {\n  --backlight-color: #e0dee1;\n  --lightest-color: #515051;\n  --darkest-color: #0b0b0b;\n  --darkest-shadow: #00000000;\n  --bg-light-color: #3b393c;\n  --bg-dark-color: #2f2f2f;\n  --text-color: #000000;\n  --title-shadow-color: #898785; }\n\n.body {\n  font-family: \"Quicksand\";\n  color: var(--title-shadow-color); }\n\n.title {\n  color: var(--text-color);\n  font-weight: bold;\n  font-size: 44px; }\n  .title::after {\n    content: \"Minesweeper\";\n    color: var(--title-shadow-color);\n    opacity: 0.1; }\n  .title::before {\n    content: \"Minesweeper\";\n    color: var(--title-shadow-color);\n    opacity: 0.1; }\n\n.subtitle {\n  color: var(--text-color);\n  font-size: 16px;\n  text-shadow: 0 1px 1px var(--lightest-color);\n  font-weight: 600; }\n\n.info__message {\n  font-size: 24px; }\n\n.last-games {\n  color: var(--text-color);\n  font-size: 16px;\n  text-shadow: 0 1px 1px var(--lightest-color);\n  font-weight: 600; }\n\n.cell {\n  font-size: 14px;\n  font-weight: 300;\n  text-shadow: 0 1px 1px var(--lightest-color), -0.5px -1px 1px var(--text-color); }\n\n.cell[data-num=\"1\"] {\n  color: #498ec0; }\n\n.cell[data-num=\"2\"] {\n  color: #4bae67; }\n\n.cell[data-num=\"3\"] {\n  color: #e77588; }\n\n.cell[data-num=\"4\"] {\n  color: #9676ed; }\n\n.cell[data-num=\"5\"] {\n  color: #dd89f0; }\n\n.cell[data-num=\"6\"] {\n  color: #36b0b0; }\n\n.cell[data-num=\"7\"] {\n  color: var(--darkest-color); }\n\n.cell[data-num=\"8\"] {\n  color: var(--backlight-color); }\n\n.settings__title {\n  position: relative;\n  text-align: center;\n  margin: 20px auto 0; }\n  .settings__title_range-input {\n    margin: 20px auto 5px; }\n\n.game-field {\n  display: grid;\n  padding: 2px;\n  gap: 2px;\n  background: var(--bg-dark-color);\n  outline: none;\n  -webkit-transition: 0.2s;\n  transition: opacity 0.2s;\n  border-radius: 5px;\n  box-shadow: inset 0px 2px 5px var(--text-color), 0px 1px 2px var(--lightest-color);\n  width: fit-content;\n  margin: 20px auto; }\n  .game-field_size-10 {\n    grid-template-columns: repeat(10, auto);\n    border-radius: 8px;\n    padding: 4px;\n    gap: 4px; }\n    .game-field_size-10 .cell {\n      width: 40px;\n      height: 40px;\n      border-radius: 8px; }\n  .game-field_size-15 {\n    grid-template-columns: repeat(15, auto);\n    border-radius: 3px;\n    padding: 3px;\n    gap: 3px; }\n    .game-field_size-15 .cell {\n      width: 26px;\n      height: 26px;\n      border-radius: 3px; }\n  .game-field_size-25 {\n    grid-template-columns: repeat(25, auto);\n    border-radius: 3px;\n    padding: 2px;\n    gap: 2px; }\n    .game-field_size-25 .cell {\n      width: 16px;\n      height: 16px;\n      border-radius: 2px; }\n\n.last-games {\n  margin: 0 auto;\n  width: fit-content; }\n  .last-games__list {\n    display: flex;\n    flex-direction: column;\n    border-radius: 5px;\n    box-shadow: inset 0px 2px 5px var(--text-color), 0px 1px 2px var(--lightest-color);\n    padding: 6px;\n    gap: 6px;\n    background: var(--bg-dark-color); }\n  .last-games__item {\n    display: flex;\n    gap: 15px;\n    justify-content: space-between; }\n\n.info {\n  display: flex;\n  gap: 10px;\n  flex-direction: column;\n  align-items: center; }\n\n.info__list {\n  display: flex;\n  gap: 15px; }\n\n.info__buttons {\n  display: flex;\n  gap: 20px; }\n\n.btn {\n  background-color: transparent;\n  padding: 0;\n  border: none;\n  opacity: 0.8;\n  cursor: pointer;\n  display: block; }\n  .btn svg {\n    display: block;\n    align-self: center; }\n  .btn .path-bg {\n    transition: 0.3s; }\n  .btn_line .path-bg {\n    fill: var(--text-color); }\n  .btn_line:hover .path-bg {\n    opacity: 0.5; }\n  .btn_fill {\n    background: url(" + ___CSS_LOADER_URL_REPLACEMENT_0___ + "), linear-gradient(180deg, var(--bg-light-color) 0%, var(--bg-dark-color) 100%);\n    box-shadow: 0px 2px 5px var(--darkest-color), inset 0px 2px 2px var(--bg-light-color); }\n  .btn_new-game {\n    font-size: 32px;\n    font-weight: bold;\n    margin: 10px auto;\n    display: block;\n    color: var(--text-color);\n    position: relative; }\n    .btn_new-game:hover {\n      color: var(--darkest-color); }\n    .btn_new-game:before, .btn_new-game:after {\n      content: \"Start new game\";\n      color: var(--title-shadow-color);\n      position: absolute;\n      width: 237px;\n      opacity: 0.1; }\n    .btn_new-game:before {\n      top: 1px;\n      left: 1px; }\n    .btn_new-game:after {\n      top: 2px;\n      left: 2px; }\n\n.radio-input {\n  gap: 5px;\n  margin: 0 auto;\n  display: flex;\n  align-items: center;\n  width: fit-content; }\n  .radio-input__input {\n    -webkit-appearance: none;\n    -moz-appearance: none;\n    appearance: none;\n    border-radius: 50%;\n    padding: 5px;\n    cursor: pointer;\n    width: 12px;\n    height: 12px;\n    background-color: var(--bg-dark-color);\n    box-shadow: inset 0px 1px 2px var(--text-color), 0px 1px 2px var(--lightest-color);\n    transition: 0.2s all linear;\n    outline: none;\n    margin-right: 5px;\n    position: relative;\n    top: 4px; }\n    .radio-input__input__label {\n      padding-top: -10px; }\n    .radio-input__input:checked {\n      background-color: var(--backlight-color); }\n    .radio-input__input:hover {\n      opacity: 0.6; }\n\n.range-input {\n  width: 200px;\n  margin: 0 auto;\n  display: flex;\n  gap: 5px;\n  align-items: center; }\n  .range-input__arrow-left {\n    transform: rotate(180deg); }\n  .range-input__field {\n    -webkit-appearance: none;\n    appearance: none;\n    width: 100%;\n    height: 10px;\n    background: var(--bg-dark-color);\n    outline: none;\n    opacity: 0.7;\n    -webkit-transition: 0.2s;\n    transition: opacity 0.2s;\n    border-radius: 5px;\n    box-shadow: inset 0px 2px 5px var(--text-color), 0px 1px 2px var(--lightest-color); }\n    .range-input__field::-webkit-slider-thumb {\n      -webkit-appearance: none;\n      appearance: none;\n      width: 20px;\n      height: 20px;\n      cursor: pointer;\n      border-radius: 50%;\n      background: url(" + ___CSS_LOADER_URL_REPLACEMENT_0___ + "), linear-gradient(180deg, var(--bg-light-color) 0%, var(--bg-dark-color) 100%);\n      box-shadow: 0px 2px 5px var(--darkest-color), inset 0px 2px 2px var(--bg-light-color);\n      transition: 0.3s; }\n      .range-input__field::-webkit-slider-thumb:hover {\n        box-shadow: 0px 2px 5px var(--darkest-color), inset 0px 2px 2px var(--lightest-color);\n        transition: 0.3s; }\n      .range-input__field::-webkit-slider-thumb:active {\n        background: url(" + ___CSS_LOADER_URL_REPLACEMENT_0___ + "), linear-gradient(180deg, var(--bg-dark-color) 0%, var(--bg-light-color) 100%); }\n\n.title {\n  position: relative;\n  display: block;\n  width: fit-content;\n  margin: 20px auto; }\n  .title::before {\n    position: absolute;\n    top: 1px;\n    left: 1px; }\n  .title::after {\n    position: absolute;\n    top: 2px;\n    left: 2px; }\n\n.cell:active {\n  background: url(" + ___CSS_LOADER_URL_REPLACEMENT_0___ + "), linear-gradient(180deg, var(--bg-dark-color) 0%, var(--bg-light-color) 100%); }\n\n.cell:hover {\n  box-shadow: 0px 2px 5px var(--darkest-color), inset 0px 2px 2px var(--lightest-color);\n  transition: 0.3s; }\n\n.cell_open {\n  cursor: default;\n  background: transparent;\n  box-shadow: none; }\n\n.cell_open {\n  cursor: default; }\n  .cell_open:hover {\n    box-shadow: none; }\n  .cell_open:active {\n    background: none; }\n\n.cell_flag {\n  position: relative; }\n  .cell_flag::after {\n    position: absolute;\n    content: \"\";\n    top: 50%;\n    left: 50%;\n    transform: translate(-50%, -50%);\n    width: 12px;\n    height: 12px;\n    background-color: var(--backlight-color);\n    background-color: white;\n    border-radius: 50%;\n    box-shadow: inset 0px 1px 2px var(--text-color), 0px 1px 2px var(--lightest-color); }\n\n.cell_mine {\n  position: relative; }\n  .cell_mine::after {\n    position: absolute;\n    content: \"\";\n    top: 50%;\n    left: 50%;\n    transform: translate(-50%, -50%);\n    width: 12px;\n    height: 12px;\n    background-color: var(--backlight-color);\n    background-color: var(--darkest-color);\n    border-radius: 50%;\n    box-shadow: inset 0px 1px 2px var(--text-color), 0px 1px 2px var(--lightest-color); }\n\n.cell_expl::after {\n  background-color: #ae1a1a; }\n\n.game-field_easy .cell::after {\n  width: 16px;\n  height: 16px; }\n\n.game-field_medium .cell::after {\n  width: 12px;\n  height: 12px; }\n\n.game-field_hard .cell::after {\n  width: 8px;\n  height: 8px; }\n\n.html {\n  min-height: 100vh; }\n\n.body {\n  margin: 0;\n  padding: 0;\n  background: url(" + ___CSS_LOADER_URL_REPLACEMENT_0___ + "), linear-gradient(180deg, var(--bg-light-color) 0%, var(--bg-dark-color) 100%); }\n\n.btn_active .path-bg {\n  fill: var(--backlight-color);\n  transition: 0.3s; }\n\n.btn_active svg {\n  filter: drop-shadow(0px -1px 1px var(--darkest-shadow)); }\n", "",{"version":3,"sources":["webpack://./scss/abstracts/_variables.scss","webpack://./scss/themes/_dark-theme.scss","webpack://./scss/base/_typography.scss","webpack://./scss/layout/_settings.scss","webpack://./scss/layout/_game-field.scss","webpack://./scss/layout/_last-games.scss","webpack://./scss/layout/_info.scss","webpack://./scss/components/_buttons.scss","webpack://./scss/components/_radio-input.scss","webpack://./scss/components/_range-input.scss","webpack://./scss/components/_titles.scss","webpack://./scss/components/_cell.scss","webpack://./scss/pages/_home.scss","webpack://./scss/base/_helpers.scss"],"names":[],"mappings":"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","sourcesContent":["body {\r\n  --backlight-color: #ffffff;\r\n  --lightest-color: #ffffff;\r\n  --darkest-color: #2a2013;\r\n  --darkest-shadow: #5b4e3e;\r\n\r\n  --bg-light-color: #eae6df;\r\n  --bg-dark-color: #d8cfc0;\r\n\r\n  --text-color: #79654e;\r\n  --title-shadow-color: #d6cfc7;\r\n}",".dark-theme {\r\n  --backlight-color: #e0dee1;\r\n  --lightest-color: #515051;\r\n  --darkest-color: #0b0b0b;\r\n  --darkest-shadow: #00000000;\r\n\r\n\r\n  --bg-light-color: #3b393c;\r\n  --bg-dark-color: #2f2f2f;\r\n\r\n  --text-color: #000000;\r\n  --title-shadow-color: #898785;\r\n}\r\n",".body {\r\n  font-family: \"Quicksand\";\r\n  color: var(--title-shadow-color);\r\n}\r\n\r\n.title {\r\n  color: var(--text-color);\r\n  font-weight: bold;\r\n  font-size: 44px;\r\n\r\n  &::after {\r\n    content: \"Minesweeper\";\r\n    color: var(--title-shadow-color);\r\n    opacity: 0.1;\r\n  }\r\n  &::before {\r\n    content: \"Minesweeper\";\r\n    color: var(--title-shadow-color);\r\n    opacity: 0.1;\r\n  }\r\n}\r\n\r\n.subtitle {\r\n  color: var(--text-color);\r\n  font-size: 16px;\r\n  text-shadow: 0 1px 1px var(--lightest-color);\r\n  font-weight: 600;\r\n}\r\n\r\n.info__message {\r\n  font-size: 24px;\r\n}\r\n\r\n.last-games {\r\n  color: var(--text-color);\r\n  font-size: 16px;\r\n  text-shadow: 0 1px 1px var(--lightest-color);\r\n  font-weight: 600;\r\n}\r\n\r\n.cell {\r\n  font-size: 14px;\r\n  font-weight: 300;\r\n  text-shadow: 0 1px 1px var(--lightest-color),\r\n    -0.5px -1px 1px var(--text-color);\r\n}\r\n.cell[data-num=\"1\"] {\r\n  color: rgb(73, 142, 192);\r\n}\r\n.cell[data-num=\"2\"] {\r\n  color: rgb(75, 174, 103);\r\n}\r\n.cell[data-num=\"3\"] {\r\n  color: rgb(231, 117, 136);\r\n}\r\n.cell[data-num=\"4\"] {\r\n  color: rgb(150, 118, 237);\r\n}\r\n.cell[data-num=\"5\"] {\r\n  color: rgb(221, 137, 240);\r\n}\r\n.cell[data-num=\"6\"] {\r\n  color: rgb(54, 176, 176);\r\n}\r\n.cell[data-num=\"7\"] {\r\n  color: var(--darkest-color);\r\n}\r\n.cell[data-num=\"8\"] {\r\n  color: var(--backlight-color);\r\n}\r\n",".settings {\r\n  &__title {\r\n    position: relative;\r\n    text-align: center;\r\n    margin: 20px auto 0;\r\n\r\n    &_range-input {\r\n      margin: 20px auto 5px;\r\n    }\r\n  }\r\n}\r\n",".game-field {\r\n  display: grid;\r\n  padding: 2px;\r\n  gap: 2px;\r\n  background: var(--bg-dark-color);\r\n  outline: none;\r\n  -webkit-transition: 0.2s;\r\n  transition: opacity 0.2s;\r\n  border-radius: 5px;\r\n  box-shadow: inset 0px 2px 5px var(--text-color),\r\n    0px 1px 2px var(--lightest-color);\r\n  width: fit-content;\r\n  margin: 20px auto;\r\n\r\n  &_size-10 {\r\n    grid-template-columns: repeat(10, auto);\r\n    border-radius: 8px;\r\n    padding: 4px;\r\n    gap: 4px;\r\n\r\n    & .cell {\r\n      width: 40px;\r\n      height: 40px;\r\n      border-radius: 8px;\r\n    }\r\n  }\r\n  &_size-15 {\r\n    grid-template-columns: repeat(15, auto);\r\n    border-radius: 3px;\r\n    padding: 3px;\r\n    gap: 3px;\r\n    & .cell {\r\n      width: 26px;\r\n      height: 26px;\r\n      border-radius: 3px;\r\n    }\r\n  }\r\n  &_size-25 {\r\n    grid-template-columns: repeat(25, auto);\r\n    border-radius: 3px;\r\n    padding: 2px;\r\n    gap: 2px;\r\n    & .cell {\r\n      width: 16px;\r\n      height: 16px;\r\n      border-radius: 2px;\r\n    }\r\n  }\r\n}\r\n",".last-games {\n  margin: 0 auto;\n  width: fit-content;\n\n  &__list {\n    display: flex;\n    flex-direction: column;\n    border-radius: 5px;\n    box-shadow: inset 0px 2px 5px var(--text-color),\n      0px 1px 2px var(--lightest-color);\n    padding: 6px;\n    gap: 6px;\n    background: var(--bg-dark-color);\n  }\n\n  &__item {\n    display: flex;\n    gap: 15px;\n    justify-content: space-between;\n  }\n}\n",".info {\r\n  display: flex;\r\n  gap: 10px;\r\n  flex-direction: column;\r\n  align-items: center;\r\n}\r\n\r\n.info__list {\r\n  display: flex;\r\n  gap: 15px;\r\n}\r\n\r\n.info__buttons {\r\n  display: flex;\r\n  gap: 20px;\r\n}",".btn {\r\n  background-color: transparent;\r\n  padding: 0;\r\n  border: none;\r\n  opacity: 0.8;\r\n  cursor: pointer;\r\n  display: block;\r\n\r\n  & svg {\r\n    display: block;\r\n    align-self: center;\r\n  }\r\n\r\n  & .path-bg {\r\n    transition: 0.3s;\r\n  }\r\n\r\n  &_line {\r\n    & .path-bg {\r\n      fill: var(--text-color);\r\n    }\r\n    \r\n    &:hover {\r\n      & .path-bg {\r\n        opacity: 0.5;\r\n      }\r\n\r\n    }\r\n  }\r\n\r\n  &_fill {\r\n    background: url(@img/bg.png),\r\n      linear-gradient(\r\n        180deg,\r\n        var(--bg-light-color) 0%,\r\n        var(--bg-dark-color) 100%\r\n      );\r\n    box-shadow: 0px 2px 5px var(--darkest-color),\r\n      inset 0px 2px 2px var(--bg-light-color);\r\n  }\r\n\r\n  &_new-game {\r\n    font-size: 32px;\r\n    font-weight: bold;\r\n    margin: 10px auto;\r\n    display: block;\r\n    color: var(--text-color);\r\n    position: relative;\r\n    \r\n    &:hover {\r\n      color: var(--darkest-color);\r\n    }\r\n\r\n    &:before,\r\n    &:after {\r\n      content: \"Start new game\";\r\n      color: var(--title-shadow-color);\r\n      position: absolute;\r\n      width: 237px;\r\n      opacity: 0.1;\r\n    }\r\n    &:before {\r\n      top: 1px;\r\n      left: 1px;\r\n    }\r\n    &:after {\r\n      top: 2px;\r\n      left: 2px;\r\n    }\r\n  }\r\n}\r\n",".radio-input {\r\n  gap: 5px;\r\n  margin: 0 auto;\r\n  display: flex;\r\n  align-items: center;\r\n  width: fit-content;\r\n\r\n  &__input {\r\n    -webkit-appearance: none;\r\n    -moz-appearance: none;\r\n    appearance: none;\r\n\r\n    border-radius: 50%;\r\n    padding: 5px;\r\n    cursor: pointer;\r\n    width: 12px;\r\n    height: 12px;\r\n    background-color: var(--bg-dark-color);\r\n    box-shadow: inset 0px 1px 2px var(--text-color), 0px 1px 2px var(--lightest-color); \r\n\r\n    transition: 0.2s all linear;\r\n    outline: none;\r\n    margin-right: 5px;\r\n\r\n    position: relative;\r\n    top: 4px;\r\n\r\n    &__label {\r\n      padding-top: -10px;\r\n    }\r\n\r\n    &:checked {\r\n      background-color: var(--backlight-color);\r\n    }\r\n\r\n    &:hover {\r\n      opacity: 0.6;\r\n    }\r\n  }\r\n}\r\n",".range-input {\r\n  width: 200px;\r\n  margin: 0 auto;\r\n  display: flex;\r\n  gap: 5px;\r\n  align-items: center;\r\n\r\n  &__arrow-left {\r\n    transform: rotate(180deg);\r\n  }\r\n\r\n  &__field {\r\n    -webkit-appearance: none;\r\n    appearance: none;\r\n    width: 100%;\r\n    height: 10px;\r\n    background: var(--bg-dark-color);\r\n    outline: none;\r\n    opacity: 0.7;\r\n    -webkit-transition: 0.2s;\r\n    transition: opacity 0.2s;\r\n    border-radius: 5px;\r\n    box-shadow: inset 0px 2px 5px var(--text-color),\r\n      0px 1px 2px var(--lightest-color);\r\n\r\n    &::-webkit-slider-thumb {\r\n      -webkit-appearance: none;\r\n      appearance: none;\r\n      width: 20px;\r\n      height: 20px;\r\n      cursor: pointer;\r\n      border-radius: 50%;\r\n      background: url(@img/bg.png),\r\n        linear-gradient(\r\n          180deg,\r\n          var(--bg-light-color) 0%,\r\n          var(--bg-dark-color) 100%\r\n        );\r\n      box-shadow: 0px 2px 5px var(--darkest-color),\r\n        inset 0px 2px 2px var(--bg-light-color);\r\n      transition: 0.3s;\r\n\r\n      &:hover {\r\n        box-shadow: 0px 2px 5px var(--darkest-color),\r\n          inset 0px 2px 2px var(--lightest-color);\r\n        transition: 0.3s;\r\n      }\r\n\r\n      &:active {\r\n        background: url(@img/bg.png),\r\n          linear-gradient(\r\n            180deg,\r\n            var(--bg-dark-color) 0%,\r\n            var(--bg-light-color) 100%\r\n          );\r\n      }\r\n    }\r\n  }\r\n}\r\n",".title {\r\n  position: relative;\r\n  display: block;\r\n  width: fit-content;\r\n  margin: 20px auto;\r\n\r\n  &::before {\r\n    position: absolute;\r\n    top: 1px;\r\n    left: 1px;\r\n  }\r\n\r\n  &::after {\r\n    position: absolute;\r\n    top: 2px;\r\n    left: 2px;\r\n  }\r\n}\r\n",".cell {\r\n  &:active {\r\n    background: url(@img/bg.png),\r\n      linear-gradient(\r\n        180deg,\r\n        var(--bg-dark-color) 0%,\r\n        var(--bg-light-color) 100%\r\n      );\r\n  }\r\n\r\n  &:hover {\r\n    box-shadow: 0px 2px 5px var(--darkest-color),\r\n      inset 0px 2px 2px var(--lightest-color);\r\n    transition: 0.3s;\r\n  }\r\n\r\n  &_open {\r\n    cursor: default;\r\n    background: transparent;\r\n    box-shadow: none;\r\n  }\r\n\r\n  &_open {\r\n    cursor: default;\r\n    &:hover {\r\n      box-shadow: none;\r\n    }\r\n    &:active {\r\n      background: none;\r\n    }\r\n  }\r\n\r\n  &_flag {\r\n    position: relative;\r\n\r\n    &::after {\r\n      position: absolute;\r\n      content: \"\";\r\n      top: 50%;\r\n      left: 50%;\r\n      transform: translate(-50%, -50%);\r\n      width: 12px;\r\n      height: 12px;\r\n      background-color: var(--backlight-color);\r\n      background-color: white;\r\n      border-radius: 50%;\r\n      box-shadow: inset 0px 1px 2px var(--text-color),\r\n        0px 1px 2px var(--lightest-color);\r\n    }\r\n  }\r\n\r\n  &_mine {\r\n    position: relative;\r\n\r\n    &::after {\r\n      position: absolute;\r\n      content: \"\";\r\n      top: 50%;\r\n      left: 50%;\r\n      transform: translate(-50%, -50%);\r\n      width: 12px;\r\n      height: 12px;\r\n      background-color: var(--backlight-color);\r\n      background-color: var(--darkest-color);\r\n      border-radius: 50%;\r\n      box-shadow: inset 0px 1px 2px var(--text-color),\r\n        0px 1px 2px var(--lightest-color);\r\n    }\r\n  }\r\n\r\n  &_expl {\r\n    &::after {\r\n      background-color: rgb(174, 26, 26);\r\n    }\r\n  }\r\n}\r\n\r\n.game-field_easy {\r\n  & .cell::after {\r\n    width: 16px;\r\n    height: 16px;\r\n  }\r\n}\r\n\r\n.game-field_medium {\r\n  & .cell::after {\r\n    width: 12px;\r\n    height: 12px;\r\n  }\r\n}\r\n\r\n.game-field_hard {\r\n  & .cell::after {\r\n    width: 8px;\r\n    height: 8px;\r\n  }\r\n}\r\n",".html {\r\n  min-height: 100vh;\r\n}\r\n\r\n.body {\r\n  margin: 0;\r\n  padding: 0;\r\n  background: url(@img/bg.png),\r\n    linear-gradient(180deg, var(--bg-light-color) 0%, var(--bg-dark-color) 100%);\r\n}\r\n",".btn_active {\r\n  & .path-bg {\r\n    fill: var(--backlight-color);\r\n    transition: 0.3s;\r\n  }\r\n\r\n  & svg {\r\n    filter: drop-shadow(0px -1px 1px var(--darkest-shadow));\r\n  }\r\n}\r\n"],"sourceRoot":""}]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -1992,7 +2026,7 @@ var __webpack_exports__ = {};
   \******************/
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _scss_main_scss__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./scss/main.scss */ "./scss/main.scss");
-/* harmony import */ var _js_data__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./js/data */ "./js/data.js");
+/* harmony import */ var _js_data_data__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./js/data/data */ "./js/data/data.js");
 /* harmony import */ var _js_firstRender_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./js/firstRender.js */ "./js/firstRender.js");
 /* harmony import */ var _js_firstHandlers__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./js/firstHandlers */ "./js/firstHandlers.js");
 
@@ -2000,8 +2034,8 @@ __webpack_require__.r(__webpack_exports__);
 
 
 window.onload = function () {
-  (0,_js_firstRender_js__WEBPACK_IMPORTED_MODULE_2__["default"])(_js_data__WEBPACK_IMPORTED_MODULE_1__["default"]);
-  (0,_js_firstHandlers__WEBPACK_IMPORTED_MODULE_3__["default"])(_js_data__WEBPACK_IMPORTED_MODULE_1__["default"]);
+  (0,_js_firstRender_js__WEBPACK_IMPORTED_MODULE_2__["default"])(_js_data_data__WEBPACK_IMPORTED_MODULE_1__["default"]);
+  (0,_js_firstHandlers__WEBPACK_IMPORTED_MODULE_3__["default"])(_js_data_data__WEBPACK_IMPORTED_MODULE_1__["default"]);
 };
 })();
 
