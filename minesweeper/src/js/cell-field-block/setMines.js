@@ -10,7 +10,7 @@ const setMines = (data, ij) => {
     const x = Math.floor(Math.random() * size);
     const y = Math.floor(Math.random() * size);
 
-    data.fieldArray.forEach((elX, indexX) => {
+    data.cellsAtField.forEach((elX, indexX) => {
       if (indexX === x) {
         elX.forEach((elY, indexY) => {
           if (indexY === y && !(curX === x && curY === y)) {

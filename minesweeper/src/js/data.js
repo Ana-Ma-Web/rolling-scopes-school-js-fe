@@ -1,5 +1,5 @@
 let data = localStorage.getItem("minesweeper-data")
-  ? localStorage.getItem("minesweeper-data")
+  ? JSON.parse(localStorage.getItem("minesweeper-data"))
   : {
       minesCurNumber: 10,
       minesInGameNumber: 10,
@@ -7,7 +7,9 @@ let data = localStorage.getItem("minesweeper-data")
       fieldCurSize: "easy 10x10",
       fieldInGameSize: "easy 10x10",
       isCellClicked: false,
-      fieldArray: [],
+      //isOpen: false, isFlag: false, isMine: false,
+      //isExpl: false, ij: i + "-" + j,
+      cellsAtField: [],
       isSoundOn: true,
       isDarkTheme: false,
       timeStart: 0,

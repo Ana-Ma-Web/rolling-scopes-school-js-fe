@@ -2,9 +2,12 @@ import cellHandler from "./handlers/cellHandler";
 import radioInputHandler from "./handlers/radioInputHandler";
 import rangeArrowsHandler from "./handlers/rangeArrowsHandler";
 import rangeInputHandler from "./handlers/rangeInputHandler";
-import setMines from "./setMines";
-import rerenderField from "./rerenderField";
-import updateInfoMenu from "./helpers.js/updateInfoMenu";
+import setMines from "./cell-field-block/setMines";
+import createFieldElement from "./cell-field-block/createFieldElement";
+import updateInfoMenu from "./info-block/updateInfoMenu";
+import updateLocalStorage from "./updateLocalStorage";
+import soundAudio from "./soundAudio";
+import updateField from "./cell-field-block/updateField";
 
 const firstHandlers = (data) => {
   const body = document.querySelector("body");
@@ -34,7 +37,7 @@ const firstHandlers = (data) => {
         data.minesInGameNumber = data.minesCurNumber;
         data.fieldInGameSize = data.fieldCurSize;
         data.openCellCount = 0;
-        rerenderField(data);
+        updateField(data);
         updateInfoMenu(
           data.fieldInGameSize,
           data.openCellCount,
@@ -67,6 +70,8 @@ const firstHandlers = (data) => {
         }
         cellHandler(e.target.dataset.ij, data);
       }
+
+      updateLocalStorage();
     });
   };
 
@@ -75,6 +80,7 @@ const firstHandlers = (data) => {
       if (e.target.classList.contains("range-input__field")) {
         rangeInputHandler(e.target.value, data);
       }
+      updateLocalStorage();
     });
   };
 
@@ -84,8 +90,14 @@ const firstHandlers = (data) => {
       (e) => {
         e.preventDefault();
         if (e.target.classList.contains("cell")) {
+          const ijArr = e.target.dataset.ij.split("-");
+          const x = +ijArr[0];
+          const y = +ijArr[1];
+          data.cellsAtField[x][y].isFlag = !data.cellsAtField[x][y].isFlag;
           e.target.classList.toggle("cell_flag");
+          soundAudio(false, data.isSoundOn);
         }
+        updateLocalStorage();
       },
       false
     );
