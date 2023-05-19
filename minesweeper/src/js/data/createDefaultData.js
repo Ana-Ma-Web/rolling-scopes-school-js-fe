@@ -16,6 +16,7 @@ const createDefaultData = () => {
     isLose: false,
     isPaused: false,
     cellsAtField: [],
+    timer: () => {},
     latestResults: [
       {
         time: 0,

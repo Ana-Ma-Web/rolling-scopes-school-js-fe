@@ -1,4 +1,5 @@
 import data from "../data/data";
+import countTime from "./countTime";
 import restCellsCount from "./restCellsCount";
 
 const createInfoElement = () => {
@@ -202,7 +203,7 @@ const createInfoElement = () => {
   const infoTime = document.createElement("div");
   infoTime.classList.add("info__time");
   infoTime.classList.add("subtitle");
-  infoTime.innerHTML = `Time: ${data.time}`;
+  infoTime.innerHTML = `Time: ${countTime(data.time)}`;
 
   const infoClicks = document.createElement("div");
   infoClicks.classList.add("info__clicks");
