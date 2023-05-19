@@ -15,7 +15,6 @@ const createDefaultCells = (size) => {
       defaultCells[i].push(defaultCell);
     }
   }
-  console.log(size);
 
   return defaultCells;
 };

@@ -8,7 +8,7 @@ import updateLocalStorage from "./updateLocalStorage";
 import soundAudio from "./soundAudio";
 import updateField from "./cell-field-block/updateField";
 import createDefaultCells from "./data/createDefaultCells";
-import resetFieldData from "./data/resetFieldData";
+import startNewGameHandler from "./handlers/startNewGameHandler";
 
 const firstHandlers = (data) => {
   const body = document.querySelector("body");
@@ -34,20 +34,7 @@ const firstHandlers = (data) => {
 
       // new game
       if (e.target.classList.contains("btn_new-game")) {
-        data.isCellClicked = false;
-        data.minesInGameNumber = data.minesCurNumber;
-        data.fieldInGameSize = data.fieldCurSize;
-        data.openCellCount = 0;
-        data.cellsAtField = createDefaultCells(+data.fieldInGameSize.slice(-2));
-        console.log(data.cellsAtField);
-        updateField(data);
-        updateLocalStorage();
-        updateInfoMenu(
-          data.fieldInGameSize,
-          data.openCellCount,
-          data.minesInGameNumber,
-          data.isSoundOn
-        );
+        startNewGameHandler(data);
       }
 
       // volume
@@ -64,15 +51,17 @@ const firstHandlers = (data) => {
       }
 
       //cells
-      if (
-        e.target.classList.contains("cell") &&
-        !e.target.classList.contains("cell_flag")
-      ) {
-        if (!data.isCellClicked) {
-          setMines(data, e.target.dataset.ij);
-          data.isCellClicked = true;
+      if (!data.isDisabled) {
+        if (
+          e.target.classList.contains("cell") &&
+          !e.target.classList.contains("cell_flag")
+        ) {
+          if (!data.isCellClicked) {
+            setMines(data, e.target.dataset.ij);
+            data.isCellClicked = true;
+          }
+          cellHandler(e.target.dataset.ij, data);
         }
-        cellHandler(e.target.dataset.ij, data);
       }
 
       updateLocalStorage();

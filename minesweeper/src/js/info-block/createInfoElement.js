@@ -19,6 +19,12 @@ const createInfoElement = () => {
   btnTheme.classList.add("btn", "btn_line", "btn_theme");
   if (!data.isDarkTheme) btnTheme.classList.add("btn_active");
 
+  const count = restCellsCount(
+    data.fieldInGameSize,
+    data.openCellCount,
+    data.minesInGameNumber
+  );
+
   btnVolume.innerHTML = `<svg
     width="24"
     height="24"
@@ -206,19 +212,20 @@ const createInfoElement = () => {
   const restCells = document.createElement("div");
   restCells.classList.add("info__rest-cells");
   restCells.classList.add("subtitle");
-  restCells.innerHTML = `Cells: ${restCellsCount(
-    data.fieldInGameSize,
-    data.openCellCount,
-    data.minesInGameNumber
-  )}`;
+  restCells.innerHTML = `Cells: ${count}`;
 
   const infoMessage = document.createElement("div");
   infoMessage.classList.add("info__message", "subtitle");
-  infoMessage.innerHTML = `You have to open ${restCellsCount(
-    data.fieldInGameSize,
-    data.openCellCount,
-    data.minesInGameNumber
-  )} more cells 👀`;
+
+  if (data.isDisabled) {
+    if (data.isLose) {
+      infoMessage.innerHTML = `🚨 You lose! 🎃⚠️`;
+    } else {
+      infoMessage.innerHTML = `🎊 You have won!!! 🥳🎉`;
+    }
+  } else {
+    infoMessage.innerHTML = `You have to open ${count} more cells 👀`;
+  }
 
   infoButtons.append(btnVolume, btnTheme);
   infoList.append(infoTime, infoClicks);

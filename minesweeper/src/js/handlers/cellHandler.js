@@ -8,6 +8,7 @@ const cellHandler = (ij, data) => {
   const y = +ijArr[1];
 
   if (data.cellsAtField[x][y].isMine) {
+    data.cellsAtField[x][y].isExpl = true;
     finishGame(false, data.isSoundOn);
   } else {
     const curCell = document.querySelector(`[data-ij="${x}-${y}"]`);

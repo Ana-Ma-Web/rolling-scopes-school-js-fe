@@ -17,7 +17,14 @@ const createFieldElement = (data) => {
         cellNode.classList.add("cell_open");
         cellNode.innerHTML = cellObj.text ? cellObj.text : "";
         cellNode.dataset.num = +cellObj.text;
-        console.log(cellObj);
+      }
+      if (data.isDisabled) {
+        if (cellObj.isMine) {
+          cellNode.classList.add("cell_mine");
+        }
+        if (cellObj.isExpl) {
+          cellNode.classList.add("cell_expl");
+        }
       }
       cellNode.dataset.ij = i + "-" + j;
       gameField.append(cellNode);

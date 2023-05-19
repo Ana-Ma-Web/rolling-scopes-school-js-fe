@@ -30,25 +30,6 @@
     }
   }
 
-  &_flag {
-    position: relative;
-
-    &::after {
-      position: absolute;
-      content: "";
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      width: 12px;
-      height: 12px;
-      background-color: var(--backlight-color);
-      background-color: white;
-      border-radius: 50%;
-      box-shadow: inset 0px 1px 2px var(--text-color),
-        0px 1px 2px var(--lightest-color);
-    }
-  }
-
   &_mine {
     position: relative;
 
@@ -71,6 +52,25 @@
   &_expl {
     &::after {
       background-color: rgb(174, 26, 26);
+    }
+  }
+
+  &_flag {
+    position: relative;
+
+    &::after {
+      position: absolute;
+      content: "";
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 12px;
+      height: 12px;
+      background-color: var(--backlight-color);
+      background-color: white;
+      border-radius: 50%;
+      box-shadow: inset 0px 1px 2px var(--text-color),
+        0px 1px 2px var(--lightest-color);
     }
   }
 }

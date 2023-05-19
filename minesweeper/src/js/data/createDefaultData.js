@@ -14,6 +14,8 @@ const createDefaultData = () => {
     timeStart: 0,
     timeEnd: 0,
     clicks: 0,
+    isDisabled: false,
+    isLose: false,
     latestResults: [
       {
         timeStart: 41234244,
