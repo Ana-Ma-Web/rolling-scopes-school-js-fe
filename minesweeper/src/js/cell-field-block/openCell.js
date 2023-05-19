@@ -33,7 +33,11 @@ const openCell = (x, y, data) => {
       for (let j = y - 1; j <= y + 1; j++) {
         if (i >= 0 && j >= 0 && i < size && j < size) {
           const foundCell = document.querySelector(`[data-ij="${i}-${j}"]`);
-          if (!foundCell.classList.contains("cell_open")) {
+          if (
+            !foundCell.classList.contains("cell_open") &&
+            !foundCell.classList.contains("cell_flag")
+          ) {
+            console.log(!foundCell.classList.contains("cell_flag"));
             openCell(i, j, data);
           }
         }
