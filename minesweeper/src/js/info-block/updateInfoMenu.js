@@ -1,4 +1,5 @@
 import updateClicks from "./updateClicks";
+import updateTime from "./updateTime";
 import updateRestCells from "./updateRestCells";
 
 const updateInfoMenu = (
@@ -6,9 +7,11 @@ const updateInfoMenu = (
   openCellCount,
   minesInGameNumber,
   isSoundOn,
-  clicks
+  clicks,
+  time
 ) => {
   updateClicks(clicks);
+  updateTime(time);
   updateRestCells(fieldInGameSize, openCellCount, minesInGameNumber, isSoundOn);
 };
 

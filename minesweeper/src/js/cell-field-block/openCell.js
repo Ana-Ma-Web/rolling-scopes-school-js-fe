@@ -19,7 +19,8 @@ const openCell = (x, y, data) => {
       data.openCellCount,
       data.minesInGameNumber,
       data.isSoundOn,
-      data.clicks
+      data.clicks,
+      data.time
     );
 
     cellObj.isOpen = true;

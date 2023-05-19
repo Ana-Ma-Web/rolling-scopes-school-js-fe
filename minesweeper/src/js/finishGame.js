@@ -9,9 +9,9 @@ const finishGame = (isWin, isSoundOn) => {
   if (isWin) {
     soundAudio("win", isSoundOn);
     flagAllMineCells();
-    infoMessage.innerHTML = `🎊&nbsp;Hooray!&nbsp;🥳 You&nbsp;found&nbsp;all&nbsp;mines in&nbsp;${countTime(
-      data.timeStart,
-      data.timeEnd
+    infoMessage.innerHTML = `🎊&nbsp;Hooray!&nbsp;🥳 
+    You&nbsp;found&nbsp;all&nbsp;mines in&nbsp;${countTime(
+      data.time
     )}&nbsp;seconds and&nbsp;${data.clicks}&nbsp;moves! 🎉`;
   } else {
     data.isLose = true;
@@ -20,6 +20,7 @@ const finishGame = (isWin, isSoundOn) => {
     printMines();
   }
   data.isDisabled = true;
+  data.isPaused = true;
 };
 
 export default finishGame;

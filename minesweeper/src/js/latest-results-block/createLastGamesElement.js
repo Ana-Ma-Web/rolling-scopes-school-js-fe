@@ -13,10 +13,7 @@ const createLastGamesElement = (latestResults) => {
 
     const latestResultsTime = document.createElement("div");
     latestResultsTime.classList.add("last-games__time");
-    latestResultsTime.innerHTML = `Time : ${countTime(
-      item.timeStart,
-      item.timeEnd
-    )}`;
+    latestResultsTime.innerHTML = `Time : ${countTime(item.time)}`;
 
     const latestResultsClicks = document.createElement("div");
     latestResultsClicks.classList.add("last-games__clicks");

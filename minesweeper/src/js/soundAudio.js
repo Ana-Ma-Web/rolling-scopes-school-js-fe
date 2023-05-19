@@ -19,6 +19,10 @@ import e06 from "./../assets/sounds/e06.mp3";
 import e07 from "./../assets/sounds/e07.mp3";
 import e08 from "./../assets/sounds/e08.mp3";
 import e09 from "./../assets/sounds/e09.mp3";
+import e10 from "./../assets/sounds/e10.mp3";
+import e11 from "./../assets/sounds/e11.mp3";
+import e12 from "./../assets/sounds/e12.mp3";
+import e13 from "./../assets/sounds/e13.mp3";
 
 const soundAudio = (soundType, isSoundOn) => {
   if (isSoundOn) {
@@ -41,8 +45,22 @@ const soundAudio = (soundType, isSoundOn) => {
       audio.src = openCellSounds[index];
       audio.autoplay = true;
     } else if (soundType === "lose") {
-      const explCellSounds = [e01, e02, e03, e04, e05, e06, e07, e08, e09];
-      const index = Math.floor(Math.random() * 9);
+      const explCellSounds = [
+        e01,
+        e02,
+        e03,
+        e04,
+        e05,
+        e06,
+        e07,
+        e08,
+        e09,
+        e10,
+        e11,
+        e12,
+        e13,
+      ];
+      const index = Math.floor(Math.random() * 12);
       let audio = new Audio();
       audio.src = explCellSounds[index];
       audio.autoplay = true;

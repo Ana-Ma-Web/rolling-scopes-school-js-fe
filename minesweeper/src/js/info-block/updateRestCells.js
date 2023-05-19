@@ -19,9 +19,9 @@ const updateRestCells = (
     if (data.isLose) {
       infoMessage.innerHTML = `🚨&nbsp;Game&nbsp;over 🎃&nbsp;Try&nbsp;again&nbsp;⚠️`;
     } else {
-      infoMessage.innerHTML = `🎊&nbsp;Hooray!&nbsp;🥳 You&nbsp;found&nbsp;all&nbsp;mines in&nbsp;${countTime(
-        data.timeStart,
-        data.timeEnd
+      infoMessage.innerHTML = `🎊&nbsp;Hooray!&nbsp;🥳 
+      You&nbsp;found&nbsp;all&nbsp;mines in&nbsp;${countTime(
+        data.time
       )}&nbsp;seconds and&nbsp;${data.clicks}&nbsp;moves! 🎉`;
     }
   } else {

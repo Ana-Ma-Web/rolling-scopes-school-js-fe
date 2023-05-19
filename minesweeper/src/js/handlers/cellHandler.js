@@ -1,11 +1,17 @@
 import finishGame from "../finishGame";
 import soundAudio from "../soundAudio";
 import openCell from "../cell-field-block/openCell";
+import startTimer from "../info-block/startTimer";
 
 const cellHandler = (ij, data) => {
   const ijArr = ij.split("-");
   const x = +ijArr[0];
   const y = +ijArr[1];
+
+  if (data.isPaused) {
+    startTimer();
+  }
+  data.isPaused = false;
 
   if (data.cellsAtField[x][y].isMine) {
     data.cellsAtField[x][y].isExpl = true;

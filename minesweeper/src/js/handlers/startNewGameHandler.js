@@ -8,11 +8,11 @@ const startNewGameHandler = (data) => {
   data.fieldInGameSize = data.fieldCurSize;
   data.isCellClicked = false;
   data.openCellCount = 0;
-  data.timeStart;
-  data.timeEnd = 0;
+  data.time = 0;
   data.clicks = 0;
   data.isDisabled = false;
   data.isLose = false;
+  data.isPaused = true;
   data.cellsAtField = createDefaultCells(+data.fieldInGameSize.slice(-2));
   updateField(data);
   updateLocalStorage();
@@ -21,7 +21,8 @@ const startNewGameHandler = (data) => {
     data.openCellCount,
     data.minesInGameNumber,
     data.isSoundOn,
-    data.clicks
+    data.clicks,
+    data.time
   );
 };
 export default startNewGameHandler;

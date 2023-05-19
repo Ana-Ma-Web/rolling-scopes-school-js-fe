@@ -3,11 +3,8 @@ import radioInputHandler from "./handlers/radioInputHandler";
 import rangeArrowsHandler from "./handlers/rangeArrowsHandler";
 import rangeInputHandler from "./handlers/rangeInputHandler";
 import setMines from "./cell-field-block/setMines";
-import updateInfoMenu from "./info-block/updateInfoMenu";
 import updateLocalStorage from "./updateLocalStorage";
 import soundAudio from "./soundAudio";
-import updateField from "./cell-field-block/updateField";
-import createDefaultCells from "./data/createDefaultCells";
 import startNewGameHandler from "./handlers/startNewGameHandler";
 
 const firstHandlers = (data) => {

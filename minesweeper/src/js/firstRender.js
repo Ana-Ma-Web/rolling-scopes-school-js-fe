@@ -6,6 +6,7 @@ import updateField from "./cell-field-block/updateField";
 import restCellsCount from "./info-block/restCellsCount";
 
 const firstRender = (data) => {
+  data.isPaused = true;
   const body = document.querySelector("body");
   if (data.isDarkTheme) body.classList.add("dark-theme");
   body.innerHTML = "";
@@ -44,24 +45,16 @@ const firstRender = (data) => {
     if (data.isLose) {
       message.innerHTML = `🚨&nbsp;Game&nbsp;over 🎃&nbsp;Try&nbsp;again&nbsp;⚠️`;
     } else {
-      message.innerHTML = `🎊&nbsp;Hooray!&nbsp;🥳 You&nbsp;found&nbsp;all&nbsp;mines in&nbsp;${countTime(
-        data.timeStart,
-        data.timeEnd
+      message.innerHTML = `🎊&nbsp;Hooray!&nbsp;🥳 
+      You&nbsp;found&nbsp;all&nbsp;mines in&nbsp;${countTime(
+        data.time
       )}&nbsp;seconds and&nbsp;${data.clicks}&nbsp;moves! 🎉`;
     }
   } else {
     message.innerHTML = `You have to open ${count}&nbsp;more&nbsp;cells&nbsp;👀`;
   }
 
-  const info = createInfoElement(
-    data.isSoundOn,
-    data.isDarkTheme,
-    countTime(data.timeStart, data.timeEnd),
-    data.clicks,
-    data.openCellCount,
-    data.fieldInGameSize,
-    data.minesInGameNumber
-  );
+  const info = createInfoElement();
 
   const lastGames = createLastGamesElement(data.latestResults);
 

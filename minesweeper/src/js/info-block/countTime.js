@@ -1,5 +1,5 @@
-function countTime(timeStart, timeEnd) {
-  const fullSeconds = (timeEnd - timeStart) / 1000;
+function countTime(time) {
+  const fullSeconds = time;
   if (fullSeconds === 0) {
     return "0s";
   }
