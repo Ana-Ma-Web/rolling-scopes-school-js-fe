@@ -124,7 +124,7 @@ const openCell = (x, y, data) => {
   const size = +data.fieldInGameSize.slice(-2);
   if (!cellNode.classList.contains("cell_open")) {
     data.openCellCount++;
-    (0,_info_block_updateInfoMenu__WEBPACK_IMPORTED_MODULE_0__["default"])(data.fieldInGameSize, data.openCellCount, data.minesInGameNumber, data.isSoundOn, data.clicks);
+    (0,_info_block_updateInfoMenu__WEBPACK_IMPORTED_MODULE_0__["default"])(data.fieldInGameSize, data.openCellCount, data.minesInGameNumber, data.isSoundOn, data.clicks, data.time);
     cellObj.isOpen = true;
     cellNode.classList.add("cell_open");
     cellNode.innerHTML = count > 0 ? count : "";
@@ -287,24 +287,20 @@ const createDefaultData = () => {
     fieldCurSize: "easy 10x10",
     fieldInGameSize: "easy 10x10",
     isCellClicked: false,
-    cellsAtField: [],
     isSoundOn: true,
     isDarkTheme: false,
     openCellCount: 0,
     time: 0,
-    timeStart: 0,
-    timeEnd: 0,
     clicks: 0,
     isDisabled: false,
     isLose: false,
     isPaused: false,
+    cellsAtField: [],
     latestResults: [{
-      timeStart: 41234244,
-      timeEnd: 51254244,
+      time: 0,
       clicks: 100
     }, {
-      timeStart: 51234244,
-      timeEnd: 51256744,
+      time: 0,
       clicks: 50
     }]
   };
@@ -358,7 +354,8 @@ const finishGame = (isWin, isSoundOn) => {
   if (isWin) {
     (0,_soundAudio__WEBPACK_IMPORTED_MODULE_4__["default"])("win", isSoundOn);
     (0,_cell_field_block_flagAllMineCells__WEBPACK_IMPORTED_MODULE_0__["default"])();
-    infoMessage.innerHTML = `🎊&nbsp;Hooray!&nbsp;🥳 You&nbsp;found&nbsp;all&nbsp;mines in&nbsp;${(0,_info_block_countTime__WEBPACK_IMPORTED_MODULE_3__["default"])(_data_data__WEBPACK_IMPORTED_MODULE_2__["default"].timeStart, _data_data__WEBPACK_IMPORTED_MODULE_2__["default"].timeEnd)}&nbsp;seconds and&nbsp;${_data_data__WEBPACK_IMPORTED_MODULE_2__["default"].clicks}&nbsp;moves! 🎉`;
+    infoMessage.innerHTML = `🎊&nbsp;Hooray!&nbsp;🥳 
+    You&nbsp;found&nbsp;all&nbsp;mines in&nbsp;${(0,_info_block_countTime__WEBPACK_IMPORTED_MODULE_3__["default"])(_data_data__WEBPACK_IMPORTED_MODULE_2__["default"].time)}&nbsp;seconds and&nbsp;${_data_data__WEBPACK_IMPORTED_MODULE_2__["default"].clicks}&nbsp;moves! 🎉`;
   } else {
     _data_data__WEBPACK_IMPORTED_MODULE_2__["default"].isLose = true;
     (0,_soundAudio__WEBPACK_IMPORTED_MODULE_4__["default"])("lose", isSoundOn);
@@ -366,6 +363,7 @@ const finishGame = (isWin, isSoundOn) => {
     (0,_cell_field_block_printMines__WEBPACK_IMPORTED_MODULE_1__["default"])();
   }
   _data_data__WEBPACK_IMPORTED_MODULE_2__["default"].isDisabled = true;
+  _data_data__WEBPACK_IMPORTED_MODULE_2__["default"].isPaused = true;
 };
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (finishGame);
 
@@ -386,15 +384,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _handlers_rangeArrowsHandler__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./handlers/rangeArrowsHandler */ "./js/handlers/rangeArrowsHandler.js");
 /* harmony import */ var _handlers_rangeInputHandler__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./handlers/rangeInputHandler */ "./js/handlers/rangeInputHandler.js");
 /* harmony import */ var _cell_field_block_setMines__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./cell-field-block/setMines */ "./js/cell-field-block/setMines.js");
-/* harmony import */ var _info_block_updateInfoMenu__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./info-block/updateInfoMenu */ "./js/info-block/updateInfoMenu.js");
-/* harmony import */ var _updateLocalStorage__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./updateLocalStorage */ "./js/updateLocalStorage.js");
-/* harmony import */ var _soundAudio__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./soundAudio */ "./js/soundAudio.js");
-/* harmony import */ var _cell_field_block_updateField__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./cell-field-block/updateField */ "./js/cell-field-block/updateField.js");
-/* harmony import */ var _data_createDefaultCells__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./data/createDefaultCells */ "./js/data/createDefaultCells.js");
-/* harmony import */ var _handlers_startNewGameHandler__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./handlers/startNewGameHandler */ "./js/handlers/startNewGameHandler.js");
-
-
-
+/* harmony import */ var _updateLocalStorage__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./updateLocalStorage */ "./js/updateLocalStorage.js");
+/* harmony import */ var _soundAudio__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./soundAudio */ "./js/soundAudio.js");
+/* harmony import */ var _handlers_startNewGameHandler__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./handlers/startNewGameHandler */ "./js/handlers/startNewGameHandler.js");
 
 
 
@@ -419,7 +411,7 @@ const firstHandlers = data => {
 
       // new game
       if (e.target.classList.contains("btn_new-game")) {
-        (0,_handlers_startNewGameHandler__WEBPACK_IMPORTED_MODULE_10__["default"])(data);
+        (0,_handlers_startNewGameHandler__WEBPACK_IMPORTED_MODULE_7__["default"])(data);
       }
 
       // volume
@@ -445,7 +437,7 @@ const firstHandlers = data => {
           (0,_handlers_cellHandler__WEBPACK_IMPORTED_MODULE_0__["default"])(e.target.dataset.ij, data);
         }
       }
-      (0,_updateLocalStorage__WEBPACK_IMPORTED_MODULE_6__["default"])();
+      (0,_updateLocalStorage__WEBPACK_IMPORTED_MODULE_5__["default"])();
     });
   };
   const keyDownHandler = () => {
@@ -453,7 +445,7 @@ const firstHandlers = data => {
       if (e.target.classList.contains("range-input__field")) {
         (0,_handlers_rangeInputHandler__WEBPACK_IMPORTED_MODULE_3__["default"])(e.target.value, data);
       }
-      (0,_updateLocalStorage__WEBPACK_IMPORTED_MODULE_6__["default"])();
+      (0,_updateLocalStorage__WEBPACK_IMPORTED_MODULE_5__["default"])();
     });
   };
   const rightClickHandler = () => {
@@ -466,10 +458,10 @@ const firstHandlers = data => {
           const y = +ijArr[1];
           data.cellsAtField[x][y].isFlag = !data.cellsAtField[x][y].isFlag;
           e.target.classList.toggle("cell_flag");
-          (0,_soundAudio__WEBPACK_IMPORTED_MODULE_7__["default"])(false, data.isSoundOn);
+          (0,_soundAudio__WEBPACK_IMPORTED_MODULE_6__["default"])(false, data.isSoundOn);
         }
       }
-      (0,_updateLocalStorage__WEBPACK_IMPORTED_MODULE_6__["default"])();
+      (0,_updateLocalStorage__WEBPACK_IMPORTED_MODULE_5__["default"])();
     }, false);
   };
   clickHandler();
@@ -503,6 +495,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 const firstRender = data => {
+  data.isPaused = true;
   const body = document.querySelector("body");
   if (data.isDarkTheme) body.classList.add("dark-theme");
   body.innerHTML = "";
@@ -526,12 +519,13 @@ const firstRender = data => {
     if (data.isLose) {
       message.innerHTML = `🚨&nbsp;Game&nbsp;over 🎃&nbsp;Try&nbsp;again&nbsp;⚠️`;
     } else {
-      message.innerHTML = `🎊&nbsp;Hooray!&nbsp;🥳 You&nbsp;found&nbsp;all&nbsp;mines in&nbsp;${(0,_info_block_countTime__WEBPACK_IMPORTED_MODULE_0__["default"])(data.timeStart, data.timeEnd)}&nbsp;seconds and&nbsp;${data.clicks}&nbsp;moves! 🎉`;
+      message.innerHTML = `🎊&nbsp;Hooray!&nbsp;🥳 
+      You&nbsp;found&nbsp;all&nbsp;mines in&nbsp;${(0,_info_block_countTime__WEBPACK_IMPORTED_MODULE_0__["default"])(data.time)}&nbsp;seconds and&nbsp;${data.clicks}&nbsp;moves! 🎉`;
     }
   } else {
     message.innerHTML = `You have to open ${count}&nbsp;more&nbsp;cells&nbsp;👀`;
   }
-  const info = (0,_info_block_createInfoElement__WEBPACK_IMPORTED_MODULE_2__["default"])(data.isSoundOn, data.isDarkTheme, (0,_info_block_countTime__WEBPACK_IMPORTED_MODULE_0__["default"])(data.timeStart, data.timeEnd), data.clicks, data.openCellCount, data.fieldInGameSize, data.minesInGameNumber);
+  const info = (0,_info_block_createInfoElement__WEBPACK_IMPORTED_MODULE_2__["default"])();
   const lastGames = (0,_latest_results_block_createLastGamesElement__WEBPACK_IMPORTED_MODULE_1__["default"])(data.latestResults);
   menuBlock.append(settings, newGameButton);
   mainBlock.append(menuBlock, message, gameField, info, lastGames);
@@ -555,6 +549,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _finishGame__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../finishGame */ "./js/finishGame.js");
 /* harmony import */ var _soundAudio__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../soundAudio */ "./js/soundAudio.js");
 /* harmony import */ var _cell_field_block_openCell__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../cell-field-block/openCell */ "./js/cell-field-block/openCell.js");
+/* harmony import */ var _info_block_startTimer__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../info-block/startTimer */ "./js/info-block/startTimer.js");
+
 
 
 
@@ -562,6 +558,10 @@ const cellHandler = (ij, data) => {
   const ijArr = ij.split("-");
   const x = +ijArr[0];
   const y = +ijArr[1];
+  if (data.isPaused) {
+    (0,_info_block_startTimer__WEBPACK_IMPORTED_MODULE_3__["default"])();
+  }
+  data.isPaused = false;
   if (data.cellsAtField[x][y].isMine) {
     data.cellsAtField[x][y].isExpl = true;
     (0,_finishGame__WEBPACK_IMPORTED_MODULE_0__["default"])(false, data.isSoundOn);
@@ -573,7 +573,6 @@ const cellHandler = (ij, data) => {
       (0,_cell_field_block_openCell__WEBPACK_IMPORTED_MODULE_2__["default"])(x, y, data);
     }
   }
-  if (data.isPaused) startTimer();
 };
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (cellHandler);
 
@@ -691,15 +690,15 @@ const startNewGameHandler = data => {
   data.fieldInGameSize = data.fieldCurSize;
   data.isCellClicked = false;
   data.openCellCount = 0;
-  data.timeStart;
-  data.timeEnd = 0;
+  data.time = 0;
   data.clicks = 0;
   data.isDisabled = false;
   data.isLose = false;
+  data.isPaused = true;
   data.cellsAtField = (0,_data_createDefaultCells__WEBPACK_IMPORTED_MODULE_1__["default"])(+data.fieldInGameSize.slice(-2));
   (0,_cell_field_block_updateField__WEBPACK_IMPORTED_MODULE_0__["default"])(data);
   (0,_updateLocalStorage__WEBPACK_IMPORTED_MODULE_3__["default"])();
-  (0,_info_block_updateInfoMenu__WEBPACK_IMPORTED_MODULE_2__["default"])(data.fieldInGameSize, data.openCellCount, data.minesInGameNumber, data.isSoundOn, data.clicks);
+  (0,_info_block_updateInfoMenu__WEBPACK_IMPORTED_MODULE_2__["default"])(data.fieldInGameSize, data.openCellCount, data.minesInGameNumber, data.isSoundOn, data.clicks, data.time);
 };
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (startNewGameHandler);
 
@@ -715,8 +714,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-function countTime(timeStart, timeEnd) {
-  const fullSeconds = (timeEnd - timeStart) / 1000;
+function countTime(time) {
+  const fullSeconds = time;
   if (fullSeconds === 0) {
     return "0s";
   }
@@ -944,7 +943,7 @@ const createInfoElement = () => {
   const infoTime = document.createElement("div");
   infoTime.classList.add("info__time");
   infoTime.classList.add("subtitle");
-  infoTime.innerHTML = `Time: ${_data_data__WEBPACK_IMPORTED_MODULE_0__["default"].timeString}`;
+  infoTime.innerHTML = `Time: ${_data_data__WEBPACK_IMPORTED_MODULE_0__["default"].time}`;
   const infoClicks = document.createElement("div");
   infoClicks.classList.add("info__clicks");
   infoClicks.classList.add("subtitle");
@@ -981,6 +980,33 @@ const restCellsCount = (fieldInGameSize, openCellCount, minesInGameNumber) => {
 
 /***/ }),
 
+/***/ "./js/info-block/startTimer.js":
+/*!*************************************!*\
+  !*** ./js/info-block/startTimer.js ***!
+  \*************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _data_data__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../data/data */ "./js/data/data.js");
+/* harmony import */ var _updateTime__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./updateTime */ "./js/info-block/updateTime.js");
+
+
+const startTimer = () => {
+  console.log("start timer");
+  setInterval(() => {
+    if (!_data_data__WEBPACK_IMPORTED_MODULE_0__["default"].isPaused) {
+      _data_data__WEBPACK_IMPORTED_MODULE_0__["default"].time++;
+      (0,_updateTime__WEBPACK_IMPORTED_MODULE_1__["default"])(_data_data__WEBPACK_IMPORTED_MODULE_0__["default"].time);
+    }
+  }, 1000);
+};
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (startTimer);
+
+/***/ }),
+
 /***/ "./js/info-block/updateClicks.js":
 /*!***************************************!*\
   !*** ./js/info-block/updateClicks.js ***!
@@ -1010,12 +1036,15 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
 /* harmony import */ var _updateClicks__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./updateClicks */ "./js/info-block/updateClicks.js");
-/* harmony import */ var _updateRestCells__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./updateRestCells */ "./js/info-block/updateRestCells.js");
+/* harmony import */ var _updateTime__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./updateTime */ "./js/info-block/updateTime.js");
+/* harmony import */ var _updateRestCells__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./updateRestCells */ "./js/info-block/updateRestCells.js");
 
 
-const updateInfoMenu = (fieldInGameSize, openCellCount, minesInGameNumber, isSoundOn, clicks) => {
+
+const updateInfoMenu = (fieldInGameSize, openCellCount, minesInGameNumber, isSoundOn, clicks, time) => {
   (0,_updateClicks__WEBPACK_IMPORTED_MODULE_0__["default"])(clicks);
-  (0,_updateRestCells__WEBPACK_IMPORTED_MODULE_1__["default"])(fieldInGameSize, openCellCount, minesInGameNumber, isSoundOn);
+  (0,_updateTime__WEBPACK_IMPORTED_MODULE_1__["default"])(time);
+  (0,_updateRestCells__WEBPACK_IMPORTED_MODULE_2__["default"])(fieldInGameSize, openCellCount, minesInGameNumber, isSoundOn);
 };
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (updateInfoMenu);
 
@@ -1046,7 +1075,8 @@ const updateRestCells = (fieldInGameSize, openCellCount, minesInGameNumber, isSo
     if (_data_data__WEBPACK_IMPORTED_MODULE_0__["default"].isLose) {
       infoMessage.innerHTML = `🚨&nbsp;Game&nbsp;over 🎃&nbsp;Try&nbsp;again&nbsp;⚠️`;
     } else {
-      infoMessage.innerHTML = `🎊&nbsp;Hooray!&nbsp;🥳 You&nbsp;found&nbsp;all&nbsp;mines in&nbsp;${(0,_countTime__WEBPACK_IMPORTED_MODULE_2__["default"])(_data_data__WEBPACK_IMPORTED_MODULE_0__["default"].timeStart, _data_data__WEBPACK_IMPORTED_MODULE_0__["default"].timeEnd)}&nbsp;seconds and&nbsp;${_data_data__WEBPACK_IMPORTED_MODULE_0__["default"].clicks}&nbsp;moves! 🎉`;
+      infoMessage.innerHTML = `🎊&nbsp;Hooray!&nbsp;🥳 
+      You&nbsp;found&nbsp;all&nbsp;mines in&nbsp;${(0,_countTime__WEBPACK_IMPORTED_MODULE_2__["default"])(_data_data__WEBPACK_IMPORTED_MODULE_0__["default"].time)}&nbsp;seconds and&nbsp;${_data_data__WEBPACK_IMPORTED_MODULE_0__["default"].clicks}&nbsp;moves! 🎉`;
     }
   } else {
     infoMessage.innerHTML = `You have to open ${count}&nbsp;more&nbsp;cells&nbsp;👀`;
@@ -1056,6 +1086,26 @@ const updateRestCells = (fieldInGameSize, openCellCount, minesInGameNumber, isSo
   }
 };
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (updateRestCells);
+
+/***/ }),
+
+/***/ "./js/info-block/updateTime.js":
+/*!*************************************!*\
+  !*** ./js/info-block/updateTime.js ***!
+  \*************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _countTime__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./countTime */ "./js/info-block/countTime.js");
+
+const updateTime = time => {
+  const targetElement = document.querySelector(".info__time");
+  targetElement.innerHTML = `Time: ${(0,_countTime__WEBPACK_IMPORTED_MODULE_0__["default"])(time)}`;
+};
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (updateTime);
 
 /***/ }),
 
@@ -1081,7 +1131,7 @@ const createLastGamesElement = latestResults => {
     latestResultsItem.classList.add("last-games__item");
     const latestResultsTime = document.createElement("div");
     latestResultsTime.classList.add("last-games__time");
-    latestResultsTime.innerHTML = `Time : ${(0,_info_block_countTime__WEBPACK_IMPORTED_MODULE_0__["default"])(item.timeStart, item.timeEnd)}`;
+    latestResultsTime.innerHTML = `Time : ${(0,_info_block_countTime__WEBPACK_IMPORTED_MODULE_0__["default"])(item.time)}`;
     const latestResultsClicks = document.createElement("div");
     latestResultsClicks.classList.add("last-games__clicks");
     latestResultsClicks.innerHTML = `Clicks : ${item.clicks}`;
@@ -1829,7 +1879,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (__webpack_require__.p + "c94242b2fe256793ed54fe2c8fb06ac2.mp3");
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (__webpack_require__.p + "e26ebb1baf0a69ba92907c6278b1a675.mp3");
 
 /***/ }),
 
