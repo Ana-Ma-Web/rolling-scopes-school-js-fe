@@ -17,12 +17,12 @@ const updateRestCells = (
   );
   if (data.isDisabled) {
     if (data.isLose) {
-      infoMessage.innerHTML = `🚨&nbsp;"Game&nbsp;over 🎃&nbsp;Try&nbsp;again"&nbsp;⚠️`;
+      infoMessage.innerHTML = `🚨&nbsp;Game&nbsp;over 🎃&nbsp;Try&nbsp;again&nbsp;⚠️`;
     } else {
-      infoMessage.innerHTML = `🎊&nbsp;"Hooray!&nbsp;🥳 You&nbsp;found&nbsp;all&nbsp;mines in!&nbsp;${countTime(
+      infoMessage.innerHTML = `🎊&nbsp;Hooray!&nbsp;🥳 You&nbsp;found&nbsp;all&nbsp;mines in&nbsp;${countTime(
         data.timeStart,
         data.timeEnd
-      )}!&nbsp;seconds and!&nbsp;${data.clicks}!&nbsp;moves!" 🎉`;
+      )}&nbsp;seconds and&nbsp;${data.clicks}&nbsp;moves! 🎉`;
     }
   } else {
     infoMessage.innerHTML = `You have to open ${count}&nbsp;more&nbsp;cells&nbsp;👀`;

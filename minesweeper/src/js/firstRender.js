@@ -42,12 +42,12 @@ const firstRender = (data) => {
 
   if (data.isDisabled) {
     if (data.isLose) {
-      message.innerHTML = `🚨&nbsp;"Game&nbsp;over 🎃&nbsp;Try&nbsp;again"&nbsp;⚠️`;
+      message.innerHTML = `🚨&nbsp;Game&nbsp;over 🎃&nbsp;Try&nbsp;again&nbsp;⚠️`;
     } else {
-      message.innerHTML = `🎊&nbsp;"Hooray!&nbsp;🥳 You&nbsp;found&nbsp;all&nbsp;mines in!&nbsp;${countTime(
+      message.innerHTML = `🎊&nbsp;Hooray!&nbsp;🥳 You&nbsp;found&nbsp;all&nbsp;mines in&nbsp;${countTime(
         data.timeStart,
         data.timeEnd
-      )}!&nbsp;seconds and!&nbsp;${data.clicks}!&nbsp;moves!" 🎉`;
+      )}&nbsp;seconds and&nbsp;${data.clicks}&nbsp;moves! 🎉`;
     }
   } else {
     message.innerHTML = `You have to open ${count}&nbsp;more&nbsp;cells&nbsp;👀`;

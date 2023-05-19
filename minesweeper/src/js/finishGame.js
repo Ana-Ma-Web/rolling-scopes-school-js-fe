@@ -9,14 +9,14 @@ const finishGame = (isWin, isSoundOn) => {
   if (isWin) {
     soundAudio("win", isSoundOn);
     flagAllMineCells();
-    infoMessage.innerHTML = `🎊&nbsp;"Hooray!&nbsp;🥳 You&nbsp;found&nbsp;all&nbsp;mines in!&nbsp;${countTime(
+    infoMessage.innerHTML = `🎊&nbsp;Hooray!&nbsp;🥳 You&nbsp;found&nbsp;all&nbsp;mines in&nbsp;${countTime(
       data.timeStart,
       data.timeEnd
-    )}!&nbsp;seconds and!&nbsp;${data.clicks}!&nbsp;moves!" 🎉`;
+    )}&nbsp;seconds and&nbsp;${data.clicks}&nbsp;moves! 🎉`;
   } else {
     data.isLose = true;
     soundAudio("lose", isSoundOn);
-    infoMessage.innerHTML = `🚨&nbsp;"Game&nbsp;over 🎃&nbsp;Try&nbsp;again"&nbsp;⚠️`;
+    infoMessage.innerHTML = `🚨&nbsp;Game&nbsp;over 🎃&nbsp;Try&nbsp;again&nbsp;⚠️`;
     printMines();
   }
   data.isDisabled = true;

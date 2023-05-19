@@ -69,3 +69,12 @@
 .cell[data-num="8"] {
   color: var(--backlight-color);
 }
+
+
+
+@media (max-width: 480px) {
+  .message {
+    font-size: 18px;
+
+  }
+}

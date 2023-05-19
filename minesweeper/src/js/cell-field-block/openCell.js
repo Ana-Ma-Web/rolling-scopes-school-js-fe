@@ -28,6 +28,7 @@ const openCell = (x, y, data) => {
     cellNode.dataset.num = count;
     cellObj.text = count;
   }
+
   if (!count) {
     for (let i = x - 1; i <= x + 1; i++) {
       for (let j = y - 1; j <= y + 1; j++) {
