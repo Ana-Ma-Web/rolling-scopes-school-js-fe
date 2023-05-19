@@ -1,5 +1,6 @@
 import data from "../data/data";
 import finishGame from "../finishGame";
+import countTime from "./countTime";
 import restCellsCount from "./restCellsCount";
 
 const updateRestCells = (
@@ -14,17 +15,18 @@ const updateRestCells = (
     openCellCount,
     minesInGameNumber
   );
-
   if (data.isDisabled) {
     if (data.isLose) {
-      infoMessage.innerHTML = `🚨 You lose! 🎃⚠️`;
+      infoMessage.innerHTML = `🚨 "Game over 🎃 Try again" ⚠️`;
     } else {
-      infoMessage.innerHTML = `🎊 You have won!!! 🥳🎉`;
+      infoMessage.innerHTML = `🎊 "Hooray! 🥳 You found all mines in ${countTime(
+        data.timeStart,
+        data.timeEnd
+      )} seconds and ${data.clicks} moves!" 🎉`;
     }
   } else {
     infoMessage.innerHTML = `You have to open ${count} more cells 👀`;
   }
-
   if (count === 0) {
     finishGame("win", isSoundOn);
   }
