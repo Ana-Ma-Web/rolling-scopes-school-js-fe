@@ -136,7 +136,8 @@ const openCell = (x, y, data) => {
       for (let j = y - 1; j <= y + 1; j++) {
         if (i >= 0 && j >= 0 && i < size && j < size) {
           const foundCell = document.querySelector(`[data-ij="${i}-${j}"]`);
-          if (!foundCell.classList.contains("cell_open")) {
+          if (!foundCell.classList.contains("cell_open") && !foundCell.classList.contains("cell_flag")) {
+            console.log(!foundCell.classList.contains("cell_flag"));
             openCell(i, j, data);
           }
         }
@@ -284,13 +285,13 @@ const createDefaultData = () => {
   const data = {
     minesCurNumber: 10,
     minesInGameNumber: 10,
-    openCellCount: 0,
     fieldCurSize: "easy 10x10",
     fieldInGameSize: "easy 10x10",
     isCellClicked: false,
     cellsAtField: [],
     isSoundOn: true,
     isDarkTheme: false,
+    openCellCount: 0,
     timeStart: 0,
     timeEnd: 0,
     clicks: 0,
@@ -344,7 +345,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _cell_field_block_flagAllMineCells__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./cell-field-block/flagAllMineCells */ "./js/cell-field-block/flagAllMineCells.js");
 /* harmony import */ var _cell_field_block_printMines__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./cell-field-block/printMines */ "./js/cell-field-block/printMines.js");
 /* harmony import */ var _data_data__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./data/data */ "./js/data/data.js");
-/* harmony import */ var _soundAudio__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./soundAudio */ "./js/soundAudio.js");
+/* harmony import */ var _info_block_countTime__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./info-block/countTime */ "./js/info-block/countTime.js");
+/* harmony import */ var _soundAudio__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./soundAudio */ "./js/soundAudio.js");
+
 
 
 
@@ -352,13 +355,13 @@ __webpack_require__.r(__webpack_exports__);
 const finishGame = (isWin, isSoundOn) => {
   const infoMessage = document.querySelector(".info__message");
   if (isWin) {
-    (0,_soundAudio__WEBPACK_IMPORTED_MODULE_3__["default"])("win", isSoundOn);
+    (0,_soundAudio__WEBPACK_IMPORTED_MODULE_4__["default"])("win", isSoundOn);
     (0,_cell_field_block_flagAllMineCells__WEBPACK_IMPORTED_MODULE_0__["default"])();
-    infoMessage.innerHTML = `🎊 You have won!!! 🥳🎉`;
+    infoMessage.innerHTML = `🎊 "Hooray! 🥳 You found all mines in ${(0,_info_block_countTime__WEBPACK_IMPORTED_MODULE_3__["default"])(_data_data__WEBPACK_IMPORTED_MODULE_2__["default"].timeStart, _data_data__WEBPACK_IMPORTED_MODULE_2__["default"].timeEnd)} seconds and ${_data_data__WEBPACK_IMPORTED_MODULE_2__["default"].clicks} moves!" 🎉`;
   } else {
     _data_data__WEBPACK_IMPORTED_MODULE_2__["default"].isLose = true;
-    (0,_soundAudio__WEBPACK_IMPORTED_MODULE_3__["default"])("lose", isSoundOn);
-    infoMessage.innerHTML = `🚨 You lose! 🎃⚠️`;
+    (0,_soundAudio__WEBPACK_IMPORTED_MODULE_4__["default"])("lose", isSoundOn);
+    infoMessage.innerHTML = `🚨 "Game over 🎃 Try again" ⚠️`;
     (0,_cell_field_block_printMines__WEBPACK_IMPORTED_MODULE_1__["default"])();
   }
   _data_data__WEBPACK_IMPORTED_MODULE_2__["default"].isDisabled = true;
@@ -456,12 +459,14 @@ const firstHandlers = data => {
     body.addEventListener("contextmenu", e => {
       e.preventDefault();
       if (e.target.classList.contains("cell")) {
-        const ijArr = e.target.dataset.ij.split("-");
-        const x = +ijArr[0];
-        const y = +ijArr[1];
-        data.cellsAtField[x][y].isFlag = !data.cellsAtField[x][y].isFlag;
-        e.target.classList.toggle("cell_flag");
-        (0,_soundAudio__WEBPACK_IMPORTED_MODULE_7__["default"])(false, data.isSoundOn);
+        if (!data.isDisabled) {
+          const ijArr = e.target.dataset.ij.split("-");
+          const x = +ijArr[0];
+          const y = +ijArr[1];
+          data.cellsAtField[x][y].isFlag = !data.cellsAtField[x][y].isFlag;
+          e.target.classList.toggle("cell_flag");
+          (0,_soundAudio__WEBPACK_IMPORTED_MODULE_7__["default"])(false, data.isSoundOn);
+        }
       }
       (0,_updateLocalStorage__WEBPACK_IMPORTED_MODULE_6__["default"])();
     }, false);
@@ -666,16 +671,19 @@ __webpack_require__.r(__webpack_exports__);
 
 
 const startNewGameHandler = data => {
-  data.isCellClicked = false;
-  data.isDisabled = false;
   data.minesInGameNumber = data.minesCurNumber;
   data.fieldInGameSize = data.fieldCurSize;
+  data.isCellClicked = false;
   data.openCellCount = 0;
+  data.timeStart;
+  data.timeEnd = 0;
+  data.clicks = 0;
+  data.isDisabled = false;
+  data.isLose = false;
   data.cellsAtField = (0,_data_createDefaultCells__WEBPACK_IMPORTED_MODULE_1__["default"])(+data.fieldInGameSize.slice(-2));
-  console.log(data.cellsAtField);
   (0,_cell_field_block_updateField__WEBPACK_IMPORTED_MODULE_0__["default"])(data);
   (0,_updateLocalStorage__WEBPACK_IMPORTED_MODULE_3__["default"])();
-  (0,_info_block_updateInfoMenu__WEBPACK_IMPORTED_MODULE_2__["default"])(data.fieldInGameSize, data.openCellCount, data.minesInGameNumber, data.isSoundOn);
+  (0,_info_block_updateInfoMenu__WEBPACK_IMPORTED_MODULE_2__["default"])(data.fieldInGameSize, data.openCellCount, data.minesInGameNumber, data.isSoundOn, data.clicks);
 };
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (startNewGameHandler);
 
@@ -728,7 +736,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
 /* harmony import */ var _data_data__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../data/data */ "./js/data/data.js");
-/* harmony import */ var _restCellsCount__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./restCellsCount */ "./js/info-block/restCellsCount.js");
+/* harmony import */ var _countTime__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./countTime */ "./js/info-block/countTime.js");
+/* harmony import */ var _restCellsCount__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./restCellsCount */ "./js/info-block/restCellsCount.js");
+
 
 
 const createInfoElement = () => {
@@ -744,7 +754,7 @@ const createInfoElement = () => {
   const btnTheme = document.createElement("button");
   btnTheme.classList.add("btn", "btn_line", "btn_theme");
   if (!_data_data__WEBPACK_IMPORTED_MODULE_0__["default"].isDarkTheme) btnTheme.classList.add("btn_active");
-  const count = (0,_restCellsCount__WEBPACK_IMPORTED_MODULE_1__["default"])(_data_data__WEBPACK_IMPORTED_MODULE_0__["default"].fieldInGameSize, _data_data__WEBPACK_IMPORTED_MODULE_0__["default"].openCellCount, _data_data__WEBPACK_IMPORTED_MODULE_0__["default"].minesInGameNumber);
+  const count = (0,_restCellsCount__WEBPACK_IMPORTED_MODULE_2__["default"])(_data_data__WEBPACK_IMPORTED_MODULE_0__["default"].fieldInGameSize, _data_data__WEBPACK_IMPORTED_MODULE_0__["default"].openCellCount, _data_data__WEBPACK_IMPORTED_MODULE_0__["default"].minesInGameNumber);
   btnVolume.innerHTML = `<svg
     width="24"
     height="24"
@@ -933,9 +943,9 @@ const createInfoElement = () => {
   infoMessage.classList.add("info__message", "subtitle");
   if (_data_data__WEBPACK_IMPORTED_MODULE_0__["default"].isDisabled) {
     if (_data_data__WEBPACK_IMPORTED_MODULE_0__["default"].isLose) {
-      infoMessage.innerHTML = `🚨 You lose! 🎃⚠️`;
+      infoMessage.innerHTML = `🚨 "Game over 🎃 Try again" ⚠️`;
     } else {
-      infoMessage.innerHTML = `🎊 You have won!!! 🥳🎉`;
+      infoMessage.innerHTML = `🎊 "Hooray! 🥳 You found all mines in ${(0,_countTime__WEBPACK_IMPORTED_MODULE_1__["default"])(_data_data__WEBPACK_IMPORTED_MODULE_0__["default"].timeStart, _data_data__WEBPACK_IMPORTED_MODULE_0__["default"].timeEnd)} seconds and ${_data_data__WEBPACK_IMPORTED_MODULE_0__["default"].clicks} moves!" 🎉`;
     }
   } else {
     infoMessage.innerHTML = `You have to open ${count} more cells 👀`;
@@ -1020,18 +1030,20 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var _data_data__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../data/data */ "./js/data/data.js");
 /* harmony import */ var _finishGame__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../finishGame */ "./js/finishGame.js");
-/* harmony import */ var _restCellsCount__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./restCellsCount */ "./js/info-block/restCellsCount.js");
+/* harmony import */ var _countTime__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./countTime */ "./js/info-block/countTime.js");
+/* harmony import */ var _restCellsCount__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./restCellsCount */ "./js/info-block/restCellsCount.js");
+
 
 
 
 const updateRestCells = (fieldInGameSize, openCellCount, minesInGameNumber, isSoundOn) => {
   const infoMessage = document.querySelector(".info__message");
-  const count = (0,_restCellsCount__WEBPACK_IMPORTED_MODULE_2__["default"])(fieldInGameSize, openCellCount, minesInGameNumber);
+  const count = (0,_restCellsCount__WEBPACK_IMPORTED_MODULE_3__["default"])(fieldInGameSize, openCellCount, minesInGameNumber);
   if (_data_data__WEBPACK_IMPORTED_MODULE_0__["default"].isDisabled) {
     if (_data_data__WEBPACK_IMPORTED_MODULE_0__["default"].isLose) {
-      infoMessage.innerHTML = `🚨 You lose! 🎃⚠️`;
+      infoMessage.innerHTML = `🚨 "Game over 🎃 Try again" ⚠️`;
     } else {
-      infoMessage.innerHTML = `🎊 You have won!!! 🥳🎉`;
+      infoMessage.innerHTML = `🎊 "Hooray! 🥳 You found all mines in ${(0,_countTime__WEBPACK_IMPORTED_MODULE_2__["default"])(_data_data__WEBPACK_IMPORTED_MODULE_0__["default"].timeStart, _data_data__WEBPACK_IMPORTED_MODULE_0__["default"].timeEnd)} seconds and ${_data_data__WEBPACK_IMPORTED_MODULE_0__["default"].clicks} moves!" 🎉`;
     }
   } else {
     infoMessage.innerHTML = `You have to open ${count} more cells 👀`;
