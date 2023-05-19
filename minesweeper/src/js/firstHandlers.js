@@ -84,9 +84,14 @@ const firstHandlers = (data) => {
             const ijArr = e.target.dataset.ij.split("-");
             const x = +ijArr[0];
             const y = +ijArr[1];
-            data.cellsAtField[x][y].isFlag = !data.cellsAtField[x][y].isFlag;
-            e.target.classList.toggle("cell_flag");
-            soundAudio(false, data.isSoundOn);
+            if (!data.cellsAtField[x][y].isOpen) {
+              data.cellsAtField[x][y].isFlag = !data.cellsAtField[x][y].isFlag;
+              e.target.classList.toggle("cell_flag");
+              soundAudio(false, data.isSoundOn);
+            } else {
+              data.cellsAtField[x][y].isFlag = false;
+              e.target.classList.remove("cell_flag");
+            }
           }
         }
         updateLocalStorage();
