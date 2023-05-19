@@ -296,6 +296,7 @@ const createDefaultData = () => {
     isLose: false,
     isPaused: false,
     cellsAtField: [],
+    timer: () => {},
     latestResults: [{
       time: 0,
       clicks: 100
@@ -456,9 +457,14 @@ const firstHandlers = data => {
           const ijArr = e.target.dataset.ij.split("-");
           const x = +ijArr[0];
           const y = +ijArr[1];
-          data.cellsAtField[x][y].isFlag = !data.cellsAtField[x][y].isFlag;
-          e.target.classList.toggle("cell_flag");
-          (0,_soundAudio__WEBPACK_IMPORTED_MODULE_6__["default"])(false, data.isSoundOn);
+          if (!data.cellsAtField[x][y].isOpen) {
+            data.cellsAtField[x][y].isFlag = !data.cellsAtField[x][y].isFlag;
+            e.target.classList.toggle("cell_flag");
+            (0,_soundAudio__WEBPACK_IMPORTED_MODULE_6__["default"])(false, data.isSoundOn);
+          } else {
+            data.cellsAtField[x][y].isFlag = false;
+            e.target.classList.remove("cell_flag");
+          }
         }
       }
       (0,_updateLocalStorage__WEBPACK_IMPORTED_MODULE_5__["default"])();
@@ -751,7 +757,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
 /* harmony import */ var _data_data__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../data/data */ "./js/data/data.js");
-/* harmony import */ var _restCellsCount__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./restCellsCount */ "./js/info-block/restCellsCount.js");
+/* harmony import */ var _countTime__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./countTime */ "./js/info-block/countTime.js");
+/* harmony import */ var _restCellsCount__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./restCellsCount */ "./js/info-block/restCellsCount.js");
+
 
 
 const createInfoElement = () => {
@@ -767,7 +775,7 @@ const createInfoElement = () => {
   const btnTheme = document.createElement("button");
   btnTheme.classList.add("btn", "btn_line", "btn_theme");
   if (!_data_data__WEBPACK_IMPORTED_MODULE_0__["default"].isDarkTheme) btnTheme.classList.add("btn_active");
-  const count = (0,_restCellsCount__WEBPACK_IMPORTED_MODULE_1__["default"])(_data_data__WEBPACK_IMPORTED_MODULE_0__["default"].fieldInGameSize, _data_data__WEBPACK_IMPORTED_MODULE_0__["default"].openCellCount, _data_data__WEBPACK_IMPORTED_MODULE_0__["default"].minesInGameNumber);
+  const count = (0,_restCellsCount__WEBPACK_IMPORTED_MODULE_2__["default"])(_data_data__WEBPACK_IMPORTED_MODULE_0__["default"].fieldInGameSize, _data_data__WEBPACK_IMPORTED_MODULE_0__["default"].openCellCount, _data_data__WEBPACK_IMPORTED_MODULE_0__["default"].minesInGameNumber);
   btnVolume.innerHTML = `<svg
     width="24"
     height="24"
@@ -943,7 +951,7 @@ const createInfoElement = () => {
   const infoTime = document.createElement("div");
   infoTime.classList.add("info__time");
   infoTime.classList.add("subtitle");
-  infoTime.innerHTML = `Time: ${_data_data__WEBPACK_IMPORTED_MODULE_0__["default"].time}`;
+  infoTime.innerHTML = `Time: ${(0,_countTime__WEBPACK_IMPORTED_MODULE_1__["default"])(_data_data__WEBPACK_IMPORTED_MODULE_0__["default"].time)}`;
   const infoClicks = document.createElement("div");
   infoClicks.classList.add("info__clicks");
   infoClicks.classList.add("subtitle");
@@ -991,15 +999,18 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
 /* harmony import */ var _data_data__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../data/data */ "./js/data/data.js");
-/* harmony import */ var _updateTime__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./updateTime */ "./js/info-block/updateTime.js");
+/* harmony import */ var _updateLocalStorage__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../updateLocalStorage */ "./js/updateLocalStorage.js");
+/* harmony import */ var _updateTime__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./updateTime */ "./js/info-block/updateTime.js");
+
 
 
 const startTimer = () => {
-  console.log("start timer");
-  setInterval(() => {
+  clearInterval(_data_data__WEBPACK_IMPORTED_MODULE_0__["default"].timer);
+  _data_data__WEBPACK_IMPORTED_MODULE_0__["default"].timer = setInterval(() => {
     if (!_data_data__WEBPACK_IMPORTED_MODULE_0__["default"].isPaused) {
       _data_data__WEBPACK_IMPORTED_MODULE_0__["default"].time++;
-      (0,_updateTime__WEBPACK_IMPORTED_MODULE_1__["default"])(_data_data__WEBPACK_IMPORTED_MODULE_0__["default"].time);
+      (0,_updateTime__WEBPACK_IMPORTED_MODULE_2__["default"])(_data_data__WEBPACK_IMPORTED_MODULE_0__["default"].time);
+      (0,_updateLocalStorage__WEBPACK_IMPORTED_MODULE_1__["default"])();
     }
   }, 1000);
 };
