@@ -3,11 +3,18 @@ import createLastGamesElement from "./latest-results-block/createLastGamesElemen
 import createInfoElement from "./info-block/createInfoElement";
 import createSettingsElement from "./settings-block/createSettingsElement";
 import updateField from "./cell-field-block/updateField";
+import restCellsCount from "./info-block/restCellsCount";
 
 const firstRender = (data) => {
   const body = document.querySelector("body");
   if (data.isDarkTheme) body.classList.add("dark-theme");
   body.innerHTML = "";
+
+  const count = restCellsCount(
+    data.fieldInGameSize,
+    data.openCellCount,
+    data.minesInGameNumber
+  );
 
   const title = document.createElement("h1");
   title.classList.add("title");
@@ -30,6 +37,22 @@ const firstRender = (data) => {
   newGameButton.classList.add("btn", "btn_new-game");
   newGameButton.innerHTML = "Start new game";
 
+  const message = document.createElement("div");
+  message.classList.add("message", "subtitle");
+
+  if (data.isDisabled) {
+    if (data.isLose) {
+      message.innerHTML = `🚨&nbsp;"Game&nbsp;over 🎃&nbsp;Try&nbsp;again"&nbsp;⚠️`;
+    } else {
+      message.innerHTML = `🎊&nbsp;"Hooray!&nbsp;🥳 You&nbsp;found&nbsp;all&nbsp;mines in!&nbsp;${countTime(
+        data.timeStart,
+        data.timeEnd
+      )}!&nbsp;seconds and!&nbsp;${data.clicks}!&nbsp;moves!" 🎉`;
+    }
+  } else {
+    message.innerHTML = `You have to open ${count}&nbsp;more&nbsp;cells&nbsp;👀`;
+  }
+
   const info = createInfoElement(
     data.isSoundOn,
     data.isDarkTheme,
@@ -42,8 +65,8 @@ const firstRender = (data) => {
 
   const lastGames = createLastGamesElement(data.latestResults);
 
-  menuBlock.append(settings, newGameButton, info);
-  mainBlock.append(menuBlock, gameField, lastGames);
+  menuBlock.append(settings, newGameButton);
+  mainBlock.append(menuBlock, message, gameField, info, lastGames);
   body.append(title, mainBlock);
 
   updateField(data);

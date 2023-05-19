@@ -9,7 +9,7 @@ const updateRestCells = (
   minesInGameNumber,
   isSoundOn
 ) => {
-  const infoMessage = document.querySelector(".info__message");
+  const infoMessage = document.querySelector(".message");
   const count = restCellsCount(
     fieldInGameSize,
     openCellCount,
@@ -17,15 +17,15 @@ const updateRestCells = (
   );
   if (data.isDisabled) {
     if (data.isLose) {
-      infoMessage.innerHTML = `🚨 "Game over 🎃 Try again" ⚠️`;
+      infoMessage.innerHTML = `🚨&nbsp;"Game&nbsp;over 🎃&nbsp;Try&nbsp;again"&nbsp;⚠️`;
     } else {
-      infoMessage.innerHTML = `🎊 "Hooray! 🥳 You found all mines in ${countTime(
+      infoMessage.innerHTML = `🎊&nbsp;"Hooray!&nbsp;🥳 You&nbsp;found&nbsp;all&nbsp;mines in!&nbsp;${countTime(
         data.timeStart,
         data.timeEnd
-      )} seconds and ${data.clicks} moves!" 🎉`;
+      )}!&nbsp;seconds and!&nbsp;${data.clicks}!&nbsp;moves!" 🎉`;
     }
   } else {
-    infoMessage.innerHTML = `You have to open ${count} more cells 👀`;
+    infoMessage.innerHTML = `You have to open ${count}&nbsp;more&nbsp;cells&nbsp;👀`;
   }
   if (count === 0) {
     finishGame("win", isSoundOn);

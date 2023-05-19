@@ -1,5 +1,4 @@
 import data from "../data/data";
-import countTime from "./countTime";
 import restCellsCount from "./restCellsCount";
 
 const createInfoElement = () => {
@@ -215,25 +214,9 @@ const createInfoElement = () => {
   restCells.classList.add("subtitle");
   restCells.innerHTML = `Cells: ${count}`;
 
-  const infoMessage = document.createElement("div");
-  infoMessage.classList.add("info__message", "subtitle");
-
-  if (data.isDisabled) {
-    if (data.isLose) {
-      infoMessage.innerHTML = `🚨 "Game over 🎃 Try again" ⚠️`;
-    } else {
-      infoMessage.innerHTML = `🎊 "Hooray! 🥳 You found all mines in ${countTime(
-        data.timeStart,
-        data.timeEnd
-      )} seconds and ${data.clicks} moves!" 🎉`;
-    }
-  } else {
-    infoMessage.innerHTML = `You have to open ${count} more cells 👀`;
-  }
-
   infoButtons.append(btnVolume, btnTheme);
   infoList.append(infoTime, infoClicks);
-  info.append(infoButtons, infoList, infoMessage);
+  info.append(infoButtons, infoList);
 
   return info;
 };

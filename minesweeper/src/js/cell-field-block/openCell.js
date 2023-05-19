@@ -37,7 +37,6 @@ const openCell = (x, y, data) => {
             !foundCell.classList.contains("cell_open") &&
             !foundCell.classList.contains("cell_flag")
           ) {
-            console.log(!foundCell.classList.contains("cell_flag"));
             openCell(i, j, data);
           }
         }
