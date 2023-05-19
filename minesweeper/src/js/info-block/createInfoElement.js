@@ -208,6 +208,7 @@ const createInfoElement = () => {
   infoClicks.classList.add("info__clicks");
   infoClicks.classList.add("subtitle");
   infoClicks.innerHTML = `Clicks: ${data.clicks}`;
+  console.log(data.clicks);
 
   const restCells = document.createElement("div");
   restCells.classList.add("info__rest-cells");

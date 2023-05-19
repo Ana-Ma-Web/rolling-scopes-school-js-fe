@@ -9,15 +9,16 @@ const startNewGameHandler = (data) => {
   data.minesInGameNumber = data.minesCurNumber;
   data.fieldInGameSize = data.fieldCurSize;
   data.openCellCount = 0;
+  data.clicks = 0;
   data.cellsAtField = createDefaultCells(+data.fieldInGameSize.slice(-2));
-  console.log(data.cellsAtField);
   updateField(data);
   updateLocalStorage();
   updateInfoMenu(
     data.fieldInGameSize,
     data.openCellCount,
     data.minesInGameNumber,
-    data.isSoundOn
+    data.isSoundOn,
+    data.clicks
   );
 };
 export default startNewGameHandler;

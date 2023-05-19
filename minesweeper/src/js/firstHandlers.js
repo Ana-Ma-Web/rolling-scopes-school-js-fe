@@ -83,12 +83,14 @@ const firstHandlers = (data) => {
       (e) => {
         e.preventDefault();
         if (e.target.classList.contains("cell")) {
-          const ijArr = e.target.dataset.ij.split("-");
-          const x = +ijArr[0];
-          const y = +ijArr[1];
-          data.cellsAtField[x][y].isFlag = !data.cellsAtField[x][y].isFlag;
-          e.target.classList.toggle("cell_flag");
-          soundAudio(false, data.isSoundOn);
+          if (!data.isDisabled) {
+            const ijArr = e.target.dataset.ij.split("-");
+            const x = +ijArr[0];
+            const y = +ijArr[1];
+            data.cellsAtField[x][y].isFlag = !data.cellsAtField[x][y].isFlag;
+            e.target.classList.toggle("cell_flag");
+            soundAudio(false, data.isSoundOn);
+          }
         }
         updateLocalStorage();
       },
