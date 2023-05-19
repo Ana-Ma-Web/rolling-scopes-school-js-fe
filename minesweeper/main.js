@@ -1283,6 +1283,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _assets_sounds_e10_mp3__WEBPACK_IMPORTED_MODULE_21__ = __webpack_require__(/*! ./../assets/sounds/e10.mp3 */ "./assets/sounds/e10.mp3");
 /* harmony import */ var _assets_sounds_e11_mp3__WEBPACK_IMPORTED_MODULE_22__ = __webpack_require__(/*! ./../assets/sounds/e11.mp3 */ "./assets/sounds/e11.mp3");
 /* harmony import */ var _assets_sounds_e12_mp3__WEBPACK_IMPORTED_MODULE_23__ = __webpack_require__(/*! ./../assets/sounds/e12.mp3 */ "./assets/sounds/e12.mp3");
+/* harmony import */ var _assets_sounds_e13_mp3__WEBPACK_IMPORTED_MODULE_24__ = __webpack_require__(/*! ./../assets/sounds/e13.mp3 */ "./assets/sounds/e13.mp3");
+
 
 
 
@@ -1316,7 +1318,7 @@ const soundAudio = (soundType, isSoundOn) => {
       audio.src = openCellSounds[index];
       audio.autoplay = true;
     } else if (soundType === "lose") {
-      const explCellSounds = [_assets_sounds_e01_mp3__WEBPACK_IMPORTED_MODULE_12__["default"], _assets_sounds_e02_mp3__WEBPACK_IMPORTED_MODULE_13__["default"], _assets_sounds_e03_mp3__WEBPACK_IMPORTED_MODULE_14__["default"], _assets_sounds_e04_mp3__WEBPACK_IMPORTED_MODULE_15__["default"], _assets_sounds_e05_mp3__WEBPACK_IMPORTED_MODULE_16__["default"], _assets_sounds_e06_mp3__WEBPACK_IMPORTED_MODULE_17__["default"], _assets_sounds_e07_mp3__WEBPACK_IMPORTED_MODULE_18__["default"], _assets_sounds_e08_mp3__WEBPACK_IMPORTED_MODULE_19__["default"], _assets_sounds_e09_mp3__WEBPACK_IMPORTED_MODULE_20__["default"], _assets_sounds_e10_mp3__WEBPACK_IMPORTED_MODULE_21__["default"], _assets_sounds_e11_mp3__WEBPACK_IMPORTED_MODULE_22__["default"], _assets_sounds_e12_mp3__WEBPACK_IMPORTED_MODULE_23__["default"]];
+      const explCellSounds = [_assets_sounds_e01_mp3__WEBPACK_IMPORTED_MODULE_12__["default"], _assets_sounds_e02_mp3__WEBPACK_IMPORTED_MODULE_13__["default"], _assets_sounds_e03_mp3__WEBPACK_IMPORTED_MODULE_14__["default"], _assets_sounds_e04_mp3__WEBPACK_IMPORTED_MODULE_15__["default"], _assets_sounds_e05_mp3__WEBPACK_IMPORTED_MODULE_16__["default"], _assets_sounds_e06_mp3__WEBPACK_IMPORTED_MODULE_17__["default"], _assets_sounds_e07_mp3__WEBPACK_IMPORTED_MODULE_18__["default"], _assets_sounds_e08_mp3__WEBPACK_IMPORTED_MODULE_19__["default"], _assets_sounds_e09_mp3__WEBPACK_IMPORTED_MODULE_20__["default"], _assets_sounds_e10_mp3__WEBPACK_IMPORTED_MODULE_21__["default"], _assets_sounds_e11_mp3__WEBPACK_IMPORTED_MODULE_22__["default"], _assets_sounds_e12_mp3__WEBPACK_IMPORTED_MODULE_23__["default"], _assets_sounds_e13_mp3__WEBPACK_IMPORTED_MODULE_24__["default"]];
       const index = Math.floor(Math.random() * 12);
       let audio = new Audio();
       audio.src = explCellSounds[index];
@@ -1827,7 +1829,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (__webpack_require__.p + "5b38b05d0863ceadba5de9b2f18a2cba.mp3");
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (__webpack_require__.p + "c94242b2fe256793ed54fe2c8fb06ac2.mp3");
 
 /***/ }),
 
@@ -1855,7 +1857,21 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (__webpack_require__.p + "dc5cc17d30cce4a2dbc88e7340073974.mp3");
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (__webpack_require__.p + "928c31eb0a1d5273beaa7850fb37bf4c.mp3");
+
+/***/ }),
+
+/***/ "./assets/sounds/e13.mp3":
+/*!*******************************!*\
+  !*** ./assets/sounds/e13.mp3 ***!
+  \*******************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (__webpack_require__.p + "76a3a80d15380c27d19349c0ba3dea2a.mp3");
 
 /***/ }),
 
