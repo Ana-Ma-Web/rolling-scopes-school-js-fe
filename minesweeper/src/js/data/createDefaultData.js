@@ -10,6 +10,7 @@ const createDefaultData = () => {
     isSoundOn: true,
     isDarkTheme: false,
     openCellCount: 0,
+    setFlagCount: 0,
     time: 0,
     clicks: 0,
     isDisabled: false,

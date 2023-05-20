@@ -8,6 +8,7 @@ const startNewGameHandler = (data) => {
   data.fieldInGameSize = data.fieldCurSize;
   data.isCellClicked = false;
   data.openCellCount = 0;
+  data.setFlagCount = 0;
   data.time = 0;
   data.clicks = 0;
   data.isDisabled = false;

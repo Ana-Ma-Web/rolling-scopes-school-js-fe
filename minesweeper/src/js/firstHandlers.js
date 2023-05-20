@@ -6,6 +6,7 @@ import setMines from "./cell-field-block/setMines";
 import updateLocalStorage from "./updateLocalStorage";
 import soundAudio from "./soundAudio";
 import startNewGameHandler from "./handlers/startNewGameHandler";
+import updateInfoMenu from "./info-block/updateInfoMenu";
 
 const firstHandlers = (data) => {
   const body = document.querySelector("body");
@@ -87,15 +88,24 @@ const firstHandlers = (data) => {
             const x = +ijArr[0];
             const y = +ijArr[1];
             if (!data.cellsAtField[x][y].isOpen) {
-              data.cellsAtField[x][y].isFlag = !data.cellsAtField[x][y].isFlag;
-              e.target.classList.toggle("cell_flag");
-              soundAudio(false, data.isSoundOn);
+              if (data.cellsAtField[x][y].isFlag) {
+                data.cellsAtField[x][y].isFlag = false;
+                e.target.classList.remove("cell_flag");
+                data.setFlagCount--;
+                soundAudio(false, data.isSoundOn);
+              } else {
+                data.cellsAtField[x][y].isFlag = true;
+                e.target.classList.add("cell_flag");
+                data.setFlagCount++;
+                soundAudio(false, data.isSoundOn);
+              }
             } else {
               data.cellsAtField[x][y].isFlag = false;
               e.target.classList.remove("cell_flag");
             }
           }
         }
+        updateInfoMenu(data.isSoundOn, data.clicks, data.time);
         updateLocalStorage();
       },
       false

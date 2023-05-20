@@ -1,6 +1,7 @@
 import data from "../data/data";
 import countTime from "./countTime";
 import restCellsCount from "./restCellsCount";
+import restMinesCount from "./restMinesCount";
 
 const createInfoElement = () => {
   const info = document.createElement("div");
@@ -20,14 +21,8 @@ const createInfoElement = () => {
   btnTheme.classList.add("btn", "btn_line", "btn_theme");
   if (!data.isDarkTheme) btnTheme.classList.add("btn_active");
 
-  const count = restCellsCount(
-    data.fieldInGameSize,
-    data.openCellCount,
-    data.minesInGameNumber
-  );
-
   btnVolume.innerHTML = `<svg
-    width="24"
+  width="24"
     height="24"
     viewBox="0 0 24 24"
     fill="none"
@@ -200,6 +195,8 @@ const createInfoElement = () => {
   </svg>
   `;
 
+  const flagCount = restMinesCount();
+
   const infoTime = document.createElement("div");
   infoTime.classList.add("info__time");
   infoTime.classList.add("subtitle");
@@ -210,13 +207,18 @@ const createInfoElement = () => {
   infoClicks.classList.add("subtitle");
   infoClicks.innerHTML = `Clicks: ${data.clicks}`;
 
-  const restCells = document.createElement("div");
-  restCells.classList.add("info__rest-cells");
-  restCells.classList.add("subtitle");
-  restCells.innerHTML = `Cells: ${count}`;
+  const infoFlags = document.createElement("div");
+  infoFlags.classList.add("info__rest-flags");
+  infoFlags.classList.add("subtitle");
+  infoFlags.innerHTML = `Flags: ${flagCount}`;
+
+  const infoMines = document.createElement("div");
+  infoMines.classList.add("info__rest-mines");
+  infoMines.classList.add("subtitle");
+  infoMines.innerHTML = `Mines: ${flagCount > 0 ? flagCount : 0}`;
 
   infoButtons.append(btnVolume, btnTheme);
-  infoList.append(infoTime, infoClicks);
+  infoList.append(infoTime, infoClicks, infoFlags, infoMines);
   info.append(infoButtons, infoList);
 
   return info;
