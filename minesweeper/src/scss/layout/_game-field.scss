@@ -55,12 +55,12 @@
     gap: 2px;
     border-radius: 5px;
     margin: 20px auto;
-  
+
     &_size-10 {
       border-radius: 4px;
       padding: 1px;
       gap: 1px;
-  
+
       & .cell {
         width: 30px;
         height: 30px;
@@ -87,5 +87,11 @@
         border-radius: 2px;
       }
     }
-  }}
+  }
+}
 
+@media (min-width: 1480px) {
+  .game-field {
+    margin: 0;
+  }
+}

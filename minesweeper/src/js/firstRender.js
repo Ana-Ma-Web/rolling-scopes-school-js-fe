@@ -19,6 +19,9 @@ const firstRender = (data) => {
   const mainBlock = document.createElement("div");
   mainBlock.classList.add("main");
 
+  const header = document.createElement("header");
+  title.classList.add("header");
+
   const menuBlock = document.createElement("div");
   menuBlock.classList.add("menu");
 
@@ -46,12 +49,17 @@ const firstRender = (data) => {
     message.innerHTML = messageText.default;
   }
 
+  const footer = document.createElement("footer");
+  footer.classList.add("footer");
+
   const info = createInfoElement();
 
   const lastGames = createLastGamesElement(data.latestResults);
 
+  header.append(menuBlock, message);
+  footer.append(info, lastGames);
   menuBlock.append(settings, newGameButton);
-  mainBlock.append(menuBlock, message, gameField, info, lastGames);
+  mainBlock.append(header, gameField, footer);
   body.append(title, mainBlock);
 
   updateField(data);

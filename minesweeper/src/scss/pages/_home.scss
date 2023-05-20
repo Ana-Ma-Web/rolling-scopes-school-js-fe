@@ -11,3 +11,11 @@
   background: url(@img/bg.png),
     linear-gradient(180deg, var(--bg-light-color) 0%, var(--bg-dark-color) 100%);
 }
+
+@media (min-width: 1480px) {
+  .main {
+    display: flex;
+    justify-content: center;
+    gap: 1%;
+  }
+}

@@ -1,6 +1,6 @@
 const convertDateToString = (date) => {
   let time = new Intl.DateTimeFormat("en-US", {
-    dateStyle: "long",
+    dateStyle: "short",
     timeStyle: "short",
   }).format(date);
   return time;

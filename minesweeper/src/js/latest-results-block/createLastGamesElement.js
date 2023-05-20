@@ -30,12 +30,12 @@ const createLastGamesElement = (latestResults) => {
 
     const latestResultsFieldSize = document.createElement("div");
     latestResultsFieldSize.classList.add("last-games__field-size");
-    latestResultsFieldSize.innerHTML = `Field size: 
+    latestResultsFieldSize.innerHTML = `Size: 
     ${item.fieldSize.slice(-2)}`;
 
     const latestResultsMinesNumber = document.createElement("div");
     latestResultsMinesNumber.classList.add("last-games__mines-number");
-    latestResultsMinesNumber.innerHTML = `Mines number: ${item.minesNumber}`;
+    latestResultsMinesNumber.innerHTML = `Mines: ${item.minesNumber}`;
 
     latestResultsItem.append(
       latestResultsDate,
