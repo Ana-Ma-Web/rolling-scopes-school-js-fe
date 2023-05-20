@@ -290,6 +290,7 @@ const createDefaultData = () => {
     isSoundOn: true,
     isDarkTheme: false,
     openCellCount: 0,
+    setFlagCount: 0,
     time: 0,
     clicks: 0,
     isDisabled: false,
@@ -420,6 +421,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _updateLocalStorage__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./updateLocalStorage */ "./js/updateLocalStorage.js");
 /* harmony import */ var _soundAudio__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./soundAudio */ "./js/soundAudio.js");
 /* harmony import */ var _handlers_startNewGameHandler__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./handlers/startNewGameHandler */ "./js/handlers/startNewGameHandler.js");
+/* harmony import */ var _info_block_updateInfoMenu__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./info-block/updateInfoMenu */ "./js/info-block/updateInfoMenu.js");
+
 
 
 
@@ -490,15 +493,24 @@ const firstHandlers = data => {
           const x = +ijArr[0];
           const y = +ijArr[1];
           if (!data.cellsAtField[x][y].isOpen) {
-            data.cellsAtField[x][y].isFlag = !data.cellsAtField[x][y].isFlag;
-            e.target.classList.toggle("cell_flag");
-            (0,_soundAudio__WEBPACK_IMPORTED_MODULE_6__["default"])(false, data.isSoundOn);
+            if (data.cellsAtField[x][y].isFlag) {
+              data.cellsAtField[x][y].isFlag = false;
+              e.target.classList.remove("cell_flag");
+              data.setFlagCount--;
+              (0,_soundAudio__WEBPACK_IMPORTED_MODULE_6__["default"])(false, data.isSoundOn);
+            } else {
+              data.cellsAtField[x][y].isFlag = true;
+              e.target.classList.add("cell_flag");
+              data.setFlagCount++;
+              (0,_soundAudio__WEBPACK_IMPORTED_MODULE_6__["default"])(false, data.isSoundOn);
+            }
           } else {
             data.cellsAtField[x][y].isFlag = false;
             e.target.classList.remove("cell_flag");
           }
         }
       }
+      (0,_info_block_updateInfoMenu__WEBPACK_IMPORTED_MODULE_8__["default"])(data.isSoundOn, data.clicks, data.time);
       (0,_updateLocalStorage__WEBPACK_IMPORTED_MODULE_5__["default"])();
     }, false);
   };
@@ -725,6 +737,7 @@ const startNewGameHandler = data => {
   data.fieldInGameSize = data.fieldCurSize;
   data.isCellClicked = false;
   data.openCellCount = 0;
+  data.setFlagCount = 0;
   data.time = 0;
   data.clicks = 0;
   data.isDisabled = false;
@@ -788,6 +801,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _data_data__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../data/data */ "./js/data/data.js");
 /* harmony import */ var _countTime__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./countTime */ "./js/info-block/countTime.js");
 /* harmony import */ var _restCellsCount__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./restCellsCount */ "./js/info-block/restCellsCount.js");
+/* harmony import */ var _restMinesCount__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./restMinesCount */ "./js/info-block/restMinesCount.js");
+
 
 
 
@@ -804,9 +819,8 @@ const createInfoElement = () => {
   const btnTheme = document.createElement("button");
   btnTheme.classList.add("btn", "btn_line", "btn_theme");
   if (!_data_data__WEBPACK_IMPORTED_MODULE_0__["default"].isDarkTheme) btnTheme.classList.add("btn_active");
-  const count = (0,_restCellsCount__WEBPACK_IMPORTED_MODULE_2__["default"])(_data_data__WEBPACK_IMPORTED_MODULE_0__["default"].fieldInGameSize, _data_data__WEBPACK_IMPORTED_MODULE_0__["default"].openCellCount, _data_data__WEBPACK_IMPORTED_MODULE_0__["default"].minesInGameNumber);
   btnVolume.innerHTML = `<svg
-    width="24"
+  width="24"
     height="24"
     viewBox="0 0 24 24"
     fill="none"
@@ -977,6 +991,7 @@ const createInfoElement = () => {
     </defs>
   </svg>
   `;
+  const flagCount = (0,_restMinesCount__WEBPACK_IMPORTED_MODULE_3__["default"])();
   const infoTime = document.createElement("div");
   infoTime.classList.add("info__time");
   infoTime.classList.add("subtitle");
@@ -985,12 +1000,16 @@ const createInfoElement = () => {
   infoClicks.classList.add("info__clicks");
   infoClicks.classList.add("subtitle");
   infoClicks.innerHTML = `Clicks: ${_data_data__WEBPACK_IMPORTED_MODULE_0__["default"].clicks}`;
-  const restCells = document.createElement("div");
-  restCells.classList.add("info__rest-cells");
-  restCells.classList.add("subtitle");
-  restCells.innerHTML = `Cells: ${count}`;
+  const infoFlags = document.createElement("div");
+  infoFlags.classList.add("info__rest-flags");
+  infoFlags.classList.add("subtitle");
+  infoFlags.innerHTML = `Flags: ${flagCount}`;
+  const infoMines = document.createElement("div");
+  infoMines.classList.add("info__rest-mines");
+  infoMines.classList.add("subtitle");
+  infoMines.innerHTML = `Mines: ${flagCount > 0 ? flagCount : 0}`;
   infoButtons.append(btnVolume, btnTheme);
-  infoList.append(infoTime, infoClicks);
+  infoList.append(infoTime, infoClicks, infoFlags, infoMines);
   info.append(infoButtons, infoList);
   return info;
 };
@@ -1014,6 +1033,25 @@ const restCellsCount = (fieldInGameSize, openCellCount, minesInGameNumber) => {
   return restCellsCount;
 };
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (restCellsCount);
+
+/***/ }),
+
+/***/ "./js/info-block/restMinesCount.js":
+/*!*****************************************!*\
+  !*** ./js/info-block/restMinesCount.js ***!
+  \*****************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _data_data__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../data/data */ "./js/data/data.js");
+
+const restMinesCount = () => {
+  return _data_data__WEBPACK_IMPORTED_MODULE_0__["default"].minesInGameNumber - _data_data__WEBPACK_IMPORTED_MODULE_0__["default"].setFlagCount;
+};
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (restMinesCount);
 
 /***/ }),
 
@@ -1078,6 +1116,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _updateClicks__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./updateClicks */ "./js/info-block/updateClicks.js");
 /* harmony import */ var _updateTime__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./updateTime */ "./js/info-block/updateTime.js");
 /* harmony import */ var _updateRestCells__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./updateRestCells */ "./js/info-block/updateRestCells.js");
+/* harmony import */ var _updateRestMines__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./updateRestMines */ "./js/info-block/updateRestMines.js");
+
 
 
 
@@ -1085,6 +1125,7 @@ const updateInfoMenu = (isSoundOn, clicks, time) => {
   (0,_updateClicks__WEBPACK_IMPORTED_MODULE_0__["default"])(clicks);
   (0,_updateTime__WEBPACK_IMPORTED_MODULE_1__["default"])(time);
   (0,_updateRestCells__WEBPACK_IMPORTED_MODULE_2__["default"])(isSoundOn);
+  (0,_updateRestMines__WEBPACK_IMPORTED_MODULE_3__["default"])();
 };
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (updateInfoMenu);
 
@@ -1126,6 +1167,29 @@ const updateRestCells = isSoundOn => {
   }
 };
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (updateRestCells);
+
+/***/ }),
+
+/***/ "./js/info-block/updateRestMines.js":
+/*!******************************************!*\
+  !*** ./js/info-block/updateRestMines.js ***!
+  \******************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _restMinesCount__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./restMinesCount */ "./js/info-block/restMinesCount.js");
+
+const updateRestMines = () => {
+  const flagCount = (0,_restMinesCount__WEBPACK_IMPORTED_MODULE_0__["default"])();
+  const flagCountElement = document.querySelector(".info__rest-flags");
+  const mineCountElement = document.querySelector(".info__rest-mines");
+  mineCountElement.innerHTML = `Mines: ${flagCount > 0 ? flagCount : 0}`;
+  flagCountElement.innerHTML = `Flags: ${flagCount}`;
+};
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (updateRestMines);
 
 /***/ }),
 
