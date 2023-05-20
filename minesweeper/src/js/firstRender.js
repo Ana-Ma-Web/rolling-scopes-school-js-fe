@@ -1,9 +1,8 @@
-import countTime from "./info-block/countTime";
 import createLastGamesElement from "./latest-results-block/createLastGamesElement";
 import createInfoElement from "./info-block/createInfoElement";
 import createSettingsElement from "./settings-block/createSettingsElement";
 import updateField from "./cell-field-block/updateField";
-import restCellsCount from "./info-block/restCellsCount";
+import createMessage from "./data/createMessage";
 
 const firstRender = (data) => {
   data.isPaused = true;
@@ -11,11 +10,7 @@ const firstRender = (data) => {
   if (data.isDarkTheme) body.classList.add("dark-theme");
   body.innerHTML = "";
 
-  const count = restCellsCount(
-    data.fieldInGameSize,
-    data.openCellCount,
-    data.minesInGameNumber
-  );
+  const messageText = createMessage();
 
   const title = document.createElement("h1");
   title.classList.add("title");
@@ -35,7 +30,7 @@ const firstRender = (data) => {
     data.fieldCurSize
   );
   const newGameButton = document.createElement("button");
-  newGameButton.classList.add("btn", "btn_new-game");
+  newGameButton.classList.add("btn", "btn_new-game", "btn_start-new-game");
   newGameButton.innerHTML = "Start new game";
 
   const message = document.createElement("div");
@@ -43,15 +38,12 @@ const firstRender = (data) => {
 
   if (data.isDisabled) {
     if (data.isLose) {
-      message.innerHTML = `🚨&nbsp;Game&nbsp;over 🎃&nbsp;Try&nbsp;again&nbsp;⚠️`;
+      message.innerHTML = messageText.lose;
     } else {
-      message.innerHTML = `🎊&nbsp;Hooray!&nbsp;🥳 
-      You&nbsp;found&nbsp;all&nbsp;mines in&nbsp;${countTime(
-        data.time
-      )}&nbsp;seconds and&nbsp;${data.clicks}&nbsp;moves! 🎉`;
+      message.innerHTML = messageText.win;
     }
   } else {
-    message.innerHTML = `You have to open ${count}&nbsp;more&nbsp;cells&nbsp;👀`;
+    message.innerHTML = messageText.default;
   }
 
   const info = createInfoElement();

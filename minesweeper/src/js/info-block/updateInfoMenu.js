@@ -2,17 +2,11 @@ import updateClicks from "./updateClicks";
 import updateTime from "./updateTime";
 import updateRestCells from "./updateRestCells";
 
-const updateInfoMenu = (
-  fieldInGameSize,
-  openCellCount,
-  minesInGameNumber,
-  isSoundOn,
-  clicks,
-  time
-) => {
+const updateInfoMenu = (isSoundOn, clicks, time) => {
+  console.log(time, "updateInfoMenu");
   updateClicks(clicks);
   updateTime(time);
-  updateRestCells(fieldInGameSize, openCellCount, minesInGameNumber, isSoundOn);
+  updateRestCells(isSoundOn);
 };
 
 export default updateInfoMenu;

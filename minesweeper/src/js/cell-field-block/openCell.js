@@ -14,14 +14,7 @@ const openCell = (x, y, data) => {
 
   if (!cellNode.classList.contains("cell_open")) {
     data.openCellCount++;
-    updateInfoMenu(
-      data.fieldInGameSize,
-      data.openCellCount,
-      data.minesInGameNumber,
-      data.isSoundOn,
-      data.clicks,
-      data.time
-    );
+    updateInfoMenu(data.isSoundOn, data.clicks, data.time);
 
     cellObj.isOpen = true;
     cellNode.classList.add("cell_open");

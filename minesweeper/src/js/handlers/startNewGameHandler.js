@@ -16,13 +16,6 @@ const startNewGameHandler = (data) => {
   data.cellsAtField = createDefaultCells(+data.fieldInGameSize.slice(-2));
   updateField(data);
   updateLocalStorage();
-  updateInfoMenu(
-    data.fieldInGameSize,
-    data.openCellCount,
-    data.minesInGameNumber,
-    data.isSoundOn,
-    data.clicks,
-    data.time
-  );
+  updateInfoMenu(data.isSoundOn, data.clicks, data.time);
 };
 export default startNewGameHandler;

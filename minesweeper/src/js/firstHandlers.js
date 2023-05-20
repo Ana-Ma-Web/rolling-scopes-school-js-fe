@@ -30,7 +30,9 @@ const firstHandlers = (data) => {
       }
 
       // new game
-      if (e.target.classList.contains("btn_new-game")) {
+      if (
+        e.target.closest("button")?.classList.contains("btn_start-new-game")
+      ) {
         startNewGameHandler(data);
       }
 

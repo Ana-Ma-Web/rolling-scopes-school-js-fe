@@ -1,22 +1,21 @@
 import flagAllMineCells from "./cell-field-block/flagAllMineCells";
 import printMines from "./cell-field-block/printMines";
+import createMessage from "./data/createMessage";
 import data from "./data/data";
-import countTime from "./info-block/countTime";
 import soundAudio from "./soundAudio";
 
 const finishGame = (isWin, isSoundOn) => {
   const infoMessage = document.querySelector(".message");
+  const messageText = createMessage();
+
   if (isWin) {
     soundAudio("win", isSoundOn);
     flagAllMineCells();
-    infoMessage.innerHTML = `🎊&nbsp;Hooray!&nbsp;🥳 
-    You&nbsp;found&nbsp;all&nbsp;mines in&nbsp;${countTime(
-      data.time
-    )}&nbsp;seconds and&nbsp;${data.clicks}&nbsp;moves! 🎉`;
+    infoMessage.innerHTML = messageText.win;
   } else {
     data.isLose = true;
     soundAudio("lose", isSoundOn);
-    infoMessage.innerHTML = `🚨&nbsp;Game&nbsp;over 🎃&nbsp;Try&nbsp;again&nbsp;⚠️`;
+    infoMessage.innerHTML = messageText.lose;
     printMines();
   }
   data.isDisabled = true;
