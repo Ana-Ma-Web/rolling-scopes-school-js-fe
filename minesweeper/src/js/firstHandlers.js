@@ -103,10 +103,10 @@ const firstHandlers = (data) => {
               data.cellsAtField[x][y].isFlag = false;
               e.target.classList.remove("cell_flag");
             }
+            updateInfoMenu(data.isSoundOn, data.clicks, data.time);
+            updateLocalStorage();
           }
         }
-        updateInfoMenu(data.isSoundOn, data.clicks, data.time);
-        updateLocalStorage();
       },
       false
     );

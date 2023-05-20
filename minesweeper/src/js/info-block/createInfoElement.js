@@ -215,7 +215,11 @@ const createInfoElement = () => {
   const infoMines = document.createElement("div");
   infoMines.classList.add("info__rest-mines");
   infoMines.classList.add("subtitle");
-  infoMines.innerHTML = `Mines: ${flagCount > 0 ? flagCount : 0}`;
+  if (data.isDisabled && !data.isLose) {
+    infoMines.innerHTML = `Mines: 0`;
+  } else {
+    infoMines.innerHTML = `Mines: ${flagCount > 0 ? flagCount : 0}`;
+  }
 
   infoButtons.append(btnVolume, btnTheme);
   infoList.append(infoTime, infoClicks, infoFlags, infoMines);

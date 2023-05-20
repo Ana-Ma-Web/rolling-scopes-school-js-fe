@@ -5,6 +5,10 @@ const createLastGamesElement = (latestResults) => {
   const latestResultsBlock = document.createElement("div");
   latestResultsBlock.classList.add("last-games");
 
+  const latestResultsTitle = document.createElement("div");
+  latestResultsTitle.classList.add("last-games__subtitle", "subtitle");
+  latestResultsTitle.innerHTML = "Latest results:";
+
   const latestResultsList = document.createElement("ul");
   latestResultsList.classList.add("last-games__list");
 
@@ -14,7 +18,6 @@ const createLastGamesElement = (latestResults) => {
 
     const latestResultsDate = document.createElement("div");
     latestResultsDate.classList.add("last-games__date");
-    console.log(typeof Date.parse(item.date));
     latestResultsDate.innerHTML = convertDateToString(Date.parse(item.date));
 
     const latestResultsTime = document.createElement("div");
@@ -45,7 +48,6 @@ const createLastGamesElement = (latestResults) => {
   });
 
   latestResultsBlock.append(latestResultsList);
-  console.log(latestResultsBlock, "latestResultsBlock");
   return latestResultsBlock;
 };
 
