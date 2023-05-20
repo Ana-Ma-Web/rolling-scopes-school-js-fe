@@ -236,6 +236,33 @@ const updateField = data => {
 
 /***/ }),
 
+/***/ "./js/data/addLastGamesElement.js":
+/*!****************************************!*\
+  !*** ./js/data/addLastGamesElement.js ***!
+  \****************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _data__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./data */ "./js/data/data.js");
+
+const addLastGamesElement = () => {
+  const obj = {
+    date: new Date(),
+    time: _data__WEBPACK_IMPORTED_MODULE_0__["default"].time,
+    clicks: _data__WEBPACK_IMPORTED_MODULE_0__["default"].clicks,
+    fieldSize: _data__WEBPACK_IMPORTED_MODULE_0__["default"].fieldInGameSize,
+    minesNumber: _data__WEBPACK_IMPORTED_MODULE_0__["default"].minesInGameNumber
+  };
+  if (_data__WEBPACK_IMPORTED_MODULE_0__["default"].latestResults.length > 9) _data__WEBPACK_IMPORTED_MODULE_0__["default"].latestResults.shift();
+  _data__WEBPACK_IMPORTED_MODULE_0__["default"].latestResults.push(obj);
+};
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (addLastGamesElement);
+
+/***/ }),
+
 /***/ "./js/data/createDefaultCells.js":
 /*!***************************************!*\
   !*** ./js/data/createDefaultCells.js ***!
@@ -298,13 +325,7 @@ const createDefaultData = () => {
     isPaused: false,
     cellsAtField: [],
     timer: () => {},
-    latestResults: [{
-      time: 0,
-      clicks: 100
-    }, {
-      time: 0,
-      clicks: 50
-    }]
+    latestResults: []
   };
   const size = +data.fieldInGameSize.slice(-2);
   data.cellsAtField = (0,_createDefaultCells__WEBPACK_IMPORTED_MODULE_0__["default"])(size);
@@ -375,9 +396,13 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var _cell_field_block_flagAllMineCells__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./cell-field-block/flagAllMineCells */ "./js/cell-field-block/flagAllMineCells.js");
 /* harmony import */ var _cell_field_block_printMines__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./cell-field-block/printMines */ "./js/cell-field-block/printMines.js");
-/* harmony import */ var _data_createMessage__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./data/createMessage */ "./js/data/createMessage.js");
-/* harmony import */ var _data_data__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./data/data */ "./js/data/data.js");
-/* harmony import */ var _soundAudio__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./soundAudio */ "./js/soundAudio.js");
+/* harmony import */ var _data_addLastGamesElement__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./data/addLastGamesElement */ "./js/data/addLastGamesElement.js");
+/* harmony import */ var _data_createMessage__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./data/createMessage */ "./js/data/createMessage.js");
+/* harmony import */ var _data_data__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./data/data */ "./js/data/data.js");
+/* harmony import */ var _latest_results_block_updateLastGames__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./latest-results-block/updateLastGames */ "./js/latest-results-block/updateLastGames.js");
+/* harmony import */ var _soundAudio__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./soundAudio */ "./js/soundAudio.js");
+
+
 
 
 
@@ -385,19 +410,21 @@ __webpack_require__.r(__webpack_exports__);
 
 const finishGame = (isWin, isSoundOn) => {
   const infoMessage = document.querySelector(".message");
-  const messageText = (0,_data_createMessage__WEBPACK_IMPORTED_MODULE_2__["default"])();
+  const messageText = (0,_data_createMessage__WEBPACK_IMPORTED_MODULE_3__["default"])();
   if (isWin) {
-    (0,_soundAudio__WEBPACK_IMPORTED_MODULE_4__["default"])("win", isSoundOn);
+    (0,_data_addLastGamesElement__WEBPACK_IMPORTED_MODULE_2__["default"])();
+    (0,_latest_results_block_updateLastGames__WEBPACK_IMPORTED_MODULE_5__["default"])();
+    (0,_soundAudio__WEBPACK_IMPORTED_MODULE_6__["default"])("win", isSoundOn);
     (0,_cell_field_block_flagAllMineCells__WEBPACK_IMPORTED_MODULE_0__["default"])();
     infoMessage.innerHTML = messageText.win;
   } else {
-    _data_data__WEBPACK_IMPORTED_MODULE_3__["default"].isLose = true;
-    (0,_soundAudio__WEBPACK_IMPORTED_MODULE_4__["default"])("lose", isSoundOn);
+    _data_data__WEBPACK_IMPORTED_MODULE_4__["default"].isLose = true;
+    (0,_soundAudio__WEBPACK_IMPORTED_MODULE_6__["default"])("lose", isSoundOn);
     infoMessage.innerHTML = messageText.lose;
     (0,_cell_field_block_printMines__WEBPACK_IMPORTED_MODULE_1__["default"])();
   }
-  _data_data__WEBPACK_IMPORTED_MODULE_3__["default"].isDisabled = true;
-  _data_data__WEBPACK_IMPORTED_MODULE_3__["default"].isPaused = true;
+  _data_data__WEBPACK_IMPORTED_MODULE_4__["default"].isDisabled = true;
+  _data_data__WEBPACK_IMPORTED_MODULE_4__["default"].isPaused = true;
 };
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (finishGame);
 
@@ -1122,8 +1149,8 @@ __webpack_require__.r(__webpack_exports__);
 
 
 const updateInfoMenu = (isSoundOn, clicks, time) => {
-  (0,_updateClicks__WEBPACK_IMPORTED_MODULE_0__["default"])(clicks);
   (0,_updateTime__WEBPACK_IMPORTED_MODULE_1__["default"])(time);
+  (0,_updateClicks__WEBPACK_IMPORTED_MODULE_0__["default"])(clicks);
   (0,_updateRestCells__WEBPACK_IMPORTED_MODULE_2__["default"])(isSoundOn);
   (0,_updateRestMines__WEBPACK_IMPORTED_MODULE_3__["default"])();
 };
@@ -1213,6 +1240,27 @@ const updateTime = time => {
 
 /***/ }),
 
+/***/ "./js/latest-results-block/convertDateToString.js":
+/*!********************************************************!*\
+  !*** ./js/latest-results-block/convertDateToString.js ***!
+  \********************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+const convertDateToString = date => {
+  let time = new Intl.DateTimeFormat("en-US", {
+    dateStyle: "long",
+    timeStyle: "short"
+  }).format(date);
+  return time;
+};
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (convertDateToString);
+
+/***/ }),
+
 /***/ "./js/latest-results-block/createLastGamesElement.js":
 /*!***********************************************************!*\
   !*** ./js/latest-results-block/createLastGamesElement.js ***!
@@ -1224,6 +1272,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
 /* harmony import */ var _info_block_countTime__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../info-block/countTime */ "./js/info-block/countTime.js");
+/* harmony import */ var _convertDateToString__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./convertDateToString */ "./js/latest-results-block/convertDateToString.js");
+
 
 const createLastGamesElement = latestResults => {
   const latestResultsBlock = document.createElement("div");
@@ -1233,19 +1283,53 @@ const createLastGamesElement = latestResults => {
   latestResults.forEach(item => {
     const latestResultsItem = document.createElement("li");
     latestResultsItem.classList.add("last-games__item");
+    const latestResultsDate = document.createElement("div");
+    latestResultsDate.classList.add("last-games__date");
+    console.log(typeof Date.parse(item.date));
+    latestResultsDate.innerHTML = (0,_convertDateToString__WEBPACK_IMPORTED_MODULE_1__["default"])(Date.parse(item.date));
     const latestResultsTime = document.createElement("div");
     latestResultsTime.classList.add("last-games__time");
-    latestResultsTime.innerHTML = `Time : ${(0,_info_block_countTime__WEBPACK_IMPORTED_MODULE_0__["default"])(item.time)}`;
+    latestResultsTime.innerHTML = `Time: ${(0,_info_block_countTime__WEBPACK_IMPORTED_MODULE_0__["default"])(item.time)}`;
     const latestResultsClicks = document.createElement("div");
     latestResultsClicks.classList.add("last-games__clicks");
-    latestResultsClicks.innerHTML = `Clicks : ${item.clicks}`;
-    latestResultsItem.append(latestResultsTime, latestResultsClicks);
+    latestResultsClicks.innerHTML = `Clicks: ${item.clicks}`;
+    const latestResultsFieldSize = document.createElement("div");
+    latestResultsFieldSize.classList.add("last-games__field-size");
+    latestResultsFieldSize.innerHTML = `Field size: 
+    ${item.fieldSize.slice(-2)}`;
+    const latestResultsMinesNumber = document.createElement("div");
+    latestResultsMinesNumber.classList.add("last-games__mines-number");
+    latestResultsMinesNumber.innerHTML = `Mines number: ${item.minesNumber}`;
+    latestResultsItem.append(latestResultsDate, latestResultsTime, latestResultsClicks, latestResultsFieldSize, latestResultsMinesNumber);
     latestResultsList.append(latestResultsItem);
   });
   latestResultsBlock.append(latestResultsList);
+  console.log(latestResultsBlock, "latestResultsBlock");
   return latestResultsBlock;
 };
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (createLastGamesElement);
+
+/***/ }),
+
+/***/ "./js/latest-results-block/updateLastGames.js":
+/*!****************************************************!*\
+  !*** ./js/latest-results-block/updateLastGames.js ***!
+  \****************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _data_data__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../data/data */ "./js/data/data.js");
+/* harmony import */ var _createLastGamesElement__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./createLastGamesElement */ "./js/latest-results-block/createLastGamesElement.js");
+
+
+const updateLastGames = () => {
+  const targetBlock = document.querySelector(".last-games");
+  targetBlock.replaceWith((0,_createLastGamesElement__WEBPACK_IMPORTED_MODULE_1__["default"])(_data_data__WEBPACK_IMPORTED_MODULE_0__["default"].latestResults));
+};
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (updateLastGames);
 
 /***/ }),
 
