@@ -18,16 +18,7 @@ const createDefaultData = () => {
     isPaused: false,
     cellsAtField: [],
     timer: () => {},
-    latestResults: [
-      {
-        time: 0,
-        clicks: 100,
-      },
-      {
-        time: 0,
-        clicks: 50,
-      },
-    ],
+    latestResults: [],
   };
 
   const size = +data.fieldInGameSize.slice(-2);

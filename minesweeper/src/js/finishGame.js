@@ -1,7 +1,9 @@
 import flagAllMineCells from "./cell-field-block/flagAllMineCells";
 import printMines from "./cell-field-block/printMines";
+import addLastGamesElement from "./data/addLastGamesElement";
 import createMessage from "./data/createMessage";
 import data from "./data/data";
+import updateLastGames from "./latest-results-block/updateLastGames";
 import soundAudio from "./soundAudio";
 
 const finishGame = (isWin, isSoundOn) => {
@@ -9,6 +11,8 @@ const finishGame = (isWin, isSoundOn) => {
   const messageText = createMessage();
 
   if (isWin) {
+    addLastGamesElement();
+    updateLastGames();
     soundAudio("win", isSoundOn);
     flagAllMineCells();
     infoMessage.innerHTML = messageText.win;

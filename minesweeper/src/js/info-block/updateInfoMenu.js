@@ -4,8 +4,8 @@ import updateRestCells from "./updateRestCells";
 import updateRestMines from "./updateRestMines";
 
 const updateInfoMenu = (isSoundOn, clicks, time) => {
-  updateClicks(clicks);
   updateTime(time);
+  updateClicks(clicks);
   updateRestCells(isSoundOn);
   updateRestMines();
 };
