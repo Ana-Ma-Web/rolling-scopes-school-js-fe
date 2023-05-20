@@ -3,7 +3,6 @@ import updateLocalStorage from "../updateLocalStorage";
 import updateTime from "./updateTime";
 
 const startTimer = () => {
-  console.log("startTimer");
   clearInterval(data.timer);
   data.timer = setInterval(() => {
     if (!data.isPaused) {

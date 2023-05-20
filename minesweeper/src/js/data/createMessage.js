@@ -15,7 +15,7 @@ const createMessage = () => {
     win: `🎊&nbsp;Hooray!&nbsp;🥳 
     You&nbsp;found&nbsp;all&nbsp;mines in&nbsp;${time}&nbsp;seconds 
     and&nbsp;${data.clicks}&nbsp;moves! 🎉`,
-    lose: `🚨&nbsp;Game&nbsp;over <button class="btn btn_text btn_start-new-game">
+    lose: `🚨&nbsp;Game&nbsp;over <button class="btn btn_text btn_start-new-game subtitle">
     🎃<span>Try again</span>⚠️</button>`,
     default: `You have to open ${count}&nbsp;more&nbsp;cells&nbsp;👀`,
   };
