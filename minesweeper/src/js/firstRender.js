@@ -20,7 +20,7 @@ const firstRender = (data) => {
   mainBlock.classList.add("main");
 
   const header = document.createElement("header");
-  title.classList.add("header");
+  header.classList.add("header");
 
   const menuBlock = document.createElement("div");
   menuBlock.classList.add("menu");

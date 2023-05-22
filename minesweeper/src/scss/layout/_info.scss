@@ -14,3 +14,10 @@
   display: flex;
   gap: 20px;
 }
+
+@media (min-width: 1480px) {
+
+  .message {
+    max-width: 444px;
+  }
+}
