@@ -1,0 +1,9 @@
+.last-games__info {
+  max-width: 600px;
+
+  &-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+}

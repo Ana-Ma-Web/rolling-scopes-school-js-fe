@@ -1,7 +1,7 @@
 @import "abstracts/variables";
 @import "themes/dark-theme";
 @import "base/reset", "base/fonts", "base/typography";
-@import "layout/settings", "layout/game-field", "layout/last-games", "layout/info";
+@import "layout/settings", "layout/game-field", "layout/last-games", "layout/info", "layout/info-in-latest-results";
 @import "components/buttons", "components/radio-input", "components/range-input",
   "components/titles", "components/cell";
 @import "pages/home";

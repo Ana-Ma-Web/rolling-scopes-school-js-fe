@@ -1,5 +1,6 @@
 import countTime from "../info-block/countTime";
 import convertDateToString from "./convertDateToString";
+import createInfoElement from "./createInfoElement";
 
 const createLastGamesElement = (latestResults) => {
   const latestResultsBlock = document.createElement("div");
@@ -8,6 +9,10 @@ const createLastGamesElement = (latestResults) => {
   const latestResultsTitle = document.createElement("div");
   latestResultsTitle.classList.add("last-games__subtitle", "subtitle");
   latestResultsTitle.innerHTML = "Latest results:";
+
+  const infoInLatestResults = document.createElement("div");
+  infoInLatestResults.classList.add("last-games__info", "subtitle");
+  infoInLatestResults.append(createInfoElement());
 
   const latestResultsList = document.createElement("ul");
   latestResultsList.classList.add("last-games__list");
@@ -47,7 +52,7 @@ const createLastGamesElement = (latestResults) => {
     latestResultsList.append(latestResultsItem);
   });
 
-  latestResultsBlock.append(latestResultsList);
+  latestResultsBlock.append(latestResultsList, infoInLatestResults);
   return latestResultsBlock;
 };
 
