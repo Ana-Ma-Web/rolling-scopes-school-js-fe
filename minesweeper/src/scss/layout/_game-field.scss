@@ -11,6 +11,7 @@
     0px 1px 2px var(--lightest-color);
   width: fit-content;
   margin: 20px auto;
+  align-self: flex-start;
 
   &_size-10 {
     grid-template-columns: repeat(10, auto);

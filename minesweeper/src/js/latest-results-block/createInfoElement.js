@@ -27,7 +27,6 @@ const createInfoElement = () => {
     infoListInLatestResults
   );
 
-  console.log(infoWrapperInLatestResults);
   return infoWrapperInLatestResults;
 };
 
