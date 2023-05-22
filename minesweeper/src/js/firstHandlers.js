@@ -83,7 +83,7 @@ const firstHandlers = (data) => {
       (e) => {
         e.preventDefault();
         if (e.target.classList.contains("cell")) {
-          if (!data.isDisabled) {
+          if (!data.isDisabled && data.isCellClicked) {
             const ijArr = e.target.dataset.ij.split("-");
             const x = +ijArr[0];
             const y = +ijArr[1];
