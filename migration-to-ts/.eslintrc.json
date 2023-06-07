@@ -1,6 +1,10 @@
 {
-    "plugins": ["prettier", "import"],
+    "plugins": [
+        "prettier",
+        "import"
+    ],
     "extends": [
+        "airbnb-base",
         "plugin:prettier/recommended",
         "prettier"
     ],
@@ -16,6 +20,30 @@
     "rules": {
         "no-debugger": "off",
         "no-console": 0,
-        "class-methods-use-this": "off"
+        "class-methods-use-this": "off",
+        "import/extensions": "off",
+        "prettier/prettier": "error",
+        "import/prefer-default-export": "off",
+        "@typescript-eslint/no-explicit-any": "error",
+        "@typescript-eslint/no-inferrable-types": "off",
+        "@typescript-eslint/array-type": [
+            "error",
+            {
+                "default": "array"
+            }
+        ],
+        "@typescript-eslint/explicit-member-accessibility": [
+            "error",
+            {
+                "accessibility": "explicit",
+                "overrides": {
+                    "accessors": "explicit",
+                    "constructors": "off",
+                    "methods": "explicit",
+                    "properties": "explicit",
+                    "parameterProperties": "explicit"
+                }
+            }
+        ]
     }
 }
