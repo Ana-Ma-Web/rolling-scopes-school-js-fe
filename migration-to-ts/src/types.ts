@@ -13,3 +13,14 @@ export interface Article {
     publishedAt: string;
     content: string;
 }
+
+export interface Options {
+    apiKey?: string;
+    sources?: string;
+}
+
+type EndPoint = {
+    endpoint: string;
+};
+
+export type GetRespType = EndPoint & { options: Options };
