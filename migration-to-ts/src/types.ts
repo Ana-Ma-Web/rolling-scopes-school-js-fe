@@ -1,8 +1,10 @@
 export interface Article {
     source: {
-        id: number;
+        id: string;
         name: string;
     };
+    name: string;
+    id: string;
     author: string | null;
     title: string;
     description: string;
