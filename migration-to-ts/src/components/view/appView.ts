@@ -1,11 +1,6 @@
-import { Article } from '../../types';
+import { Article, DataType } from '../../types';
 import News from './news/news';
 import Sources from './sources/sources';
-
-type DataType = {
-    articles: Article[];
-    sources: Article[];
-};
 
 export class AppView {
     private news: News;

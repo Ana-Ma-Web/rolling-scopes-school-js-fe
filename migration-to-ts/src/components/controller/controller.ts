@@ -1,8 +1,8 @@
-import { GetRespType } from '../../types';
+import { DataType, GetRespType } from '../../types';
 import AppLoader from './appLoader';
 
 class AppController extends AppLoader {
-    public getSources(callback: (data: GetRespType) => void): void {
+    public getSources(callback: (data: DataType) => void): void {
         super.getResp(
             {
                 endpoint: 'sources',
@@ -11,7 +11,7 @@ class AppController extends AppLoader {
         );
     }
 
-    public getNews(e: Event, callback: (data: GetRespType) => void): void {
+    public getNews(e: Event, callback: (data: DataType) => void): void {
         let { target } = e;
         const newsContainer = e.currentTarget;
 

@@ -1,4 +1,4 @@
-import { GetRespType, Options } from '../../types';
+import { DataType, GetRespType, Options } from '../../types';
 
 class Loader {
     constructor(private baseLink: string, private options: { apiKey: string }) {
@@ -8,7 +8,7 @@ class Loader {
 
     public getResp(
         { endpoint, options = {} }: GetRespType,
-        callback = (): void => {
+        callback = (data: DataType): void => {
             console.error('No callback for GET response');
         }
     ): void {
@@ -37,11 +37,11 @@ class Loader {
         return url.slice(0, -1);
     }
 
-    public load(method: string, endpoint: string, callback: (data: GetRespType) => void, options = {}): void {
+    public load(method: string, endpoint: string, callback: (data: DataType) => void, options = {}): void {
         fetch(this.makeUrl(options, endpoint), { method })
             .then(this.errorHandler)
             .then((res) => res.json())
-            .then((data: GetRespType) => callback(data))
+            .then((data: DataType) => callback(data))
             .catch((err) => console.error(err));
     }
 }

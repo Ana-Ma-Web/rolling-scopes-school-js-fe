@@ -19,8 +19,12 @@ export interface Options {
     sources?: string;
 }
 
-type EndPoint = {
+export type GetRespType = {
     endpoint: string;
+    options?: Options;
 };
 
-export type GetRespType = EndPoint & { options: Options };
+export interface DataType {
+    articles: Article[];
+    sources: Article[];
+}
