@@ -21,6 +21,7 @@
 .news__meta {
     position: relative;
     overflow: hidden;
+    background-color: var(--text-color);
 }
 
 .news__meta-photo {
@@ -40,6 +41,7 @@
     position: absolute;
     bottom: -120%;
     left: 0;
+    bottom: 0;
     margin: auto;
     font-family: 'Manrope';
     width: 100%;
@@ -47,6 +49,13 @@
     background: var(--bg-color);
     color: var(--text-color);
     font-size: 0.9rem;
+    transform: translate(0, 120%);
+    transition: transform 0.3s;
+}
+
+.news__meta:hover .news__meta-details {
+    transform: translate(0, 0%);
+    transition: transform 0.3s;
 }
 
 .news__description {
