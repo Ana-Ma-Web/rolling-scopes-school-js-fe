@@ -31,11 +31,6 @@
     white-space: nowrap;
 }
 
-.hide-sources {
-    display: flex;
-    scrollbar-width: thin;
-}
-
 .hide-sources .sources {
     position: fixed;
     top: 0;
@@ -50,7 +45,7 @@
     border: none;
     height: 100vh;
     border-right: 1px solid var(--text-color);
-    
+
 }
 
 .hide-sources .sources::-webkit-scrollbar {

@@ -27,7 +27,16 @@ body::-webkit-scrollbar-thumb {
     border: 1px solid var(--text-color);
 }
 
-header h1 {
+.header {
+    display: none;
+}
+
+.hide-sources .header {
+    display: block;
+
+}
+
+h1 {
     font-size: 32px;
     font-weight: 800;
     font-family: 'Bebas Neue';

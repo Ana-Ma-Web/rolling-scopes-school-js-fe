@@ -14,7 +14,7 @@ class AppController extends AppLoader {
     public getNews(e: Event, callback: (data: DataType) => void): void {
         let { target } = e;
         const newsContainer = e.currentTarget;
-        document.querySelector('main')?.classList.add('hide-sources');
+        document.querySelector('body')?.classList.add('hide-sources');
 
         while (target instanceof HTMLElement && target !== newsContainer && newsContainer instanceof HTMLElement) {
             if (target.classList.contains('source__item')) {
