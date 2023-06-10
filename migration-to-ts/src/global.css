@@ -1,16 +1,40 @@
-body {
-    color: #fff;
-    background: #17181c;
-    font-family: sans-serif;
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Manrope&display=swap');
+
+:root {
+    --text-color: #FFFFF9;
+    --bg-color: #121212;
+    --bg-color-dark: #090909;
 }
 
-header {
-    padding: 10px 30px;
+html {
+    width: 100%;
+    height: 100vh;
+    background: url(https://cdn.discordapp.com/attachments/652386576839475219/1117090650924523671/bg.png), var(--bg-color);
+}
+
+body {
+    color: var(--text-color);
+    font-family: sans-serif;
+    max-width: 1280px;
+    margin: 0 auto;
+}
+
+body::-webkit-scrollbar {
+    width: 2px;
+}
+
+body::-webkit-scrollbar-thumb {
+    border: 1px solid var(--text-color);
 }
 
 header h1 {
-    font-size: 40px;
+    font-size: 32px;
     font-weight: 800;
+    font-family: 'Bebas Neue';
+    text-align: center;
+    margin-left: 262px;
+    margin: 20px 0 0 262px;
+    border-bottom: 1px solid var(--text-color);
 }
 
 footer {
@@ -19,17 +43,21 @@ footer {
     align-items: center;
     justify-content: center;
 }
+
 footer .copyright {
     font-size: 14px;
     color: #333;
     text-align: center;
 }
+
 footer .copyright a {
     color: #444;
 }
+
 footer .copyright a:hover {
     color: #555;
 }
+
 footer .copyright:before {
     content: '©';
 }
