@@ -100,7 +100,6 @@
     display: flex;
     flex-direction: column-reverse;
     padding-bottom: 0;
-    /* border-bottom: 1px solid var(--text-color); */
 }
 
 .news__item:nth-child(2) {
@@ -115,14 +114,14 @@
     padding: 0;
 }
 
-.news__item:nth-child(4) .news__meta {
-    height: 100%;
-}
-
 .news__item:nth-child(1) .news__meta-photo,
 .news__item:nth-child(2) .news__meta-photo,
 .news__item:nth-child(3) .news__meta-photo {
     height: 100px;
+}
+
+.news__item:nth-child(4) .news__meta {
+    height: 100%;
 }
 
 .news__item:nth-child(4) .news__meta-photo {
@@ -150,4 +149,98 @@
 
 .news__item:nth-child(6) .news__description-title {
     font-size: 4rem;
+}
+
+@media (max-width: 1024px) {
+    .news {
+        margin: 0 auto 0 205px;
+    }
+
+    .news__item:nth-child(1) {
+        grid-area: 1/1/2/4;
+        display: flex;
+        flex-direction: column-reverse;
+        padding-bottom: 0;
+    }
+
+    .news__item:nth-child(2) {
+        grid-area: 2/1/3/3;
+        border-left: none;
+    }
+
+    .news__item:nth-child(4) {
+        grid-area: 3/1/5/4;
+    }
+
+    .news__item:nth-child(5) {
+        grid-area: 5/1/7/2;
+    }
+
+    .news__item:nth-child(6) {
+        grid-area: 5/2/7/4;
+    }
+}
+
+@media (max-width: 868px) {
+    .news {
+        margin: 0 auto 0 205px;
+        grid-template-columns: repeat(1, 1fr);
+    }
+
+    .news__item:nth-child(1n) {
+        grid-area: unset;
+        flex-direction: column;
+        border: none;
+        padding: 22px 22px 0 22px;
+        height: initial;
+    }
+
+    .news__item:nth-child(4) .news__meta {
+        height: initial;
+    }
+
+    .news__item:nth-child(4) .news__meta-photo {
+        height: 100px;
+    }
+
+    .news__item:nth-child(4) .news__description {
+        position: initial;
+        top: 0;
+        left: 0;
+        height: initial;
+        width: initial;
+        padding: 1rem 0 0 0;
+        opacity: 1;
+    }
+
+    .news__item:nth-child(4) .news__description-title,
+    .news__item:nth-child(4) .news__description-source,
+    .news__item:nth-child(4) .news__description-content,
+    .news__item:nth-child(4) .news__read-more {
+        background-color: transparent;
+        padding: 10px 5px;
+        margin: 0;
+    }
+
+    .news__item:nth-child(6) .news__description-title {
+        font-size: 1.7rem;
+    }
+}
+
+@media (max-width: 560px) {
+    .news {
+        margin: 0;
+    }
+
+    .news__item {
+        opacity: 1;
+    }
+
+    .hide-sources .news {
+        transform: translate(0px);
+    }
+
+    .open-menu .news {
+        transform: translate(200px);
+    }
 }

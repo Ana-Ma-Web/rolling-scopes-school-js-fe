@@ -33,7 +33,6 @@ body::-webkit-scrollbar-thumb {
 
 .hide-sources .header {
     display: block;
-
 }
 
 h1 {
@@ -44,6 +43,79 @@ h1 {
     margin-left: 262px;
     margin: 20px 0 0 262px;
     border-bottom: 1px solid var(--text-color);
+}
+
+main {
+    position: relative;
+}
+
+@media (max-width: 1024px) {
+    h1 {
+        margin: 20px 0 0 204px;
+    }
+}
+
+@media (max-width: 560px) {
+    .open-menu {
+        overflow: hidden;
+    }
+
+    .open-menu .header {
+        opacity: 0;
+    }
+
+    h1 {
+        margin: 5px 0;
+    }
+}
+
+.menu-btn {
+    position: relative;
+    margin: -45px 0 0 10px;
+    width: 30px;
+    height: 30px;
+    display: none;
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    opacity: 0.8;
+    z-index: 10;
+}
+
+.menu-icon {
+    position: absolute;
+    background-color: var(--text-color);
+    content: '';
+    width: 20px;
+    top: 15px;
+    left: 5px;
+    height: 2px;
+}
+
+.menu-icon::before {
+    position: absolute;
+    background-color: var(--text-color);
+    content: '';
+    width: 20px;
+    top: 5px;
+    left: 0;
+    height: 2px;
+}
+
+.menu-icon::after {
+    position: absolute;
+    background-color: var(--text-color);
+    content: '';
+    width: 20px;
+    top: -5px;
+    left: 0;
+    height: 2px;
+}
+
+@media (max-width: 560px) {
+    .hide-sources .menu-btn {
+        display: block;
+    }
 }
 
 footer {

@@ -3,7 +3,7 @@ import './news.css';
 
 class News {
     private drawNewsClone(newsClone: Node, item: Article, idx: number): void {
-        if (!(newsClone instanceof DocumentFragment) || !newsClone) {
+        if (!(newsClone instanceof DocumentFragment)) {
             throw new Error();
         }
         const newsItem = newsClone.querySelector('.news__item');

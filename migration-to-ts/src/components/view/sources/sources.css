@@ -45,7 +45,6 @@
     border: none;
     height: 100vh;
     border-right: 1px solid var(--text-color);
-
 }
 
 .hide-sources .sources::-webkit-scrollbar {
@@ -54,4 +53,15 @@
 
 .hide-sources .sources::-webkit-scrollbar-thumb {
     border-left: 1px solid var(--text-color);
+}
+
+@media (max-width: 560px) {
+    .hide-sources .sources {
+        position: absolute;
+        transform: translate(-300px);
+    }
+
+    .open-menu .sources {
+        transform: translate(0px);
+    }
 }
