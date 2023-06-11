@@ -12,12 +12,12 @@ export class AppView {
         this.sources = new Sources();
     }
 
-    public drawNews(data?: DataType): void {
+    public drawNews(data?: Pick<DataType, 'articles'>): void {
         const values = data?.articles ? data?.articles : [];
         this.news.draw(values);
     }
 
-    public drawSources(data?: DataType): void {
+    public drawSources(data?: Pick<DataType, 'sources'>): void {
         if (!data) throw new Error(ErrorMessages.NoData);
         const values = data.sources ? data.sources : [];
         this.sources.draw(values);
