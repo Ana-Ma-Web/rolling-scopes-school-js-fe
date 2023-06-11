@@ -37,4 +37,9 @@ export enum ErrorMessages {
     NoSourcesTemplate = 'Sources template not found',
     NoCloneSources = 'Sources clone error',
     NoSourcesItem = 'Sources element not found',
+    NoData = 'Data not found',
+}
+
+export interface Callback<Type> {
+    (arg?: Type): void;
 }

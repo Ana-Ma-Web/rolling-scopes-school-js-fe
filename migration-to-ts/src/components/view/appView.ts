@@ -1,4 +1,4 @@
-import { DataType } from '../../types';
+import { DataType, ErrorMessages } from '../../types';
 import News from './news/news';
 import Sources from './sources/sources';
 
@@ -18,7 +18,8 @@ export class AppView {
     }
 
     public drawSources(data?: DataType): void {
-        const values = data?.sources ? data?.sources : [];
+        if (!data) throw new Error(ErrorMessages.NoData);
+        const values = data.sources ? data.sources : [];
         this.sources.draw(values);
     }
 }

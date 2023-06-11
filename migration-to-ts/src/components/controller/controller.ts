@@ -1,8 +1,8 @@
-import { DataType } from '../../types';
+import { Callback, DataType } from '../../types';
 import AppLoader from './appLoader';
 
 class AppController extends AppLoader {
-    public getSources(callback: (data?: DataType) => void): void {
+    public getSources(callback: Callback<DataType>): void {
         super.getResp(
             {
                 endpoint: 'sources',
@@ -11,7 +11,7 @@ class AppController extends AppLoader {
         );
     }
 
-    public getNews(e: Event, callback: (data?: DataType) => void): void {
+    public getNews(e: Event, callback: Callback<DataType>): void {
         let { target } = e;
         const newsContainer = e.currentTarget;
         document.querySelector('body')?.classList.add('hide-sources');
