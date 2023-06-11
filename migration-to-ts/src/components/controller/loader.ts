@@ -8,7 +8,7 @@ class Loader {
 
     public getResp(
         { endpoint, options = {} }: GetRespType,
-        callback = (data: DataType): void => {
+        callback = (): void => {
             console.error('No callback for GET response');
         }
     ): void {
