@@ -13,6 +13,12 @@
     cursor: pointer;
 }
 
+@media (max-width: 560px) {
+    .source__item {
+        font-size: 1.3rem;
+    }
+}
+
 .source__item-name {
     display: block;
     transform: scale(1);
