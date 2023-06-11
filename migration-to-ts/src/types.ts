@@ -28,3 +28,13 @@ export interface DataType {
     articles: Article[];
     sources: Article[];
 }
+
+export enum ErrorMessages {
+    NoCallbackForGet = 'No callback for GET response',
+    NoNewsTemplate = 'News template not found',
+    NoCloneNews = 'News clone error',
+    NoNewsItem = 'News element not found',
+    NoSourcesTemplate = 'Sources template not found',
+    NoCloneSources = 'Sources clone error',
+    NoSourcesItem = 'Sources element not found',
+}

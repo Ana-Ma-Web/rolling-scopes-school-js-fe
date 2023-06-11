@@ -1,4 +1,4 @@
-import { Article } from '../../../types';
+import { Article, ErrorMessages } from '../../../types';
 import './sources.css';
 
 class Sources {
@@ -7,20 +7,20 @@ class Sources {
         const sourceItemTemp: HTMLTemplateElement | null = document.querySelector('#sourceItemTemp');
 
         if (!sourceItemTemp) {
-            throw new Error();
+            throw new Error(ErrorMessages.NoSourcesTemplate);
         }
 
         data.forEach((item) => {
             const sourceClone = sourceItemTemp.content.cloneNode(true);
 
             if (!(sourceClone instanceof DocumentFragment) || !sourceClone) {
-                throw new Error();
+                throw new Error(ErrorMessages.NoCloneSources);
             }
             const sourceItemName = sourceClone.querySelector('.source__item-name');
             const sourceItem = sourceClone.querySelector('.source__item');
 
             if (!sourceItemName || !sourceItem) {
-                throw new Error();
+                throw new Error(ErrorMessages.NoSourcesItem);
             }
 
             sourceItemName.textContent = item.name;

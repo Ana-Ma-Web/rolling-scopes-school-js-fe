@@ -1,10 +1,10 @@
-import { Article } from '../../../types';
+import { Article, ErrorMessages } from '../../../types';
 import './news.css';
 
 class News {
     private drawNewsClone(newsClone: Node, item: Article, idx: number): void {
         if (!(newsClone instanceof DocumentFragment)) {
-            throw new Error();
+            throw new Error(ErrorMessages.NoCloneNews);
         }
         const newsItem = newsClone.querySelector('.news__item');
         const newsMetaPhoto: HTMLElement | null = newsClone.querySelector('.news__meta-photo');
@@ -25,7 +25,7 @@ class News {
             !newsDescContent ||
             !newsReadMoreLink
         ) {
-            throw new Error();
+            throw new Error(ErrorMessages.NoNewsItem);
         }
 
         if (idx % 2) newsItem.classList.add('alt');
@@ -46,7 +46,7 @@ class News {
         const newsElement = document.querySelector('.news');
 
         if (!newsItemTemp || !newsElement) {
-            throw new Error();
+            throw new Error(ErrorMessages.NoNewsTemplate);
         }
 
         news.forEach((item, idx) => {
