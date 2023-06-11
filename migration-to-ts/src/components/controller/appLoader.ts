@@ -5,9 +5,6 @@ class AppLoader extends Loader {
         super('https://newsapi.org/v2/', {
             apiKey: '13ecd8a3b11342a1bca792e17fc3e235', // получите свой ключ https://newsapi.org/
         });
-        // super('http://127.0.0.1:8075/', {
-        //     apiKey: '', // получите свой ключ https://newsapi.org/
-        // });
     }
 }
 

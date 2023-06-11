@@ -204,12 +204,12 @@
         height: initial;
     }
 
-    .news__item:nth-child(4) .news__meta {
-        height: initial;
+    .news__item:nth-child(1n) .news__meta-photo {
+        height: 200px;
     }
 
-    .news__item:nth-child(4) .news__meta-photo {
-        height: 100px;
+    .news__item:nth-child(4) .news__meta {
+        height: initial;
     }
 
     .news__item:nth-child(4) .news__description {
@@ -243,6 +243,10 @@
 
     .news__item {
         opacity: 1;
+    }
+
+    .news__item:nth-child(1n) .news__meta-photo {
+        height: 100px;
     }
 
     .hide-sources .news {
