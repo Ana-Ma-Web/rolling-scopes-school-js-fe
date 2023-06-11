@@ -25,7 +25,7 @@ class Loader {
         return res;
     }
 
-    public makeUrl(options: Options, endpoint: string): string {
+    public makeUrl(options: Partial<Options>, endpoint: string): string {
         const urlOptions: { [index: string]: string } = { ...this.options, ...options };
         console.log(urlOptions);
         let url = `${this.baseLink}${endpoint}?`;

@@ -15,13 +15,13 @@ export interface Article {
 }
 
 export interface Options {
-    apiKey?: string;
-    sources?: string;
+    apiKey: string;
+    sources: string;
 }
 
 export type GetRespType = {
     endpoint: string;
-    options?: Options;
+    options?: Partial<Options>;
 };
 
 export interface DataType {
