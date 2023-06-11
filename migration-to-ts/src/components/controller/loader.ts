@@ -7,7 +7,7 @@ class Loader {
     }
 
     public getResp(
-        { endpoint, options = {} }: GetRespType,
+        { endpoint, options = {} }: Readonly<GetRespType>,
         callback = (): void => {
             console.error(ErrorMessages.NoCallbackForGet);
         }
