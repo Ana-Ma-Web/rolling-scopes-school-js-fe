@@ -2,33 +2,26 @@ import { Article, ErrorMessages } from '../../../types';
 import './news.css';
 
 class News {
-    private drawNewsClone(newsClone: Node, item: Article, idx: number): void {
+    private getElement = <T extends HTMLElement>(root: DocumentFragment, selector: string): T => {
+        const element = root.querySelector<T>(selector);
+        if (!element) {
+            throw new Error(ErrorMessages.NoNewsItem);
+        }
+        return element;
+    };
+
+    private drawNewsClone(newsClone: Node, item: Article): void {
         if (!(newsClone instanceof DocumentFragment)) {
             throw new Error(ErrorMessages.NoCloneNews);
         }
-        const newsItem = newsClone.querySelector('.news__item');
-        const newsMetaPhoto: HTMLElement | null = newsClone.querySelector('.news__meta-photo');
-        const newsMetaAuthor = newsClone.querySelector('.news__meta-author');
-        const newsMetaDate = newsClone.querySelector('.news__meta-date');
-        const newsDescTitle = newsClone.querySelector('.news__description-title');
-        const newsDescSource = newsClone.querySelector('.news__description-source');
-        const newsDescContent = newsClone.querySelector('.news__description-content');
-        const newsReadMoreLink = newsClone.querySelector('.news__read-more a');
 
-        if (
-            !newsItem ||
-            !newsMetaPhoto ||
-            !newsMetaAuthor ||
-            !newsMetaDate ||
-            !newsDescTitle ||
-            !newsDescSource ||
-            !newsDescContent ||
-            !newsReadMoreLink
-        ) {
-            throw new Error(ErrorMessages.NoNewsItem);
-        }
-
-        if (idx % 2) newsItem.classList.add('alt');
+        const newsMetaPhoto = this.getElement<HTMLElement>(newsClone, '.news__meta-photo');
+        const newsMetaAuthor = this.getElement<HTMLElement>(newsClone, '.news__meta-author');
+        const newsMetaDate = this.getElement<HTMLElement>(newsClone, '.news__meta-date');
+        const newsDescTitle = this.getElement<HTMLElement>(newsClone, '.news__description-title');
+        const newsDescSource = this.getElement<HTMLElement>(newsClone, '.news__description-source');
+        const newsDescContent = this.getElement<HTMLElement>(newsClone, '.news__description-content');
+        const newsReadMoreLink = this.getElement<HTMLElement>(newsClone, '.news__read-more a');
 
         newsMetaPhoto.style.backgroundImage = `url(${item.urlToImage || 'img/news_placeholder.jpg'})`;
         newsMetaAuthor.textContent = item.author || item.source.name;
@@ -49,9 +42,9 @@ class News {
             throw new Error(ErrorMessages.NoNewsTemplate);
         }
 
-        news.forEach((item, idx) => {
+        news.forEach((item) => {
             const newsClone = newsItemTemp?.content.cloneNode(true);
-            this.drawNewsClone(newsClone, item, idx);
+            this.drawNewsClone(newsClone, item);
             fragment.append(newsClone);
         });
 
