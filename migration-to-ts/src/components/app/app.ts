@@ -14,9 +14,10 @@ class App {
     public start(): void {
         const body = document?.querySelector('body');
 
-        document
-            ?.querySelector('.sources')
-            ?.addEventListener('click', (e) => this.controller.getNews(e, (data) => this.view.drawNews(data)));
+        document?.querySelector('.sources')?.addEventListener('click', (e) => {
+            this.controller.getNews(e, (data) => this.view.drawNews(data));
+            body?.classList.remove('open-menu');
+        });
         this.controller.getSources((data) => this.view.drawSources(data));
 
         document?.querySelector('.menu-btn')?.addEventListener('click', () => body?.classList.toggle('open-menu'));
