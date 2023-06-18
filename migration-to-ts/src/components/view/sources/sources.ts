@@ -19,11 +19,8 @@ class Sources {
         }
 
         data.forEach((item) => {
-            const sourceClone = sourceItemTemp.content.cloneNode(true);
+            const sourceClone = <DocumentFragment>sourceItemTemp.content.cloneNode(true);
 
-            if (!(sourceClone instanceof DocumentFragment) || !sourceClone) {
-                throw new Error(ErrorMessages.NoCloneSources);
-            }
             const sourceItemName = this.getElement<HTMLElement>(sourceClone, '.source__item-name');
             const sourceItem = this.getElement<HTMLElement>(sourceClone, '.source__item');
 

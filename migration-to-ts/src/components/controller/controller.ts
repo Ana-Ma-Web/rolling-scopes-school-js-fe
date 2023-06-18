@@ -12,11 +12,11 @@ class AppController extends AppLoader {
     }
 
     public getNews(e: Event, callback: Callback<DataType>): void {
-        let { target } = e;
-        const newsContainer = e.currentTarget;
+        let target = <HTMLElement>e.target;
+        const newsContainer = <HTMLElement>e.currentTarget;
         document.querySelector('body')?.classList.add('hide-sources');
 
-        while (target instanceof HTMLElement && target !== newsContainer && newsContainer instanceof HTMLElement) {
+        while (target !== newsContainer) {
             if (target.classList.contains('source__item')) {
                 const sourceId = target.getAttribute('data-source-id');
                 if (newsContainer.getAttribute('data-source') !== sourceId && sourceId) {
@@ -33,7 +33,7 @@ class AppController extends AppLoader {
                 }
                 return;
             }
-            target = target.parentNode;
+            target = <HTMLElement>target.parentNode;
         }
     }
 }

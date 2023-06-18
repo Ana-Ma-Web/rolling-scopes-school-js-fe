@@ -10,11 +10,7 @@ class News {
         return element;
     };
 
-    private drawNewsClone(newsClone: Node, item: Article): void {
-        if (!(newsClone instanceof DocumentFragment)) {
-            throw new Error(ErrorMessages.NoCloneNews);
-        }
-
+    private drawNewsClone(newsClone: DocumentFragment, item: Article): void {
         const newsMetaPhoto = this.getElement<HTMLElement>(newsClone, '.news__meta-photo');
         const newsMetaAuthor = this.getElement<HTMLElement>(newsClone, '.news__meta-author');
         const newsMetaDate = this.getElement<HTMLElement>(newsClone, '.news__meta-date');
@@ -43,7 +39,7 @@ class News {
         }
 
         news.forEach((item) => {
-            const newsClone = newsItemTemp?.content.cloneNode(true);
+            const newsClone = <DocumentFragment>newsItemTemp?.content.cloneNode(true);
             this.drawNewsClone(newsClone, item);
             fragment.append(newsClone);
         });
