@@ -8,8 +8,9 @@ module.exports = {
   mode: "development",
   entry: "./index.ts",
   output: {
-    filename: "bundle.js",
+    filename: "index.js",
     path: path.resolve(__dirname, "dist"),
+    hashFunction: 'sha256',
   },
   devServer: {
     static: "./dist",
@@ -24,9 +25,10 @@ module.exports = {
     // },
   },
   resolve: {
-    alias: {
-      "@img": path.resolve(__dirname, "src", "assets", "img"),
-    },
+    // alias: {
+    //   "@img": path.resolve(__dirname, "src", "assets", "img"),
+    // },
+    extensions: ['.ts', '.js', '.json', '.wasm'],
   },
   devtool: "source-map",
   plugins: [
@@ -38,6 +40,7 @@ module.exports = {
   ],
   module: {
     rules: [
+      { test: /\.ts$/i, use: 'ts-loader' },,
       {
         test: /\.m?js$/,
         exclude: /node_modules/,
