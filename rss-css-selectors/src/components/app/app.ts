@@ -1,3 +1,3 @@
 export class App {
-    private start() {}
+    public start(): void {}
 }
