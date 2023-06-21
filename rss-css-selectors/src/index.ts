@@ -9,12 +9,16 @@ const data: Data = {
     {
       table: [
         {
-          tagName: 'plate',
+          tagName: 'planet',
+          shape: 1,
+          texture: 1,
           classes: '',
           innerTags: [
             {
-              tagName: 'apple',
-              classes: 'red',
+              tagName: 'moon',
+              shape: 11,
+              texture: 11,
+              classes: 'pink',
               innerTags: null,
             },
           ],
