@@ -1,4 +1,5 @@
 export interface Data {
+  curLvl: number;
   levels: Level[];
 }
 
