@@ -6,7 +6,7 @@ export class App {
     this.data = data;
   }
 
-  private printHtml(): void {
+  private printField(): void {
     const { curLvl, levels } = this.data;
     const field = document.querySelector('.field');
 
@@ -16,13 +16,25 @@ export class App {
     levels[curLvl - 1].table.forEach((e) => {
       const tag = new Tag(e);
       string += tag.createTagString(e);
-      console.log(tag.createTagString(e));
     });
 
     field.innerHTML = string;
   }
 
+  private printHtmlViewer(): void {
+    const { curLvl, levels } = this.data;
+    const field = document.querySelector('.html-viewer');
+
+    if (!field) throw new Error('No html viewer');
+
+    levels[curLvl - 1].table.forEach((e) => {
+      const tag = new Tag(e);
+      tag.printTagHtml(field, e);
+    });
+  }
+
   public start(): void {
-    this.printHtml();
+    this.printField();
+    this.printHtmlViewer();
   }
 }

@@ -19,4 +19,22 @@ export class Tag {
 
     return `<${name} class="${classes}" ${paired ? closedName : '/>'}`;
   }
+
+  public printTagHtml(root: Element, tag: TagType): void {
+    const name = tag.tagName;
+    const { classes } = tag;
+    const classString = classes ? `class="${classes}"` : '';
+    const paired = !!tag.innerTags?.length;
+
+    const tagElement = document.createElement('div');
+    tagElement.append(`<${name} ${classString} ${paired ? `>` : `/>`}`);
+
+    tag.innerTags?.forEach((e) => {
+      this.printTagHtml(tagElement, e);
+    });
+
+    tagElement.append(`${paired ? `</${name}>` : ''}`);
+
+    root.append(tagElement);
+  }
 }

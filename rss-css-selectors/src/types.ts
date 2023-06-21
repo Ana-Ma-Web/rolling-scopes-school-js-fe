@@ -9,6 +9,6 @@ interface Level {
 
 export interface TagType {
   tagName: string;
-  classes: string;
+  classes: string | null;
   innerTags: TagType[] | null;
 }
