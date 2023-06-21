@@ -4,12 +4,11 @@ export interface Data {
 }
 
 interface Level {
-  lvl_num: number;
-  table: Tag[];
+  table: TagType[];
 }
 
-export interface Tag {
-  tag: string;
+export interface TagType {
+  tagName: string;
   classes: string;
-  innerTags: Tag[] | null;
+  innerTags: TagType[] | null;
 }

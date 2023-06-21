@@ -7,12 +7,17 @@ const data: Data = {
   curLvl: 1,
   levels: [
     {
-      lvl_num: 1,
       table: [
         {
-          tag: 'plate',
+          tagName: 'plate',
           classes: '',
-          innerTags: [{ tag: 'apple', classes: 'red', innerTags: null }],
+          innerTags: [
+            {
+              tagName: 'apple',
+              classes: 'red',
+              innerTags: null,
+            },
+          ],
         },
       ],
     },
