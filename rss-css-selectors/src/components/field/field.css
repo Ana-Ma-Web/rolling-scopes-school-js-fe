@@ -13,15 +13,11 @@ planet {
   position: relative;
   box-sizing: border-box;
   display: block;
-
   background-color: #fff;
-  background-image: url(@img/planet-1.jpg);
   border-radius: 50%;
-  width: 80px;
-  height: 80px;
+
   box-shadow: inset 1px 2px 5px var(--light-color),
     inset -15px -18px 15px var(--shadow-color);
-  transform: rotate(-5deg);
   animation: planetSpin 300s linear infinite;
 }
 
@@ -33,7 +29,6 @@ planet::after {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  background-image: url(@img/shape-1.png);
   opacity: 0.6;
 }
 
@@ -52,17 +47,9 @@ planet:hover moon {
 moon {
   position: absolute;
   display: block;
-  margin: 0 auto;
   background-color: thistle;
-  background-image: url(@img/moon-1.jpg);
   box-shadow: inset 2px 2px 5px var(--light-color), inset -8px -8px 5px var(--shadow-color);
   border-radius: 50%;
-  width: 30px;
-  height: 30px;
-  top: 33px;
-  left: 42px;
-  background-position: 10%;
-  transform: rotate(-10deg);
   animation: moonSpin 200s linear infinite;
 }
 

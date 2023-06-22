@@ -1,0 +1,26 @@
+planet[data-texture="1"] {
+  background-image: url(@img/planet-1.jpg);
+}
+
+planet[data-shape="1"]::after {
+  background-image: url(@img/shape-1.png);
+}
+
+planet[data-shape="1"] {
+  transform: rotate(-5deg);
+  width: 80px;
+  height: 80px;
+}
+
+planet[data-shape="1"] moon {
+  transform: rotate(-10deg);
+  width: 30px;
+  height: 30px;
+  top: 33px;
+  left: 42px;
+}
+
+moon[data-texture="1"] {
+  background-image: url(@img/moon-1.jpg);
+}
+

@@ -16,8 +16,8 @@ const data: Data = {
           innerTags: [
             {
               tagName: 'moon',
-              shape: 11,
-              texture: 11,
+              shape: 1,
+              texture: 1,
               classes: 'pink',
               innerTags: null,
             },

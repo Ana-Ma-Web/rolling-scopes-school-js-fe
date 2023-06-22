@@ -1,5 +1,6 @@
 import { Data, TagType } from '../../types';
 import './field.css';
+import './field-items.css';
 
 export class Field {
   constructor(private data: Data) {
@@ -8,7 +9,7 @@ export class Field {
 
   private createTagString(tag: TagType): string {
     const name = tag.tagName;
-    const { classes } = tag;
+    const { classes, shape, texture } = tag;
     let innerTags = '';
     const paired = !!tag.innerTags?.length;
 
@@ -18,7 +19,9 @@ export class Field {
 
     const closedName = `> ${innerTags} </${name}>`;
 
-    return `<${name} class="${classes}" ${paired ? closedName : '/>'}`;
+    return `<${name} data-shape="${shape}" data-texture="${texture}" class="${classes}" ${
+      paired ? closedName : '/>'
+    }`;
   }
 
   public printField(): void {
