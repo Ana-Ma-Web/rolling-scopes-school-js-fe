@@ -25,9 +25,9 @@ module.exports = {
     // },
   },
   resolve: {
-    // alias: {
-    //   "@img": path.resolve(__dirname, "src", "assets", "img"),
-    // },
+    alias: {
+      "@img": path.resolve(__dirname, "src", "assets", "img"),
+    },
     extensions: ['.ts', '.js', '.json', '.wasm'],
   },
   devtool: "source-map",
