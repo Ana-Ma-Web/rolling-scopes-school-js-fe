@@ -1,7 +1,3 @@
-planet[data-texture="1"] {
-  background-image: url(@img/planet-1.jpg);
-}
-
 planet[data-shape="0"]::after {
   background-image: url(@img/shape-0.png);
 }
@@ -29,10 +25,22 @@ planet[data-shape="1"] moon {
   left: 42px;
 }
 
+planet[data-texture="1"] {
+  background-image: url(@img/planet-1.jpg);
+}
+
 planet[data-texture="2"] {
   background-image: url(@img/planet-2.jpg);
 }
 
+planet[data-texture="3"] {
+  background-image: url(@img/planet-3.jpg);
+}
+
 moon[data-texture="1"] {
   background-image: url(@img/moon-1.jpg);
+}
+
+moon[data-texture="2"] {
+  background-image: url(@img/moon-2.jpg);
 }
