@@ -13,4 +13,5 @@ export interface TagType {
   texture: number;
   classes: string | null;
   innerTags: TagType[] | null;
+  isMove: boolean;
 }

@@ -2,6 +2,9 @@
   font-family: "Cutive Mono", sans-serif;
   display: flex;
   justify-content: center;
+  flex-direction: column;
+  margin: 0 auto;
+  width: fit-content;
 }
 
 .html-viewer div {

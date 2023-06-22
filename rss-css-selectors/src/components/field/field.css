@@ -7,6 +7,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  gap: 20px;
 }
 
 planet {
@@ -18,7 +19,15 @@ planet {
 
   box-shadow: inset 1px 2px 5px var(--light-color),
     inset -15px -18px 15px var(--shadow-color);
-  animation: planetSpin 300s linear infinite;
+  animation: planetSpin-2 300s linear infinite;
+}
+
+planet:first-child {
+  animation: planetSpin-1 300s linear infinite;
+}
+
+planet:last-child {
+  animation: planetSpin-3 300s linear infinite;
 }
 
 planet::after {
@@ -53,13 +62,33 @@ moon {
   animation: moonSpin 200s linear infinite;
 }
 
-@keyframes planetSpin {
+@keyframes planetSpin-1 {
   from {
     background-position: 80px;
   }
 
   to {
     background-position: 100%;
+  }
+}
+
+@keyframes planetSpin-2 {
+  from {
+    background-position: 160px;
+  }
+
+  to {
+    background-position: calc(100% + 80px);
+  }
+}
+
+@keyframes planetSpin-3 {
+  from {
+    background-position: 0px;
+  }
+
+  to {
+    background-position: calc(100% - 80px);
   }
 }
 
@@ -71,4 +100,8 @@ moon {
   to {
     background-position: 100%;
   }
+}
+
+planet[data-move="true"] {
+  /* animation-duration: 3s; */
 }

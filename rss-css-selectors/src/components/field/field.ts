@@ -9,18 +9,20 @@ export class Field {
 
   private createTagString(tag: TagType): string {
     const name = tag.tagName;
-    const { classes, shape, texture } = tag;
+    const { classes, shape, texture, isMove } = tag;
     let innerTags = '';
     const paired = !!tag.innerTags?.length;
 
-    tag.innerTags?.forEach((e) => {
-      innerTags += this.createTagString(e);
-    });
+    if (innerTags !== null) {
+      tag.innerTags?.forEach((e) => {
+        innerTags += this.createTagString(e);
+      });
+    }
 
     const closedName = `> ${innerTags} </${name}>`;
 
-    return `<${name} data-shape="${shape}" data-texture="${texture}" class="${classes}" ${
-      paired ? closedName : '/>'
+    return `<${name} data-shape="${shape}" data-move="${isMove}" data-texture="${texture}" class="${classes}" ${
+      paired ? closedName : `></${name}>`
     }`;
   }
 
