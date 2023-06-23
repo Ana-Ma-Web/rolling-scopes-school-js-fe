@@ -1,10 +1,10 @@
 export interface Data {
-  curLvl: number;
+  activeLvl: number;
   levels: Level[];
 }
 
 interface Level {
-  status: false | 'done' | 'help';
+  status: Status;
   table: TagType[];
 }
 
@@ -16,3 +16,5 @@ export interface TagType {
   innerTags: TagType[] | null;
   isMove: boolean;
 }
+
+export type Status = false | 'done' | 'help';

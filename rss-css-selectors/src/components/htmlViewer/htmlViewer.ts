@@ -25,12 +25,12 @@ export class HtmlViewer {
   }
 
   public printHtmlViewer(): void {
-    const { curLvl, levels } = this.data;
+    const { activeLvl, levels } = this.data;
     const field = document.querySelector('.html-viewer');
 
     if (!field) throw new Error('No html viewer');
 
-    levels[curLvl - 1].table.forEach((e) => {
+    levels[activeLvl - 1].table.forEach((e) => {
       this.printHtmlViewerTag(field, e);
     });
   }

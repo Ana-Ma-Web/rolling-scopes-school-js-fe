@@ -27,13 +27,13 @@ export class Field {
   }
 
   public printField(): void {
-    const { curLvl, levels } = this.data;
+    const { activeLvl, levels } = this.data;
     const field = document.querySelector('.field');
 
     if (!field) throw new Error('No game field');
 
     let string = '';
-    levels[curLvl - 1].table.forEach((e) => {
+    levels[activeLvl - 1].table.forEach((e) => {
       string += this.createTagString(e);
     });
 

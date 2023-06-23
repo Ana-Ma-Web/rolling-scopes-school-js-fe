@@ -4,7 +4,7 @@ import './global.css';
 import { Data } from './types';
 
 const data: Data = {
-  curLvl: 2,
+  activeLvl: 2,
   levels: [
     {
       status: false,
