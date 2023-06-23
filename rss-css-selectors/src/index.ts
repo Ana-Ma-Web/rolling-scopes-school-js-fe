@@ -7,6 +7,7 @@ const data: Data = {
   curLvl: 2,
   levels: [
     {
+      status: false,
       table: [
         {
           tagName: 'planet',
@@ -35,6 +36,7 @@ const data: Data = {
       ],
     },
     {
+      status: false,
       table: [
         {
           tagName: 'planet',

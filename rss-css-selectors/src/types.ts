@@ -4,6 +4,7 @@ export interface Data {
 }
 
 interface Level {
+  status: false | 'done' | 'help';
   table: TagType[];
 }
 
