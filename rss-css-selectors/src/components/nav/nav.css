@@ -1,0 +1,31 @@
+
+.nav {
+  /* margin: 0 auto; */
+}
+
+.nav__list {
+  padding: 0;
+  list-style: none;
+  display: flex;
+  gap: 6px;
+  justify-content: center;
+}
+
+.nav__item {
+  
+}
+
+.nav__btn {
+  font-weight: 600;
+}
+.nav__btn_done {
+  color: #0bbc64;
+}
+
+.nav__btn_help {
+  color: #2abccf;
+}
+
+.nav__btn_active {
+  text-decoration: underline;
+}

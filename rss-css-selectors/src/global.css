@@ -28,19 +28,6 @@ body {
   font-family: "Amatic SC";
 }
 
-.nav {
-  /* margin: 0 auto; */
-}
-
-.nav__list {
-  padding: 0;
-  list-style: none;
-  display: flex;
-  gap: 6px;
-  justify-content: center;
-}
-
-.nav__item {}
 
 .main {}
 

@@ -27,6 +27,7 @@ module.exports = {
   resolve: {
     alias: {
       "@img": path.resolve(__dirname, "src", "assets", "img"),
+      "@src": path.resolve(__dirname, "src"),
     },
     extensions: ['.ts', '.js', '.json', '.wasm'],
   },

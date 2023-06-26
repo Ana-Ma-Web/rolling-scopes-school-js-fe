@@ -1,6 +1,10 @@
 export interface Data {
   activeLvl: number;
   levels: Level[];
+  pushDataToLocalStorage: () => void;
+  pullDataFromLocalStorage: () => void;
+  setActiveLvl: (newLvl: number) => void;
+  resetProgress: () => void;
 }
 
 interface Level {
