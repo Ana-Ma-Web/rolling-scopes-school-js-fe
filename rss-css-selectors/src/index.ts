@@ -1,6 +1,26 @@
 // import { App } from './components/app/app';
 import { App } from './components/app/app';
-import { Data } from './types';
+import { Data, TagType } from './types';
+
+class Planet {
+  constructor({
+    tagName = 'planet' as string,
+    shape = 0 as number,
+    texture = 1 as number,
+    classes = '' as string | null,
+    innerTags = null as TagType[] | null,
+    isMove = false as boolean,
+  }: Partial<TagType>) {
+    Object.assign(this, {
+      tagName,
+      shape,
+      texture,
+      classes,
+      innerTags,
+      isMove,
+    });
+  }
+}
 
 const data: Data = {
   activeLvl: 2,
@@ -8,69 +28,23 @@ const data: Data = {
     {
       status: 'help',
       table: [
-        {
-          tagName: 'planet',
-          shape: 0,
-          texture: 2,
-          classes: '',
-          innerTags: null,
-          isMove: true,
-        },
-        {
-          tagName: 'planet',
-          shape: 0,
-          texture: 1,
-          classes: '',
-          innerTags: null,
-          isMove: false,
-        },
-        {
-          tagName: 'planet',
-          shape: 0,
-          texture: 2,
-          classes: '',
-          innerTags: null,
-          isMove: true,
-        },
+        <TagType>new Planet({ isMove: true, texture: 2 }),
+        <TagType>new Planet({}),
+        <TagType>new Planet({ isMove: true, texture: 2 }),
       ],
     },
     {
       status: false,
-      table: [
-        {
-          tagName: 'planet',
-          shape: 0,
-          texture: 1,
-          classes: '',
-          innerTags: null,
-          isMove: false,
-        },
-        {
-          tagName: 'planet',
+      table: [<TagType>new Planet({ texture: 2 }), <TagType>new Planet({
           shape: 1,
           texture: 3,
-          classes: '',
-          isMove: false,
-          innerTags: [
-            {
+          innerTags: [<TagType>new Planet({
               tagName: 'moon',
-              shape: 1,
               texture: 2,
               classes: 'moon',
-              innerTags: null,
               isMove: true,
-            },
-          ],
-        },
-        {
-          tagName: 'planet',
-          shape: 0,
-          texture: 2,
-          classes: '',
-          innerTags: null,
-          isMove: false,
-        },
-      ],
+            })],
+        }), <TagType>new Planet({ texture: 2 })],
     },
   ],
 

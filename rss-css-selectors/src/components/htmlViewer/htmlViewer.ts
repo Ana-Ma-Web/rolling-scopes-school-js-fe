@@ -37,19 +37,15 @@ export class HtmlViewer {
     classes: string | null,
     paired: boolean,
     tag: TagType,
-    // tagElement: HTMLElement,
   ): HTMLElement {
     const wrapperElement = document.createElement('span');
 
     wrapperElement.innerHTML += '<';
     wrapperElement.append(this.createNameElement(name));
-    // wrapperElement.innerHTML += classElement;
-    // wrapperElement.innerHTML += equalsElement;
     wrapperElement.append(classes ? this.createClassElement(classes) : '');
     wrapperElement.innerHTML += paired ? '>' : '/>';
 
     const tagElement = document.createElement('div');
-    tagElement.classList.add('div');
 
     tagElement.append(wrapperElement);
     tag.innerTags?.forEach((e) => {
