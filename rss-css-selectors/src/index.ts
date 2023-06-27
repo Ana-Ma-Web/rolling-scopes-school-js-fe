@@ -56,7 +56,7 @@ const data: Data = {
               tagName: 'moon',
               shape: 1,
               texture: 2,
-              classes: '',
+              classes: 'moon',
               innerTags: null,
               isMove: true,
             },

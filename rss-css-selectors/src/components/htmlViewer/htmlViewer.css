@@ -3,11 +3,23 @@
   display: flex;
   justify-content: center;
   flex-direction: column;
-  margin: 0 auto;
-  width: fit-content;
+  margin: 20px auto;
+  width: 460px;
 }
 
 .html-viewer div {
   padding-left: 20px;
   text-align: left;
+}
+
+.html-viewer__class-tag{
+  color: #20c271;
+}
+
+.html-viewer__name-tag{
+  color: #e94ad1;
+}
+
+.html-viewer__str-tag {
+  color: rgb(218, 182, 37);
 }
