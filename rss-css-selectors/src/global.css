@@ -39,7 +39,8 @@ body {
   font-weight: 600;
 }
 
-.planet-hover {
+.planet-hover,
+.planet-hover moon {
   box-shadow: inset 2px 2px 5px var(--light-color),
     inset -8px -8px 15px var(--shadow-color),
     0px 0px 25px var(--shadow-color);

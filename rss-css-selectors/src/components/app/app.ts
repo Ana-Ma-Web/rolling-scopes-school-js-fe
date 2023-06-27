@@ -14,28 +14,28 @@ export class App {
       ? target.dataset.key.slice(1)
       : target.closest('div')?.dataset.key?.slice(1);
 
-    const planets = document.querySelectorAll(`planet[data-key="p${key}"]`);
-    const moons = document.querySelectorAll(`moon[data-key="p${key}"]`);
+    const planets = Array.from(
+      document.querySelectorAll(`planet[data-key="p${key}"]`),
+    );
+    const moons = Array.from(
+      document.querySelectorAll(`moon[data-key="p${key}"]`),
+    );
+    const htmlElements = Array.from(
+      document.querySelectorAll(`*[data-key="h${key}"]`),
+    );
 
-    const htmlElements = document.querySelectorAll(`*[data-key="h${key}"]`);
+    const planetsArray = planets.concat(moons);
 
     if (target.classList.contains('planet')) {
-      planets.forEach((e) => {
-        e.classList.add('planet-hover');
-      });
-      moons.forEach((e) => {
+      planetsArray.forEach((e) => {
         e.classList.add('planet-hover');
       });
       htmlElements.forEach((e) => {
-        const el = <HTMLElement>e;
-        el.classList.add('html-hover');
+        e.classList.add('html-hover');
       });
       target.closest('.planet')?.classList.add('planet-hover');
-    } else if (target.classList.contains('html-viewer__name-tag')) {
-      planets.forEach((e) => {
-        e.classList.add('planet-hover');
-      });
-      moons.forEach((e) => {
+    } else if (target.closest('.html-line')) {
+      planetsArray.forEach((e) => {
         e.classList.add('planet-hover');
       });
       htmlElements.forEach((e) => {
