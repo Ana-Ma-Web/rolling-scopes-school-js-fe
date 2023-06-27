@@ -13,6 +13,7 @@ interface Level {
 }
 
 export interface TagType {
+  key: string;
   tagName: string;
   shape: number;
   texture: number;

@@ -41,18 +41,6 @@ planet::after {
   opacity: 0.6;
 }
 
-planet:hover {
-  box-shadow: inset 1px 2px 5px var(--light-color),
-    inset -15px -18px 15px var(--shadow-color),
-    0px 0px 25px goldenrod;
-}
-
-planet:hover moon {
-  box-shadow: inset 2px 2px 5px var(--light-color),
-    inset -8px -8px 5px var(--shadow-color),
-    0px 0px 25px goldenrod;
-}
-
 moon {
   position: absolute;
   display: block;

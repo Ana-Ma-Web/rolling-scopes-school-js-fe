@@ -28,23 +28,29 @@ const data: Data = {
     {
       status: 'help',
       table: [
-        <TagType>new Planet({ isMove: true, texture: 2 }),
-        <TagType>new Planet({}),
-        <TagType>new Planet({ isMove: true, texture: 2 }),
+        <TagType>new Planet({ key: '1', isMove: true, texture: 2 }),
+        <TagType>new Planet({ key: '2' }),
+        <TagType>new Planet({ key: '3', isMove: true, texture: 2 }),
       ],
     },
     {
       status: false,
-      table: [<TagType>new Planet({ texture: 2 }), <TagType>new Planet({
+      table: [
+        <TagType>new Planet({ key: '1', texture: 2 }),
+        <TagType>new Planet({
+          key: '2',
           shape: 1,
           texture: 3,
           innerTags: [<TagType>new Planet({
+              key: '21',
               tagName: 'moon',
               texture: 2,
               classes: 'moon',
               isMove: true,
             })],
-        }), <TagType>new Planet({ texture: 2 })],
+        }),
+        <TagType>new Planet({ key: '3', texture: 2 }),
+      ],
     },
   ],
 

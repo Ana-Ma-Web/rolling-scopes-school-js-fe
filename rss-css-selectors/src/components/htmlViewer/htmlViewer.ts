@@ -37,6 +37,8 @@ export class HtmlViewer {
     classes: string | null,
     paired: boolean,
     tag: TagType,
+    index: string,
+    prevIndex?: string,
   ): HTMLElement {
     const wrapperElement = document.createElement('span');
 
@@ -46,10 +48,12 @@ export class HtmlViewer {
     wrapperElement.innerHTML += paired ? '>' : '/>';
 
     const tagElement = document.createElement('div');
+    tagElement.classList.add('html-line');
+    tagElement.dataset.key = prevIndex ? `h${index}${prevIndex}` : `h${index}`;
 
     tagElement.append(wrapperElement);
-    tag.innerTags?.forEach((e) => {
-      this.printHtmlViewerTag(tagElement, e);
+    tag.innerTags?.forEach((e, i) => {
+      this.printHtmlViewerTag(tagElement, e, index, String(i + 1));
     });
 
     if (paired) {
@@ -62,12 +66,19 @@ export class HtmlViewer {
     return tagElement;
   }
 
-  private printHtmlViewerTag(root: Element, tag: TagType): void {
+  private printHtmlViewerTag(
+    root: Element,
+    tag: TagType,
+    index: string,
+    prevIndex?: string,
+  ): void {
     const name = tag.tagName;
     const { classes } = tag;
     const paired = !!tag.innerTags?.length;
 
-    root.append(this.createHtmlElement(name, classes, paired, tag));
+    root.append(
+      this.createHtmlElement(name, classes, paired, tag, index, prevIndex),
+    );
   }
 
   public printHtmlViewer(): void {
@@ -76,8 +87,8 @@ export class HtmlViewer {
 
     if (!field) throw new Error('No html viewer');
 
-    levels[activeLvl - 1].table.forEach((e) => {
-      this.printHtmlViewerTag(field, e);
+    levels[activeLvl - 1].table.forEach((e, index) => {
+      this.printHtmlViewerTag(field, e, String(index + 1));
     });
   }
 }

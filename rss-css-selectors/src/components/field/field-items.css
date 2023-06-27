@@ -23,6 +23,7 @@ planet[data-shape="1"] moon {
   height: 30px;
   top: 33px;
   left: 42px;
+  z-index: 5;
 }
 
 planet[data-texture="1"] {

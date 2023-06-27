@@ -7,21 +7,28 @@ export class Field {
     this.data = data;
   }
 
-  private createTagString(tag: TagType): string {
+  private createTagString(
+    tag: TagType,
+    index: number,
+    prevIndex?: number,
+  ): string {
     const name = tag.tagName;
     const { classes, shape, texture, isMove } = tag;
     let innerTags = '';
     const paired = !!tag.innerTags?.length;
 
     if (innerTags !== null) {
-      tag.innerTags?.forEach((e) => {
-        innerTags += this.createTagString(e);
+      tag.innerTags?.forEach((e, i) => {
+        innerTags += this.createTagString(e, index, i + 1);
       });
     }
 
     const closedName = `> ${innerTags} </${name}>`;
 
-    return `<${name} data-shape="${shape}" data-move="${isMove}" data-texture="${texture}" class="${classes}" ${
+    return `<${name} class="planet" data-key="p${
+      name === 'planet' ? `${index}` : `${index}${prevIndex}`
+    }" data-shape="${shape}" data-move="${isMove}" 
+    data-texture="${texture}" class="${classes}" ${
       paired ? closedName : `></${name}>`
     }`;
   }
@@ -33,8 +40,8 @@ export class Field {
     if (!field) throw new Error('No game field');
 
     let string = '';
-    levels[activeLvl - 1].table.forEach((e) => {
-      string += this.createTagString(e);
+    levels[activeLvl - 1].table.forEach((e, i) => {
+      string += this.createTagString(e, i + 1);
     });
 
     field.innerHTML = string;

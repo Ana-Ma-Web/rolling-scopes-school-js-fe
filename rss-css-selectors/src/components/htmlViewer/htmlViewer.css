@@ -5,6 +5,7 @@
   flex-direction: column;
   margin: 20px auto;
   width: 460px;
+  cursor: default;
 }
 
 .html-viewer div {
@@ -12,11 +13,11 @@
   text-align: left;
 }
 
-.html-viewer__class-tag{
+.html-viewer__class-tag {
   color: #20c271;
 }
 
-.html-viewer__name-tag{
+.html-viewer__name-tag {
   color: #e94ad1;
 }
 
