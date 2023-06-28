@@ -25,12 +25,10 @@ export class Field {
 
     const closedName = `> ${innerTags} </${name}>`;
 
-    return `<${name} class="planet" data-key="p${
+    return `<${name} class="${classes}" data-type="planet" data-key="p${
       name === 'planet' ? `${index}` : `${index}${prevIndex}`
     }" data-shape="${shape}" data-move="${isMove}" 
-    data-texture="${texture}" class="${classes}" ${
-      paired ? closedName : `></${name}>`
-    }`;
+    data-texture="${texture}" ${paired ? closedName : `></${name}>`}`;
   }
 
   public printField(): void {

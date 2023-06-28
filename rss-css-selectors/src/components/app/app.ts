@@ -1,5 +1,6 @@
 import '@src/global.css';
 import { Data } from '../../types';
+import { CssEditor } from '../cssEditor/cssEditor';
 import { Field } from '../field/field';
 import { HtmlViewer } from '../htmlViewer/htmlViewer';
 import { Nav } from '../nav/nav';
@@ -26,7 +27,7 @@ export class App {
 
     const planetsArray = planets.concat(moons);
 
-    if (target.classList.contains('planet')) {
+    if (target.dataset.type === 'planet') {
       planetsArray.forEach((e) => {
         e.classList.add('planet-hover');
       });
@@ -65,17 +66,8 @@ export class App {
     });
   }
 
-  public start(): void {
-    this.data.pullDataFromLocalStorage();
-
+  private handlers(nav: Nav, cssEditor: CssEditor): void {
     const body = document.querySelector('body');
-    const field = new Field(this.data);
-    const htmlViewer = new HtmlViewer(this.data);
-    const nav = new Nav(this.data);
-
-    nav.printNavList();
-    field.printField();
-    htmlViewer.printHtmlViewer();
 
     body?.addEventListener('click', (e: MouseEvent) => {
       const target = <HTMLElement>e.target;
@@ -88,6 +80,14 @@ export class App {
 
         this.data.setActiveLvl(Number(curLvl));
         nav.updateNavList();
+      }
+
+      if (target.closest('.css-editor')) {
+        if (target.classList.contains('css-editor__button')) {
+          console.log('23');
+          cssEditor.enterHandler();
+        }
+        cssEditor.clickHandler();
       }
     });
 
@@ -104,5 +104,21 @@ export class App {
         this.hoverMouseoutHandler(target);
       }
     });
+  }
+
+  public start(): void {
+    this.data.pullDataFromLocalStorage();
+
+    const field = new Field(this.data);
+    const htmlViewer = new HtmlViewer(this.data);
+    const nav = new Nav(this.data);
+    const cssEditor = new CssEditor(this.data);
+
+    nav.printNavList();
+    field.printField();
+    htmlViewer.printHtmlViewer();
+    cssEditor.printCssEditor();
+
+    this.handlers(nav, cssEditor);
   }
 }
