@@ -63,19 +63,21 @@ export class CssEditor {
   }
 
   private checkInput(value: string, selector: string): boolean {
+    const fieldSpace = document.querySelector('.field__space');
+    if (!fieldSpace) throw new Error('Field is not found');
+
     try {
-      document.querySelector(value);
+      fieldSpace.querySelector(value);
     } catch {
       return false;
     }
 
     const movedElementsArray = Array.from(
-      document.querySelectorAll(selector),
+      fieldSpace.querySelectorAll(selector),
     ).sort();
     const selectedElementsArray = Array.from(
-      document.querySelectorAll(value),
+      fieldSpace.querySelectorAll(value),
     ).sort();
-
     const result = movedElementsArray.every(
       (e, i) => e === selectedElementsArray[i],
     );

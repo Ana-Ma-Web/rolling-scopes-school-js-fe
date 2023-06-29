@@ -39,10 +39,15 @@ export class Field {
   public printField(): void {
     const { activeLvl, levels } = this.data;
     const field = document.querySelector('.field');
+    const fieldSpace = document.createElement('div');
+    fieldSpace.classList.add('field__space');
+
     const fieldAnimation = document.createElement('div');
     fieldAnimation.classList.add('field__animation');
 
     if (!field) throw new Error('No game field');
+
+    field.innerHTML = '';
 
     let string = '';
     levels[activeLvl - 1].table.forEach((e, i) => {
@@ -56,7 +61,7 @@ export class Field {
       fieldAnimation.append(fieldStars);
     }
 
-    field.innerHTML = string;
-    field.append(fieldAnimation);
+    fieldSpace.innerHTML = string;
+    field.append(fieldSpace, fieldAnimation);
   }
 }
