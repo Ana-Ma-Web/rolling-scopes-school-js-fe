@@ -63,6 +63,12 @@ export class CssEditor {
   }
 
   private checkInput(value: string, selector: string): boolean {
+    try {
+      document.querySelector(value);
+    } catch {
+      return false;
+    }
+
     const movedElementsArray = Array.from(
       document.querySelectorAll(selector),
     ).sort();
