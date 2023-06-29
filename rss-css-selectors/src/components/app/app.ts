@@ -66,6 +66,20 @@ export class App {
     });
   }
 
+  private cssEditorClickHandlers(
+    target: HTMLElement,
+    cssEditor: CssEditor,
+  ): void {
+    if (target.closest('.css-editor')) {
+      if (target.classList.contains('css-editor__btn_enter')) {
+        cssEditor.enterHandler();
+      } else if (target.classList.contains('css-editor__btn_help')) {
+        cssEditor.helpHandler();
+      }
+      cssEditor.clickHandler();
+    }
+  }
+
   private handlers(nav: Nav, cssEditor: CssEditor): void {
     const body = document.querySelector('body');
 
@@ -82,13 +96,7 @@ export class App {
         nav.updateNavList();
       }
 
-      if (target.closest('.css-editor')) {
-        if (target.classList.contains('css-editor__button')) {
-          console.log('23');
-          cssEditor.enterHandler();
-        }
-        cssEditor.clickHandler();
-      }
+      this.cssEditorClickHandlers(target, cssEditor);
     });
 
     body?.addEventListener('mouseover', (e: MouseEvent) => {

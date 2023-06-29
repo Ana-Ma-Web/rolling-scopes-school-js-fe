@@ -10,7 +10,8 @@ export class CssEditor {
     const input: HTMLInputElement | null =
       document.querySelector('.css-editor__input');
 
-    if (!input) throw new Error('Css editor is not found');
+    // console.log(input);
+    if (!input) throw new Error('Css editor input is not found');
     const movedElements = document.querySelectorAll(input.value);
     movedElements.forEach((e) => {
       if (e instanceof HTMLElement) {
@@ -32,10 +33,18 @@ export class CssEditor {
     return input;
   }
 
-  private createButton(): HTMLButtonElement {
+  private createEnterButton(): HTMLButtonElement {
     const button = document.createElement('button');
     button.textContent = 'Enter';
-    button.classList.add('css-editor__button');
+    button.classList.add('css-editor__btn', 'css-editor__btn_enter');
+
+    return button;
+  }
+
+  private createHelpButton(): HTMLButtonElement {
+    const button = document.createElement('button');
+    button.textContent = 'Help';
+    button.classList.add('css-editor__btn', 'css-editor__btn_help');
 
     return button;
   }
@@ -58,18 +67,43 @@ export class CssEditor {
   public enterHandler(): void {
     const input: HTMLInputElement | null =
       document.querySelector('.css-editor__input');
-    const btn = document.querySelector('.css-editor__button');
-    if (!input || !btn) throw new Error('Css editor is not found');
+    const btn = document.querySelector('.css-editor__btn_enter');
+    if (!input || !btn) throw new Error('Css editor button is not found');
 
-    if (
-      (input === document.activeElement || btn === document.activeElement) &&
-      this.checkInput(
-        input.value,
-        this.data.levels[this.data.activeLvl - 1].selector,
-      )
-    ) {
-      this.win();
-    } else this.lose();
+    const { value } = input;
+    const { selector } = this.data.levels[this.data.activeLvl - 1];
+
+    if (value && selector) {
+      const isEquals = this.checkInput(value, selector);
+      if (
+        (input === document.activeElement || btn === document.activeElement) &&
+        isEquals
+      ) {
+        this.win();
+      } else this.lose();
+    }
+  }
+
+  public async helpHandler(): Promise<void> {
+    const input: HTMLInputElement | null =
+      document.querySelector('.css-editor__input');
+    const btn = document.querySelector('.css-editor__btn_enter');
+
+    if (!input || !btn) throw new Error('Css editor button is not found');
+    console.log('help');
+
+    const curLvl = this.data.levels[this.data.activeLvl - 1];
+
+    input.value = '';
+
+    curLvl.selector.split('').forEach((e, i) => {
+      window.setTimeout(() => {
+        input.value += e;
+      }, 30 * i);
+    });
+
+    curLvl.status = 'help';
+    this.data.pushDataToLocalStorage();
   }
 
   public clickHandler(): void {
@@ -82,7 +116,11 @@ export class CssEditor {
     const wrapper = document.querySelector('.css-editor');
     if (!wrapper) throw new Error('Css editor is not found');
 
-    wrapper.append(this.createInput(), this.createButton());
+    wrapper.append(
+      this.createHelpButton(),
+      this.createInput(),
+      this.createEnterButton(),
+    );
 
     document.addEventListener('keydown', (e: KeyboardEvent) => {
       if (e.key === 'Enter') {
