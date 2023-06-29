@@ -1,0 +1,17 @@
+.lose {
+  animation: lose 0.1s infinite linear;
+}
+
+@keyframes lose {
+  0% {
+    transform: translate(0px)
+  }
+
+  33% {
+    transform: translate(3px)
+  }
+
+  66% {
+    transform: translate(-3px)
+  }
+}

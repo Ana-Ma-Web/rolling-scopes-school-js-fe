@@ -25,7 +25,17 @@ export class CssEditor {
     input.value = '';
   }
 
-  private lose(): void {}
+  private lose(): void {
+    const input: HTMLInputElement | null =
+      document.querySelector('.css-editor');
+
+    if (!input) throw new Error('Css editor input is not found');
+
+    input.classList.add('lose');
+    setTimeout(() => {
+      input.classList.remove('lose');
+    }, 500);
+  }
 
   private createInput(): HTMLInputElement {
     const input = document.createElement('input');
@@ -93,7 +103,6 @@ export class CssEditor {
     const btn = document.querySelector('.css-editor__btn_enter');
 
     if (!input || !btn) throw new Error('Css editor button is not found');
-    console.log('help');
 
     const curLvl = this.data.levels[this.data.activeLvl - 1];
 
