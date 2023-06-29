@@ -85,11 +85,13 @@ export class App {
     nav: Nav,
     field: Field,
     htmlViewer: HtmlViewer,
+    cssEditor: CssEditor,
   ): void {
     this.data.setActiveLvl(Number(curLvl));
     nav.updateNavList();
     field.updateField();
     htmlViewer.updateHtmlViewer();
+    cssEditor.resetInput();
   }
 
   private handlers(
@@ -108,7 +110,7 @@ export class App {
         if (!target.dataset.lvl) {
           throw new Error('Nav btn data is not found');
         }
-        this.updateLevel(curLvl, nav, field, htmlViewer);
+        this.updateLevel(curLvl, nav, field, htmlViewer, cssEditor);
       }
       this.cssEditorClickHandlers(target, cssEditor);
     });

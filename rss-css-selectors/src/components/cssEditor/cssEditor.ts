@@ -84,7 +84,7 @@ export class CssEditor {
     }
   }
 
-  public async helpHandler(): Promise<void> {
+  public helpHandler(): void {
     const input: HTMLInputElement | null =
       document.querySelector('.css-editor__input');
     const btn = document.querySelector('.css-editor__btn_enter');
