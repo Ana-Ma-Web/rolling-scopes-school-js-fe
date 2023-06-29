@@ -81,12 +81,17 @@ export class HtmlViewer {
     );
   }
 
+  public updateHtmlViewer(): void {
+    this.printHtmlViewer();
+  }
+
   public printHtmlViewer(): void {
     const { activeLvl, levels } = this.data;
     const field = document.querySelector('.html-viewer');
 
     if (!field) throw new Error('No html viewer');
 
+    field.innerHTML = '';
     levels[activeLvl - 1].table.forEach((e, index) => {
       this.printHtmlViewerTag(field, e, String(index + 1));
     });

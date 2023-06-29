@@ -31,6 +31,10 @@ export class Field {
     data-texture="${texture}" ${paired ? closedName : `></${name}>`}`;
   }
 
+  public updateField(): void {
+    this.printField();
+  }
+
   public printField(): void {
     const { activeLvl, levels } = this.data;
     const field = document.querySelector('.field');

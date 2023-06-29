@@ -80,7 +80,12 @@ export class App {
     }
   }
 
-  private handlers(nav: Nav, cssEditor: CssEditor): void {
+  private handlers(
+    nav: Nav,
+    field: Field,
+    htmlViewer: HtmlViewer,
+    cssEditor: CssEditor,
+  ): void {
     const body = document.querySelector('body');
 
     body?.addEventListener('click', (e: MouseEvent) => {
@@ -94,6 +99,8 @@ export class App {
 
         this.data.setActiveLvl(Number(curLvl));
         nav.updateNavList();
+        field.updateField();
+        htmlViewer.updateHtmlViewer();
       }
 
       this.cssEditorClickHandlers(target, cssEditor);
@@ -127,6 +134,6 @@ export class App {
     htmlViewer.printHtmlViewer();
     cssEditor.printCssEditor();
 
-    this.handlers(nav, cssEditor);
+    this.handlers(nav, field, htmlViewer, cssEditor);
   }
 }
