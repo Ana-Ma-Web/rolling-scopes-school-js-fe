@@ -23,10 +23,19 @@ class Planet {
 }
 
 const data: Data = {
-  activeLvl: 2,
+  activeLvl: 1,
   levels: [
     {
-      status: 'help',
+      status: false,
+      selector: 'planet',
+      table: [
+        <TagType>new Planet({ key: '1', isMove: true }),
+        <TagType>new Planet({ key: '2', isMove: true }),
+        <TagType>new Planet({ key: '3', isMove: true }),
+      ],
+    },
+    {
+      status: false,
       selector: '.blue',
       table: [
         <TagType>(

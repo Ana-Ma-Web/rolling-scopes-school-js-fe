@@ -31,7 +31,7 @@ planet:first-child {
   animation: planetSpin-1 300s linear infinite;
 }
 
-planet:last-child {
+planet:nth-child(2) {
   animation: planetSpin-3 300s linear infinite;
 }
 
