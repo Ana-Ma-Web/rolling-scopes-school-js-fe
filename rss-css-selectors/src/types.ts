@@ -7,8 +7,9 @@ export interface Data {
   resetProgress: () => void;
 }
 
-interface Level {
+export interface Level {
   status: Status;
+  selector: string;
   table: TagType[];
 }
 

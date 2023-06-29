@@ -27,6 +27,7 @@ const data: Data = {
   levels: [
     {
       status: 'help',
+      selector: '.blue',
       table: [
         <TagType>(
           new Planet({ key: '1', isMove: true, texture: 2, classes: 'blue' })
@@ -39,6 +40,7 @@ const data: Data = {
     },
     {
       status: false,
+      selector: 'moon',
       table: [
         <TagType>new Planet({ key: '1', texture: 2 }),
         <TagType>new Planet({

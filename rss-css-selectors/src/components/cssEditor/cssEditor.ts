@@ -6,42 +6,6 @@ export class CssEditor {
     this.data = data;
   }
 
-  private createInput(): HTMLInputElement {
-    const input = document.createElement('input');
-    input.type = 'text';
-    input.classList.add('css-editor__input');
-    input.autofocus = true;
-
-    return input;
-  }
-
-  private createButton(): HTMLButtonElement {
-    const button = document.createElement('button');
-    button.textContent = 'Enter';
-    button.classList.add('css-editor__button');
-
-    return button;
-  }
-
-  private checkInput(value: string): boolean {
-    const movedPlanets = Array.from(
-      document.querySelectorAll(`planet[data-move="true"]`),
-    );
-    const movedMoons = Array.from(
-      document.querySelectorAll(`moon[data-move="true"]`),
-    );
-    const movedElementsArray = movedPlanets.concat(movedMoons).sort();
-    const selectedElementsArray = Array.from(
-      document.querySelectorAll(value),
-    ).sort();
-
-    const result = movedElementsArray.every(
-      (e, i) => e === selectedElementsArray[i],
-    );
-
-    return result;
-  }
-
   private win(): void {
     const input: HTMLInputElement | null =
       document.querySelector('.css-editor__input');
@@ -59,6 +23,38 @@ export class CssEditor {
 
   private lose(): void {}
 
+  private createInput(): HTMLInputElement {
+    const input = document.createElement('input');
+    input.type = 'text';
+    input.classList.add('css-editor__input');
+    input.autofocus = true;
+
+    return input;
+  }
+
+  private createButton(): HTMLButtonElement {
+    const button = document.createElement('button');
+    button.textContent = 'Enter';
+    button.classList.add('css-editor__button');
+
+    return button;
+  }
+
+  private checkInput(value: string, selector: string): boolean {
+    const movedElementsArray = Array.from(
+      document.querySelectorAll(selector),
+    ).sort();
+    const selectedElementsArray = Array.from(
+      document.querySelectorAll(value),
+    ).sort();
+
+    const result = movedElementsArray.every(
+      (e, i) => e === selectedElementsArray[i],
+    );
+
+    return result;
+  }
+
   public enterHandler(): void {
     const input: HTMLInputElement | null =
       document.querySelector('.css-editor__input');
@@ -67,10 +63,12 @@ export class CssEditor {
 
     if (
       (input === document.activeElement || btn === document.activeElement) &&
-      this.checkInput(input.value)
+      this.checkInput(
+        input.value,
+        this.data.levels[this.data.activeLvl - 1].selector,
+      )
     ) {
       this.win();
-      // console.log(this.checkInput(input.value));
     } else this.lose();
   }
 
