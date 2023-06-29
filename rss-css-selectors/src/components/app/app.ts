@@ -80,6 +80,18 @@ export class App {
     }
   }
 
+  private updateLevel(
+    curLvl: string | undefined,
+    nav: Nav,
+    field: Field,
+    htmlViewer: HtmlViewer,
+  ): void {
+    this.data.setActiveLvl(Number(curLvl));
+    nav.updateNavList();
+    field.updateField();
+    htmlViewer.updateHtmlViewer();
+  }
+
   private handlers(
     nav: Nav,
     field: Field,
@@ -96,13 +108,8 @@ export class App {
         if (!target.dataset.lvl) {
           throw new Error('Nav btn data is not found');
         }
-
-        this.data.setActiveLvl(Number(curLvl));
-        nav.updateNavList();
-        field.updateField();
-        htmlViewer.updateHtmlViewer();
+        this.updateLevel(curLvl, nav, field, htmlViewer);
       }
-
       this.cssEditorClickHandlers(target, cssEditor);
     });
 

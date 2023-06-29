@@ -112,6 +112,14 @@ export class CssEditor {
     input?.focus();
   }
 
+  public resetInput(): void {
+    const input: HTMLInputElement | null =
+      document.querySelector('.css-editor__input');
+    if (!input) throw new Error('Css editor button is not found');
+
+    input.value = '';
+  }
+
   public printCssEditor(): void {
     const wrapper = document.querySelector('.css-editor');
     if (!wrapper) throw new Error('Css editor is not found');
