@@ -1,0 +1,78 @@
+.field__animation {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+}
+
+.win .field__animation {
+  background-image: url(@img/field-lines.jpg);
+}
+
+.win .field__stars_1 {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background-image: url(@img/field-stars-1.png);
+  animation: stars-alt 2s linear infinite;
+}
+
+.win .field__stars_2 {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background-image: url(@img/field-stars-2.png);
+  animation: stars-alt 2.2s linear infinite;
+}
+
+.win .field__stars_3 {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background-image: url(@img/field-stars-3.png);
+  animation: stars 2.7s linear infinite;
+}
+
+.win .field__stars_4 {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background-image: url(@img/field-stars-4.png);
+  animation: stars 3s linear infinite;
+}
+
+@keyframes stars {
+  0% {
+    opacity: 0;
+  }
+
+  60% {
+    opacity: 0;
+  }
+
+  80% {
+    opacity: 1;
+  }
+
+  100% {
+    opacity: 0;
+  }
+}
+
+@keyframes stars-alt {
+  0% {
+    opacity: 0;
+  }
+
+  40% {
+    opacity: 1;
+  }
+
+  60% {
+    opacity: 0;
+  }
+
+  100% {
+    opacity: 0;
+  }
+}

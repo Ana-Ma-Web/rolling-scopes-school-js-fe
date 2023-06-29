@@ -1,6 +1,7 @@
 .field {
+  position: relative;
   margin: 0 auto;
-  background-color: lightblue;
+  /* background-color: lightblue; */
   width: 460px;
   height: 156px;
   background-image: url(@img/field-bg.jpg);
@@ -8,6 +9,10 @@
   justify-content: center;
   align-items: center;
   gap: 20px;
+}
+
+.win .field {
+  background: none;
 }
 
 planet {

@@ -87,11 +87,15 @@ export class App {
     htmlViewer: HtmlViewer,
     cssEditor: CssEditor,
   ): void {
+    const main = document.querySelector('.main');
+
     this.data.setActiveLvl(Number(curLvl));
     nav.updateNavList();
     field.updateField();
     htmlViewer.updateHtmlViewer();
     cssEditor.resetInput();
+
+    main?.classList.remove('win');
   }
 
   private handlers(

@@ -10,6 +10,8 @@ export class CssEditor {
     const input: HTMLInputElement | null =
       document.querySelector('.css-editor__input');
 
+    const main = document.querySelector('.main');
+
     // console.log(input);
     if (!input) throw new Error('Css editor input is not found');
     const movedElements = document.querySelectorAll(input.value);
@@ -19,6 +21,7 @@ export class CssEditor {
       }
     });
 
+    main?.classList.add('win');
     input.value = '';
   }
 
