@@ -69,7 +69,7 @@ moon:nth-child(2) {
   animation: moonSpin-2 200s linear infinite;
 }
 
-planet[data-shape="5"] {
+planet[data-shape="1"] {
   animation: planetSpin-5 200s linear infinite;
 }
 
