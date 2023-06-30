@@ -49,7 +49,7 @@ export class CssEditor {
   private createEnterButton(): HTMLButtonElement {
     const button = document.createElement('button');
     button.textContent = 'Enter';
-    button.classList.add('css-editor__btn', 'css-editor__btn_enter');
+    button.classList.add('css-editor__btn', 'css-editor__btn_enter', 'btn');
 
     return button;
   }
@@ -57,7 +57,7 @@ export class CssEditor {
   private createHelpButton(): HTMLButtonElement {
     const button = document.createElement('button');
     button.textContent = 'Help';
-    button.classList.add('css-editor__btn', 'css-editor__btn_help');
+    button.classList.add('css-editor__btn', 'css-editor__btn_help', 'btn');
 
     return button;
   }

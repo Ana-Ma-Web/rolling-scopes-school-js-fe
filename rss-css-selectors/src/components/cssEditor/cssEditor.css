@@ -1,5 +1,24 @@
 .css-editor {
   width: 100%;
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+}
+
+.css-editor__input {
+  font-family: 'Cutive Mono';
+  font-size: 16px;
+  color: var(--text-color);
+  border: none;
+  border-bottom: 1px solid;
+  font-weight: 600;
+  outline-style: none;
+}
+
+.css-editor__btn {
+  font-family: "Amatic SC";
+  font-weight: 600;
+  font-size: 26px;
 }
 
 .lose {
