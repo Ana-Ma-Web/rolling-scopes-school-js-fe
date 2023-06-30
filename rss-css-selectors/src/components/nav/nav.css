@@ -1,8 +1,3 @@
-
-.nav {
-  /* margin: 0 auto; */
-}
-
 .nav__list {
   padding: 0;
   list-style: none;
@@ -11,13 +6,10 @@
   justify-content: center;
 }
 
-.nav__item {
-  
-}
-
 .nav__btn {
   font-weight: 600;
 }
+
 .nav__btn_done {
   color: #0bbc64;
 }

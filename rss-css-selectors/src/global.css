@@ -18,6 +18,12 @@ body {
   font-family: "Annie Use Your Telescope";
   font-size: 20px;
   cursor: pointer;
+  transition: 0.1s;
+}
+
+.btn:hover {
+  opacity: 0.7;
+  transition: 0.1s;
 }
 
 .header {}
