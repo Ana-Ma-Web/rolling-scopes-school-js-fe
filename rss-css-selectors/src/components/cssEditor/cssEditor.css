@@ -1,3 +1,7 @@
+.css-editor {
+  width: 100%;
+}
+
 .lose {
   animation: lose 0.1s infinite linear;
 }

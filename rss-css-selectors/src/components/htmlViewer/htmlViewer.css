@@ -3,9 +3,8 @@
   display: flex;
   justify-content: center;
   flex-direction: column;
-  margin: 20px auto;
-  width: 460px;
   cursor: default;
+  align-self: normal;
 }
 
 .html-viewer div {

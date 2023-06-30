@@ -6,23 +6,99 @@ planet[data-shape="1"]::after {
   background-image: url(@img/shape-1.png);
 }
 
+planet[data-shape="2"]::after {
+  background-image: url(@img/shape-2.png);
+}
+
+planet[data-shape="3"]::after {
+  background-image: url(@img/shape-3.png);
+}
+
+planet[data-shape="4"]::after {
+  background-image: url(@img/shape-4.png);
+}
+
 planet[data-shape="0"] {
   width: 80px;
   height: 80px;
 }
 
 planet[data-shape="1"] {
+  width: 46px;
+  height: 46px;
+}
+
+planet[data-shape="2"] {
   transform: rotate(-5deg);
   width: 80px;
   height: 80px;
 }
 
-planet[data-shape="1"] moon {
+planet[data-shape="3"] {
+  transform: rotate(-5deg);
+  width: 80px;
+  height: 80px;
+}
+
+planet[data-shape="4"] {
+  width: 80px;
+  height: 80px;
+}
+
+planet[data-shape="2"] moon {
   transform: rotate(-10deg);
   width: 30px;
   height: 30px;
   top: 33px;
   left: 42px;
+  z-index: 5;
+}
+
+planet[data-shape="3"] moon:nth-child(1) {
+  width: 17px;
+  height: 17px;
+  top: -9px;
+  left: -5px;
+  z-index: 5;
+}
+
+planet[data-shape="3"] moon:nth-child(2) {
+  width: 31px;
+  height: 31px;
+  top: 35px;
+  left: -4px;
+  z-index: 5;
+}
+
+planet[data-shape="3"] moon:nth-child(3) {
+  width: 44px;
+  height: 44px;
+  top: 51px;
+  left: 30px;
+  z-index: 5;
+}
+
+planet[data-shape="4"] moon:nth-child(1) {
+  width: 17px;
+  height: 17px;
+  top: -8px;
+  left: -17px;
+  z-index: 5;
+}
+
+planet[data-shape="4"] moon:nth-child(2) {
+  width: 31px;
+  height: 31px;
+  top: 14px;
+  left: -13px;
+  z-index: 5;
+}
+
+planet[data-shape="4"] moon:nth-child(3) {
+  width: 44px;
+  height: 44px;
+  top: 26px;
+  left: 28px;
   z-index: 5;
 }
 
@@ -38,10 +114,82 @@ planet[data-texture="3"] {
   background-image: url(@img/planet-3.jpg);
 }
 
+planet[data-texture="4"] {
+  background-image: url(@img/planet-4.jpg);
+}
+
+planet[data-texture="5"] {
+  background-image: url(@img/planet-5.jpg);
+}
+
+planet[data-texture="6"] {
+  background-image: url(@img/planet-6.jpg);
+}
+
+planet[data-texture="6"] {
+  background-image: url(@img/planet-6.jpg);
+}
+
+planet[data-texture="7"] {
+  background-image: url(@img/planet-7.jpg);
+}
+
+planet[data-texture="8"] {
+  background-image: url(@img/planet-8.jpg);
+}
+
+planet[data-texture="9"] {
+  background-image: url(@img/planet-9.jpg);
+}
+
+planet[data-texture="10"] {
+  background-image: url(@img/planet-10.jpg);
+}
+
 moon[data-texture="1"] {
   background-image: url(@img/moon-1.jpg);
 }
 
 moon[data-texture="2"] {
   background-image: url(@img/moon-2.jpg);
+}
+
+moon[data-texture="3"] {
+  background-image: url(@img/moon-3.jpg);
+}
+
+moon[data-texture="4"] {
+  background-image: url(@img/moon-4.jpg);
+}
+
+moon[data-texture="5"] {
+  background-image: url(@img/moon-5.jpg);
+}
+
+moon[data-texture="6"] {
+  background-image: url(@img/moon-6.jpg);
+}
+
+moon[data-texture="7"] {
+  background-image: url(@img/moon-7.jpg);
+}
+
+moon[data-texture="8"] {
+  background-image: url(@img/moon-8.jpg);
+}
+
+moon[data-texture="9"] {
+  background-image: url(@img/moon-9.jpg);
+}
+
+moon[data-texture="10"] {
+  background-image: url(@img/moon-10.jpg);
+}
+
+moon[data-texture="11"] {
+  background-image: url(@img/moon-11.jpg);
+}
+
+moon[data-texture="12"] {
+  background-image: url(@img/moon-12.jpg);
 }

@@ -1,6 +1,5 @@
 .field {
   position: relative;
-  margin: 0 auto;
   width: 460px;
   height: 156px;
   background-image: url(@img/field-bg.jpg);
@@ -59,7 +58,19 @@ moon {
   box-shadow: inset 2px 2px 5px var(--light-color),
     inset -8px -8px 5px var(--shadow-color);
   border-radius: 50%;
-  animation: moonSpin 200s linear infinite;
+  animation: moonSpin-3 200s linear infinite;
+}
+
+moon:nth-child(1) {
+  animation: moonSpin-1 200s linear infinite;
+}
+
+moon:nth-child(2) {
+  animation: moonSpin-2 200s linear infinite;
+}
+
+planet[data-shape="5"] {
+  animation: planetSpin-5 200s linear infinite;
 }
 
 @keyframes planetSpin-1 {
@@ -92,13 +103,43 @@ moon {
   }
 }
 
-@keyframes moonSpin {
+@keyframes planetSpin-5 {
   from {
-    background-position: 30px;
+    background-position: 0px;
   }
 
   to {
-    background-position: 100%;
+    background-position: calc(100% - 46px);
+  }
+}
+
+@keyframes moonSpin-1 {
+  from {
+    background-position: 0px;
+  }
+
+  to {
+    background-position: calc(100% - 30px);
+  }
+}
+
+@keyframes moonSpin-2 {
+  from {
+    background-position: 150px;
+  }
+
+  to {
+    background-position: calc(100% + 120px);
+  }
+}
+
+@keyframes moonSpin-3 {
+  from {
+    background-position: -30px;
+  }
+
+  to {
+    background-position: calc(100% - 60px);
   }
 }
 

@@ -28,8 +28,13 @@ body {
   font-family: "Amatic SC";
 }
 
-
-.main {}
+.main {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: flex-end;
+  gap: 16px;
+}
 
 .css-editor {}
 
