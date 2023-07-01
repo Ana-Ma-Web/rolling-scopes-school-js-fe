@@ -25,11 +25,19 @@ export class CssEditor {
     input.value = '';
   }
 
-  private lose(): void {
+  private lose(selector: string): void {
     const input: HTMLInputElement | null =
       document.querySelector('.css-editor');
+    const selectedNodes = document.querySelectorAll(selector);
 
     if (!input) throw new Error('Css editor input is not found');
+
+    Array.from(selectedNodes).forEach((e: Element) => {
+      e.classList.add('lose');
+      setTimeout(() => {
+        e.classList.remove('lose');
+      }, 500);
+    });
 
     input.classList.add('lose');
     setTimeout(() => {
@@ -86,9 +94,11 @@ export class CssEditor {
     const selectedElementsArray = Array.from(
       fieldSpace.querySelectorAll(value),
     ).sort();
-    const result = movedElementsArray.every(
-      (e, i) => e === selectedElementsArray[i],
-    );
+    if (movedElementsArray.length !== selectedElementsArray.length)
+      return false;
+    const result = movedElementsArray.every((e, i) => {
+      return e === selectedElementsArray[i];
+    });
 
     return result;
   }
@@ -114,7 +124,7 @@ export class CssEditor {
           activeLevel.status = 'help-done';
         } else activeLevel.status = 'done';
         nav.updateNavList();
-      } else this.lose();
+      } else this.lose(value);
     }
   }
 

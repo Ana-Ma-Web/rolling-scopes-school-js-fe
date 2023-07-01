@@ -22,7 +22,7 @@
 }
 
 .lose {
-  animation: lose 0.1s infinite linear;
+  animation: lose 0.1s infinite linear !important;
 }
 
 @keyframes lose {
