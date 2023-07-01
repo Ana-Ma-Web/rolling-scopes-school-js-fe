@@ -23,4 +23,4 @@ export interface TagType {
   isMove: boolean;
 }
 
-export type Status = false | 'done' | 'help';
+export type Status = false | 'done' | 'help' | 'help-done';

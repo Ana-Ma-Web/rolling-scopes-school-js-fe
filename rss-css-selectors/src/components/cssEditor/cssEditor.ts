@@ -86,14 +86,15 @@ export class CssEditor {
     return result;
   }
 
-  public enterHandler(): void {
+  public enterHandler(nav: Nav): void {
     const input: HTMLInputElement | null =
       document.querySelector('.css-editor__input');
     const btn = document.querySelector('.css-editor__btn_enter');
     if (!input || !btn) throw new Error('Css editor button is not found');
 
     const { value } = input;
-    const { selector } = this.data.levels[this.data.activeLvl - 1];
+    const activeLevel = this.data.levels[this.data.activeLvl - 1];
+    const { selector } = activeLevel;
 
     if (value && selector) {
       const isEquals = this.checkInput(value, selector);
@@ -102,6 +103,10 @@ export class CssEditor {
         isEquals
       ) {
         this.win();
+        if (activeLevel.status === 'help') {
+          activeLevel.status = 'help-done';
+        } else activeLevel.status = 'done';
+        nav.updateNavList();
       } else this.lose();
     }
   }
@@ -141,7 +146,7 @@ export class CssEditor {
     input.value = '';
   }
 
-  public printCssEditor(): void {
+  public printCssEditor(nav: Nav): void {
     const wrapper = document.querySelector('.css-editor');
     if (!wrapper) throw new Error('Css editor is not found');
 
@@ -153,7 +158,7 @@ export class CssEditor {
 
     document.addEventListener('keydown', (e: KeyboardEvent) => {
       if (e.key === 'Enter') {
-        this.enterHandler();
+        this.enterHandler(nav);
       }
     });
   }

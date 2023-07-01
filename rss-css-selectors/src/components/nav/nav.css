@@ -8,10 +8,14 @@
 
 .nav__btn {
   font-weight: 600;
-}
+  line-height: 160%;}
 
 .nav__btn_done {
   color: #0bbc64;
+}
+
+.nav__btn_done::before {
+  content: '✓';
 }
 
 .nav__btn_help {

@@ -20,7 +20,12 @@ export class Nav {
   ): void {
     if (String(curLvl) === node.dataset.lvl) {
       if (status) {
-        node.classList.add(`nav__btn_${status}`);
+        if (status === 'help-done') {
+          node.classList.add(`nav__btn_help`);
+          node.classList.add(`nav__btn_done`);
+        } else {
+          node.classList.add(`nav__btn_${status}`);
+        }
       } else {
         node.classList.remove(`nav__btn_help`);
         node.classList.remove(`nav__btn_done`);

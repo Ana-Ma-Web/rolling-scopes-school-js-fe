@@ -73,7 +73,7 @@ export class App {
   ): void {
     if (target.closest('.css-editor')) {
       if (target.classList.contains('css-editor__btn_enter')) {
-        cssEditor.enterHandler();
+        cssEditor.enterHandler(nav);
       } else if (target.classList.contains('css-editor__btn_help')) {
         cssEditor.helpHandler(nav);
       }
@@ -146,7 +146,7 @@ export class App {
     nav.printNavList();
     field.printField();
     htmlViewer.printHtmlViewer();
-    cssEditor.printCssEditor();
+    cssEditor.printCssEditor(nav);
 
     this.handlers(nav, field, htmlViewer, cssEditor);
   }
