@@ -6,16 +6,26 @@ export class Nav {
     this.data = data;
   }
 
-  private changeBtnActive(curLvl: number): void {
-    const navButtons: NodeListOf<HTMLButtonElement> =
-      document.querySelectorAll('.nav__btn');
+  private changeBtnActive(node: HTMLElement, curLvl: number): void {
+    node.classList.remove('nav__btn_active');
+    if (String(curLvl) === node.dataset.lvl) {
+      node.classList.add('nav__btn_active');
+    }
+  }
 
-    navButtons.forEach((node) => {
-      node.classList.remove('nav__btn_active');
-      if (String(curLvl) === node.dataset.lvl) {
-        node.classList.add('nav__btn_active');
+  private updateBtnColor(
+    node: HTMLElement,
+    curLvl: number,
+    status: Status,
+  ): void {
+    if (String(curLvl) === node.dataset.lvl) {
+      if (status) {
+        node.classList.add(`nav__btn_${status}`);
+      } else {
+        node.classList.remove(`nav__btn_help`);
+        node.classList.remove(`nav__btn_done`);
       }
-    });
+    }
   }
 
   private createNavItem(
@@ -59,6 +69,15 @@ export class Nav {
 
   public updateNavList(): void {
     const curLvl = this.data.activeLvl;
-    this.changeBtnActive(curLvl);
+    const { status } = this.data.levels[curLvl - 1];
+    console.log(status);
+
+    const navButtons: NodeListOf<HTMLButtonElement> =
+      document.querySelectorAll('.nav__btn');
+
+    navButtons.forEach((node) => {
+      this.changeBtnActive(node, curLvl);
+      this.updateBtnColor(node, curLvl, status);
+    });
   }
 }

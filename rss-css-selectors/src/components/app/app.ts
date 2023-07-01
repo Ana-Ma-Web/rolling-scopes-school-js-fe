@@ -69,12 +69,13 @@ export class App {
   private cssEditorClickHandlers(
     target: HTMLElement,
     cssEditor: CssEditor,
+    nav: Nav,
   ): void {
     if (target.closest('.css-editor')) {
       if (target.classList.contains('css-editor__btn_enter')) {
         cssEditor.enterHandler();
       } else if (target.classList.contains('css-editor__btn_help')) {
-        cssEditor.helpHandler();
+        cssEditor.helpHandler(nav);
       }
       cssEditor.clickHandler();
     }
@@ -116,7 +117,7 @@ export class App {
         }
         this.updateLevel(curLvl, nav, field, htmlViewer, cssEditor);
       }
-      this.cssEditorClickHandlers(target, cssEditor);
+      this.cssEditorClickHandlers(target, cssEditor, nav);
     });
 
     body?.addEventListener('mouseover', (e: MouseEvent) => {

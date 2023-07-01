@@ -1,4 +1,5 @@
 import { Data } from '../../types';
+import { Nav } from '../nav/nav';
 import './cssEditor.css';
 
 export class CssEditor {
@@ -105,12 +106,11 @@ export class CssEditor {
     }
   }
 
-  public helpHandler(): void {
+  public helpHandler(nav: Nav): void {
     const input: HTMLInputElement | null =
       document.querySelector('.css-editor__input');
-    const btn = document.querySelector('.css-editor__btn_enter');
 
-    if (!input || !btn) throw new Error('Css editor button is not found');
+    if (!input) throw new Error('Css editor button is not found');
 
     const curLvl = this.data.levels[this.data.activeLvl - 1];
 
@@ -123,6 +123,7 @@ export class CssEditor {
     });
 
     curLvl.status = 'help';
+    nav.updateNavList();
     this.data.pushDataToLocalStorage();
   }
 
