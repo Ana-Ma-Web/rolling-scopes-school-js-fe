@@ -13,7 +13,6 @@ export class CssEditor {
 
     const main = document.querySelector('.main');
 
-    // console.log(input);
     if (!input) throw new Error('Css editor input is not found');
     const movedElements = document.querySelectorAll(input.value);
     movedElements.forEach((e) => {
@@ -47,10 +46,10 @@ export class CssEditor {
     return input;
   }
 
-  private createEnterButton(): HTMLButtonElement {
+  private createResetButton(): HTMLButtonElement {
     const button = document.createElement('button');
-    button.textContent = 'Enter';
-    button.classList.add('css-editor__btn', 'css-editor__btn_enter', 'btn');
+    button.textContent = 'Reset';
+    button.classList.add('css-editor__btn', 'css-editor__btn_reset', 'btn');
 
     return button;
   }
@@ -59,6 +58,14 @@ export class CssEditor {
     const button = document.createElement('button');
     button.textContent = 'Help';
     button.classList.add('css-editor__btn', 'css-editor__btn_help', 'btn');
+
+    return button;
+  }
+
+  private createEnterButton(): HTMLButtonElement {
+    const button = document.createElement('button');
+    button.textContent = 'Enter';
+    button.classList.add('css-editor__btn', 'css-editor__btn_enter', 'btn');
 
     return button;
   }
@@ -151,6 +158,7 @@ export class CssEditor {
     if (!wrapper) throw new Error('Css editor is not found');
 
     wrapper.append(
+      this.createResetButton(),
       this.createHelpButton(),
       this.createInput(),
       this.createEnterButton(),

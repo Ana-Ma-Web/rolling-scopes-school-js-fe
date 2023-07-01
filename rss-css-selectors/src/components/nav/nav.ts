@@ -13,23 +13,17 @@ export class Nav {
     }
   }
 
-  private updateBtnColor(
-    node: HTMLElement,
-    curLvl: number,
-    status: Status,
-  ): void {
-    if (String(curLvl) === node.dataset.lvl) {
-      if (status) {
-        if (status === 'help-done') {
-          node.classList.add(`nav__btn_help`);
-          node.classList.add(`nav__btn_done`);
-        } else {
-          node.classList.add(`nav__btn_${status}`);
-        }
+  private updateBtnColor(node: HTMLElement, status: Status): void {
+    if (status) {
+      if (status === 'help-done') {
+        node.classList.add(`nav__btn_help`);
+        node.classList.add(`nav__btn_done`);
       } else {
-        node.classList.remove(`nav__btn_help`);
-        node.classList.remove(`nav__btn_done`);
+        node.classList.add(`nav__btn_${status}`);
       }
+    } else {
+      node.classList.remove(`nav__btn_help`);
+      node.classList.remove(`nav__btn_done`);
     }
   }
 
@@ -73,16 +67,16 @@ export class Nav {
   }
 
   public updateNavList(): void {
-    const curLvl = this.data.activeLvl;
-    const { status } = this.data.levels[curLvl - 1];
-    console.log(status);
+    const { activeLvl } = this.data;
 
     const navButtons: NodeListOf<HTMLButtonElement> =
       document.querySelectorAll('.nav__btn');
 
     navButtons.forEach((node) => {
-      this.changeBtnActive(node, curLvl);
-      this.updateBtnColor(node, curLvl, status);
+      const curLvl = node.dataset.lvl;
+      const { status } = this.data.levels[Number(curLvl) - 1];
+      this.changeBtnActive(node, activeLvl);
+      this.updateBtnColor(node, status);
     });
   }
 }

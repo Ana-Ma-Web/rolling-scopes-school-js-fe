@@ -1,8 +1,8 @@
+import { HtmlViewer } from '../htmlViewer/htmlViewer';
 import '@src/global.css';
 import { Data } from '../../types';
 import { CssEditor } from '../cssEditor/cssEditor';
 import { Field } from '../field/field';
-import { HtmlViewer } from '../htmlViewer/htmlViewer';
 import { Nav } from '../nav/nav';
 
 export class App {
@@ -70,12 +70,19 @@ export class App {
     target: HTMLElement,
     cssEditor: CssEditor,
     nav: Nav,
+    curLvl: string | undefined,
+    field: Field,
+    htmlViewer: HtmlViewer,
   ): void {
     if (target.closest('.css-editor')) {
       if (target.classList.contains('css-editor__btn_enter')) {
         cssEditor.enterHandler(nav);
       } else if (target.classList.contains('css-editor__btn_help')) {
         cssEditor.helpHandler(nav);
+      } else if (target.classList.contains('css-editor__btn_reset')) {
+        this.data.resetProgress();
+        this.updateLevel(curLvl, nav, field, htmlViewer, cssEditor);
+        nav.updateNavList();
       }
       cssEditor.clickHandler();
     }
@@ -90,7 +97,7 @@ export class App {
   ): void {
     const main = document.querySelector('.main');
 
-    this.data.setActiveLvl(Number(curLvl));
+    this.data.setActiveLvl(curLvl === undefined ? 1 : Number(curLvl));
     nav.updateNavList();
     field.updateField();
     htmlViewer.updateHtmlViewer();
@@ -106,20 +113,24 @@ export class App {
     cssEditor: CssEditor,
   ): void {
     const body = document.querySelector('body');
-
     body?.addEventListener('click', (e: MouseEvent) => {
       const target = <HTMLElement>e.target;
-
+      const curLvl = target.dataset.lvl;
       if (target.classList.contains('nav__btn')) {
-        const curLvl = target.dataset.lvl;
         if (!target.dataset.lvl) {
           throw new Error('Nav btn data is not found');
         }
         this.updateLevel(curLvl, nav, field, htmlViewer, cssEditor);
       }
-      this.cssEditorClickHandlers(target, cssEditor, nav);
+      this.cssEditorClickHandlers(
+        target,
+        cssEditor,
+        nav,
+        curLvl,
+        field,
+        htmlViewer,
+      );
     });
-
     body?.addEventListener('mouseover', (e: MouseEvent) => {
       const target = <HTMLElement>e.target;
       if (target.closest('div')) {
