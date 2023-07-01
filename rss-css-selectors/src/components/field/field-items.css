@@ -29,13 +29,11 @@ planet[data-shape="1"] {
 }
 
 planet[data-shape="2"] {
-  transform: rotate(-5deg);
   width: 80px;
   height: 80px;
 }
 
 planet[data-shape="3"] {
-  transform: rotate(-5deg);
   width: 80px;
   height: 80px;
 }
@@ -46,7 +44,6 @@ planet[data-shape="4"] {
 }
 
 planet[data-shape="2"] moon {
-  transform: rotate(-10deg);
   width: 30px;
   height: 30px;
   top: 33px;

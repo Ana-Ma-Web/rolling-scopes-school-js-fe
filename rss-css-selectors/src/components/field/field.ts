@@ -2,6 +2,7 @@ import { Data, TagType } from '../../types';
 import './field.css';
 import './field-items.css';
 import './field-animation.css';
+import './field-popup.css';
 
 export class Field {
   constructor(private data: Data) {

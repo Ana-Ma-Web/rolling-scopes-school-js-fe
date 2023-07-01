@@ -7,6 +7,12 @@
   align-self: normal;
 }
 
+@media (max-width: 768px) {
+  .html-viewer {
+    margin: 0 auto;
+  }
+}
+
 .html-viewer div {
   padding-left: 20px;
   text-align: left;

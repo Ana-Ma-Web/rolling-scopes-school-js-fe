@@ -42,6 +42,14 @@ body {
   gap: 16px;
 }
 
+@media (max-width: 768px) {
+
+  .main {
+    flex-direction: column;
+    align-items: center
+  }
+}
+
 .css-editor {}
 
 .css-editor__input {}

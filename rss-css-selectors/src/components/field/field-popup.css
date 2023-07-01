@@ -1,0 +1,76 @@
+planet::before,
+moon::before {
+  position: absolute;
+  width: 320px;
+  font-family: "Cutive Mono";
+  text-shadow: 0px 0px 5px white;
+  font-weight: 600;
+  content: '<planet></planet>';
+  top: 0%;
+  left: 50%;
+  transform: translate(-50%, -180%);
+  z-index: 150;
+  display: none;
+}
+
+@media (max-width: 1024px) {
+
+  planet::before,
+  moon::before {
+    width: 220px;
+  }
+}
+
+@media (max-width: 856px) {
+
+  planet::before,
+  moon::before {
+    font-size: 14px;
+  }
+}
+
+@media (max-width: 768px) {
+
+  planet::before,
+  moon::before {
+    width: 200px;
+    font-size: 14px;
+  }
+}
+
+planet.dwarf::before {
+  content: '<planet class="dwarf"></planet>';
+}
+
+planet.blue::before {
+  content: '<planet class="blue"></planet>';
+}
+
+planet.green::before {
+  content: '<planet class="green"></planet>';
+}
+
+planet.pink::before {
+  content: '<planet class="pink"></planet>';
+}
+
+moon.green::before {
+  content: '<moon class="green"></moon>';
+}
+
+moon.pink::before {
+  content: '<moon class="pink"></moon>';
+}
+
+moon.moon::before {
+  content: '<moon class="moon"></moon>';
+}
+
+moon::before {
+  content: '<moon></moon>';
+}
+
+.planet-hover::before {
+  display: block;
+
+}

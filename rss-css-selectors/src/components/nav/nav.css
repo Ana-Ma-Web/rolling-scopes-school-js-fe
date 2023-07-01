@@ -8,7 +8,21 @@
 
 .nav__btn {
   font-weight: 600;
-  line-height: 160%;}
+  line-height: 160%;
+}
+
+@media (max-width: 768px) {
+  .nav__list {
+    flex-wrap: wrap;
+    max-width: 500px;
+    margin: 0 auto;
+    margin-bottom: 20px;
+  }
+
+  .nav__btn {
+    width: 80px;
+  }
+}
 
 .nav__btn_done {
   color: #0bbc64;
