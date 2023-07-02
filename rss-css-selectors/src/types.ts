@@ -4,6 +4,7 @@ export interface Data {
   pushDataToLocalStorage: () => void;
   pullDataFromLocalStorage: () => void;
   setActiveLvl: (newLvl: number) => void;
+  setNextActiveLvl: () => void;
   resetProgress: () => void;
 }
 

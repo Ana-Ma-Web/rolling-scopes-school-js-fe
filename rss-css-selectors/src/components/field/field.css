@@ -3,10 +3,12 @@
   width: 460px;
   height: 156px;
   background-image: url(@img/field-bg.jpg);
+  transition: 0.3s;
 }
 
 .win .field {
-  background: none;
+  opacity: 0;
+  transition: 0.3s;
 }
 
 .field__space {

@@ -7,44 +7,6 @@ export class CssEditor {
     this.data = data;
   }
 
-  private win(): void {
-    const input: HTMLInputElement | null =
-      document.querySelector('.css-editor__input');
-
-    const main = document.querySelector('.main');
-
-    if (!input) throw new Error('Css editor input is not found');
-    const movedElements = document.querySelectorAll(input.value);
-    movedElements.forEach((e) => {
-      if (e instanceof HTMLElement) {
-        e.dataset.move = 'false';
-      }
-    });
-
-    main?.classList.add('win');
-    input.value = '';
-  }
-
-  private lose(selector: string): void {
-    const input: HTMLInputElement | null =
-      document.querySelector('.css-editor');
-    const selectedNodes = document.querySelectorAll(selector);
-
-    if (!input) throw new Error('Css editor input is not found');
-
-    Array.from(selectedNodes).forEach((e: Element) => {
-      e.classList.add('lose');
-      setTimeout(() => {
-        e.classList.remove('lose');
-      }, 500);
-    });
-
-    input.classList.add('lose');
-    setTimeout(() => {
-      input.classList.remove('lose');
-    }, 500);
-  }
-
   private createInput(): HTMLInputElement {
     const input = document.createElement('input');
     input.type = 'text';
@@ -103,7 +65,7 @@ export class CssEditor {
     return result;
   }
 
-  public enterHandler(nav: Nav): void {
+  public isWinCheck(): { isWin: boolean; value?: string } {
     const input: HTMLInputElement | null =
       document.querySelector('.css-editor__input');
     const btn = document.querySelector('.css-editor__btn_enter');
@@ -119,13 +81,13 @@ export class CssEditor {
         (input === document.activeElement || btn === document.activeElement) &&
         isEquals
       ) {
-        this.win();
         if (activeLevel.status === 'help') {
           activeLevel.status = 'help-done';
         } else activeLevel.status = 'done';
-        nav.updateNavList();
-      } else this.lose(value);
+        return { isWin: true };
+      }
     }
+    return { isWin: false, value };
   }
 
   public helpHandler(nav: Nav): void {
@@ -163,7 +125,7 @@ export class CssEditor {
     input.value = '';
   }
 
-  public printCssEditor(nav: Nav): void {
+  public printCssEditor(): void {
     const wrapper = document.querySelector('.css-editor');
     if (!wrapper) throw new Error('Css editor is not found');
 
@@ -173,11 +135,5 @@ export class CssEditor {
       this.createInput(),
       this.createEnterButton(),
     );
-
-    document.addEventListener('keydown', (e: KeyboardEvent) => {
-      if (e.key === 'Enter') {
-        this.enterHandler(nav);
-      }
-    });
   }
 }

@@ -349,6 +349,11 @@ const data: Data = {
     this.pushDataToLocalStorage();
   },
 
+  setNextActiveLvl(): void {
+    this.activeLvl += 1;
+    this.pushDataToLocalStorage();
+  },
+
   resetProgress(): void {
     this.activeLvl = 1;
     this.levels.map((e) => {
