@@ -63,14 +63,17 @@ export class App {
     const input: HTMLInputElement | null =
       document.querySelector('.css-editor');
 
+    if (!input) throw new Error('Css editor input is not found');
     try {
       document.querySelectorAll(selector);
     } catch {
+      input.classList.add('lose');
+      setTimeout(() => {
+        input.classList.remove('lose');
+      }, 500);
       return;
     }
     const selectedNodes = document.querySelectorAll(selector);
-
-    if (!input) throw new Error('Css editor input is not found');
 
     Array.from(selectedNodes).forEach((e: Element) => {
       e.classList.add('lose');
