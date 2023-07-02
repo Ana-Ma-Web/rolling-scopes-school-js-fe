@@ -62,6 +62,12 @@ export class App {
   private lose(selector: string): void {
     const input: HTMLInputElement | null =
       document.querySelector('.css-editor');
+
+    try {
+      document.querySelectorAll(selector);
+    } catch {
+      return;
+    }
     const selectedNodes = document.querySelectorAll(selector);
 
     if (!input) throw new Error('Css editor input is not found');

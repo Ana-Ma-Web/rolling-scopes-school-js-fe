@@ -325,11 +325,11 @@ const data: Data = {
   ],
 
   pushDataToLocalStorage(): void {
-    // localStorage.setItem(
-    //   'cssSelector-activeLvl',
-    //   JSON.stringify(this.activeLvl),
-    // );
-    // localStorage.setItem('cssSelector-levels', JSON.stringify(this.levels));
+    localStorage.setItem(
+      'cssSelector-activeLvl',
+      JSON.stringify(this.activeLvl),
+    );
+    localStorage.setItem('cssSelector-levels', JSON.stringify(this.levels));
   },
 
   pullDataFromLocalStorage(): void {

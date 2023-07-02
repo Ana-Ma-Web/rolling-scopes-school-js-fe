@@ -22,7 +22,7 @@ export class CssEditor {
     if (!fieldSpace) throw new Error('Field is not found');
 
     try {
-      fieldSpace.querySelector(value);
+      fieldSpace.querySelectorAll(value);
     } catch {
       return false;
     }

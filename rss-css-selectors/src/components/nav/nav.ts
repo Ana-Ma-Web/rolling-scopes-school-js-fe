@@ -40,7 +40,7 @@ export class Nav {
 
     if (isCurrent) btn.classList.add('nav__btn_active');
 
-    if (status) btn.classList.add(`nav__btn_${status}`);
+    this.updateBtnColor(btn, status);
 
     btn.dataset.lvl = String(curLvl);
     btn.textContent = `${curLvl} level`;
