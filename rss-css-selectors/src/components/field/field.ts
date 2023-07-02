@@ -42,9 +42,6 @@ export class Field {
     const fieldSpace = document.createElement('div');
     fieldSpace.classList.add('field__space');
 
-    const fieldAnimation = document.createElement('div');
-    fieldAnimation.classList.add('field__animation');
-
     if (!field) throw new Error('No game field');
 
     field.innerHTML = '';
@@ -54,14 +51,7 @@ export class Field {
       string += this.createTagString(e, i + 1);
     });
 
-    for (let i = 0; i < 4; i += 1) {
-      const fieldStars = document.createElement('div');
-      fieldStars.classList.add(`field__stars_${i + 1}`);
-
-      fieldAnimation.append(fieldStars);
-    }
-
     fieldSpace.innerHTML = string;
-    field.append(fieldSpace, fieldAnimation);
+    field.append(fieldSpace);
   }
 }

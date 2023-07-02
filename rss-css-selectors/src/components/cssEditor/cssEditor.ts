@@ -1,5 +1,6 @@
 import { Data } from '../../types';
 import { Nav } from '../nav/nav';
+import { Button } from '../UI/button';
 import './cssEditor.css';
 
 export class CssEditor {
@@ -14,30 +15,6 @@ export class CssEditor {
     input.autofocus = true;
 
     return input;
-  }
-
-  private createResetButton(): HTMLButtonElement {
-    const button = document.createElement('button');
-    button.textContent = 'Reset';
-    button.classList.add('css-editor__btn', 'css-editor__btn_reset', 'btn');
-
-    return button;
-  }
-
-  private createHelpButton(): HTMLButtonElement {
-    const button = document.createElement('button');
-    button.textContent = 'Help';
-    button.classList.add('css-editor__btn', 'css-editor__btn_help', 'btn');
-
-    return button;
-  }
-
-  private createEnterButton(): HTMLButtonElement {
-    const button = document.createElement('button');
-    button.textContent = 'Enter';
-    button.classList.add('css-editor__btn', 'css-editor__btn_enter', 'btn');
-
-    return button;
   }
 
   private checkInput(value: string, selector: string): boolean {
@@ -126,14 +103,16 @@ export class CssEditor {
   }
 
   public printCssEditor(): void {
-    const wrapper = document.querySelector('.css-editor');
+    const currentClass = 'css-editor';
+    const wrapper = document.querySelector(`.${currentClass}`);
     if (!wrapper) throw new Error('Css editor is not found');
+    const button = new Button();
 
     wrapper.append(
-      this.createResetButton(),
-      this.createHelpButton(),
+      button.createResetButton(currentClass),
+      button.createHelpButton(currentClass),
       this.createInput(),
-      this.createEnterButton(),
+      button.createEnterButton(currentClass),
     );
   }
 }

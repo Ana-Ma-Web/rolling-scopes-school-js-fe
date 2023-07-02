@@ -4,6 +4,7 @@ import '@src/global.css';
 import { Data } from '../../types';
 import { Field } from '../field/field';
 import { Nav } from '../nav/nav';
+import { FinalMessage } from '../finalMessage/finalMessage';
 
 export class App {
   constructor(private data: Data) {
@@ -16,7 +17,6 @@ export class App {
     htmlViewer: HtmlViewer,
     cssEditor: CssEditor,
   ): void {
-    console.log('meow');
     this.data.setNextActiveLvl();
     this.updateLevel(
       String(this.data.activeLvl),
@@ -135,7 +135,7 @@ export class App {
     });
   }
 
-  private cssEditorClickHandlers(
+  private clickHandlers(
     target: HTMLElement,
     cssEditor: CssEditor,
     nav: Nav,
@@ -144,25 +144,38 @@ export class App {
     htmlViewer: HtmlViewer,
   ): void {
     const body = document.querySelector('body');
+    const main = document.querySelector('.main');
 
-    if (target.closest('.css-editor')) {
-      if (target.classList.contains('css-editor__btn_enter')) {
-        const { isWin, value } = cssEditor.isWinCheck();
+    if (target.classList.contains('css-editor__btn_enter')) {
+      const { isWin, value } = cssEditor.isWinCheck();
 
-        if (isWin) {
-          this.win(nav, field, htmlViewer, cssEditor);
-        } else if (value) this.lose(value);
-      } else if (target.classList.contains('css-editor__btn_help')) {
-        cssEditor.helpHandler(nav);
-      } else if (target.classList.contains('css-editor__btn_reset')) {
-        this.data.resetProgress();
-
-        this.updateLevel(curLvl, nav, field, htmlViewer, cssEditor);
-        nav.updateNavList();
-        body?.classList.remove('win-message');
-      }
-      cssEditor.clickHandler();
+      if (isWin) {
+        this.win(nav, field, htmlViewer, cssEditor);
+      } else if (value) this.lose(value);
+    } else if (target.classList.contains('css-editor__btn_help')) {
+      cssEditor.helpHandler(nav);
+    } else if (target.classList.contains('btn_reset')) {
+      this.resetAll(cssEditor, nav, curLvl, field, htmlViewer);
+    } else if (target.classList.contains('btn_okay')) {
+      body?.classList.remove('win-message');
+      main?.classList.remove('win');
     }
+    cssEditor.clickHandler();
+  }
+
+  private resetAll(
+    cssEditor: CssEditor,
+    nav: Nav,
+    curLvl: string | undefined,
+    field: Field,
+    htmlViewer: HtmlViewer,
+  ): void {
+    const body = document.querySelector('body');
+
+    this.data.resetProgress();
+    this.updateLevel(curLvl, nav, field, htmlViewer, cssEditor);
+    nav.updateNavList();
+    body?.classList.remove('win-message');
   }
 
   private updateLevel(
@@ -200,14 +213,7 @@ export class App {
         }
         this.updateLevel(curLvl, nav, field, htmlViewer, cssEditor);
       }
-      this.cssEditorClickHandlers(
-        target,
-        cssEditor,
-        nav,
-        curLvl,
-        field,
-        htmlViewer,
-      );
+      this.clickHandlers(target, cssEditor, nav, curLvl, field, htmlViewer);
     });
   }
 
@@ -268,11 +274,13 @@ export class App {
     const htmlViewer = new HtmlViewer(this.data);
     const nav = new Nav(this.data);
     const cssEditor = new CssEditor(this.data);
+    const finalMessage = new FinalMessage(this.data);
 
     nav.printNavList();
     field.printField();
     htmlViewer.printHtmlViewer();
     cssEditor.printCssEditor();
+    finalMessage.printFinalMessage();
 
     this.handlers(nav, field, htmlViewer, cssEditor);
   }
