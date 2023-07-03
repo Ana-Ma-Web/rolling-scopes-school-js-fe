@@ -1,4 +1,3 @@
-// import { App } from './components/app/app';
 import { App } from './components/app/app';
 import { Data, TagType } from './types';
 
@@ -365,5 +364,4 @@ const data: Data = {
 };
 
 const app = new App(data);
-// data.resetProgress();
 app.start();
