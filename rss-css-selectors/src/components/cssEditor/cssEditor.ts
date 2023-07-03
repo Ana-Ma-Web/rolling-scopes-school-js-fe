@@ -1,4 +1,4 @@
-import { Data } from '../../types';
+import { CreateEl, Data } from '../../types';
 import './cssEditor.css';
 
 export class CssEditor {
@@ -101,9 +101,9 @@ export class CssEditor {
   }
 
   public printCssEditor(props: {
-    createResetButton: (rootClass: string) => HTMLButtonElement;
-    createHelpButton: (rootClass: string) => HTMLButtonElement;
-    createEnterButton: (rootClass: string) => HTMLButtonElement;
+    createResetButton: CreateEl<HTMLButtonElement>;
+    createHelpButton: CreateEl<HTMLButtonElement>;
+    createEnterButton: CreateEl<HTMLButtonElement>;
   }): void {
     const { createResetButton, createHelpButton, createEnterButton } = props;
     const currentClass = 'css-editor';

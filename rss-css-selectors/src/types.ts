@@ -32,3 +32,7 @@ export interface FullUpdate {
   updateHtmlViewer: () => void;
   resetInput: () => void;
 }
+
+export interface CreateEl<Type> {
+  (rootClass: string): Type;
+}

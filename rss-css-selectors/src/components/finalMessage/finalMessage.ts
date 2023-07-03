@@ -1,4 +1,4 @@
-import { Data } from '../../types';
+import { CreateEl, Data } from '../../types';
 import './finalMessage.css';
 
 export class FinalMessage {
@@ -7,8 +7,8 @@ export class FinalMessage {
   }
 
   public printFinalMessage(
-    createResetButton: (rootClass: string) => HTMLButtonElement,
-    createOkayButton: (rootClass: string) => HTMLButtonElement,
+    createResetButton: CreateEl<HTMLButtonElement>,
+    createOkayButton: CreateEl<HTMLButtonElement>,
   ): void {
     const currentClass = 'final-message';
     const body = document.querySelector('body');
