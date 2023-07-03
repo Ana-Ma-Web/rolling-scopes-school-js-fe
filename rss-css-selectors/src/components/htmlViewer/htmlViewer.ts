@@ -32,14 +32,15 @@ export class HtmlViewer {
     return classElement;
   }
 
-  private createHtmlElement(
-    name: string,
-    classes: string | null,
-    paired: boolean,
-    tag: TagType,
-    index: string,
-    prevIndex?: string,
-  ): HTMLElement {
+  private createHtmlElement(props: {
+    name: string;
+    classes: string | null;
+    paired: boolean;
+    tag: TagType;
+    index: string;
+    prevIndex?: string;
+  }): HTMLElement {
+    const { name, classes, paired, tag, index, prevIndex } = props;
     const wrapperElement = document.createElement('span');
 
     wrapperElement.innerHTML += '<';
@@ -53,7 +54,12 @@ export class HtmlViewer {
 
     tagElement.append(wrapperElement);
     tag.innerTags?.forEach((e, i) => {
-      this.printHtmlViewerTag(tagElement, e, index, String(i + 1));
+      this.printHtmlViewerTag({
+        root: tagElement,
+        tag: e,
+        index,
+        prevIndex: String(i + 1),
+      });
     });
 
     if (paired) {
@@ -66,18 +72,19 @@ export class HtmlViewer {
     return tagElement;
   }
 
-  private printHtmlViewerTag(
-    root: Element,
-    tag: TagType,
-    index: string,
-    prevIndex?: string,
-  ): void {
+  private printHtmlViewerTag(props: {
+    root: Element;
+    tag: TagType;
+    index: string;
+    prevIndex?: string;
+  }): void {
+    const { root, tag, index, prevIndex } = props;
     const name = tag.tagName;
     const { classes } = tag;
     const paired = !!tag.innerTags?.length;
 
     root.append(
-      this.createHtmlElement(name, classes, paired, tag, index, prevIndex),
+      this.createHtmlElement({ name, classes, paired, tag, index, prevIndex }),
     );
   }
 
@@ -93,7 +100,11 @@ export class HtmlViewer {
 
     field.innerHTML = '';
     levels[activeLvl - 1].table.forEach((e, index) => {
-      this.printHtmlViewerTag(field, e, String(index + 1));
+      this.printHtmlViewerTag({
+        root: field,
+        tag: e,
+        index: String(index + 1),
+      });
     });
   }
 }

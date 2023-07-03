@@ -1,44 +1,35 @@
 import { HtmlViewer } from '../htmlViewer/htmlViewer';
 import { CssEditor } from '../cssEditor/cssEditor';
 import '@src/global.css';
-import { Data } from '../../types';
+import { Data, FullUpdate } from '../../types';
 import { Field } from '../field/field';
 import { Nav } from '../nav/nav';
 import { FinalMessage } from '../finalMessage/finalMessage';
+import { Button } from '../UI/button';
 
 export class App {
   constructor(private data: Data) {
     this.data = data;
   }
 
-  private toNextLevel(
-    nav: Nav,
-    field: Field,
-    htmlViewer: HtmlViewer,
-    cssEditor: CssEditor,
-  ): void {
+  private toNextLevel(props: { fullUpdate: FullUpdate }): void {
+    const { fullUpdate } = props;
+
     this.data.setNextActiveLvl();
-    this.updateLevel(
-      String(this.data.activeLvl),
-      nav,
-      field,
-      htmlViewer,
-      cssEditor,
-    );
+    this.updateLevel({
+      curLvl: String(this.data.activeLvl),
+      fullUpdate,
+    });
   }
 
-  private win(
-    nav: Nav,
-    field: Field,
-    htmlViewer: HtmlViewer,
-    cssEditor: CssEditor,
-  ): void {
+  private win(props: { fullUpdate: FullUpdate }): void {
+    const { fullUpdate } = props;
+    const { updateNavList } = fullUpdate;
+
     const input: HTMLInputElement | null =
       document.querySelector('.css-editor__input');
     const body: HTMLBodyElement | null = document.querySelector('body');
-
     const main = document.querySelector('.main');
-
     if (!input) throw new Error('Css editor input is not found');
     const movedElements = document.querySelectorAll(input.value);
     movedElements.forEach((e) => {
@@ -50,11 +41,11 @@ export class App {
     main?.classList.add('win');
     input.value = '';
 
-    nav.updateNavList();
+    updateNavList();
 
     setTimeout(() => {
       if (this.data.activeLvl < this.data.levels.length) {
-        this.toNextLevel(nav, field, htmlViewer, cssEditor);
+        this.toNextLevel({ fullUpdate });
       } else body?.classList.add('win-message');
     }, 300);
   }
@@ -144,73 +135,74 @@ export class App {
     });
   }
 
-  private clickHandlers(
-    target: HTMLElement,
-    cssEditor: CssEditor,
-    nav: Nav,
-    curLvl: string | undefined,
-    field: Field,
-    htmlViewer: HtmlViewer,
-  ): void {
-    const body = document.querySelector('body');
-    const main = document.querySelector('.main');
-
+  private clickHandlers(props: {
+    target: HTMLElement;
+    cssEditor: CssEditor;
+    curLvl: string | undefined;
+    fullUpdate: FullUpdate;
+  }): void {
+    const { target, curLvl, cssEditor, fullUpdate } = props;
+    const { updateNavList } = fullUpdate;
+    const isWinCheck = cssEditor.isWinCheck.bind(cssEditor);
+    const helpHandler = cssEditor.helpHandler.bind(cssEditor);
+    const clickHandler = cssEditor.clickHandler.bind(cssEditor);
     if (target.classList.contains('css-editor__btn_enter')) {
-      const { isWin, value } = cssEditor.isWinCheck();
-
+      const { isWin, value } = isWinCheck();
       if (isWin) {
-        this.win(nav, field, htmlViewer, cssEditor);
+        this.win({ fullUpdate });
       } else if (value) this.lose(value);
     } else if (target.classList.contains('css-editor__btn_help')) {
-      cssEditor.helpHandler(nav);
+      helpHandler(updateNavList);
     } else if (target.classList.contains('btn_reset')) {
-      this.resetAll(cssEditor, nav, curLvl, field, htmlViewer);
+      this.resetAll({ curLvl, fullUpdate });
     } else if (target.classList.contains('btn_okay')) {
-      body?.classList.remove('win-message');
-      main?.classList.remove('win');
+      document.querySelector('body')?.classList.remove('win-message');
+      document.querySelector('.main')?.classList.remove('win');
     }
-    cssEditor.clickHandler();
+    clickHandler();
   }
 
-  private resetAll(
-    cssEditor: CssEditor,
-    nav: Nav,
-    curLvl: string | undefined,
-    field: Field,
-    htmlViewer: HtmlViewer,
-  ): void {
+  private resetAll(props: {
+    curLvl: string | undefined;
+    fullUpdate: FullUpdate;
+  }): void {
+    const { curLvl, fullUpdate } = props;
+    const { updateNavList, updateField, updateHtmlViewer, resetInput } =
+      fullUpdate;
     const body = document.querySelector('body');
 
     this.data.resetProgress();
-    this.updateLevel(curLvl, nav, field, htmlViewer, cssEditor);
-    nav.updateNavList();
+    this.updateLevel({
+      curLvl,
+      fullUpdate,
+    });
+    updateNavList();
     body?.classList.remove('win-message');
   }
 
-  private updateLevel(
-    curLvl: string | undefined,
-    nav: Nav,
-    field: Field,
-    htmlViewer: HtmlViewer,
-    cssEditor: CssEditor,
-  ): void {
+  private updateLevel(props: {
+    curLvl: string | undefined;
+    fullUpdate: FullUpdate;
+  }): void {
+    const { curLvl, fullUpdate } = props;
+    const { updateNavList, updateField, updateHtmlViewer, resetInput } =
+      fullUpdate;
     const main = document.querySelector('.main');
 
     this.data.setActiveLvl(curLvl === undefined ? 1 : Number(curLvl));
-    nav.updateNavList();
-    field.updateField();
-    htmlViewer.updateHtmlViewer();
-    cssEditor.resetInput();
+    updateNavList();
+    updateField();
+    updateHtmlViewer();
+    resetInput();
 
     main?.classList.remove('win');
   }
 
-  private clickListener(
-    nav: Nav,
-    field: Field,
-    htmlViewer: HtmlViewer,
-    cssEditor: CssEditor,
-  ): void {
+  private clickListener(props: {
+    cssEditor: CssEditor;
+    fullUpdate: FullUpdate;
+  }): void {
+    const { cssEditor, fullUpdate } = props;
     const body = document.querySelector('body');
 
     body?.addEventListener('click', (e: MouseEvent) => {
@@ -220,9 +212,9 @@ export class App {
         if (!target.dataset.lvl) {
           throw new Error('Nav btn data is not found');
         }
-        this.updateLevel(curLvl, nav, field, htmlViewer, cssEditor);
+        this.updateLevel({ curLvl, fullUpdate });
       }
-      this.clickHandlers(target, cssEditor, nav, curLvl, field, htmlViewer);
+      this.clickHandlers({ target, curLvl, cssEditor, fullUpdate });
     });
   }
 
@@ -248,32 +240,34 @@ export class App {
     });
   }
 
-  private keydownListener(
-    cssEditor: CssEditor,
-    nav: Nav,
-    field: Field,
-    htmlViewer: HtmlViewer,
-  ): void {
+  private keydownListener(props: {
+    isWinCheck: () => { isWin: boolean; value?: string | undefined };
+    fullUpdate: FullUpdate;
+  }): void {
+    const { isWinCheck, fullUpdate } = props;
+
     document.addEventListener('keydown', (e: KeyboardEvent) => {
       if (e.key === 'Enter') {
-        const { isWin, value } = cssEditor.isWinCheck();
+        const { isWin, value } = isWinCheck();
         if (isWin) {
-          this.win(nav, field, htmlViewer, cssEditor);
+          this.win({ fullUpdate });
         } else if (value) this.lose(value);
       }
     });
   }
 
-  private handlers(
-    nav: Nav,
-    field: Field,
-    htmlViewer: HtmlViewer,
-    cssEditor: CssEditor,
-  ): void {
-    this.clickListener(nav, field, htmlViewer, cssEditor);
+  private handlers(props: {
+    fullUpdate: FullUpdate;
+    cssEditor: CssEditor;
+  }): void {
+    const { cssEditor, fullUpdate } = props;
+    this.clickListener({ cssEditor, fullUpdate });
     this.mouseoverListener();
     this.mouseoutListener();
-    this.keydownListener(cssEditor, nav, field, htmlViewer);
+    this.keydownListener({
+      isWinCheck: cssEditor.isWinCheck.bind(cssEditor),
+      fullUpdate,
+    });
   }
 
   public start(): void {
@@ -284,13 +278,29 @@ export class App {
     const nav = new Nav(this.data);
     const cssEditor = new CssEditor(this.data);
     const finalMessage = new FinalMessage(this.data);
+    const {
+      createResetButton,
+      createHelpButton,
+      createEnterButton,
+      createOkayButton,
+    } = new Button();
+    const fullUpdate = {
+      updateNavList: nav.updateNavList.bind(nav),
+      updateField: field.updateField.bind(field),
+      updateHtmlViewer: htmlViewer.updateHtmlViewer.bind(htmlViewer),
+      resetInput: cssEditor.resetInput.bind(cssEditor),
+    };
 
     nav.printNavList();
     field.printField();
     htmlViewer.printHtmlViewer();
-    cssEditor.printCssEditor();
-    finalMessage.printFinalMessage();
+    cssEditor.printCssEditor({
+      createResetButton,
+      createHelpButton,
+      createEnterButton,
+    });
+    finalMessage.printFinalMessage(createResetButton, createOkayButton);
 
-    this.handlers(nav, field, htmlViewer, cssEditor);
+    this.handlers({ cssEditor, fullUpdate });
   }
 }

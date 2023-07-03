@@ -1,5 +1,4 @@
 import { Data } from '../../types';
-import { Button } from '../UI/button';
 import './finalMessage.css';
 
 export class FinalMessage {
@@ -7,9 +6,11 @@ export class FinalMessage {
     this.data = data;
   }
 
-  public printFinalMessage(): void {
+  public printFinalMessage(
+    createResetButton: (rootClass: string) => HTMLButtonElement,
+    createOkayButton: (rootClass: string) => HTMLButtonElement,
+  ): void {
     const currentClass = 'final-message';
-    const button = new Button();
     const body = document.querySelector('body');
 
     const finalMessageOverlay = document.createElement('div');
@@ -22,8 +23,8 @@ export class FinalMessage {
     finalMessageText.classList.add(`${currentClass}__text`);
     finalMessageText.textContent = '🎊 Win! 🎉';
 
-    const resetBtn = button.createResetButton(currentClass);
-    const okayBtn = button.createOkayButton(currentClass);
+    const resetBtn = createResetButton(currentClass);
+    const okayBtn = createOkayButton(currentClass);
 
     finalMessage.append(finalMessageText, resetBtn, okayBtn);
     finalMessageOverlay.append(finalMessage);

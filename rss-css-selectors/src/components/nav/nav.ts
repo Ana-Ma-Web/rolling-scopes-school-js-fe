@@ -67,14 +67,14 @@ export class Nav {
   }
 
   public updateNavList(): void {
-    const { activeLvl } = this.data;
+    const { activeLvl, levels } = this.data;
 
     const navButtons: NodeListOf<HTMLButtonElement> =
       document.querySelectorAll('.nav__btn');
 
     navButtons.forEach((node) => {
       const curLvl = node.dataset.lvl;
-      const { status } = this.data.levels[Number(curLvl) - 1];
+      const { status } = levels[Number(curLvl) - 1];
       this.changeBtnActive(node, activeLvl);
       this.updateBtnColor(node, status);
     });

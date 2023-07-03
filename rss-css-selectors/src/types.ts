@@ -25,3 +25,10 @@ export interface TagType {
 }
 
 export type Status = false | 'done' | 'help' | 'help-done';
+
+export interface FullUpdate {
+  updateNavList: () => void;
+  updateField: () => void;
+  updateHtmlViewer: () => void;
+  resetInput: () => void;
+}

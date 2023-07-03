@@ -1,6 +1,4 @@
 import { Data } from '../../types';
-import { Nav } from '../nav/nav';
-import { Button } from '../UI/button';
 import './cssEditor.css';
 
 export class CssEditor {
@@ -67,7 +65,7 @@ export class CssEditor {
     return { isWin: false, value };
   }
 
-  public helpHandler(nav: Nav): void {
+  public helpHandler(updateNavList: () => void): void {
     const input: HTMLInputElement | null =
       document.querySelector('.css-editor__input');
 
@@ -84,7 +82,7 @@ export class CssEditor {
     });
 
     curLvl.status = 'help';
-    nav.updateNavList();
+    updateNavList();
     this.data.pushDataToLocalStorage();
   }
 
@@ -102,17 +100,21 @@ export class CssEditor {
     input.value = '';
   }
 
-  public printCssEditor(): void {
+  public printCssEditor(props: {
+    createResetButton: (rootClass: string) => HTMLButtonElement;
+    createHelpButton: (rootClass: string) => HTMLButtonElement;
+    createEnterButton: (rootClass: string) => HTMLButtonElement;
+  }): void {
+    const { createResetButton, createHelpButton, createEnterButton } = props;
     const currentClass = 'css-editor';
     const wrapper = document.querySelector(`.${currentClass}`);
     if (!wrapper) throw new Error('Css editor is not found');
-    const button = new Button();
 
     wrapper.append(
-      button.createResetButton(currentClass),
-      button.createHelpButton(currentClass),
+      createResetButton(currentClass),
+      createHelpButton(currentClass),
       this.createInput(),
-      button.createEnterButton(currentClass),
+      createEnterButton(currentClass),
     );
   }
 }
