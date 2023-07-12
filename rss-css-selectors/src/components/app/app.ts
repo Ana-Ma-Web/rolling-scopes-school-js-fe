@@ -222,24 +222,21 @@ export class App {
     });
   }
 
-  private mouseoverListener(): void {
+  private mouseListener(eventType: keyof HTMLElementEventMap): void {
     const body = document.querySelector('body');
-
-    body?.addEventListener('mouseover', (e: MouseEvent) => {
+    body?.addEventListener(eventType, (e: Event) => {
       const target = <HTMLElement>e.target;
       if (target.closest('div')) {
-        this.hoverMouseoverHandler(target);
-      }
-    });
-  }
-
-  private mouseoutListener(): void {
-    const body = document.querySelector('body');
-
-    body?.addEventListener('mouseout', (e: MouseEvent) => {
-      const target = <HTMLElement>e.target;
-      if (target.closest('div')) {
-        this.hoverMouseoutHandler(target);
+        switch (eventType) {
+          case 'mouseover':
+            this.hoverMouseoverHandler(target);
+            break;
+          case 'mouseout':
+            this.hoverMouseoutHandler(target);
+            break;
+          default:
+            break;
+        }
       }
     });
   }
@@ -266,8 +263,8 @@ export class App {
   }): void {
     const { cssEditor, fullUpdate } = props;
     this.clickListener({ cssEditor, fullUpdate });
-    this.mouseoverListener();
-    this.mouseoutListener();
+    this.mouseListener('mouseover');
+    this.mouseListener('mouseout');
     this.keydownListener({
       isWinCheck: cssEditor.isWinCheck.bind(cssEditor),
       fullUpdate,
