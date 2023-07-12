@@ -1,6 +1,7 @@
 import { Data, TagType } from '../../types';
 import './field.css';
 import './field-popup.css';
+import './planet.css';
 
 export class Field {
   constructor(private data: Data) {

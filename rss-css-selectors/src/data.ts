@@ -1,5 +1,24 @@
-import { Planet } from './components/field/planet/planet';
 import { Data, TagType } from './types';
+
+class Planet {
+  constructor({
+    tagName = 'planet' as string,
+    shape = 0 as number,
+    texture = 1 as number,
+    classes = '' as string | null,
+    innerTags = null as TagType[] | null,
+    isMove = false as boolean,
+  }: Partial<TagType>) {
+    Object.assign(this, {
+      tagName,
+      shape,
+      texture,
+      classes,
+      innerTags,
+      isMove,
+    });
+  }
+}
 
 export const data: Data = {
   activeLvl: 1,
