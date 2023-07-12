@@ -1,6 +1,7 @@
 export class Button {
   public createResetButton(rootClass: string): HTMLButtonElement {
     const button = document.createElement('button');
+    button.dataset.type = 'reset';
     button.textContent = 'Reset';
     button.classList.add(
       `${rootClass}__btn`,
@@ -14,6 +15,7 @@ export class Button {
 
   public createHelpButton(rootClass: string): HTMLButtonElement {
     const button = document.createElement('button');
+    button.dataset.type = 'help';
     button.textContent = 'Help';
     button.classList.add(`${rootClass}__btn`, `${rootClass}__btn_help`, 'btn');
 
@@ -22,6 +24,7 @@ export class Button {
 
   public createEnterButton(rootClass: string): HTMLButtonElement {
     const button = document.createElement('button');
+    button.dataset.type = 'enter';
     button.textContent = 'Enter';
     button.classList.add(`${rootClass}__btn`, `${rootClass}__btn_enter`, 'btn');
 
@@ -30,6 +33,7 @@ export class Button {
 
   public createOkayButton(rootClass: string): HTMLButtonElement {
     const button = document.createElement('button');
+    button.dataset.type = 'okay';
     button.textContent = 'Okay';
     button.classList.add(
       `${rootClass}__btn`,

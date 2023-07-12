@@ -146,18 +146,25 @@ export class App {
     const isWinCheck = cssEditor.isWinCheck.bind(cssEditor);
     const helpHandler = cssEditor.helpHandler.bind(cssEditor);
     const clickHandler = cssEditor.clickHandler.bind(cssEditor);
-    if (target.classList.contains('css-editor__btn_enter')) {
-      const { isWin, value } = isWinCheck();
-      if (isWin) {
-        this.win({ fullUpdate });
-      } else if (value) this.lose(value);
-    } else if (target.classList.contains('css-editor__btn_help')) {
-      helpHandler(updateNavList);
-    } else if (target.classList.contains('btn_reset')) {
-      this.resetAll({ curLvl, fullUpdate });
-    } else if (target.classList.contains('btn_okay')) {
-      document.querySelector('body')?.classList.remove('win-message');
-      document.querySelector('.main')?.classList.remove('win');
+    const { isWin, value } = isWinCheck();
+    switch (target.dataset.type) {
+      case 'enter':
+        if (isWin) {
+          this.win({ fullUpdate });
+        } else if (value) this.lose(value);
+        break;
+      case 'help':
+        helpHandler(updateNavList);
+        break;
+      case 'reset':
+        this.resetAll({ curLvl, fullUpdate });
+        break;
+      case 'okay':
+        document.querySelector('body')?.classList.remove('win-message');
+        document.querySelector('.main')?.classList.remove('win');
+        break;
+      default:
+        break;
     }
     clickHandler();
   }
