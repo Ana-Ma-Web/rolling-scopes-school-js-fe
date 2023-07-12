@@ -1,3 +1,4 @@
+import { Planet } from './components/field/planet/planet';
 import { Data, TagType } from './types';
 
 export const data: Data = {
