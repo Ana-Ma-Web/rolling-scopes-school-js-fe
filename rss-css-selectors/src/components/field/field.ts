@@ -7,28 +7,30 @@ export class Field {
     this.data = data;
   }
 
-  private createTagString(
+  private createPlanet(
     tag: TagType,
     index: number,
     prevIndex?: number,
-  ): string {
+  ): HTMLElement {
     const name = tag.tagName;
     const { classes, shape, texture, isMove } = tag;
-    let innerTags = '';
-    const paired = !!tag.innerTags?.length;
 
-    if (innerTags !== null) {
+    const planet = document.createElement(name);
+    if (classes) planet.classList.add(classes);
+    planet.dataset.type = 'planet';
+    planet.dataset.key = `p${
+      name === 'planet' ? `${index}` : `${index}${prevIndex}`
+    }`;
+    planet.dataset.shape = String(shape);
+    planet.dataset.move = String(isMove);
+    planet.dataset.texture = String(texture);
+
+    if (tag.innerTags !== null) {
       tag.innerTags?.forEach((e, i) => {
-        innerTags += this.createTagString(e, index, i + 1);
+        planet.append(this.createPlanet(e, index, i + 1));
       });
     }
-
-    const closedName = `> ${innerTags} </${name}>`;
-
-    return `<${name} class="${classes}" data-type="planet" data-key="p${
-      name === 'planet' ? `${index}` : `${index}${prevIndex}`
-    }" data-shape="${shape}" data-move="${isMove}" 
-    data-texture="${texture}" ${paired ? closedName : `></${name}>`}`;
+    return planet;
   }
 
   public updateField(): void {
@@ -45,12 +47,10 @@ export class Field {
 
     field.innerHTML = '';
 
-    let string = '';
     levels[activeLvl - 1].table.forEach((e, i) => {
-      string += this.createTagString(e, i + 1);
+      fieldSpace.append(this.createPlanet(e, i + 1));
     });
 
-    fieldSpace.innerHTML = string;
     field.append(fieldSpace);
   }
 }
