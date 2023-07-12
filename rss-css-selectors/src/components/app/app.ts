@@ -215,10 +215,7 @@ export class App {
     body?.addEventListener('click', (e: MouseEvent) => {
       const target = <HTMLElement>e.target;
       const curLvl = target.dataset.lvl;
-      if (target.classList.contains('nav__btn')) {
-        if (!target.dataset.lvl) {
-          throw new Error('Nav btn data is not found');
-        }
+      if (target.classList.contains('nav__btn') && target.dataset.lvl) {
         this.updateLevel({ curLvl, fullUpdate });
       }
       this.clickHandlers({ target, curLvl, cssEditor, fullUpdate });
