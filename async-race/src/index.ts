@@ -1,1 +1,4 @@
-console.log('start');
+import { App } from './components/app/app';
+
+const app = new App();
+app.start();
