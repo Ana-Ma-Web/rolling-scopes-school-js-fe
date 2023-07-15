@@ -10,6 +10,23 @@ export class Garage {
 
   public start(): void {}
 
+  public animation(id: number, velocity: number, distance: number): void {
+    const track = document.querySelector(`div[data-id="${id}"]`);
+    const racer = track?.querySelector(`.racer`);
+    console.log('anim', racer);
+
+    racer?.animate(
+      [
+        { transform: 'translateX(0)' },
+        { transform: `translateX(calc(${track?.clientWidth}px - 50px))` },
+      ],
+      {
+        fill: 'forwards',
+        duration: distance / velocity,
+      },
+    );
+  }
+
   public print(racers: Car[]): void {
     const garageEl = document.createElement('div');
     garageEl.classList.add('garage');
@@ -18,6 +35,7 @@ export class Garage {
       const el = this.track.createTrack(e);
       garageEl.append(el);
       console.log(e.name);
+      // this.animation(e.id);
     });
     document.body.append(garageEl);
 
