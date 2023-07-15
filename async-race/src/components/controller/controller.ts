@@ -16,7 +16,9 @@ export class AppController {
     return (await fetch(url)).json();
   }
 
-  public async started(status: string): Promise<void> {
+  public async switchMoveMode(
+    status: 'started' | 'stopped' | 'drive',
+  ): Promise<string> {
     const url = `http://127.0.0.1:3000/engine/?id=1&status=${status}`;
     const response = await fetch(url, { method: 'PATCH' });
 
@@ -25,7 +27,9 @@ export class AppController {
       console.log(json);
     } else {
       console.log(`Error HTTP: ${response.status}`);
+      return 'ERROOOOOORRR';
     }
     console.log(response);
+    return 'finish';
   }
 }

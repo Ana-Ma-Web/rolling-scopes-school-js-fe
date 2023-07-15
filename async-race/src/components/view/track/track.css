@@ -1,0 +1,5 @@
+.track {
+  width: calc(100vw - 80px);
+  margin-left: 40px;
+  border-bottom: 1px solid grey;
+}
