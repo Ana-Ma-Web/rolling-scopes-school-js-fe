@@ -1,8 +1,15 @@
 import { Car, RaceData } from '../../types';
 
 export class AppController {
+  private baseUrl = 'http://127.0.0.1:3000';
+
+  private path = {
+    garage: '/garage',
+    engine: '/engine',
+  };
+
   public async getCar(id: number): Promise<Car> {
-    const url = `http://127.0.0.1:3000/garage/${id}`;
+    const url = `${this.baseUrl}${this.path.garage}/${id}`;
 
     const response = await fetch(url);
 
@@ -11,7 +18,7 @@ export class AppController {
   }
 
   public async getCars(): Promise<Car[]> {
-    const url = `http://127.0.0.1:3000/garage/`;
+    const url = `${this.baseUrl}${this.path.garage}/`;
 
     return (await fetch(url)).json();
   }
@@ -19,18 +26,10 @@ export class AppController {
   public async switchMoveMode(
     status: 'started' | 'stopped' | 'drive',
   ): Promise<RaceData> {
-    const url = `http://127.0.0.1:3000/engine/?id=1&status=${status}`;
+    const url = `${this.baseUrl}${this.path.engine}/?id=1&status=${status}`;
     const response = await fetch(url, { method: 'PATCH' });
+    const data = await response.json();
 
-    if (response.ok) {
-      const json = await response.json();
-      // console.log('32', json);
-      return json;
-    }
-    console.log(`Error HTTP: ${response.status}`);
-    throw new Error('ERROOOOOORRR');
-
-    // console.log(response);
-    // return 'finish';
+    return data;
   }
 }

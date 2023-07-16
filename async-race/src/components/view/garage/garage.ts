@@ -10,12 +10,13 @@ export class Garage {
 
   public start(): void {}
 
-  public animation(id: number, velocity: number, distance: number): void {
+  public animation(id: number, velocity: number, distance: number): Animation {
     const track = document.querySelector(`div[data-id="${id}"]`);
     const racer = track?.querySelector(`.racer`);
-    console.log('anim', racer);
 
-    racer?.animate(
+    if (!racer) throw new Error('Racer is not found');
+
+    const animation = racer.animate(
       [
         { transform: 'translateX(0)' },
         { transform: `translateX(calc(${track?.clientWidth}px - 50px))` },
@@ -25,6 +26,8 @@ export class Garage {
         duration: distance / velocity,
       },
     );
+
+    return animation;
   }
 
   public print(racers: Car[]): void {

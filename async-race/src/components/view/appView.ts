@@ -8,12 +8,11 @@ export class AppView {
     this.garage = new Garage();
   }
 
-  public animation(id: number, velocity: number, distance: number): void {
-    this.garage.animation(id, velocity, distance);
+  public animation(id: number, velocity: number, distance: number): Animation {
+    return this.garage.animation(id, velocity, distance);
   }
 
   public print(racers: Car[]): void {
-    // console.log(this.garage.print(racers));
     this.garage.print(racers);
   }
 }
