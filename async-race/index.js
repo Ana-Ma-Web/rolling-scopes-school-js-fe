@@ -671,9 +671,14 @@ class App {
         return __awaiter(this, void 0, void 0, function* () {
             const cars = yield this.controller.getCars();
             this.view.print(cars);
-            console.log('stop', yield this.controller.switchMoveMode('stopped'));
-            console.log('start', yield this.controller.switchMoveMode('started'));
-            console.log('drive', yield this.controller.switchMoveMode('drive'));
+            const raceData = yield this.controller.switchMoveMode('started');
+            const animation = this.view.animation(1, raceData.velocity, raceData.distance);
+            try {
+                yield this.controller.switchMoveMode('drive');
+            }
+            catch (error) {
+                animation.pause();
+            }
         });
     }
 }
@@ -701,9 +706,16 @@ var __awaiter = (undefined && undefined.__awaiter) || function (thisArg, _argume
     });
 };
 class AppController {
+    constructor() {
+        this.baseUrl = 'http://127.0.0.1:3000';
+        this.path = {
+            garage: '/garage',
+            engine: '/engine',
+        };
+    }
     getCar(id) {
         return __awaiter(this, void 0, void 0, function* () {
-            const url = `http://127.0.0.1:3000/garage/${id}`;
+            const url = `${this.baseUrl}${this.path.garage}/${id}`;
             const response = yield fetch(url);
             const json = yield response.json();
             return json;
@@ -711,24 +723,16 @@ class AppController {
     }
     getCars() {
         return __awaiter(this, void 0, void 0, function* () {
-            const url = `http://127.0.0.1:3000/garage/`;
+            const url = `${this.baseUrl}${this.path.garage}/`;
             return (yield fetch(url)).json();
         });
     }
     switchMoveMode(status) {
         return __awaiter(this, void 0, void 0, function* () {
-            const url = `http://127.0.0.1:3000/engine/?id=1&status=${status}`;
+            const url = `${this.baseUrl}${this.path.engine}/?id=1&status=${status}`;
             const response = yield fetch(url, { method: 'PATCH' });
-            if (response.ok) {
-                const json = yield response.json();
-                console.log(json);
-            }
-            else {
-                console.log(`Error HTTP: ${response.status}`);
-                return 'ERROOOOOORRR';
-            }
-            console.log(response);
-            return 'finish';
+            const data = yield response.json();
+            return data;
         });
     }
 }
@@ -752,8 +756,10 @@ class AppView {
     constructor() {
         this.garage = new _garage_garage__WEBPACK_IMPORTED_MODULE_0__.Garage();
     }
+    animation(id, velocity, distance) {
+        return this.garage.animation(id, velocity, distance);
+    }
     print(racers) {
-        // console.log(this.garage.print(racers));
         this.garage.print(racers);
     }
 }
@@ -778,6 +784,20 @@ class Garage {
         this.track = new _track_track__WEBPACK_IMPORTED_MODULE_0__.Track();
     }
     start() { }
+    animation(id, velocity, distance) {
+        const track = document.querySelector(`div[data-id="${id}"]`);
+        const racer = track === null || track === void 0 ? void 0 : track.querySelector(`.racer`);
+        if (!racer)
+            throw new Error('Racer is not found');
+        const animation = racer.animate([
+            { transform: 'translateX(0)' },
+            { transform: `translateX(calc(${track === null || track === void 0 ? void 0 : track.clientWidth}px - 50px))` },
+        ], {
+            fill: 'forwards',
+            duration: distance / velocity,
+        });
+        return animation;
+    }
     print(racers) {
         const garageEl = document.createElement('div');
         garageEl.classList.add('garage');
@@ -785,6 +805,7 @@ class Garage {
             const el = this.track.createTrack(e);
             garageEl.append(el);
             console.log(e.name);
+            // this.animation(e.id);
         });
         document.body.append(garageEl);
         console.log('garage');
@@ -839,9 +860,21 @@ class Track {
     createTrack(racer) {
         const trackEl = document.createElement('div');
         trackEl.dataset.id = String(racer.id);
-        const racerEl = this.racer.createRacer(racer);
         trackEl.classList.add('track');
-        trackEl.append(racerEl);
+        const racerEl = this.racer.createRacer(racer);
+        const nameEl = document.createElement('div');
+        nameEl.classList.add('track__name');
+        nameEl.textContent = racer.name;
+        const buttonsEl = document.createElement('div');
+        buttonsEl.classList.add('track__buttons');
+        const btnStopEl = document.createElement('div');
+        btnStopEl.classList.add('btn', 'track__btn', 'track__btn_stop');
+        btnStopEl.textContent = 'Stop';
+        const btnStartEl = document.createElement('div');
+        btnStartEl.classList.add('btn', 'track__btn', 'track__btn_start');
+        btnStartEl.textContent = 'Start';
+        buttonsEl.append(btnStartEl, btnStopEl);
+        trackEl.append(racerEl, buttonsEl);
         return trackEl;
     }
 }
