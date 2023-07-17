@@ -1,4 +1,4 @@
-import { Car, RaceData } from '../../types';
+import { Racer, RaceData, SwitchMoveModeProps } from '../../types';
 
 export class AppController {
   private baseUrl = 'http://127.0.0.1:3000';
@@ -8,7 +8,7 @@ export class AppController {
     engine: '/engine',
   };
 
-  public async getCar(id: number): Promise<Car> {
+  public async getRacer(id: number): Promise<Racer> {
     const url = `${this.baseUrl}${this.path.garage}/${id}`;
 
     const response = await fetch(url);
@@ -17,16 +17,18 @@ export class AppController {
     return json;
   }
 
-  public async getCars(): Promise<Car[]> {
+  public async getRacers(): Promise<{ items: Racer[]; count: string | null }> {
     const url = `${this.baseUrl}${this.path.garage}/`;
+    const response = await fetch(url);
+    const items = await response.json();
 
-    return (await fetch(url)).json();
+    const count = response.headers.get('X-Total-Count');
+
+    return { items, count };
   }
 
-  public async switchMoveMode(
-    status: 'started' | 'stopped' | 'drive',
-  ): Promise<RaceData> {
-    const url = `${this.baseUrl}${this.path.engine}/?id=1&status=${status}`;
+  public async switchMoveMode(props: SwitchMoveModeProps): Promise<RaceData> {
+    const url = `${this.baseUrl}${this.path.engine}/?id=${props.id}&status=${props.status}`;
     const response = await fetch(url, { method: 'PATCH' });
     const data = await response.json();
 

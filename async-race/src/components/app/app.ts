@@ -13,20 +13,11 @@ export class App {
   }
 
   public async start(): Promise<void> {
-    const cars = await this.controller.getCars();
-    this.view.print(cars);
-    const raceData = await this.controller.switchMoveMode('started');
-
-    const animation = this.view.animation(
-      1,
-      raceData.velocity,
-      raceData.distance,
+    const { items, count } = await this.controller.getRacers();
+    console.log('count', count);
+    this.view.print(
+      items,
+      this.controller.switchMoveMode.bind(this.controller),
     );
-
-    try {
-      await this.controller.switchMoveMode('drive');
-    } catch (error) {
-      animation.pause();
-    }
   }
 }

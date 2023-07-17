@@ -1,15 +1,15 @@
-import { Car } from '../../../types';
-import { Racer } from '../racer/racer';
+import { Racer } from '../../../types';
+import { RacerEl } from '../racer/racer';
 import './track.css';
 
 export class Track {
-  private racer: Racer;
+  private racer: RacerEl;
 
   constructor() {
-    this.racer = new Racer();
+    this.racer = new RacerEl();
   }
 
-  public createTrack(racer: Car): HTMLElement {
+  public createTrack(racer: Racer): HTMLElement {
     const trackEl = document.createElement('div');
     trackEl.dataset.id = String(racer.id);
     trackEl.classList.add('track');
@@ -23,11 +23,14 @@ export class Track {
     const buttonsEl = document.createElement('div');
     buttonsEl.classList.add('track__buttons');
 
-    const btnStopEl = document.createElement('div');
+    const btnStopEl = document.createElement('button');
+    btnStopEl.dataset.btnType = 'racer-stop';
     btnStopEl.classList.add('btn', 'track__btn', 'track__btn_stop');
     btnStopEl.textContent = 'Stop';
 
-    const btnStartEl = document.createElement('div');
+    const btnStartEl = document.createElement('button');
+    btnStartEl.dataset.btnType = 'racer-start';
+
     btnStartEl.classList.add('btn', 'track__btn', 'track__btn_start');
     btnStartEl.textContent = 'Start';
 
