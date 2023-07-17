@@ -669,16 +669,9 @@ class App {
     }
     start() {
         return __awaiter(this, void 0, void 0, function* () {
-            const cars = yield this.controller.getCars();
-            this.view.print(cars);
-            const raceData = yield this.controller.switchMoveMode('started');
-            const animation = this.view.animation(1, raceData.velocity, raceData.distance);
-            try {
-                yield this.controller.switchMoveMode('drive');
-            }
-            catch (error) {
-                animation.pause();
-            }
+            const { items, count } = yield this.controller.getRacers();
+            console.log('count', count);
+            this.view.print(items, this.controller.switchMoveMode.bind(this.controller));
         });
     }
 }
@@ -713,7 +706,7 @@ class AppController {
             engine: '/engine',
         };
     }
-    getCar(id) {
+    getRacer(id) {
         return __awaiter(this, void 0, void 0, function* () {
             const url = `${this.baseUrl}${this.path.garage}/${id}`;
             const response = yield fetch(url);
@@ -721,15 +714,18 @@ class AppController {
             return json;
         });
     }
-    getCars() {
+    getRacers() {
         return __awaiter(this, void 0, void 0, function* () {
             const url = `${this.baseUrl}${this.path.garage}/`;
-            return (yield fetch(url)).json();
+            const response = yield fetch(url);
+            const items = yield response.json();
+            const count = response.headers.get('X-Total-Count');
+            return { items, count };
         });
     }
-    switchMoveMode(status) {
+    switchMoveMode(props) {
         return __awaiter(this, void 0, void 0, function* () {
-            const url = `${this.baseUrl}${this.path.engine}/?id=1&status=${status}`;
+            const url = `${this.baseUrl}${this.path.engine}/?id=${props.id}&status=${props.status}`;
             const response = yield fetch(url, { method: 'PATCH' });
             const data = yield response.json();
             return data;
@@ -756,11 +752,8 @@ class AppView {
     constructor() {
         this.garage = new _garage_garage__WEBPACK_IMPORTED_MODULE_0__.Garage();
     }
-    animation(id, velocity, distance) {
-        return this.garage.animation(id, velocity, distance);
-    }
-    print(racers) {
-        this.garage.print(racers);
+    print(racers, switchMoveMode) {
+        this.garage.print(racers, switchMoveMode);
     }
 }
 
@@ -778,10 +771,20 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   Garage: () => (/* binding */ Garage)
 /* harmony export */ });
 /* harmony import */ var _track_track__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../track/track */ "./components/view/track/track.ts");
+var __awaiter = (undefined && undefined.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
 
 class Garage {
     constructor() {
         this.track = new _track_track__WEBPACK_IMPORTED_MODULE_0__.Track();
+        this.animations = {};
     }
     start() { }
     animation(id, velocity, distance) {
@@ -789,26 +792,91 @@ class Garage {
         const racer = track === null || track === void 0 ? void 0 : track.querySelector(`.racer`);
         if (!racer)
             throw new Error('Racer is not found');
-        const animation = racer.animate([
+        this.animations[id] = racer.animate([
             { transform: 'translateX(0)' },
             { transform: `translateX(calc(${track === null || track === void 0 ? void 0 : track.clientWidth}px - 50px))` },
         ], {
             fill: 'forwards',
             duration: distance / velocity,
         });
-        return animation;
+        return this.animations[id];
     }
-    print(racers) {
+    startRacer(id, switchMoveMode) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const raceData = yield switchMoveMode({
+                status: 'started',
+                id,
+            });
+            this.animations[id] = this.animation(id, raceData.velocity, raceData.distance);
+            try {
+                yield switchMoveMode({ status: 'drive', id });
+            }
+            catch (error) {
+                this.animations[id].pause();
+            }
+        });
+    }
+    stopRacer(id, switchMoveMode) {
+        return __awaiter(this, void 0, void 0, function* () {
+            this.animations[id].pause();
+            yield switchMoveMode({
+                status: 'stopped',
+                id,
+            });
+            console.log('anim stop', this.animations[id]);
+        });
+    }
+    startRace(switchMoveMode) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const tracks = document.querySelectorAll('.track');
+            tracks.forEach((e) => {
+                const el = e;
+                console.log(el);
+                this.startRacer(Number(el.dataset.id), switchMoveMode);
+            });
+        });
+    }
+    addListeners(root, switchMoveMode) {
+        root.addEventListener('click', (e) => {
+            const target = e.target;
+            console.log('meow');
+            if (!target.classList.contains('btn'))
+                return undefined;
+            const trackEl = target.closest('.track');
+            switch (target.dataset.btnType) {
+                case 'racer-start':
+                    if (trackEl.dataset.id) {
+                        this.startRacer(Number(trackEl.dataset.id), switchMoveMode);
+                    }
+                    break;
+                case 'racer-stop':
+                    this.stopRacer(Number(trackEl.dataset.id), switchMoveMode);
+                    break;
+                case 'start-race':
+                    this.startRace(switchMoveMode);
+                    break;
+                default:
+                    break;
+            }
+            return undefined;
+        });
+    }
+    print(racers, switchMoveMode) {
         const garageEl = document.createElement('div');
         garageEl.classList.add('garage');
+        const tracks = document.createElement('div');
+        tracks.classList.add('garage__tracks');
+        const startRaceBtn = document.createElement('button');
+        startRaceBtn.classList.add('btn', 'garage__btn', 'garage__btn_start-race');
+        startRaceBtn.dataset.btnType = 'start-race';
+        startRaceBtn.textContent = 'Start race';
+        garageEl.append(startRaceBtn, tracks);
         racers.forEach((e) => {
             const el = this.track.createTrack(e);
-            garageEl.append(el);
-            console.log(e.name);
-            // this.animation(e.id);
+            tracks.append(el);
         });
         document.body.append(garageEl);
-        console.log('garage');
+        this.addListeners(garageEl, switchMoveMode);
     }
 }
 
@@ -823,11 +891,11 @@ class Garage {
 
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   Racer: () => (/* binding */ Racer)
+/* harmony export */   RacerEl: () => (/* binding */ RacerEl)
 /* harmony export */ });
 /* harmony import */ var _racer_css__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./racer.css */ "./components/view/racer/racer.css");
 
-class Racer {
+class RacerEl {
     createRacer(racer) {
         const el = document.createElement('div');
         el.classList.add('racer');
@@ -855,7 +923,7 @@ __webpack_require__.r(__webpack_exports__);
 
 class Track {
     constructor() {
-        this.racer = new _racer_racer__WEBPACK_IMPORTED_MODULE_0__.Racer();
+        this.racer = new _racer_racer__WEBPACK_IMPORTED_MODULE_0__.RacerEl();
     }
     createTrack(racer) {
         const trackEl = document.createElement('div');
@@ -867,10 +935,12 @@ class Track {
         nameEl.textContent = racer.name;
         const buttonsEl = document.createElement('div');
         buttonsEl.classList.add('track__buttons');
-        const btnStopEl = document.createElement('div');
+        const btnStopEl = document.createElement('button');
+        btnStopEl.dataset.btnType = 'racer-stop';
         btnStopEl.classList.add('btn', 'track__btn', 'track__btn_stop');
         btnStopEl.textContent = 'Stop';
-        const btnStartEl = document.createElement('div');
+        const btnStartEl = document.createElement('button');
+        btnStartEl.dataset.btnType = 'racer-start';
         btnStartEl.classList.add('btn', 'track__btn', 'track__btn_start');
         btnStartEl.textContent = 'Start';
         buttonsEl.append(btnStartEl, btnStopEl);
