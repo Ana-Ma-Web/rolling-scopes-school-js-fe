@@ -801,20 +801,38 @@ class Garage {
         });
         return this.animations[id];
     }
+    isActiveBtns(btns) {
+        let result = true;
+        btns.forEach((e) => {
+            if (e.disabled)
+                result = false;
+        });
+        return result;
+    }
+    startDisableBtns(id) {
+        const startRaceBtn = (document.querySelector('.garage__btn_start-race'));
+        const resetRaceBtn = (document.querySelector('.garage__btn_reset-race'));
+        const startBtn = (document.querySelector(`.track[data-id="${id}"] .track__btn_start`));
+        const stopBtn = (document.querySelector(`.track[data-id="${id}"] .track__btn_stop`));
+        startRaceBtn.disabled = true;
+        stopBtn.disabled = false;
+        startBtn.disabled = true;
+        const stopBtns = document.querySelectorAll(`.track__btn_stop`);
+        const isDone = this.isActiveBtns(stopBtns);
+        if (isDone) {
+            resetRaceBtn.disabled = false;
+        }
+    }
     startRacer(id, switchMoveMode) {
         return __awaiter(this, void 0, void 0, function* () {
             if (this.animations[id])
                 this.animations[id].cancel();
-            this.stopRacer(id, switchMoveMode);
-            const stopBtn = (document.querySelector(`.track[data-id="${id}"] .track__btn_stop`));
-            stopBtn.disabled = false;
-            const startBtn = (document.querySelector(`.track[data-id="${id}"] .track__btn_start`));
-            startBtn.disabled = true;
             const raceData = yield switchMoveMode({
                 status: 'started',
                 id,
             });
             this.animations[id] = this.animation(id, raceData.velocity, raceData.distance);
+            this.startDisableBtns(id);
             try {
                 yield switchMoveMode({ status: 'drive', id });
             }
@@ -828,43 +846,32 @@ class Garage {
             const stopBtn = (document.querySelector(`.track[data-id="${id}"] .track__btn_stop`));
             stopBtn.disabled = true;
             const startBtn = (document.querySelector(`.track[data-id="${id}"] .track__btn_start`));
-            startBtn.disabled = false;
             if (this.animations[id])
                 this.animations[id].cancel();
             yield switchMoveMode({
                 status: 'stopped',
                 id,
             });
-            console.log('anim stop', this.animations[id]);
+            startBtn.disabled = false;
+            const startBtns = document.querySelectorAll(`.track__btn_start`);
+            const isDone = this.isActiveBtns(startBtns);
+            if (isDone) {
+                const startRaceBtn = (document.querySelector('.garage__btn_start-race'));
+                startRaceBtn.disabled = false;
+            }
         });
     }
     startRace(switchMoveMode) {
-        return __awaiter(this, void 0, void 0, function* () {
-            const tracks = document.querySelectorAll('.track');
-            const startRaceBtn = (document.querySelector('.garage__btn_start-race'));
-            startRaceBtn.disabled = true;
-            const resetRaceBtn = (document.querySelector('.garage__btn_reset-race'));
-            resetRaceBtn.disabled = false;
-            const startBtns = document.querySelectorAll('.track__btn_start');
-            const stopBtns = document.querySelectorAll('.track__btn_stop');
-            startBtns.forEach((e) => {
-                const el = e;
-                el.disabled = true;
-            });
-            stopBtns.forEach((e) => {
-                const el = e;
-                el.disabled = false;
-            });
-            tracks.forEach((e) => {
-                const el = e;
-                this.startRacer(Number(el.dataset.id), switchMoveMode);
-            });
+        const tracks = document.querySelectorAll('.track');
+        const startRaceBtn = (document.querySelector('.garage__btn_start-race'));
+        startRaceBtn.disabled = true;
+        tracks.forEach((e) => {
+            const el = e;
+            this.startRacer(Number(el.dataset.id), switchMoveMode);
         });
     }
     resetRace(switchMoveMode) {
         return __awaiter(this, void 0, void 0, function* () {
-            const startRaceBtn = (document.querySelector('.garage__btn_start-race'));
-            startRaceBtn.disabled = false;
             const resetRaceBtn = (document.querySelector('.garage__btn_reset-race'));
             resetRaceBtn.disabled = true;
             const tracks = document.querySelectorAll('.track');
