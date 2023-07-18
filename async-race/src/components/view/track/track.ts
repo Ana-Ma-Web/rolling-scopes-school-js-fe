@@ -27,6 +27,7 @@ export class Track {
     btnStopEl.dataset.btnType = 'racer-stop';
     btnStopEl.classList.add('btn', 'track__btn', 'track__btn_stop');
     btnStopEl.textContent = 'Stop';
+    btnStopEl.disabled = true;
 
     const btnStartEl = document.createElement('button');
     btnStartEl.dataset.btnType = 'racer-start';

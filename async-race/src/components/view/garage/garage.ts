@@ -42,6 +42,19 @@ export class Garage {
     id: number,
     switchMoveMode: (props: SwitchMoveModeProps) => Promise<RaceData>,
   ): Promise<void> {
+    if (this.animations[id]) this.animations[id].cancel();
+    this.stopRacer(id, switchMoveMode);
+
+    const stopBtn = <HTMLButtonElement>(
+      document.querySelector(`.track[data-id="${id}"] .track__btn_stop`)
+    );
+    stopBtn.disabled = false;
+
+    const startBtn = <HTMLButtonElement>(
+      document.querySelector(`.track[data-id="${id}"] .track__btn_start`)
+    );
+    startBtn.disabled = true;
+
     const raceData = await switchMoveMode({
       status: 'started',
       id,
@@ -64,7 +77,18 @@ export class Garage {
     id: number,
     switchMoveMode: (props: SwitchMoveModeProps) => Promise<RaceData>,
   ): Promise<void> {
-    this.animations[id].pause();
+    const stopBtn = <HTMLButtonElement>(
+      document.querySelector(`.track[data-id="${id}"] .track__btn_stop`)
+    );
+    stopBtn.disabled = true;
+
+    const startBtn = <HTMLButtonElement>(
+      document.querySelector(`.track[data-id="${id}"] .track__btn_start`)
+    );
+    startBtn.disabled = false;
+
+    if (this.animations[id]) this.animations[id].cancel();
+
     await switchMoveMode({
       status: 'stopped',
       id,
@@ -77,10 +101,53 @@ export class Garage {
   ): Promise<void> {
     const tracks = document.querySelectorAll('.track');
 
+    const startRaceBtn = <HTMLButtonElement>(
+      document.querySelector('.garage__btn_start-race')
+    );
+    startRaceBtn.disabled = true;
+
+    const resetRaceBtn = <HTMLButtonElement>(
+      document.querySelector('.garage__btn_reset-race')
+    );
+    resetRaceBtn.disabled = false;
+
+    const startBtns = document.querySelectorAll('.track__btn_start');
+    const stopBtns = document.querySelectorAll('.track__btn_stop');
+
+    startBtns.forEach((e) => {
+      const el = <HTMLButtonElement>e;
+      el.disabled = true;
+    });
+
+    stopBtns.forEach((e) => {
+      const el = <HTMLButtonElement>e;
+      el.disabled = false;
+    });
+
     tracks.forEach((e) => {
       const el = <HTMLElement>e;
-      console.log(el);
       this.startRacer(Number(el.dataset.id), switchMoveMode);
+    });
+  }
+
+  private async resetRace(
+    switchMoveMode: (props: SwitchMoveModeProps) => Promise<RaceData>,
+  ): Promise<void> {
+    const startRaceBtn = <HTMLButtonElement>(
+      document.querySelector('.garage__btn_start-race')
+    );
+    startRaceBtn.disabled = false;
+
+    const resetRaceBtn = <HTMLButtonElement>(
+      document.querySelector('.garage__btn_reset-race')
+    );
+    resetRaceBtn.disabled = true;
+
+    const tracks = document.querySelectorAll('.track');
+
+    tracks.forEach((e) => {
+      const el = <HTMLElement>e;
+      this.stopRacer(Number(el.dataset.id), switchMoveMode);
     });
   }
 
@@ -108,6 +175,9 @@ export class Garage {
         case 'start-race':
           this.startRace(switchMoveMode);
           break;
+        case 'reset-race':
+          this.resetRace(switchMoveMode);
+          break;
         default:
           break;
       }
@@ -131,7 +201,13 @@ export class Garage {
     startRaceBtn.dataset.btnType = 'start-race';
     startRaceBtn.textContent = 'Start race';
 
-    garageEl.append(startRaceBtn, tracks);
+    const resetRaceBtn = document.createElement('button');
+    resetRaceBtn.classList.add('btn', 'garage__btn', 'garage__btn_reset-race');
+    resetRaceBtn.dataset.btnType = 'reset-race';
+    resetRaceBtn.textContent = 'Reset race';
+    resetRaceBtn.disabled = true;
+
+    garageEl.append(startRaceBtn, resetRaceBtn, tracks);
 
     racers.forEach((e) => {
       const el = this.track.createTrack(e);
