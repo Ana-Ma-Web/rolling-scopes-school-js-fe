@@ -38,22 +38,44 @@ export class Garage {
     return this.animations[id];
   }
 
+  private isActiveBtns(btns: NodeListOf<HTMLButtonElement>): boolean {
+    let result = true;
+    btns.forEach((e) => {
+      if (e.disabled) result = false;
+    });
+
+    return result;
+  }
+
+  private startDisableBtns(id: number): void {
+    const startRaceBtn = <HTMLButtonElement>(
+      document.querySelector('.garage__btn_start-race')
+    );
+    const resetRaceBtn = <HTMLButtonElement>(
+      document.querySelector('.garage__btn_reset-race')
+    );
+    const startBtn = <HTMLButtonElement>(
+      document.querySelector(`.track[data-id="${id}"] .track__btn_start`)
+    );
+    const stopBtn = <HTMLButtonElement>(
+      document.querySelector(`.track[data-id="${id}"] .track__btn_stop`)
+    );
+    startRaceBtn.disabled = true;
+    stopBtn.disabled = false;
+    startBtn.disabled = true;
+
+    const stopBtns = document.querySelectorAll(`.track__btn_stop`);
+    const isDone = this.isActiveBtns(<NodeListOf<HTMLButtonElement>>stopBtns);
+    if (isDone) {
+      resetRaceBtn.disabled = false;
+    }
+  }
+
   public async startRacer(
     id: number,
     switchMoveMode: (props: SwitchMoveModeProps) => Promise<RaceData>,
   ): Promise<void> {
     if (this.animations[id]) this.animations[id].cancel();
-    this.stopRacer(id, switchMoveMode);
-
-    const stopBtn = <HTMLButtonElement>(
-      document.querySelector(`.track[data-id="${id}"] .track__btn_stop`)
-    );
-    stopBtn.disabled = false;
-
-    const startBtn = <HTMLButtonElement>(
-      document.querySelector(`.track[data-id="${id}"] .track__btn_start`)
-    );
-    startBtn.disabled = true;
 
     const raceData = await switchMoveMode({
       status: 'started',
@@ -65,6 +87,8 @@ export class Garage {
       raceData.velocity,
       raceData.distance,
     );
+
+    this.startDisableBtns(id);
 
     try {
       await switchMoveMode({ status: 'drive', id });
@@ -85,7 +109,6 @@ export class Garage {
     const startBtn = <HTMLButtonElement>(
       document.querySelector(`.track[data-id="${id}"] .track__btn_start`)
     );
-    startBtn.disabled = false;
 
     if (this.animations[id]) this.animations[id].cancel();
 
@@ -93,36 +116,27 @@ export class Garage {
       status: 'stopped',
       id,
     });
-    console.log('anim stop', this.animations[id]);
+    startBtn.disabled = false;
+
+    const startBtns = document.querySelectorAll(`.track__btn_start`);
+    const isDone = this.isActiveBtns(<NodeListOf<HTMLButtonElement>>startBtns);
+    if (isDone) {
+      const startRaceBtn = <HTMLButtonElement>(
+        document.querySelector('.garage__btn_start-race')
+      );
+      startRaceBtn.disabled = false;
+    }
   }
 
-  private async startRace(
+  private startRace(
     switchMoveMode: (props: SwitchMoveModeProps) => Promise<RaceData>,
-  ): Promise<void> {
+  ): void {
     const tracks = document.querySelectorAll('.track');
 
     const startRaceBtn = <HTMLButtonElement>(
       document.querySelector('.garage__btn_start-race')
     );
     startRaceBtn.disabled = true;
-
-    const resetRaceBtn = <HTMLButtonElement>(
-      document.querySelector('.garage__btn_reset-race')
-    );
-    resetRaceBtn.disabled = false;
-
-    const startBtns = document.querySelectorAll('.track__btn_start');
-    const stopBtns = document.querySelectorAll('.track__btn_stop');
-
-    startBtns.forEach((e) => {
-      const el = <HTMLButtonElement>e;
-      el.disabled = true;
-    });
-
-    stopBtns.forEach((e) => {
-      const el = <HTMLButtonElement>e;
-      el.disabled = false;
-    });
 
     tracks.forEach((e) => {
       const el = <HTMLElement>e;
@@ -133,11 +147,6 @@ export class Garage {
   private async resetRace(
     switchMoveMode: (props: SwitchMoveModeProps) => Promise<RaceData>,
   ): Promise<void> {
-    const startRaceBtn = <HTMLButtonElement>(
-      document.querySelector('.garage__btn_start-race')
-    );
-    startRaceBtn.disabled = false;
-
     const resetRaceBtn = <HTMLButtonElement>(
       document.querySelector('.garage__btn_reset-race')
     );
