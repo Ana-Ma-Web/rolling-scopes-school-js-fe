@@ -803,6 +803,13 @@ class Garage {
     }
     startRacer(id, switchMoveMode) {
         return __awaiter(this, void 0, void 0, function* () {
+            if (this.animations[id])
+                this.animations[id].cancel();
+            this.stopRacer(id, switchMoveMode);
+            const stopBtn = (document.querySelector(`.track[data-id="${id}"] .track__btn_stop`));
+            stopBtn.disabled = false;
+            const startBtn = (document.querySelector(`.track[data-id="${id}"] .track__btn_start`));
+            startBtn.disabled = true;
             const raceData = yield switchMoveMode({
                 status: 'started',
                 id,
@@ -818,7 +825,12 @@ class Garage {
     }
     stopRacer(id, switchMoveMode) {
         return __awaiter(this, void 0, void 0, function* () {
-            this.animations[id].pause();
+            const stopBtn = (document.querySelector(`.track[data-id="${id}"] .track__btn_stop`));
+            stopBtn.disabled = true;
+            const startBtn = (document.querySelector(`.track[data-id="${id}"] .track__btn_start`));
+            startBtn.disabled = false;
+            if (this.animations[id])
+                this.animations[id].cancel();
             yield switchMoveMode({
                 status: 'stopped',
                 id,
@@ -829,10 +841,36 @@ class Garage {
     startRace(switchMoveMode) {
         return __awaiter(this, void 0, void 0, function* () {
             const tracks = document.querySelectorAll('.track');
+            const startRaceBtn = (document.querySelector('.garage__btn_start-race'));
+            startRaceBtn.disabled = true;
+            const resetRaceBtn = (document.querySelector('.garage__btn_reset-race'));
+            resetRaceBtn.disabled = false;
+            const startBtns = document.querySelectorAll('.track__btn_start');
+            const stopBtns = document.querySelectorAll('.track__btn_stop');
+            startBtns.forEach((e) => {
+                const el = e;
+                el.disabled = true;
+            });
+            stopBtns.forEach((e) => {
+                const el = e;
+                el.disabled = false;
+            });
             tracks.forEach((e) => {
                 const el = e;
-                console.log(el);
                 this.startRacer(Number(el.dataset.id), switchMoveMode);
+            });
+        });
+    }
+    resetRace(switchMoveMode) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const startRaceBtn = (document.querySelector('.garage__btn_start-race'));
+            startRaceBtn.disabled = false;
+            const resetRaceBtn = (document.querySelector('.garage__btn_reset-race'));
+            resetRaceBtn.disabled = true;
+            const tracks = document.querySelectorAll('.track');
+            tracks.forEach((e) => {
+                const el = e;
+                this.stopRacer(Number(el.dataset.id), switchMoveMode);
             });
         });
     }
@@ -855,6 +893,9 @@ class Garage {
                 case 'start-race':
                     this.startRace(switchMoveMode);
                     break;
+                case 'reset-race':
+                    this.resetRace(switchMoveMode);
+                    break;
                 default:
                     break;
             }
@@ -870,7 +911,12 @@ class Garage {
         startRaceBtn.classList.add('btn', 'garage__btn', 'garage__btn_start-race');
         startRaceBtn.dataset.btnType = 'start-race';
         startRaceBtn.textContent = 'Start race';
-        garageEl.append(startRaceBtn, tracks);
+        const resetRaceBtn = document.createElement('button');
+        resetRaceBtn.classList.add('btn', 'garage__btn', 'garage__btn_reset-race');
+        resetRaceBtn.dataset.btnType = 'reset-race';
+        resetRaceBtn.textContent = 'Reset race';
+        resetRaceBtn.disabled = true;
+        garageEl.append(startRaceBtn, resetRaceBtn, tracks);
         racers.forEach((e) => {
             const el = this.track.createTrack(e);
             tracks.append(el);
@@ -939,6 +985,7 @@ class Track {
         btnStopEl.dataset.btnType = 'racer-stop';
         btnStopEl.classList.add('btn', 'track__btn', 'track__btn_stop');
         btnStopEl.textContent = 'Stop';
+        btnStopEl.disabled = true;
         const btnStartEl = document.createElement('button');
         btnStartEl.dataset.btnType = 'racer-start';
         btnStartEl.classList.add('btn', 'track__btn', 'track__btn_start');
