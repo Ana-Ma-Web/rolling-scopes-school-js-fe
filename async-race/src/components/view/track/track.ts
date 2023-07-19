@@ -1,5 +1,6 @@
 import { Racer } from '../../../types';
 import { RacerEl } from '../racer/racer';
+import { Button } from '../ui/button';
 import './track.css';
 
 export class Track {
@@ -7,6 +8,19 @@ export class Track {
 
   constructor() {
     this.racer = new RacerEl();
+  }
+
+  private createButton(type: 'stop' | 'start'): HTMLButtonElement {
+    const button = new Button();
+    const newBtn = button.createBtn({
+      datasetType: `racer-${type}`,
+      isDisabled: false,
+      rootClass: 'track',
+      modClass: type,
+      textContent: type === 'stop' ? 'Stop' : 'Start',
+    });
+
+    return newBtn;
   }
 
   public createTrack(racer: Racer): HTMLElement {
@@ -23,19 +37,13 @@ export class Track {
     const buttonsEl = document.createElement('div');
     buttonsEl.classList.add('track__buttons');
 
-    const btnStopEl = document.createElement('button');
-    btnStopEl.dataset.btnType = 'racer-stop';
-    btnStopEl.classList.add('btn', 'track__btn', 'track__btn_stop');
-    btnStopEl.textContent = 'Stop';
-    btnStopEl.disabled = true;
-
     const btnStartEl = document.createElement('button');
     btnStartEl.dataset.btnType = 'racer-start';
 
     btnStartEl.classList.add('btn', 'track__btn', 'track__btn_start');
     btnStartEl.textContent = 'Start';
 
-    buttonsEl.append(btnStartEl, btnStopEl);
+    buttonsEl.append(this.createButton('start'), this.createButton('stop'));
     trackEl.append(racerEl, buttonsEl);
     return trackEl;
   }
