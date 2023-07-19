@@ -1,4 +1,5 @@
 import { Track } from '../track/track';
+import { Form } from './form';
 import {
   Animations,
   RaceData,
@@ -225,72 +226,22 @@ export class Garage {
     return tracks;
   }
 
-  private input(props: {
-    type: 'text' | 'color';
-    inputDatasetType: string;
-    class: string;
-  }): HTMLInputElement {
-    const input = document.createElement('input');
-    input.type = props.type;
-    input.dataset.type = props.inputDatasetType;
-    input.classList.add('input', `input-${props.type}`, props.class);
-    return input;
-  }
-
-  private createForm(): HTMLElement {
-    const form = document.createElement('form');
-    form.classList.add('form');
-
-    const inputsCreate = document.createElement('div');
-    inputsCreate.classList.add('form__row');
-    const inputsUpdate = document.createElement('div');
-    inputsUpdate.classList.add('form__row');
-
-    inputsCreate.append(
-      this.input({
-        type: 'text',
-        inputDatasetType: 'input-new-name',
-        class: 'form__input_new-name',
-      }),
-      this.input({
-        type: 'color',
-        inputDatasetType: 'input-new-color',
-        class: 'form__input_new-color',
-      }),
-    );
-
-    inputsUpdate.append(
-      this.input({
-        type: 'text',
-        inputDatasetType: 'input-upd-name',
-        class: 'form__input_upd-name',
-      }),
-      this.input({
-        type: 'color',
-        inputDatasetType: 'input-upd-color',
-        class: 'form__input_upd-color',
-      }),
-    );
-
-    form.append(inputsCreate, inputsUpdate);
-    return form;
-  }
-
   public print(
     racers: Racer[],
     switchMoveMode: (props: SwitchMoveModeProps) => Promise<RaceData>,
   ): void {
     const garageEl = document.createElement('div');
     garageEl.classList.add('garage');
+    const form = new Form();
+
+    document.body.append(garageEl);
+    form.printForm();
 
     garageEl.append(
-      this.createForm(),
       this.createStartRaceBtn(),
       this.createResetRaceBtn(),
       this.createTracks(racers),
     );
-
-    document.body.append(garageEl);
 
     this.addListeners(garageEl, switchMoveMode);
   }
