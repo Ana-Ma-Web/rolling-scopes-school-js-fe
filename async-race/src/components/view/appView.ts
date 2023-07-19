@@ -1,4 +1,10 @@
-import { RaceData, Racer, SwitchMoveModeProps } from '../../types';
+import {
+  CreateRacerProps,
+  GetRacersData,
+  RaceData,
+  Racer,
+  SwitchMoveModeProps,
+} from '../../types';
 import { Garage } from './garage/garage';
 
 export class AppView {
@@ -9,9 +15,11 @@ export class AppView {
   }
 
   public print(
-    racers: Racer[],
+    getRacers: () => Promise<GetRacersData>,
     switchMoveMode: (props: SwitchMoveModeProps) => Promise<RaceData>,
+    createRacer: (props: CreateRacerProps) => Promise<Racer>,
+    updateRacer: (props: Racer) => Promise<Racer>,
   ): void {
-    this.garage.print(racers, switchMoveMode);
+    this.garage.print(getRacers, switchMoveMode, createRacer, updateRacer);
   }
 }

@@ -2,6 +2,8 @@ import { Track } from '../track/track';
 import { Form } from './form';
 import {
   Animations,
+  CreateRacerProps,
+  GetRacersData,
   RaceData,
   Racer,
   SwitchMoveModeProps,
@@ -167,16 +169,16 @@ export class Garage {
   private addListeners(
     root: HTMLElement,
     switchMoveMode: (props: SwitchMoveModeProps) => Promise<RaceData>,
+    setSelectedId: (id: number) => void,
   ): void {
     root.addEventListener('click', (e) => {
       const target = <HTMLElement>e.target;
-      console.log('meow');
 
       if (!target.classList.contains('btn')) return undefined;
 
       const trackEl = <HTMLElement>target.closest('.track');
 
-      switch (target.dataset.btnType) {
+      switch (target.dataset.type) {
         case 'racer-start':
           if (trackEl.dataset.id) {
             this.startRacer(Number(trackEl.dataset.id), switchMoveMode);
@@ -187,6 +189,9 @@ export class Garage {
           break;
         case 'start-race':
           this.startRace(switchMoveMode);
+          break;
+        case 'racer-select':
+          setSelectedId(Number(trackEl.dataset.id));
           break;
         case 'reset-race':
           this.resetRace(switchMoveMode);
@@ -202,7 +207,7 @@ export class Garage {
   private createStartRaceBtn(): HTMLElement {
     const startRaceBtn = document.createElement('button');
     startRaceBtn.classList.add('btn', 'garage__btn', 'garage__btn_start-race');
-    startRaceBtn.dataset.btnType = 'start-race';
+    startRaceBtn.dataset.type = 'start-race';
     startRaceBtn.textContent = 'Start race';
     return startRaceBtn;
   }
@@ -210,39 +215,60 @@ export class Garage {
   private createResetRaceBtn(): HTMLElement {
     const resetRaceBtn = document.createElement('button');
     resetRaceBtn.classList.add('btn', 'garage__btn', 'garage__btn_reset-race');
-    resetRaceBtn.dataset.btnType = 'reset-race';
+    resetRaceBtn.dataset.type = 'reset-race';
     resetRaceBtn.textContent = 'Reset race';
     resetRaceBtn.disabled = true;
     return resetRaceBtn;
   }
 
-  private createTracks(racers: Racer[]): HTMLElement {
-    const tracks = document.createElement('div');
-    tracks.classList.add('garage__tracks');
+  private async updateGarageTracks(
+    getRacers: () => Promise<GetRacersData>,
+  ): Promise<void> {
+    const tracks = document.querySelector('.garage__tracks');
+    if (!tracks) throw new Error('Tracks is not found');
+
+    tracks.innerHTML = '';
+
+    const racersData = await getRacers();
+    const racers = racersData.items;
+
     racers.forEach((e) => {
       const el = this.track.createTrack(e);
-      tracks.append(el);
+      tracks?.append(el);
     });
-    return tracks;
   }
 
   public print(
-    racers: Racer[],
+    getRacers: () => Promise<GetRacersData>,
     switchMoveMode: (props: SwitchMoveModeProps) => Promise<RaceData>,
+    createRacer: (props: CreateRacerProps) => Promise<Racer>,
+    updateRacer: (props: Racer) => Promise<Racer>,
   ): void {
     const garageEl = document.createElement('div');
     garageEl.classList.add('garage');
+
     const form = new Form();
+    const setSelectedId = form.setSelectedId.bind(form);
+
+    const tracks = document.createElement('div');
+    tracks.classList.add('garage__tracks');
 
     document.body.append(garageEl);
-    form.printForm();
+    form.printForm({
+      createRacer,
+      updateRacer,
+      getRacers,
+      updateGarageTracks: this.updateGarageTracks.bind(this),
+    });
 
     garageEl.append(
       this.createStartRaceBtn(),
       this.createResetRaceBtn(),
-      this.createTracks(racers),
+      tracks,
     );
 
-    this.addListeners(garageEl, switchMoveMode);
+    this.updateGarageTracks(getRacers);
+
+    this.addListeners(garageEl, switchMoveMode, setSelectedId);
   }
 }

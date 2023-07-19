@@ -1,6 +1,9 @@
+import { CreateRacerProps, GetRacersData, Racer } from '../../../types';
 import { Button } from '../ui/button';
 
 export class Form {
+  private selectedId = 0;
+
   private newInputValue = '';
 
   private updInputValue = '';
@@ -8,6 +11,15 @@ export class Form {
   private newColorValue = '';
 
   private updColorValue = '';
+
+  public setSelectedId(id: number): void {
+    this.selectedId = id;
+    const selectBtn = <HTMLButtonElement>(
+      document.querySelector('button[data-type="btn-update"]')
+    );
+    selectBtn.disabled = false;
+    console.log(this.selectedId);
+  }
 
   private input(props: {
     type: 'text' | 'color';
@@ -21,7 +33,30 @@ export class Form {
     return input;
   }
 
-  private clickFormHandler(): void {
+  private createRacer(props: {
+    createRacer: (props: CreateRacerProps) => Promise<Racer>;
+  }): void {
+    props.createRacer({ color: this.newColorValue, name: this.newInputValue });
+  }
+
+  private updateRacer(props: {
+    updateRacer: (props: Racer) => Promise<Racer>;
+  }): void {
+    props.updateRacer({
+      id: this.selectedId,
+      color: this.updColorValue,
+      name: this.updInputValue,
+    });
+  }
+
+  private clickFormHandler(props: {
+    createRacer: (props: CreateRacerProps) => Promise<Racer>;
+    updateRacer: (props: Racer) => Promise<Racer>;
+    getRacers: () => Promise<GetRacersData>;
+    updateGarageTracks: (
+      getRacers: () => Promise<GetRacersData>,
+    ) => Promise<void>;
+  }): void {
     const form = document.querySelector('.form');
     form?.addEventListener('click', (e) => {
       const target = <HTMLElement>e.target;
@@ -29,10 +64,14 @@ export class Form {
       switch (target.dataset.type) {
         case 'btn-create':
           e.preventDefault();
+          this.createRacer(props);
+          props.updateGarageTracks(props.getRacers);
           console.log('switch');
           break;
         case 'btn-update':
           e.preventDefault();
+          this.updateRacer(props);
+          props.updateGarageTracks(props.getRacers);
           console.log('switch');
           break;
         default:
@@ -82,8 +121,15 @@ export class Form {
     });
   }
 
-  private listeners(): void {
-    this.clickFormHandler();
+  private listeners(props: {
+    createRacer: (props: CreateRacerProps) => Promise<Racer>;
+    updateRacer: (props: Racer) => Promise<Racer>;
+    getRacers: () => Promise<GetRacersData>;
+    updateGarageTracks: (
+      getRacers: () => Promise<GetRacersData>,
+    ) => Promise<void>;
+  }): void {
+    this.clickFormHandler(props);
     this.textInputHandler();
     this.colorInputHandler();
   }
@@ -95,7 +141,7 @@ export class Form {
     const button = new Button();
     const inputBtn = button.createBtn({
       textContent: type === 'update' ? 'Update' : 'Create',
-      isDisabled: false,
+      isDisabled: type === 'update',
       rootClass: 'form',
       modClass: type,
       datasetType: `btn-${type}`,
@@ -128,12 +174,20 @@ export class Form {
     inputsUpdate.classList.add('form__row');
 
     form.append(this.createInputRow('create'), this.createInputRow('update'));
+
     return form;
   }
 
-  public printForm(): void {
+  public printForm(props: {
+    createRacer: (props: CreateRacerProps) => Promise<Racer>;
+    updateRacer: (props: Racer) => Promise<Racer>;
+    getRacers: () => Promise<GetRacersData>;
+    updateGarageTracks: (
+      getRacers: () => Promise<GetRacersData>,
+    ) => Promise<void>;
+  }): void {
     const garage = document.querySelector('.garage');
     garage?.append(this.createForm());
-    this.listeners();
+    this.listeners(props);
   }
 }

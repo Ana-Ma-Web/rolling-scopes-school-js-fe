@@ -13,11 +13,11 @@ export class App {
   }
 
   public async start(): Promise<void> {
-    const { items, count } = await this.controller.getRacers();
-    console.log('count', count);
     this.view.print(
-      items,
+      this.controller.getRacers.bind(this.controller),
       this.controller.switchMoveMode.bind(this.controller),
+      this.controller.createRacer.bind(this.controller),
+      this.controller.updateRacer.bind(this.controller),
     );
   }
 }
