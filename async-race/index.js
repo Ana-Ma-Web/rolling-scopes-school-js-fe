@@ -669,9 +669,7 @@ class App {
     }
     start() {
         return __awaiter(this, void 0, void 0, function* () {
-            const { items, count } = yield this.controller.getRacers();
-            console.log('count', count);
-            this.view.print(items, this.controller.switchMoveMode.bind(this.controller));
+            this.view.print(this.controller.getRacers.bind(this.controller), this.controller.switchMoveMode.bind(this.controller), this.controller.createRacer.bind(this.controller), this.controller.updateRacer.bind(this.controller));
         });
     }
 }
@@ -705,6 +703,34 @@ class AppController {
             garage: '/garage',
             engine: '/engine',
         };
+    }
+    createRacer(props) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const url = `${this.baseUrl}${this.path.garage}/`;
+            const data = { name: props.name, color: props.color };
+            const response = yield fetch(url, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(data),
+            });
+            const json = yield response.json();
+            console.log(json);
+            return json;
+        });
+    }
+    updateRacer(props) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const url = `${this.baseUrl}${this.path.garage}/${props.id}`;
+            const data = { name: props.name, color: props.color };
+            const response = yield fetch(url, {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(data),
+            });
+            const json = yield response.json();
+            console.log(json);
+            return json;
+        });
     }
     getRacer(id) {
         return __awaiter(this, void 0, void 0, function* () {
@@ -752,8 +778,149 @@ class AppView {
     constructor() {
         this.garage = new _garage_garage__WEBPACK_IMPORTED_MODULE_0__.Garage();
     }
-    print(racers, switchMoveMode) {
-        this.garage.print(racers, switchMoveMode);
+    print(getRacers, switchMoveMode, createRacer, updateRacer) {
+        this.garage.print(getRacers, switchMoveMode, createRacer, updateRacer);
+    }
+}
+
+
+/***/ }),
+
+/***/ "./components/view/garage/form.ts":
+/*!****************************************!*\
+  !*** ./components/view/garage/form.ts ***!
+  \****************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   Form: () => (/* binding */ Form)
+/* harmony export */ });
+/* harmony import */ var _ui_button__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../ui/button */ "./components/view/ui/button.ts");
+
+class Form {
+    constructor() {
+        this.selectedId = 0;
+        this.newInputValue = '';
+        this.updInputValue = '';
+        this.newColorValue = '';
+        this.updColorValue = '';
+    }
+    setSelectedId(id) {
+        this.selectedId = id;
+        const selectBtn = (document.querySelector('button[data-type="btn-update"]'));
+        selectBtn.disabled = false;
+        console.log(this.selectedId);
+    }
+    input(props) {
+        const input = document.createElement('input');
+        input.type = props.type;
+        input.dataset.type = props.inputDatasetType;
+        input.classList.add('input', `input-${props.type}`, props.class);
+        return input;
+    }
+    createRacer(props) {
+        props.createRacer({ color: this.newColorValue, name: this.newInputValue });
+    }
+    updateRacer(props) {
+        props.updateRacer({
+            id: this.selectedId,
+            color: this.updColorValue,
+            name: this.updInputValue,
+        });
+    }
+    clickFormHandler(props) {
+        const form = document.querySelector('.form');
+        form === null || form === void 0 ? void 0 : form.addEventListener('click', (e) => {
+            const target = e.target;
+            switch (target.dataset.type) {
+                case 'btn-create':
+                    e.preventDefault();
+                    this.createRacer(props);
+                    props.updateGarageTracks(props.getRacers);
+                    console.log('switch');
+                    break;
+                case 'btn-update':
+                    e.preventDefault();
+                    this.updateRacer(props);
+                    props.updateGarageTracks(props.getRacers);
+                    console.log('switch');
+                    break;
+                default:
+                    break;
+            }
+        });
+    }
+    textInputHandler() {
+        const form = document.querySelector('.form');
+        form === null || form === void 0 ? void 0 : form.addEventListener('keyup', (e) => {
+            const target = e.target;
+            switch (target.dataset.type) {
+                case 'input-create-name':
+                    this.newInputValue = target.value;
+                    break;
+                case 'input-update-name':
+                    this.updInputValue = target.value;
+                    break;
+                default:
+                    break;
+            }
+        });
+    }
+    colorInputHandler() {
+        const form = document.querySelector('.form');
+        const inputCreateColor = form === null || form === void 0 ? void 0 : form.querySelector('input[data-type="input-create-color"]');
+        inputCreateColor === null || inputCreateColor === void 0 ? void 0 : inputCreateColor.addEventListener('change', (e) => {
+            const target = e.target;
+            this.newColorValue = target.value;
+        });
+        const inputUpdateColor = form === null || form === void 0 ? void 0 : form.querySelector('input[data-type="input-update-color"]');
+        inputUpdateColor === null || inputUpdateColor === void 0 ? void 0 : inputUpdateColor.addEventListener('change', (e) => {
+            const target = e.target;
+            this.updColorValue = target.value;
+        });
+    }
+    listeners(props) {
+        this.clickFormHandler(props);
+        this.textInputHandler();
+        this.colorInputHandler();
+    }
+    createInputRow(type) {
+        const inputsRow = document.createElement('div');
+        inputsRow.classList.add('form__row');
+        const button = new _ui_button__WEBPACK_IMPORTED_MODULE_0__.Button();
+        const inputBtn = button.createBtn({
+            textContent: type === 'update' ? 'Update' : 'Create',
+            isDisabled: type === 'update',
+            rootClass: 'form',
+            modClass: type,
+            datasetType: `btn-${type}`,
+        });
+        inputsRow.append(this.input({
+            type: 'text',
+            inputDatasetType: `input-${type}-name`,
+            class: `form__input_${type}-name`,
+        }), this.input({
+            type: 'color',
+            inputDatasetType: `input-${type}-color`,
+            class: `form__input_${type}-color`,
+        }), inputBtn);
+        return inputsRow;
+    }
+    createForm() {
+        const form = document.createElement('form');
+        form.classList.add('form');
+        const inputsCreate = document.createElement('div');
+        inputsCreate.classList.add('form__row');
+        const inputsUpdate = document.createElement('div');
+        inputsUpdate.classList.add('form__row');
+        form.append(this.createInputRow('create'), this.createInputRow('update'));
+        return form;
+    }
+    printForm(props) {
+        const garage = document.querySelector('.garage');
+        garage === null || garage === void 0 ? void 0 : garage.append(this.createForm());
+        this.listeners(props);
     }
 }
 
@@ -771,6 +938,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   Garage: () => (/* binding */ Garage)
 /* harmony export */ });
 /* harmony import */ var _track_track__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../track/track */ "./components/view/track/track.ts");
+/* harmony import */ var _form__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./form */ "./components/view/garage/form.ts");
 var __awaiter = (undefined && undefined.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -780,6 +948,7 @@ var __awaiter = (undefined && undefined.__awaiter) || function (thisArg, _argume
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+
 
 class Garage {
     constructor() {
@@ -810,11 +979,9 @@ class Garage {
         return result;
     }
     startDisableBtns(id) {
-        const startRaceBtn = (document.querySelector('.garage__btn_start-race'));
         const resetRaceBtn = (document.querySelector('.garage__btn_reset-race'));
         const startBtn = (document.querySelector(`.track[data-id="${id}"] .track__btn_start`));
         const stopBtn = (document.querySelector(`.track[data-id="${id}"] .track__btn_stop`));
-        startRaceBtn.disabled = true;
         stopBtn.disabled = false;
         startBtn.disabled = true;
         const stopBtns = document.querySelectorAll(`.track__btn_stop`);
@@ -827,6 +994,8 @@ class Garage {
         return __awaiter(this, void 0, void 0, function* () {
             if (this.animations[id])
                 this.animations[id].cancel();
+            const startRaceBtn = (document.querySelector('.garage__btn_start-race'));
+            startRaceBtn.disabled = true;
             const raceData = yield switchMoveMode({
                 status: 'started',
                 id,
@@ -867,6 +1036,8 @@ class Garage {
         startRaceBtn.disabled = true;
         tracks.forEach((e) => {
             const el = e;
+            const btn = el.querySelector(`.track__btn_start`);
+            btn.disabled = true;
             this.startRacer(Number(el.dataset.id), switchMoveMode);
         });
     }
@@ -881,14 +1052,13 @@ class Garage {
             });
         });
     }
-    addListeners(root, switchMoveMode) {
+    addListeners(root, switchMoveMode, setSelectedId) {
         root.addEventListener('click', (e) => {
             const target = e.target;
-            console.log('meow');
             if (!target.classList.contains('btn'))
                 return undefined;
             const trackEl = target.closest('.track');
-            switch (target.dataset.btnType) {
+            switch (target.dataset.type) {
                 case 'racer-start':
                     if (trackEl.dataset.id) {
                         this.startRacer(Number(trackEl.dataset.id), switchMoveMode);
@@ -900,6 +1070,9 @@ class Garage {
                 case 'start-race':
                     this.startRace(switchMoveMode);
                     break;
+                case 'racer-select':
+                    setSelectedId(Number(trackEl.dataset.id));
+                    break;
                 case 'reset-race':
                     this.resetRace(switchMoveMode);
                     break;
@@ -909,27 +1082,52 @@ class Garage {
             return undefined;
         });
     }
-    print(racers, switchMoveMode) {
-        const garageEl = document.createElement('div');
-        garageEl.classList.add('garage');
-        const tracks = document.createElement('div');
-        tracks.classList.add('garage__tracks');
+    createStartRaceBtn() {
         const startRaceBtn = document.createElement('button');
         startRaceBtn.classList.add('btn', 'garage__btn', 'garage__btn_start-race');
-        startRaceBtn.dataset.btnType = 'start-race';
+        startRaceBtn.dataset.type = 'start-race';
         startRaceBtn.textContent = 'Start race';
+        return startRaceBtn;
+    }
+    createResetRaceBtn() {
         const resetRaceBtn = document.createElement('button');
         resetRaceBtn.classList.add('btn', 'garage__btn', 'garage__btn_reset-race');
-        resetRaceBtn.dataset.btnType = 'reset-race';
+        resetRaceBtn.dataset.type = 'reset-race';
         resetRaceBtn.textContent = 'Reset race';
         resetRaceBtn.disabled = true;
-        garageEl.append(startRaceBtn, resetRaceBtn, tracks);
-        racers.forEach((e) => {
-            const el = this.track.createTrack(e);
-            tracks.append(el);
+        return resetRaceBtn;
+    }
+    updateGarageTracks(getRacers) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const tracks = document.querySelector('.garage__tracks');
+            if (!tracks)
+                throw new Error('Tracks is not found');
+            tracks.innerHTML = '';
+            const racersData = yield getRacers();
+            const racers = racersData.items;
+            racers.forEach((e) => {
+                const el = this.track.createTrack(e);
+                tracks === null || tracks === void 0 ? void 0 : tracks.append(el);
+            });
         });
+    }
+    print(getRacers, switchMoveMode, createRacer, updateRacer) {
+        const garageEl = document.createElement('div');
+        garageEl.classList.add('garage');
+        const form = new _form__WEBPACK_IMPORTED_MODULE_1__.Form();
+        const setSelectedId = form.setSelectedId.bind(form);
+        const tracks = document.createElement('div');
+        tracks.classList.add('garage__tracks');
         document.body.append(garageEl);
-        this.addListeners(garageEl, switchMoveMode);
+        form.printForm({
+            createRacer,
+            updateRacer,
+            getRacers,
+            updateGarageTracks: this.updateGarageTracks.bind(this),
+        });
+        garageEl.append(this.createStartRaceBtn(), this.createResetRaceBtn(), tracks);
+        this.updateGarageTracks(getRacers);
+        this.addListeners(garageEl, switchMoveMode, setSelectedId);
     }
 }
 
@@ -970,13 +1168,28 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   Track: () => (/* binding */ Track)
 /* harmony export */ });
-/* harmony import */ var _racer_racer__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../racer/racer */ "./components/view/racer/racer.ts");
-/* harmony import */ var _track_css__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./track.css */ "./components/view/track/track.css");
+/* harmony import */ var _helpers_capitalisation__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../helpers/capitalisation */ "./helpers/capitalisation.ts");
+/* harmony import */ var _racer_racer__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../racer/racer */ "./components/view/racer/racer.ts");
+/* harmony import */ var _ui_button__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../ui/button */ "./components/view/ui/button.ts");
+/* harmony import */ var _track_css__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./track.css */ "./components/view/track/track.css");
+
+
 
 
 class Track {
     constructor() {
-        this.racer = new _racer_racer__WEBPACK_IMPORTED_MODULE_0__.RacerEl();
+        this.racer = new _racer_racer__WEBPACK_IMPORTED_MODULE_1__.RacerEl();
+    }
+    createButton(type) {
+        const button = new _ui_button__WEBPACK_IMPORTED_MODULE_2__.Button();
+        const newBtn = button.createBtn({
+            datasetType: `racer-${type}`,
+            isDisabled: false,
+            rootClass: 'track',
+            modClass: type,
+            textContent: (0,_helpers_capitalisation__WEBPACK_IMPORTED_MODULE_0__.capitalisation)(type),
+        });
+        return newBtn;
     }
     createTrack(racer) {
         const trackEl = document.createElement('div');
@@ -985,23 +1198,62 @@ class Track {
         const racerEl = this.racer.createRacer(racer);
         const nameEl = document.createElement('div');
         nameEl.classList.add('track__name');
-        nameEl.textContent = racer.name;
+        nameEl.textContent = (0,_helpers_capitalisation__WEBPACK_IMPORTED_MODULE_0__.capitalisation)(racer.name);
         const buttonsEl = document.createElement('div');
         buttonsEl.classList.add('track__buttons');
-        const btnStopEl = document.createElement('button');
-        btnStopEl.dataset.btnType = 'racer-stop';
-        btnStopEl.classList.add('btn', 'track__btn', 'track__btn_stop');
-        btnStopEl.textContent = 'Stop';
-        btnStopEl.disabled = true;
         const btnStartEl = document.createElement('button');
         btnStartEl.dataset.btnType = 'racer-start';
         btnStartEl.classList.add('btn', 'track__btn', 'track__btn_start');
         btnStartEl.textContent = 'Start';
-        buttonsEl.append(btnStartEl, btnStopEl);
+        buttonsEl.append(this.createButton('start'), this.createButton('stop'), this.createButton('select'));
         trackEl.append(racerEl, buttonsEl);
         return trackEl;
     }
 }
+
+
+/***/ }),
+
+/***/ "./components/view/ui/button.ts":
+/*!**************************************!*\
+  !*** ./components/view/ui/button.ts ***!
+  \**************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   Button: () => (/* binding */ Button)
+/* harmony export */ });
+class Button {
+    createBtn(props) {
+        const btn = document.createElement('button');
+        const { datasetType, rootClass, modClass, textContent, isDisabled } = props;
+        btn.dataset.type = datasetType;
+        btn.classList.add('btn', `${rootClass}__btn`, `${rootClass}__btn_${modClass}`);
+        btn.textContent = textContent;
+        btn.disabled = isDisabled;
+        return btn;
+    }
+}
+
+
+/***/ }),
+
+/***/ "./helpers/capitalisation.ts":
+/*!***********************************!*\
+  !*** ./helpers/capitalisation.ts ***!
+  \***********************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   capitalisation: () => (/* binding */ capitalisation)
+/* harmony export */ });
+const capitalisation = (str) => {
+    const arr = str.split('');
+    arr[0] = arr[0].toUpperCase();
+    return arr.join('');
+};
 
 
 /***/ })
