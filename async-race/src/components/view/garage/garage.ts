@@ -195,6 +195,84 @@ export class Garage {
     });
   }
 
+  private createStartRaceBtn(): HTMLElement {
+    const startRaceBtn = document.createElement('button');
+    startRaceBtn.classList.add('btn', 'garage__btn', 'garage__btn_start-race');
+    startRaceBtn.dataset.btnType = 'start-race';
+    startRaceBtn.textContent = 'Start race';
+    return startRaceBtn;
+  }
+
+  private createResetRaceBtn(): HTMLElement {
+    const resetRaceBtn = document.createElement('button');
+    resetRaceBtn.classList.add('btn', 'garage__btn', 'garage__btn_reset-race');
+    resetRaceBtn.dataset.btnType = 'reset-race';
+    resetRaceBtn.textContent = 'Reset race';
+    resetRaceBtn.disabled = true;
+    return resetRaceBtn;
+  }
+
+  private createTracks(racers: Racer[]): HTMLElement {
+    const tracks = document.createElement('div');
+    tracks.classList.add('garage__tracks');
+    racers.forEach((e) => {
+      const el = this.track.createTrack(e);
+      tracks.append(el);
+    });
+    return tracks;
+  }
+
+  private input(props: {
+    type: 'text' | 'color';
+    inputDatasetType: string;
+    class: string;
+  }): HTMLInputElement {
+    const input = document.createElement('input');
+    input.type = props.type;
+    input.dataset.type = props.inputDatasetType;
+    input.classList.add('input', `input-${props.type}`, props.class);
+    return input;
+  }
+
+  private createForm(): HTMLElement {
+    const form = document.createElement('form');
+    form.classList.add('form');
+
+    const inputsCreate = document.createElement('div');
+    inputsCreate.classList.add('form__row');
+    const inputsUpdate = document.createElement('div');
+    inputsUpdate.classList.add('form__row');
+
+    inputsCreate.append(
+      this.input({
+        type: 'text',
+        inputDatasetType: 'input-new-name',
+        class: 'form__input_new-name',
+      }),
+      this.input({
+        type: 'color',
+        inputDatasetType: 'input-new-color',
+        class: 'form__input_new-color',
+      }),
+    );
+
+    inputsUpdate.append(
+      this.input({
+        type: 'text',
+        inputDatasetType: 'input-upd-name',
+        class: 'form__input_upd-name',
+      }),
+      this.input({
+        type: 'color',
+        inputDatasetType: 'input-upd-color',
+        class: 'form__input_upd-color',
+      }),
+    );
+
+    form.append(inputsCreate, inputsUpdate);
+    return form;
+  }
+
   public print(
     racers: Racer[],
     switchMoveMode: (props: SwitchMoveModeProps) => Promise<RaceData>,
@@ -202,26 +280,13 @@ export class Garage {
     const garageEl = document.createElement('div');
     garageEl.classList.add('garage');
 
-    const tracks = document.createElement('div');
-    tracks.classList.add('garage__tracks');
+    garageEl.append(
+      this.createForm(),
+      this.createStartRaceBtn(),
+      this.createResetRaceBtn(),
+      this.createTracks(racers),
+    );
 
-    const startRaceBtn = document.createElement('button');
-    startRaceBtn.classList.add('btn', 'garage__btn', 'garage__btn_start-race');
-    startRaceBtn.dataset.btnType = 'start-race';
-    startRaceBtn.textContent = 'Start race';
-
-    const resetRaceBtn = document.createElement('button');
-    resetRaceBtn.classList.add('btn', 'garage__btn', 'garage__btn_reset-race');
-    resetRaceBtn.dataset.btnType = 'reset-race';
-    resetRaceBtn.textContent = 'Reset race';
-    resetRaceBtn.disabled = true;
-
-    garageEl.append(startRaceBtn, resetRaceBtn, tracks);
-
-    racers.forEach((e) => {
-      const el = this.track.createTrack(e);
-      tracks.append(el);
-    });
     document.body.append(garageEl);
 
     this.addListeners(garageEl, switchMoveMode);
