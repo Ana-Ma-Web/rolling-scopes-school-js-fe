@@ -9,7 +9,7 @@ export class Button {
     const btn = document.createElement('button');
     const { datasetType, rootClass, modClass, textContent, isDisabled } = props;
 
-    btn.dataset.btnType = datasetType;
+    btn.dataset.type = datasetType;
     btn.classList.add(
       'btn',
       `${rootClass}__btn`,

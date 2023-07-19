@@ -1,6 +1,14 @@
 import { Button } from '../ui/button';
 
 export class Form {
+  private newInputValue = '';
+
+  private updInputValue = '';
+
+  private newColorValue = '';
+
+  private updColorValue = '';
+
   private input(props: {
     type: 'text' | 'color';
     inputDatasetType: string;
@@ -13,11 +21,71 @@ export class Form {
     return input;
   }
 
-  private listeners(): void {
+  private clickFormHandler(): void {
     const form = document.querySelector('.form');
-    form?.addEventListener('click', () => {
-      console.log('click');
+    form?.addEventListener('click', (e) => {
+      const target = <HTMLElement>e.target;
+
+      switch (target.dataset.type) {
+        case 'btn-create':
+          e.preventDefault();
+          console.log('switch');
+          break;
+        case 'btn-update':
+          e.preventDefault();
+          console.log('switch');
+          break;
+        default:
+          break;
+      }
     });
+  }
+
+  private textInputHandler(): void {
+    const form = document.querySelector('.form');
+
+    form?.addEventListener('keyup', (e) => {
+      const target = <HTMLInputElement>e.target;
+
+      switch (target.dataset.type) {
+        case 'input-create-name':
+          this.newInputValue = target.value;
+          break;
+        case 'input-update-name':
+          this.updInputValue = target.value;
+          break;
+        default:
+          break;
+      }
+    });
+  }
+
+  private colorInputHandler(): void {
+    const form = document.querySelector('.form');
+
+    const inputCreateColor = form?.querySelector(
+      'input[data-type="input-create-color"]',
+    );
+
+    inputCreateColor?.addEventListener('change', (e) => {
+      const target = <HTMLInputElement>e.target;
+      this.newColorValue = target.value;
+    });
+
+    const inputUpdateColor = form?.querySelector(
+      'input[data-type="input-update-color"]',
+    );
+
+    inputUpdateColor?.addEventListener('change', (e) => {
+      const target = <HTMLInputElement>e.target;
+      this.updColorValue = target.value;
+    });
+  }
+
+  private listeners(): void {
+    this.clickFormHandler();
+    this.textInputHandler();
+    this.colorInputHandler();
   }
 
   private createInputRow(type: 'create' | 'update'): HTMLDivElement {
@@ -30,7 +98,7 @@ export class Form {
       isDisabled: false,
       rootClass: 'form',
       modClass: type,
-      datasetType: `form-${type}`,
+      datasetType: `btn-${type}`,
     });
 
     inputsRow.append(
