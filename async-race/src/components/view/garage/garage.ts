@@ -48,9 +48,6 @@ export class Garage {
   }
 
   private startDisableBtns(id: number): void {
-    const startRaceBtn = <HTMLButtonElement>(
-      document.querySelector('.garage__btn_start-race')
-    );
     const resetRaceBtn = <HTMLButtonElement>(
       document.querySelector('.garage__btn_reset-race')
     );
@@ -60,7 +57,6 @@ export class Garage {
     const stopBtn = <HTMLButtonElement>(
       document.querySelector(`.track[data-id="${id}"] .track__btn_stop`)
     );
-    startRaceBtn.disabled = true;
     stopBtn.disabled = false;
     startBtn.disabled = true;
 
@@ -76,6 +72,11 @@ export class Garage {
     switchMoveMode: (props: SwitchMoveModeProps) => Promise<RaceData>,
   ): Promise<void> {
     if (this.animations[id]) this.animations[id].cancel();
+
+    const startRaceBtn = <HTMLButtonElement>(
+      document.querySelector('.garage__btn_start-race')
+    );
+    startRaceBtn.disabled = true;
 
     const raceData = await switchMoveMode({
       status: 'started',
@@ -140,6 +141,8 @@ export class Garage {
 
     tracks.forEach((e) => {
       const el = <HTMLElement>e;
+      const btn = <HTMLButtonElement>el.querySelector(`.track__btn_start`);
+      btn.disabled = true;
       this.startRacer(Number(el.dataset.id), switchMoveMode);
     });
   }
