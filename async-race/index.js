@@ -669,7 +669,7 @@ class App {
     }
     start() {
         return __awaiter(this, void 0, void 0, function* () {
-            this.view.print(this.controller.getRacers.bind(this.controller), this.controller.switchMoveMode.bind(this.controller), this.controller.createRacer.bind(this.controller), this.controller.updateRacer.bind(this.controller));
+            this.view.print(this.controller.getRacers.bind(this.controller), this.controller.switchMoveMode.bind(this.controller), this.controller.createRacer.bind(this.controller), this.controller.updateRacer.bind(this.controller), this.controller.deleteRacer.bind(this.controller));
         });
     }
 }
@@ -714,7 +714,6 @@ class AppController {
                 body: JSON.stringify(data),
             });
             const json = yield response.json();
-            console.log(json);
             return json;
         });
     }
@@ -728,7 +727,16 @@ class AppController {
                 body: JSON.stringify(data),
             });
             const json = yield response.json();
-            console.log(json);
+            return json;
+        });
+    }
+    deleteRacer(id) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const url = `${this.baseUrl}${this.path.garage}/${id}`;
+            const response = yield fetch(url, {
+                method: 'DELETE',
+            });
+            const json = yield response.json();
             return json;
         });
     }
@@ -778,8 +786,8 @@ class AppView {
     constructor() {
         this.garage = new _garage_garage__WEBPACK_IMPORTED_MODULE_0__.Garage();
     }
-    print(getRacers, switchMoveMode, createRacer, updateRacer) {
-        this.garage.print(getRacers, switchMoveMode, createRacer, updateRacer);
+    print(getRacers, switchMoveMode, createRacer, updateRacer, deleteRacer) {
+        this.garage.print(getRacers, switchMoveMode, createRacer, updateRacer, deleteRacer);
     }
 }
 
@@ -812,7 +820,6 @@ class Form {
         this.selectedId = id;
         const selectBtn = (document.querySelector('button[data-type="btn-update"]'));
         selectBtn.disabled = false;
-        console.log(this.selectedId);
     }
     createRacer(props) {
         props.createRacer({
@@ -870,7 +877,6 @@ class Form {
         });
         inputUpdateColor === null || inputUpdateColor === void 0 ? void 0 : inputUpdateColor.addEventListener('change', (e) => {
             const target = e.target;
-            console.log(target.value);
             this.updColorValue = target.value;
             this.updatePreview();
         });
@@ -1082,18 +1088,23 @@ class Garage {
             });
         });
     }
-    createRandomRacer() {
-        const name = (0,_helpers_getRandomName__WEBPACK_IMPORTED_MODULE_3__.getRandomName)();
-        const color = (0,_helpers_getRandomColor__WEBPACK_IMPORTED_MODULE_0__.getRandomColor)();
-        return { color, name };
-    }
     generateRacers(createRacerFetch, getRacers) {
         for (let i = 0; i < 5; i += 1) {
-            createRacerFetch(this.createRandomRacer());
+            createRacerFetch({
+                name: (0,_helpers_getRandomName__WEBPACK_IMPORTED_MODULE_3__.getRandomName)(),
+                color: (0,_helpers_getRandomColor__WEBPACK_IMPORTED_MODULE_0__.getRandomColor)(),
+            });
         }
         this.updateGarageTracks(getRacers);
     }
-    addListeners(root, switchMoveMode, setSelectedId, createRacerFetch, getRacers) {
+    removeRacer(id, deleteRacer, getRacers) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const response = yield deleteRacer(id);
+            this.updateGarageTracks(getRacers);
+            return response;
+        });
+    }
+    addListeners(root, switchMoveMode, setSelectedId, createRacerFetch, getRacers, deleteRacer) {
         root.addEventListener('click', (e) => {
             const target = e.target;
             if (!target.classList.contains('btn'))
@@ -1101,9 +1112,7 @@ class Garage {
             const trackEl = target.closest('.track');
             switch (target.dataset.type) {
                 case 'racer-start':
-                    if (trackEl.dataset.id) {
-                        this.startRacer(Number(trackEl.dataset.id), switchMoveMode);
-                    }
+                    this.startRacer(Number(trackEl.dataset.id), switchMoveMode);
                     break;
                 case 'racer-stop':
                     this.stopRacer(Number(trackEl.dataset.id), switchMoveMode);
@@ -1113,6 +1122,9 @@ class Garage {
                     break;
                 case 'racer-select':
                     setSelectedId(Number(trackEl.dataset.id));
+                    break;
+                case 'racer-remove':
+                    this.removeRacer(Number(trackEl.dataset.id), deleteRacer, getRacers);
                     break;
                 case 'reset-race':
                     this.resetRace(switchMoveMode);
@@ -1162,7 +1174,7 @@ class Garage {
             });
         });
     }
-    print(getRacers, switchMoveMode, createRacer, updateRacer) {
+    print(getRacers, switchMoveMode, createRacer, updateRacer, deleteRacer) {
         const garageEl = document.createElement('div');
         garageEl.classList.add('garage');
         const form = new _form__WEBPACK_IMPORTED_MODULE_2__.Form();
@@ -1178,7 +1190,7 @@ class Garage {
         });
         garageEl.append(this.createStartRaceBtn(), this.createResetRaceBtn(), this.generateRacersBtn(), tracks);
         this.updateGarageTracks(getRacers);
-        this.addListeners(garageEl, switchMoveMode, setSelectedId, createRacer, getRacers);
+        this.addListeners(garageEl, switchMoveMode, setSelectedId, createRacer, getRacers, deleteRacer);
     }
 }
 
@@ -1247,20 +1259,13 @@ class Track {
         trackEl.dataset.id = String(racer.id);
         trackEl.classList.add('track');
         const racerEl = this.racer.createRacer(racer);
-        const nameEl = document.createElement('div');
-        nameEl.classList.add('track__name');
-        nameEl.textContent = (0,_helpers_capitalisation__WEBPACK_IMPORTED_MODULE_0__.capitalisation)(racer.name);
         const buttonsEl = document.createElement('div');
         buttonsEl.classList.add('track__buttons');
-        const btnStartEl = document.createElement('button');
-        btnStartEl.dataset.btnType = 'racer-start';
-        btnStartEl.classList.add('btn', 'track__btn', 'track__btn_start');
-        btnStartEl.textContent = 'Start';
         const name = document.createElement('span');
         name.textContent = racer.name;
         name.classList.add('track__name', 'name');
-        buttonsEl.append(this.createButton('start'), this.createButton('stop'), this.createButton('select'), name);
-        trackEl.append(racerEl, buttonsEl);
+        buttonsEl.append(this.createButton('start'), this.createButton('stop'), this.createButton('select'), this.createButton('remove'));
+        trackEl.append(name, buttonsEl, racerEl);
         return trackEl;
     }
 }
@@ -1335,7 +1340,6 @@ const getRandomColor = () => {
         (0,_getRandomNumber__WEBPACK_IMPORTED_MODULE_0__.getRandomNumber)(16).toString(16),
         (0,_getRandomNumber__WEBPACK_IMPORTED_MODULE_0__.getRandomNumber)(16).toString(16),
     ];
-    console.log(colorArr);
     return `#${colorArr.join('')}`;
 };
 
@@ -1356,7 +1360,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _getRandomNumber__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./getRandomNumber */ "./helpers/getRandomNumber.ts");
 
 
-const firstVowels = 'a, e, i, o, u, y, ea, eo, io, ao, aa, ee, oo, ya, yo, yu';
+const firstVowels = 'a, e, i, o, u, y, ea, eo, io, ao, aa, ee, oo';
 const lastVowels = 'a, o, y, a, o, y, ia, ea, io, ia, yo, ya';
 const consonants = 'b, c, d, f, g, h, k, l, m, n, p, r, s, t, v, w, x, z, th, sh, ch, br, fr, cr, dr, gr, pr, tr, vr, wr, xr, zr, sm, sn, hn, gn';
 const randomItem = (strLetters) => {
@@ -1377,7 +1381,6 @@ const getRandomName = () => {
         if (i === syllableCount - 1 && !(i % 2)) {
             name += endingType ? randomItem(lastVowels) : '';
         }
-        console.log(name);
     }
     return (0,_capitalisation__WEBPACK_IMPORTED_MODULE_0__.capitalisation)(name);
 };
