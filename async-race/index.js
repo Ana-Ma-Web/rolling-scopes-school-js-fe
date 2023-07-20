@@ -805,8 +805,8 @@ class Form {
         this.selectedId = 0;
         this.newInputValue = 'Anonym';
         this.updInputValue = 'Anonym';
-        this.newColorValue = '#000000';
-        this.updColorValue = '#000000';
+        this.newColorValue = '#7c7d83';
+        this.updColorValue = '#7c7d83';
     }
     setSelectedId(id) {
         this.selectedId = id;
@@ -884,6 +884,8 @@ class Form {
         input.type = props.type;
         input.dataset.type = props.inputDatasetType;
         input.classList.add('input', `input-${props.type}`, props.class);
+        input.value = props.type === 'text' ? '' : '#7c7d83';
+        input.placeholder = props.type === 'text' ? 'Name' : input.placeholder;
         return input;
     }
     createPreview(type) {
