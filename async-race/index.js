@@ -796,15 +796,17 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   Form: () => (/* binding */ Form)
 /* harmony export */ });
-/* harmony import */ var _ui_button__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../ui/button */ "./components/view/ui/button.ts");
+/* harmony import */ var _helpers_capitalisation__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../helpers/capitalisation */ "./helpers/capitalisation.ts");
+/* harmony import */ var _ui_button__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../ui/button */ "./components/view/ui/button.ts");
+
 
 class Form {
     constructor() {
         this.selectedId = 0;
-        this.newInputValue = '';
-        this.updInputValue = '';
-        this.newColorValue = '';
-        this.updColorValue = '';
+        this.newInputValue = 'Anonym';
+        this.updInputValue = 'Anonym';
+        this.newColorValue = '#000000';
+        this.updColorValue = '#000000';
     }
     setSelectedId(id) {
         this.selectedId = id;
@@ -812,21 +814,17 @@ class Form {
         selectBtn.disabled = false;
         console.log(this.selectedId);
     }
-    input(props) {
-        const input = document.createElement('input');
-        input.type = props.type;
-        input.dataset.type = props.inputDatasetType;
-        input.classList.add('input', `input-${props.type}`, props.class);
-        return input;
-    }
     createRacer(props) {
-        props.createRacer({ color: this.newColorValue, name: this.newInputValue });
+        props.createRacer({
+            color: this.newColorValue,
+            name: this.newInputValue ? (0,_helpers_capitalisation__WEBPACK_IMPORTED_MODULE_0__.capitalisation)(this.newInputValue) : 'Anonym',
+        });
     }
     updateRacer(props) {
         props.updateRacer({
             id: this.selectedId,
             color: this.updColorValue,
-            name: this.updInputValue,
+            name: this.updInputValue ? (0,_helpers_capitalisation__WEBPACK_IMPORTED_MODULE_0__.capitalisation)(this.updInputValue) : 'Anonym',
         });
     }
     clickFormHandler(props) {
@@ -838,57 +836,70 @@ class Form {
                     e.preventDefault();
                     this.createRacer(props);
                     props.updateGarageTracks(props.getRacers);
-                    console.log('switch');
                     break;
                 case 'btn-update':
                     e.preventDefault();
                     this.updateRacer(props);
                     props.updateGarageTracks(props.getRacers);
-                    console.log('switch');
                     break;
                 default:
                     break;
             }
         });
     }
-    textInputHandler() {
+    InputsHandler() {
         const form = document.querySelector('.form');
-        form === null || form === void 0 ? void 0 : form.addEventListener('keyup', (e) => {
-            const target = e.target;
-            switch (target.dataset.type) {
-                case 'input-create-name':
-                    this.newInputValue = target.value;
-                    break;
-                case 'input-update-name':
-                    this.updInputValue = target.value;
-                    break;
-                default:
-                    break;
-            }
-        });
-    }
-    colorInputHandler() {
-        const form = document.querySelector('.form');
+        const inputCreateName = form === null || form === void 0 ? void 0 : form.querySelector('input[data-type="input-create-name"]');
         const inputCreateColor = form === null || form === void 0 ? void 0 : form.querySelector('input[data-type="input-create-color"]');
+        const inputUpdateName = form === null || form === void 0 ? void 0 : form.querySelector('input[data-type="input-update-name"]');
+        const inputUpdateColor = form === null || form === void 0 ? void 0 : form.querySelector('input[data-type="input-update-color"]');
+        inputCreateName === null || inputCreateName === void 0 ? void 0 : inputCreateName.addEventListener('change', (e) => {
+            const target = e.target;
+            this.newInputValue = target.value;
+            this.updatePreview();
+        });
         inputCreateColor === null || inputCreateColor === void 0 ? void 0 : inputCreateColor.addEventListener('change', (e) => {
             const target = e.target;
             this.newColorValue = target.value;
+            this.updatePreview();
         });
-        const inputUpdateColor = form === null || form === void 0 ? void 0 : form.querySelector('input[data-type="input-update-color"]');
+        inputUpdateName === null || inputUpdateName === void 0 ? void 0 : inputUpdateName.addEventListener('change', (e) => {
+            const target = e.target;
+            this.updInputValue = target.value;
+            this.updatePreview();
+        });
         inputUpdateColor === null || inputUpdateColor === void 0 ? void 0 : inputUpdateColor.addEventListener('change', (e) => {
             const target = e.target;
+            console.log(target.value);
             this.updColorValue = target.value;
+            this.updatePreview();
         });
     }
     listeners(props) {
         this.clickFormHandler(props);
-        this.textInputHandler();
-        this.colorInputHandler();
+        this.InputsHandler();
+    }
+    createInput(props) {
+        const input = document.createElement('input');
+        input.type = props.type;
+        input.dataset.type = props.inputDatasetType;
+        input.classList.add('input', `input-${props.type}`, props.class);
+        return input;
+    }
+    createPreview(type) {
+        const preview = document.createElement('div');
+        preview.classList.add('form__preview', `form__preview_${type}`);
+        const racer = document.createElement('div');
+        racer.classList.add(`form__preview-racer_${type}`, 'racer');
+        const name = document.createElement('div');
+        name.classList.add(`form__preview-name_${type}`, 'name');
+        preview.append(racer, name);
+        return preview;
     }
     createInputRow(type) {
         const inputsRow = document.createElement('div');
         inputsRow.classList.add('form__row');
-        const button = new _ui_button__WEBPACK_IMPORTED_MODULE_0__.Button();
+        const button = new _ui_button__WEBPACK_IMPORTED_MODULE_1__.Button();
         const inputBtn = button.createBtn({
             textContent: type === 'update' ? 'Update' : 'Create',
             isDisabled: type === 'update',
@@ -896,16 +907,28 @@ class Form {
             modClass: type,
             datasetType: `btn-${type}`,
         });
-        inputsRow.append(this.input({
+        inputsRow.append(this.createInput({
             type: 'text',
             inputDatasetType: `input-${type}-name`,
             class: `form__input_${type}-name`,
-        }), this.input({
+        }), this.createInput({
             type: 'color',
             inputDatasetType: `input-${type}-color`,
             class: `form__input_${type}-color`,
-        }), inputBtn);
+        }), inputBtn, this.createPreview(type));
         return inputsRow;
+    }
+    updatePreview() {
+        const newRacer = (document.querySelector('.form__preview-racer_create'));
+        const newName = (document.querySelector('.form__preview-name_create'));
+        const updRacer = (document.querySelector('.form__preview-racer_update'));
+        const updName = (document.querySelector('.form__preview-name_update'));
+        if (!newRacer || !newName || !updRacer || !updName)
+            throw new Error('Preview not found');
+        newRacer.style.backgroundColor = this.newColorValue;
+        newName.textContent = (0,_helpers_capitalisation__WEBPACK_IMPORTED_MODULE_0__.capitalisation)(this.newInputValue);
+        updRacer.style.backgroundColor = this.updColorValue;
+        updName.textContent = (0,_helpers_capitalisation__WEBPACK_IMPORTED_MODULE_0__.capitalisation)(this.updInputValue);
     }
     createForm() {
         const form = document.createElement('form');
@@ -920,6 +943,7 @@ class Form {
     printForm(props) {
         const garage = document.querySelector('.garage');
         garage === null || garage === void 0 ? void 0 : garage.append(this.createForm());
+        this.updatePreview();
         this.listeners(props);
     }
 }
@@ -1205,7 +1229,10 @@ class Track {
         btnStartEl.dataset.btnType = 'racer-start';
         btnStartEl.classList.add('btn', 'track__btn', 'track__btn_start');
         btnStartEl.textContent = 'Start';
-        buttonsEl.append(this.createButton('start'), this.createButton('stop'), this.createButton('select'));
+        const name = document.createElement('span');
+        name.textContent = racer.name;
+        name.classList.add('track__name', 'name');
+        buttonsEl.append(this.createButton('start'), this.createButton('stop'), this.createButton('select'), name);
         trackEl.append(racerEl, buttonsEl);
         return trackEl;
     }
@@ -1250,6 +1277,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   capitalisation: () => (/* binding */ capitalisation)
 /* harmony export */ });
 const capitalisation = (str) => {
+    if (str === '')
+        return '';
     const arr = str.split('');
     arr[0] = arr[0].toUpperCase();
     return arr.join('');
