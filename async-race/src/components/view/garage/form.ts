@@ -22,7 +22,7 @@ export class Form {
     console.log(this.selectedId);
   }
 
-  private createRacer(props: {
+  public createRacer(props: {
     createRacer: (props: CreateRacerProps) => Promise<Racer>;
   }): void {
     props.createRacer({
@@ -132,6 +132,7 @@ export class Form {
     input.classList.add('input', `input-${props.type}`, props.class);
     input.value = props.type === 'text' ? '' : '#7c7d83';
     input.placeholder = props.type === 'text' ? 'Name' : input.placeholder;
+
     return input;
   }
 

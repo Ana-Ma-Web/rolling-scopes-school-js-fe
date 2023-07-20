@@ -28,3 +28,7 @@ export interface GetRacersData {
 export interface Animations {
   [index: number]: Animation;
 }
+
+export type FormCreateRacers = (props: {
+  createRacer: (props: CreateRacerProps) => Promise<Racer>;
+}) => void;
