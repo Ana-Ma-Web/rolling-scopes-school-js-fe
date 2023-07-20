@@ -18,6 +18,7 @@ export class App {
       this.controller.switchMoveMode.bind(this.controller),
       this.controller.createRacer.bind(this.controller),
       this.controller.updateRacer.bind(this.controller),
+      this.controller.deleteRacer.bind(this.controller),
     );
   }
 }

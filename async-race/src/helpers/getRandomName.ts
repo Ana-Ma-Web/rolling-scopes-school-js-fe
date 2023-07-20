@@ -1,7 +1,7 @@
 import { capitalisation } from './capitalisation';
 import { getRandomNumber } from './getRandomNumber';
 
-const firstVowels = 'a, e, i, o, u, y, ea, eo, io, ao, aa, ee, oo, ya, yo, yu';
+const firstVowels = 'a, e, i, o, u, y, ea, eo, io, ao, aa, ee, oo';
 const lastVowels = 'a, o, y, a, o, y, ia, ea, io, ia, yo, ya';
 const consonants =
   'b, c, d, f, g, h, k, l, m, n, p, r, s, t, v, w, x, z, th, sh, ch, br, fr, cr, dr, gr, pr, tr, vr, wr, xr, zr, sm, sn, hn, gn';
@@ -25,7 +25,6 @@ export const getRandomName = (): string => {
     if (i === syllableCount - 1 && !(i % 2)) {
       name += endingType ? randomItem(lastVowels) : '';
     }
-    console.log(name);
   }
 
   return capitalisation(name);

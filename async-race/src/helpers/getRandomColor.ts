@@ -10,7 +10,5 @@ export const getRandomColor = (): string => {
     getRandomNumber(16).toString(16),
   ];
 
-  console.log(colorArr);
-
   return `#${colorArr.join('')}`;
 };

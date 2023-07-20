@@ -25,7 +25,6 @@ export class AppController {
     });
 
     const json = await response.json();
-    console.log(json);
     return json;
   }
 
@@ -40,7 +39,17 @@ export class AppController {
     });
 
     const json = await response.json();
-    console.log(json);
+    return json;
+  }
+
+  public async deleteRacer(id: number): Promise<void> {
+    const url = `${this.baseUrl}${this.path.garage}/${id}`;
+
+    const response = await fetch(url, {
+      method: 'DELETE',
+    });
+
+    const json = await response.json();
     return json;
   }
 

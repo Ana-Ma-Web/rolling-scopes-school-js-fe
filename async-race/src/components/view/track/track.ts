@@ -11,7 +11,9 @@ export class Track {
     this.racer = new RacerEl();
   }
 
-  private createButton(type: 'stop' | 'start' | 'select'): HTMLButtonElement {
+  private createButton(
+    type: 'stop' | 'start' | 'select' | 'remove',
+  ): HTMLButtonElement {
     const button = new Button();
     const newBtn = button.createBtn({
       datasetType: `racer-${type}`,
@@ -31,18 +33,8 @@ export class Track {
 
     const racerEl = this.racer.createRacer(racer);
 
-    const nameEl = document.createElement('div');
-    nameEl.classList.add('track__name');
-    nameEl.textContent = capitalisation(racer.name);
-
     const buttonsEl = document.createElement('div');
     buttonsEl.classList.add('track__buttons');
-
-    const btnStartEl = document.createElement('button');
-    btnStartEl.dataset.btnType = 'racer-start';
-
-    btnStartEl.classList.add('btn', 'track__btn', 'track__btn_start');
-    btnStartEl.textContent = 'Start';
 
     const name = document.createElement('span');
     name.textContent = racer.name;
@@ -52,9 +44,9 @@ export class Track {
       this.createButton('start'),
       this.createButton('stop'),
       this.createButton('select'),
-      name,
+      this.createButton('remove'),
     );
-    trackEl.append(racerEl, buttonsEl);
+    trackEl.append(name, buttonsEl, racerEl);
     return trackEl;
   }
 }

@@ -168,22 +168,27 @@ export class Garage {
     });
   }
 
-  private createRandomRacer(): { name: string; color: string } {
-    const name = getRandomName();
-    const color = getRandomColor();
-
-    return { color, name };
-  }
-
   private generateRacers(
     createRacerFetch: (props: CreateRacerProps) => Promise<Racer>,
     getRacers: () => Promise<GetRacersData>,
   ): void {
     for (let i = 0; i < 5; i += 1) {
-      createRacerFetch(this.createRandomRacer());
+      createRacerFetch({
+        name: getRandomName(),
+        color: getRandomColor(),
+      });
     }
-
     this.updateGarageTracks(getRacers);
+  }
+
+  private async removeRacer(
+    id: number,
+    deleteRacer: (id: number) => Promise<void>,
+    getRacers: () => Promise<GetRacersData>,
+  ): Promise<void> {
+    const response = await deleteRacer(id);
+    this.updateGarageTracks(getRacers);
+    return response;
   }
 
   private addListeners(
@@ -192,6 +197,7 @@ export class Garage {
     setSelectedId: (id: number) => void,
     createRacerFetch: (props: CreateRacerProps) => Promise<Racer>,
     getRacers: () => Promise<GetRacersData>,
+    deleteRacer: (id: number) => Promise<void>,
   ): void {
     root.addEventListener('click', (e) => {
       const target = <HTMLElement>e.target;
@@ -199,9 +205,7 @@ export class Garage {
       const trackEl = <HTMLElement>target.closest('.track');
       switch (target.dataset.type) {
         case 'racer-start':
-          if (trackEl.dataset.id) {
-            this.startRacer(Number(trackEl.dataset.id), switchMoveMode);
-          }
+          this.startRacer(Number(trackEl.dataset.id), switchMoveMode);
           break;
         case 'racer-stop':
           this.stopRacer(Number(trackEl.dataset.id), switchMoveMode);
@@ -211,6 +215,9 @@ export class Garage {
           break;
         case 'racer-select':
           setSelectedId(Number(trackEl.dataset.id));
+          break;
+        case 'racer-remove':
+          this.removeRacer(Number(trackEl.dataset.id), deleteRacer, getRacers);
           break;
         case 'reset-race':
           this.resetRace(switchMoveMode);
@@ -276,13 +283,12 @@ export class Garage {
     switchMoveMode: (props: SwitchMoveModeProps) => Promise<RaceData>,
     createRacer: (props: CreateRacerProps) => Promise<Racer>,
     updateRacer: (props: Racer) => Promise<Racer>,
+    deleteRacer: (id: number) => Promise<void>,
   ): void {
     const garageEl = document.createElement('div');
     garageEl.classList.add('garage');
-
     const form = new Form();
     const setSelectedId = form.setSelectedId.bind(form);
-
     const tracks = document.createElement('div');
     tracks.classList.add('garage__tracks');
 
@@ -293,7 +299,6 @@ export class Garage {
       getRacers,
       updateGarageTracks: this.updateGarageTracks.bind(this),
     });
-
     garageEl.append(
       this.createStartRaceBtn(),
       this.createResetRaceBtn(),
@@ -309,6 +314,7 @@ export class Garage {
       setSelectedId,
       createRacer,
       getRacers,
+      deleteRacer,
     );
   }
 }

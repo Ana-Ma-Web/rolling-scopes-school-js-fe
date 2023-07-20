@@ -19,7 +19,6 @@ export class Form {
       document.querySelector('button[data-type="btn-update"]')
     );
     selectBtn.disabled = false;
-    console.log(this.selectedId);
   }
 
   public createRacer(props: {
@@ -103,7 +102,6 @@ export class Form {
     });
     inputUpdateColor?.addEventListener('change', (e) => {
       const target = <HTMLInputElement>e.target;
-      console.log(target.value);
       this.updColorValue = target.value;
       this.updatePreview();
     });
