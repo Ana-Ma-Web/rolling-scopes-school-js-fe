@@ -44,10 +44,15 @@ export class Track {
     btnStartEl.classList.add('btn', 'track__btn', 'track__btn_start');
     btnStartEl.textContent = 'Start';
 
+    const name = document.createElement('span');
+    name.textContent = racer.name;
+    name.classList.add('track__name');
+
     buttonsEl.append(
       this.createButton('start'),
       this.createButton('stop'),
       this.createButton('select'),
+      name,
     );
     trackEl.append(racerEl, buttonsEl);
     return trackEl;

@@ -4,13 +4,13 @@ import { Button } from '../ui/button';
 export class Form {
   private selectedId = 0;
 
-  private newInputValue = '';
+  private newInputValue = 'Anonym';
 
-  private updInputValue = '';
+  private updInputValue = 'Anonym';
 
-  private newColorValue = '';
+  private newColorValue = '#000000';
 
-  private updColorValue = '';
+  private updColorValue = '#000000';
 
   public setSelectedId(id: number): void {
     this.selectedId = id;
@@ -36,7 +36,10 @@ export class Form {
   private createRacer(props: {
     createRacer: (props: CreateRacerProps) => Promise<Racer>;
   }): void {
-    props.createRacer({ color: this.newColorValue, name: this.newInputValue });
+    props.createRacer({
+      color: this.newColorValue,
+      name: this.newInputValue ? this.newInputValue : 'Anonym',
+    });
   }
 
   private updateRacer(props: {
@@ -45,7 +48,7 @@ export class Form {
     props.updateRacer({
       id: this.selectedId,
       color: this.updColorValue,
-      name: this.updInputValue,
+      name: this.updInputValue ? this.updInputValue : 'Anonym',
     });
   }
 
@@ -66,13 +69,11 @@ export class Form {
           e.preventDefault();
           this.createRacer(props);
           props.updateGarageTracks(props.getRacers);
-          console.log('switch');
           break;
         case 'btn-update':
           e.preventDefault();
           this.updateRacer(props);
           props.updateGarageTracks(props.getRacers);
-          console.log('switch');
           break;
         default:
           break;
@@ -80,43 +81,37 @@ export class Form {
     });
   }
 
-  private textInputHandler(): void {
+  private InputsHandler(): void {
     const form = document.querySelector('.form');
 
-    form?.addEventListener('keyup', (e) => {
-      const target = <HTMLInputElement>e.target;
-
-      switch (target.dataset.type) {
-        case 'input-create-name':
-          this.newInputValue = target.value;
-          break;
-        case 'input-update-name':
-          this.updInputValue = target.value;
-          break;
-        default:
-          break;
-      }
-    });
-  }
-
-  private colorInputHandler(): void {
-    const form = document.querySelector('.form');
-
+    const inputCreateName = form?.querySelector(
+      'input[data-type="input-create-name"]',
+    );
     const inputCreateColor = form?.querySelector(
       'input[data-type="input-create-color"]',
     );
-
-    inputCreateColor?.addEventListener('change', (e) => {
-      const target = <HTMLInputElement>e.target;
-      this.newColorValue = target.value;
-    });
-
+    const inputUpdateName = form?.querySelector(
+      'input[data-type="input-update-name"]',
+    );
     const inputUpdateColor = form?.querySelector(
       'input[data-type="input-update-color"]',
     );
 
+    inputCreateName?.addEventListener('change', (e) => {
+      const target = <HTMLInputElement>e.target;
+      this.newInputValue = target.value;
+    });
+    inputCreateColor?.addEventListener('change', (e) => {
+      const target = <HTMLInputElement>e.target;
+      this.newColorValue = target.value;
+    });
+    inputUpdateName?.addEventListener('change', (e) => {
+      const target = <HTMLInputElement>e.target;
+      this.updInputValue = target.value;
+    });
     inputUpdateColor?.addEventListener('change', (e) => {
       const target = <HTMLInputElement>e.target;
+      console.log(target.value);
       this.updColorValue = target.value;
     });
   }
@@ -130,8 +125,7 @@ export class Form {
     ) => Promise<void>;
   }): void {
     this.clickFormHandler(props);
-    this.textInputHandler();
-    this.colorInputHandler();
+    this.InputsHandler();
   }
 
   private createInputRow(type: 'create' | 'update'): HTMLDivElement {
