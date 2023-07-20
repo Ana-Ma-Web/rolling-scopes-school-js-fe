@@ -10,6 +10,7 @@ import { getRandomColor } from '../../../helpers/getRandomColor';
 import { Track } from '../track/track';
 import { Form } from './form';
 import { getRandomName } from '../../../helpers/getRandomName';
+import { Button } from '../ui/button';
 
 export class Garage {
   private track: Track;
@@ -54,7 +55,7 @@ export class Garage {
 
   private startDisableBtns(id: number): void {
     const resetRaceBtn = <HTMLButtonElement>(
-      document.querySelector('.garage__btn_reset-race')
+      document.querySelector('.garage__btn_race-reset')
     );
     const startBtn = <HTMLButtonElement>(
       document.querySelector(`.track[data-id="${id}"] .track__btn_start`)
@@ -79,9 +80,14 @@ export class Garage {
     if (this.animations[id]) this.animations[id].cancel();
 
     const startRaceBtn = <HTMLButtonElement>(
-      document.querySelector('.garage__btn_start-race')
+      document.querySelector('.garage__btn_race-start')
     );
     startRaceBtn.disabled = true;
+
+    const stopBtn = <HTMLButtonElement>(
+      document.querySelector(`.track[data-id="${id}"] .track__btn_stop`)
+    );
+    stopBtn.disabled = true;
 
     const raceData = await switchMoveMode({
       status: 'started',
@@ -128,7 +134,7 @@ export class Garage {
     const isDone = this.isActiveBtns(<NodeListOf<HTMLButtonElement>>startBtns);
     if (isDone) {
       const startRaceBtn = <HTMLButtonElement>(
-        document.querySelector('.garage__btn_start-race')
+        document.querySelector('.garage__btn_race-start')
       );
       startRaceBtn.disabled = false;
     }
@@ -140,7 +146,7 @@ export class Garage {
     const tracks = document.querySelectorAll('.track');
 
     const startRaceBtn = <HTMLButtonElement>(
-      document.querySelector('.garage__btn_start-race')
+      document.querySelector('.garage__btn_race-start')
     );
     startRaceBtn.disabled = true;
 
@@ -156,7 +162,7 @@ export class Garage {
     switchMoveMode: (props: SwitchMoveModeProps) => Promise<RaceData>,
   ): Promise<void> {
     const resetRaceBtn = <HTMLButtonElement>(
-      document.querySelector('.garage__btn_reset-race')
+      document.querySelector('.garage__btn_race-reset')
     );
     resetRaceBtn.disabled = true;
 
@@ -191,6 +197,48 @@ export class Garage {
     return response;
   }
 
+  private racerHandler(
+    type: string | undefined,
+    trackEl: HTMLElement,
+    switchMoveMode: (props: SwitchMoveModeProps) => Promise<RaceData>,
+    setSelectedId: (id: number) => void,
+    deleteRacer: (id: number) => Promise<void>,
+    getRacers: () => Promise<GetRacersData>,
+  ): void {
+    switch (type) {
+      case 'racer-start' || 'racer-stop':
+        this.startRacer(Number(trackEl.dataset.id), switchMoveMode);
+        break;
+      case 'racer-stop':
+        this.stopRacer(Number(trackEl.dataset.id), switchMoveMode);
+        break;
+      case 'racer-select':
+        setSelectedId(Number(trackEl.dataset.id));
+        break;
+      case 'racer-remove':
+        this.removeRacer(Number(trackEl.dataset.id), deleteRacer, getRacers);
+        break;
+      default:
+        break;
+    }
+  }
+
+  private raceHandler(
+    type: string | undefined,
+    switchMoveMode: (props: SwitchMoveModeProps) => Promise<RaceData>,
+  ): void {
+    switch (type) {
+      case 'race-start':
+        this.startRace(switchMoveMode);
+        break;
+      case 'race-reset':
+        this.resetRace(switchMoveMode);
+        break;
+      default:
+        break;
+    }
+  }
+
   private addListeners(
     root: HTMLElement,
     switchMoveMode: (props: SwitchMoveModeProps) => Promise<RaceData>,
@@ -203,26 +251,22 @@ export class Garage {
       const target = <HTMLElement>e.target;
       if (!target.classList.contains('btn')) return undefined;
       const trackEl = <HTMLElement>target.closest('.track');
-      switch (target.dataset.type) {
-        case 'racer-start':
-          this.startRacer(Number(trackEl.dataset.id), switchMoveMode);
+      const typePrefix = target.dataset.type?.split('-')[0];
+      switch (typePrefix) {
+        case 'racer':
+          this.racerHandler(
+            target.dataset.type,
+            trackEl,
+            switchMoveMode,
+            setSelectedId,
+            deleteRacer,
+            getRacers,
+          );
           break;
-        case 'racer-stop':
-          this.stopRacer(Number(trackEl.dataset.id), switchMoveMode);
+        case 'race':
+          this.raceHandler(target.dataset.type, switchMoveMode);
           break;
-        case 'start-race':
-          this.startRace(switchMoveMode);
-          break;
-        case 'racer-select':
-          setSelectedId(Number(trackEl.dataset.id));
-          break;
-        case 'racer-remove':
-          this.removeRacer(Number(trackEl.dataset.id), deleteRacer, getRacers);
-          break;
-        case 'reset-race':
-          this.resetRace(switchMoveMode);
-          break;
-        case 'generate-racers':
+        case 'generate':
           this.generateRacers(createRacerFetch, getRacers);
           break;
         default:
@@ -234,16 +278,16 @@ export class Garage {
 
   private createStartRaceBtn(): HTMLElement {
     const startRaceBtn = document.createElement('button');
-    startRaceBtn.classList.add('btn', 'garage__btn', 'garage__btn_start-race');
-    startRaceBtn.dataset.type = 'start-race';
+    startRaceBtn.classList.add('btn', 'garage__btn', 'garage__btn_race-start');
+    startRaceBtn.dataset.type = 'race-start';
     startRaceBtn.textContent = 'Start race';
     return startRaceBtn;
   }
 
   private createResetRaceBtn(): HTMLElement {
     const resetRaceBtn = document.createElement('button');
-    resetRaceBtn.classList.add('btn', 'garage__btn', 'garage__btn_reset-race');
-    resetRaceBtn.dataset.type = 'reset-race';
+    resetRaceBtn.classList.add('btn', 'garage__btn', 'garage__btn_race-reset');
+    resetRaceBtn.dataset.type = 'race-reset';
     resetRaceBtn.textContent = 'Reset race';
     resetRaceBtn.disabled = true;
     return resetRaceBtn;
@@ -278,6 +322,28 @@ export class Garage {
     });
   }
 
+  private createPagination(): HTMLElement {
+    const pagination = document.createElement('div');
+    const button = new Button();
+    const paginationBtnLeft = button.createBtn({
+      datasetType: 'pagination-left',
+      isDisabled: true,
+      modClass: 'pagination-left',
+      textContent: 'Prev',
+      rootClass: 'pagination',
+    });
+    const paginationBtnRight = button.createBtn({
+      datasetType: 'pagination-right',
+      isDisabled: false,
+      modClass: 'pagination-right',
+      textContent: 'Next',
+      rootClass: 'pagination',
+    });
+
+    pagination.append(paginationBtnLeft, paginationBtnRight);
+    return pagination;
+  }
+
   public print(
     getRacers: () => Promise<GetRacersData>,
     switchMoveMode: (props: SwitchMoveModeProps) => Promise<RaceData>,
@@ -303,6 +369,7 @@ export class Garage {
       this.createStartRaceBtn(),
       this.createResetRaceBtn(),
       this.generateRacersBtn(),
+      this.createPagination(),
       tracks,
     );
 

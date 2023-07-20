@@ -17,7 +17,7 @@ export class Track {
     const button = new Button();
     const newBtn = button.createBtn({
       datasetType: `racer-${type}`,
-      isDisabled: false,
+      isDisabled: type === 'stop',
       rootClass: 'track',
       modClass: type,
       textContent: capitalisation(type),
