@@ -46,7 +46,7 @@ export class Track {
 
     const name = document.createElement('span');
     name.textContent = racer.name;
-    name.classList.add('track__name');
+    name.classList.add('track__name', 'name');
 
     buttonsEl.append(
       this.createButton('start'),
