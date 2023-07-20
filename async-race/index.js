@@ -963,8 +963,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   Garage: () => (/* binding */ Garage)
 /* harmony export */ });
-/* harmony import */ var _track_track__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../track/track */ "./components/view/track/track.ts");
-/* harmony import */ var _form__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./form */ "./components/view/garage/form.ts");
+/* harmony import */ var _helpers_getRandomColor__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../helpers/getRandomColor */ "./helpers/getRandomColor.ts");
+/* harmony import */ var _track_track__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../track/track */ "./components/view/track/track.ts");
+/* harmony import */ var _form__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./form */ "./components/view/garage/form.ts");
+/* harmony import */ var _helpers_getRandomName__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../helpers/getRandomName */ "./helpers/getRandomName.ts");
 var __awaiter = (undefined && undefined.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -976,9 +978,11 @@ var __awaiter = (undefined && undefined.__awaiter) || function (thisArg, _argume
 };
 
 
+
+
 class Garage {
     constructor() {
-        this.track = new _track_track__WEBPACK_IMPORTED_MODULE_0__.Track();
+        this.track = new _track_track__WEBPACK_IMPORTED_MODULE_1__.Track();
         this.animations = {};
     }
     start() { }
@@ -1078,7 +1082,18 @@ class Garage {
             });
         });
     }
-    addListeners(root, switchMoveMode, setSelectedId) {
+    createRandomRacer() {
+        const name = (0,_helpers_getRandomName__WEBPACK_IMPORTED_MODULE_3__.getRandomName)();
+        const color = (0,_helpers_getRandomColor__WEBPACK_IMPORTED_MODULE_0__.getRandomColor)();
+        return { color, name };
+    }
+    generateRacers(createRacerFetch, getRacers) {
+        for (let i = 0; i < 5; i += 1) {
+            createRacerFetch(this.createRandomRacer());
+        }
+        this.updateGarageTracks(getRacers);
+    }
+    addListeners(root, switchMoveMode, setSelectedId, createRacerFetch, getRacers) {
         root.addEventListener('click', (e) => {
             const target = e.target;
             if (!target.classList.contains('btn'))
@@ -1102,6 +1117,9 @@ class Garage {
                 case 'reset-race':
                     this.resetRace(switchMoveMode);
                     break;
+                case 'generate-racers':
+                    this.generateRacers(createRacerFetch, getRacers);
+                    break;
                 default:
                     break;
             }
@@ -1123,6 +1141,13 @@ class Garage {
         resetRaceBtn.disabled = true;
         return resetRaceBtn;
     }
+    generateRacersBtn() {
+        const generateRacersBtn = document.createElement('button');
+        generateRacersBtn.classList.add('btn', 'garage__btn', 'garage__btn_generate-racers');
+        generateRacersBtn.dataset.type = 'generate-racers';
+        generateRacersBtn.textContent = 'Generate racers';
+        return generateRacersBtn;
+    }
     updateGarageTracks(getRacers) {
         return __awaiter(this, void 0, void 0, function* () {
             const tracks = document.querySelector('.garage__tracks');
@@ -1140,7 +1165,7 @@ class Garage {
     print(getRacers, switchMoveMode, createRacer, updateRacer) {
         const garageEl = document.createElement('div');
         garageEl.classList.add('garage');
-        const form = new _form__WEBPACK_IMPORTED_MODULE_1__.Form();
+        const form = new _form__WEBPACK_IMPORTED_MODULE_2__.Form();
         const setSelectedId = form.setSelectedId.bind(form);
         const tracks = document.createElement('div');
         tracks.classList.add('garage__tracks');
@@ -1151,9 +1176,9 @@ class Garage {
             getRacers,
             updateGarageTracks: this.updateGarageTracks.bind(this),
         });
-        garageEl.append(this.createStartRaceBtn(), this.createResetRaceBtn(), tracks);
+        garageEl.append(this.createStartRaceBtn(), this.createResetRaceBtn(), this.generateRacersBtn(), tracks);
         this.updateGarageTracks(getRacers);
-        this.addListeners(garageEl, switchMoveMode, setSelectedId);
+        this.addListeners(garageEl, switchMoveMode, setSelectedId, createRacer, getRacers);
     }
 }
 
@@ -1284,6 +1309,94 @@ const capitalisation = (str) => {
     const arr = str.split('');
     arr[0] = arr[0].toUpperCase();
     return arr.join('');
+};
+
+
+/***/ }),
+
+/***/ "./helpers/getRandomColor.ts":
+/*!***********************************!*\
+  !*** ./helpers/getRandomColor.ts ***!
+  \***********************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   getRandomColor: () => (/* binding */ getRandomColor)
+/* harmony export */ });
+/* harmony import */ var _getRandomNumber__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./getRandomNumber */ "./helpers/getRandomNumber.ts");
+
+const getRandomColor = () => {
+    const colorArr = [
+        (0,_getRandomNumber__WEBPACK_IMPORTED_MODULE_0__.getRandomNumber)(16).toString(16),
+        (0,_getRandomNumber__WEBPACK_IMPORTED_MODULE_0__.getRandomNumber)(16).toString(16),
+        (0,_getRandomNumber__WEBPACK_IMPORTED_MODULE_0__.getRandomNumber)(16).toString(16),
+        (0,_getRandomNumber__WEBPACK_IMPORTED_MODULE_0__.getRandomNumber)(16).toString(16),
+        (0,_getRandomNumber__WEBPACK_IMPORTED_MODULE_0__.getRandomNumber)(16).toString(16),
+        (0,_getRandomNumber__WEBPACK_IMPORTED_MODULE_0__.getRandomNumber)(16).toString(16),
+    ];
+    console.log(colorArr);
+    return `#${colorArr.join('')}`;
+};
+
+
+/***/ }),
+
+/***/ "./helpers/getRandomName.ts":
+/*!**********************************!*\
+  !*** ./helpers/getRandomName.ts ***!
+  \**********************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   getRandomName: () => (/* binding */ getRandomName)
+/* harmony export */ });
+/* harmony import */ var _capitalisation__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./capitalisation */ "./helpers/capitalisation.ts");
+/* harmony import */ var _getRandomNumber__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./getRandomNumber */ "./helpers/getRandomNumber.ts");
+
+
+const firstVowels = 'a, e, i, o, u, y, ea, eo, io, ao, aa, ee, oo, ya, yo, yu';
+const lastVowels = 'a, o, y, a, o, y, ia, ea, io, ia, yo, ya';
+const consonants = 'b, c, d, f, g, h, k, l, m, n, p, r, s, t, v, w, x, z, th, sh, ch, br, fr, cr, dr, gr, pr, tr, vr, wr, xr, zr, sm, sn, hn, gn';
+const randomItem = (strLetters) => {
+    const arr = strLetters.split(', ');
+    const index = (0,_getRandomNumber__WEBPACK_IMPORTED_MODULE_1__.getRandomNumber)(arr.length);
+    return arr[index];
+};
+const getRandomName = () => {
+    let name = '';
+    const syllableCount = (0,_getRandomNumber__WEBPACK_IMPORTED_MODULE_1__.getRandomNumber)(2) + 3;
+    const endingType = (0,_getRandomNumber__WEBPACK_IMPORTED_MODULE_1__.getRandomNumber)(2);
+    for (let i = 0; i < syllableCount; i += 1) {
+        if (!(i % 2)) {
+            name += randomItem(consonants);
+        }
+        else
+            name += randomItem(firstVowels);
+        if (i === syllableCount - 1 && !(i % 2)) {
+            name += endingType ? randomItem(lastVowels) : '';
+        }
+        console.log(name);
+    }
+    return (0,_capitalisation__WEBPACK_IMPORTED_MODULE_0__.capitalisation)(name);
+};
+
+
+/***/ }),
+
+/***/ "./helpers/getRandomNumber.ts":
+/*!************************************!*\
+  !*** ./helpers/getRandomNumber.ts ***!
+  \************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   getRandomNumber: () => (/* binding */ getRandomNumber)
+/* harmony export */ });
+const getRandomNumber = (num) => {
+    return Math.floor(Math.random() * num);
 };
 
 
