@@ -9,9 +9,9 @@ export class Form {
 
   private updInputValue = 'Anonym';
 
-  private newColorValue = '#000000';
+  private newColorValue = '#7c7d83';
 
-  private updColorValue = '#000000';
+  private updColorValue = '#7c7d83';
 
   public setSelectedId(id: number): void {
     this.selectedId = id;
@@ -130,6 +130,8 @@ export class Form {
     input.type = props.type;
     input.dataset.type = props.inputDatasetType;
     input.classList.add('input', `input-${props.type}`, props.class);
+    input.value = props.type === 'text' ? '' : '#7c7d83';
+    input.placeholder = props.type === 'text' ? 'Name' : input.placeholder;
     return input;
   }
 
