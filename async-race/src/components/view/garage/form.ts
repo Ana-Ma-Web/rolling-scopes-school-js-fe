@@ -1,4 +1,5 @@
 import { capitalisation } from '../../../helpers/capitalisation';
+import { Racer } from '../../../types';
 import { createRacer, updateRacer } from '../../controller/controller';
 import { Button } from '../ui/button';
 
@@ -27,19 +28,23 @@ export class Form {
     selectBtn.disabled = false;
   }
 
-  public createNewRacer(): void {
-    createRacer({
+  public async createNewRacer(upd: () => Promise<void>): Promise<void> {
+    await createRacer({
       color: this.newColorValue,
       name: this.newInputValue ? capitalisation(this.newInputValue) : 'Anonym',
     });
+
+    upd();
   }
 
-  private updateSelectedRacer(): void {
-    updateRacer({
+  private async updateSelectedRacer(upd: () => Promise<void>): Promise<void> {
+    await updateRacer({
       id: this.selectedId,
       color: this.updColorValue,
       name: this.updInputValue ? capitalisation(this.updInputValue) : 'Anonym',
     });
+
+    upd();
   }
 
   private clickFormHandler(): void {
@@ -50,13 +55,11 @@ export class Form {
       switch (target.dataset.type) {
         case 'btn-create':
           e.preventDefault();
-          this.createNewRacer();
-          this.updateGarageTracks();
+          this.createNewRacer(this.updateGarageTracks);
           break;
         case 'btn-update':
           e.preventDefault();
-          this.updateSelectedRacer();
-          this.updateGarageTracks();
+          this.updateSelectedRacer(this.updateGarageTracks);
           break;
         default:
           break;

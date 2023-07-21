@@ -33,8 +33,6 @@ export class Garage {
     return this.pageNumber;
   }
 
-  public start(): void {}
-
   public animation(id: number, velocity: number, distance: number): Animation {
     const track = document.querySelector(`div[data-id="${id}"]`);
     const racer = track?.querySelector(`.racer`);
