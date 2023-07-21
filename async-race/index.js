@@ -973,6 +973,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _track_track__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../track/track */ "./components/view/track/track.ts");
 /* harmony import */ var _form__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./form */ "./components/view/garage/form.ts");
 /* harmony import */ var _helpers_getRandomName__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../helpers/getRandomName */ "./helpers/getRandomName.ts");
+/* harmony import */ var _ui_button__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../ui/button */ "./components/view/ui/button.ts");
 var __awaiter = (undefined && undefined.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -982,6 +983,7 @@ var __awaiter = (undefined && undefined.__awaiter) || function (thisArg, _argume
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+
 
 
 
@@ -1015,7 +1017,7 @@ class Garage {
         return result;
     }
     startDisableBtns(id) {
-        const resetRaceBtn = (document.querySelector('.garage__btn_reset-race'));
+        const resetRaceBtn = (document.querySelector('.garage__btn_race-reset'));
         const startBtn = (document.querySelector(`.track[data-id="${id}"] .track__btn_start`));
         const stopBtn = (document.querySelector(`.track[data-id="${id}"] .track__btn_stop`));
         stopBtn.disabled = false;
@@ -1030,8 +1032,10 @@ class Garage {
         return __awaiter(this, void 0, void 0, function* () {
             if (this.animations[id])
                 this.animations[id].cancel();
-            const startRaceBtn = (document.querySelector('.garage__btn_start-race'));
+            const startRaceBtn = (document.querySelector('.garage__btn_race-start'));
             startRaceBtn.disabled = true;
+            const stopBtn = (document.querySelector(`.track[data-id="${id}"] .track__btn_stop`));
+            stopBtn.disabled = true;
             const raceData = yield switchMoveMode({
                 status: 'started',
                 id,
@@ -1061,14 +1065,14 @@ class Garage {
             const startBtns = document.querySelectorAll(`.track__btn_start`);
             const isDone = this.isActiveBtns(startBtns);
             if (isDone) {
-                const startRaceBtn = (document.querySelector('.garage__btn_start-race'));
+                const startRaceBtn = (document.querySelector('.garage__btn_race-start'));
                 startRaceBtn.disabled = false;
             }
         });
     }
     startRace(switchMoveMode) {
         const tracks = document.querySelectorAll('.track');
-        const startRaceBtn = (document.querySelector('.garage__btn_start-race'));
+        const startRaceBtn = (document.querySelector('.garage__btn_race-start'));
         startRaceBtn.disabled = true;
         tracks.forEach((e) => {
             const el = e;
@@ -1079,7 +1083,7 @@ class Garage {
     }
     resetRace(switchMoveMode) {
         return __awaiter(this, void 0, void 0, function* () {
-            const resetRaceBtn = (document.querySelector('.garage__btn_reset-race'));
+            const resetRaceBtn = (document.querySelector('.garage__btn_race-reset'));
             resetRaceBtn.disabled = true;
             const tracks = document.querySelectorAll('.track');
             tracks.forEach((e) => {
@@ -1104,32 +1108,52 @@ class Garage {
             return response;
         });
     }
+    racerHandler(type, trackEl, switchMoveMode, setSelectedId, deleteRacer, getRacers) {
+        switch (type) {
+            case 'racer-start' || 0:
+                this.startRacer(Number(trackEl.dataset.id), switchMoveMode);
+                break;
+            case 'racer-stop':
+                this.stopRacer(Number(trackEl.dataset.id), switchMoveMode);
+                break;
+            case 'racer-select':
+                setSelectedId(Number(trackEl.dataset.id));
+                break;
+            case 'racer-remove':
+                this.removeRacer(Number(trackEl.dataset.id), deleteRacer, getRacers);
+                break;
+            default:
+                break;
+        }
+    }
+    raceHandler(type, switchMoveMode) {
+        switch (type) {
+            case 'race-start':
+                this.startRace(switchMoveMode);
+                break;
+            case 'race-reset':
+                this.resetRace(switchMoveMode);
+                break;
+            default:
+                break;
+        }
+    }
     addListeners(root, switchMoveMode, setSelectedId, createRacerFetch, getRacers, deleteRacer) {
         root.addEventListener('click', (e) => {
+            var _a;
             const target = e.target;
             if (!target.classList.contains('btn'))
                 return undefined;
             const trackEl = target.closest('.track');
-            switch (target.dataset.type) {
-                case 'racer-start':
-                    this.startRacer(Number(trackEl.dataset.id), switchMoveMode);
+            const typePrefix = (_a = target.dataset.type) === null || _a === void 0 ? void 0 : _a.split('-')[0];
+            switch (typePrefix) {
+                case 'racer':
+                    this.racerHandler(target.dataset.type, trackEl, switchMoveMode, setSelectedId, deleteRacer, getRacers);
                     break;
-                case 'racer-stop':
-                    this.stopRacer(Number(trackEl.dataset.id), switchMoveMode);
+                case 'race':
+                    this.raceHandler(target.dataset.type, switchMoveMode);
                     break;
-                case 'start-race':
-                    this.startRace(switchMoveMode);
-                    break;
-                case 'racer-select':
-                    setSelectedId(Number(trackEl.dataset.id));
-                    break;
-                case 'racer-remove':
-                    this.removeRacer(Number(trackEl.dataset.id), deleteRacer, getRacers);
-                    break;
-                case 'reset-race':
-                    this.resetRace(switchMoveMode);
-                    break;
-                case 'generate-racers':
+                case 'generate':
                     this.generateRacers(createRacerFetch, getRacers);
                     break;
                 default:
@@ -1140,15 +1164,15 @@ class Garage {
     }
     createStartRaceBtn() {
         const startRaceBtn = document.createElement('button');
-        startRaceBtn.classList.add('btn', 'garage__btn', 'garage__btn_start-race');
-        startRaceBtn.dataset.type = 'start-race';
+        startRaceBtn.classList.add('btn', 'garage__btn', 'garage__btn_race-start');
+        startRaceBtn.dataset.type = 'race-start';
         startRaceBtn.textContent = 'Start race';
         return startRaceBtn;
     }
     createResetRaceBtn() {
         const resetRaceBtn = document.createElement('button');
-        resetRaceBtn.classList.add('btn', 'garage__btn', 'garage__btn_reset-race');
-        resetRaceBtn.dataset.type = 'reset-race';
+        resetRaceBtn.classList.add('btn', 'garage__btn', 'garage__btn_race-reset');
+        resetRaceBtn.dataset.type = 'race-reset';
         resetRaceBtn.textContent = 'Reset race';
         resetRaceBtn.disabled = true;
         return resetRaceBtn;
@@ -1174,6 +1198,26 @@ class Garage {
             });
         });
     }
+    createPagination() {
+        const pagination = document.createElement('div');
+        const button = new _ui_button__WEBPACK_IMPORTED_MODULE_4__.Button();
+        const paginationBtnLeft = button.createBtn({
+            datasetType: 'pagination-left',
+            isDisabled: true,
+            modClass: 'pagination-left',
+            textContent: 'Prev',
+            rootClass: 'pagination',
+        });
+        const paginationBtnRight = button.createBtn({
+            datasetType: 'pagination-right',
+            isDisabled: false,
+            modClass: 'pagination-right',
+            textContent: 'Next',
+            rootClass: 'pagination',
+        });
+        pagination.append(paginationBtnLeft, paginationBtnRight);
+        return pagination;
+    }
     print(getRacers, switchMoveMode, createRacer, updateRacer, deleteRacer) {
         const garageEl = document.createElement('div');
         garageEl.classList.add('garage');
@@ -1188,7 +1232,7 @@ class Garage {
             getRacers,
             updateGarageTracks: this.updateGarageTracks.bind(this),
         });
-        garageEl.append(this.createStartRaceBtn(), this.createResetRaceBtn(), this.generateRacersBtn(), tracks);
+        garageEl.append(this.createStartRaceBtn(), this.createResetRaceBtn(), this.generateRacersBtn(), this.createPagination(), tracks);
         this.updateGarageTracks(getRacers);
         this.addListeners(garageEl, switchMoveMode, setSelectedId, createRacer, getRacers, deleteRacer);
     }
@@ -1247,7 +1291,7 @@ class Track {
         const button = new _ui_button__WEBPACK_IMPORTED_MODULE_2__.Button();
         const newBtn = button.createBtn({
             datasetType: `racer-${type}`,
-            isDisabled: false,
+            isDisabled: type === 'stop',
             rootClass: 'track',
             modClass: type,
             textContent: (0,_helpers_capitalisation__WEBPACK_IMPORTED_MODULE_0__.capitalisation)(type),
