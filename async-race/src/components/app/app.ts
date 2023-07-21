@@ -14,7 +14,6 @@ export class App {
 
   public async start(): Promise<void> {
     this.view.print(
-      this.controller.getRacers.bind(this.controller),
       this.controller.switchMoveMode.bind(this.controller),
       this.controller.createRacer.bind(this.controller),
       this.controller.updateRacer.bind(this.controller),

@@ -1,5 +1,6 @@
 import { capitalisation } from '../../../helpers/capitalisation';
 import { CreateRacerProps, GetRacersData, Racer } from '../../../types';
+import { AppController } from '../../controller/controller';
 import { Button } from '../ui/button';
 
 export class Form {
@@ -12,6 +13,23 @@ export class Form {
   private newColorValue = '#7c7d83';
 
   private updColorValue = '#7c7d83';
+
+  private getPageNumber: () => number;
+
+  private updateGarageTracks: () => Promise<void>;
+
+  constructor(
+    getPageNumber: () => number,
+    updateGarageTracks: () => Promise<void>,
+  ) {
+    this.getPageNumber = getPageNumber;
+    this.updateGarageTracks = updateGarageTracks;
+  }
+
+  private getRacers(): Promise<GetRacersData> {
+    const controller = new AppController();
+    return controller.getRacers(this.getPageNumber());
+  }
 
   public setSelectedId(id: number): void {
     this.selectedId = id;
@@ -43,10 +61,6 @@ export class Form {
   private clickFormHandler(props: {
     createRacer: (props: CreateRacerProps) => Promise<Racer>;
     updateRacer: (props: Racer) => Promise<Racer>;
-    getRacers: () => Promise<GetRacersData>;
-    updateGarageTracks: (
-      getRacers: () => Promise<GetRacersData>,
-    ) => Promise<void>;
   }): void {
     const form = document.querySelector('.form');
     form?.addEventListener('click', (e) => {
@@ -56,12 +70,12 @@ export class Form {
         case 'btn-create':
           e.preventDefault();
           this.createRacer(props);
-          props.updateGarageTracks(props.getRacers);
+          this.updateGarageTracks();
           break;
         case 'btn-update':
           e.preventDefault();
           this.updateRacer(props);
-          props.updateGarageTracks(props.getRacers);
+          this.updateGarageTracks();
           break;
         default:
           break;
@@ -110,13 +124,21 @@ export class Form {
   private listeners(props: {
     createRacer: (props: CreateRacerProps) => Promise<Racer>;
     updateRacer: (props: Racer) => Promise<Racer>;
-    getRacers: () => Promise<GetRacersData>;
-    updateGarageTracks: (
-      getRacers: () => Promise<GetRacersData>,
-    ) => Promise<void>;
   }): void {
     this.clickFormHandler(props);
     this.InputsHandler();
+  }
+
+  private createPreview(type: 'create' | 'update'): HTMLElement {
+    const preview = document.createElement('div');
+    preview.classList.add('form__preview', `form__preview_${type}`);
+    const racer = document.createElement('div');
+    racer.classList.add(`form__preview-racer_${type}`, 'racer');
+    const name = document.createElement('div');
+    name.classList.add(`form__preview-name_${type}`, 'name');
+
+    preview.append(racer, name);
+    return preview;
   }
 
   private createInput(props: {
@@ -132,18 +154,6 @@ export class Form {
     input.placeholder = props.type === 'text' ? 'Name' : input.placeholder;
 
     return input;
-  }
-
-  private createPreview(type: 'create' | 'update'): HTMLElement {
-    const preview = document.createElement('div');
-    preview.classList.add('form__preview', `form__preview_${type}`);
-    const racer = document.createElement('div');
-    racer.classList.add(`form__preview-racer_${type}`, 'racer');
-    const name = document.createElement('div');
-    name.classList.add(`form__preview-name_${type}`, 'name');
-
-    preview.append(racer, name);
-    return preview;
   }
 
   private createInputRow(type: 'create' | 'update'): HTMLDivElement {
@@ -217,10 +227,6 @@ export class Form {
   public printForm(props: {
     createRacer: (props: CreateRacerProps) => Promise<Racer>;
     updateRacer: (props: Racer) => Promise<Racer>;
-    getRacers: () => Promise<GetRacersData>;
-    updateGarageTracks: (
-      getRacers: () => Promise<GetRacersData>,
-    ) => Promise<void>;
   }): void {
     const garage = document.querySelector('.garage');
     garage?.append(this.createForm());

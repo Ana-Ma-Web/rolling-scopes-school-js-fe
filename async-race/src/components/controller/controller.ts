@@ -62,8 +62,8 @@ export class AppController {
     return json;
   }
 
-  public async getRacers(): Promise<GetRacersData> {
-    const url = `${this.baseUrl}${this.path.garage}/`;
+  public async getRacers(page: number): Promise<GetRacersData> {
+    const url = `${this.baseUrl}${this.path.garage}?_page=${page}&_limit=7`;
     const response = await fetch(url);
     const items = await response.json();
 

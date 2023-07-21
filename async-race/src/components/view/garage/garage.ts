@@ -11,8 +11,13 @@ import { Track } from '../track/track';
 import { Form } from './form';
 import { getRandomName } from '../../../helpers/getRandomName';
 import { Button } from '../ui/button';
+import { AppController } from '../../controller/controller';
 
 export class Garage {
+  private pageNumber = 1;
+
+  private racersCount = 0;
+
   private track: Track;
 
   private animations: Animations;
@@ -20,6 +25,15 @@ export class Garage {
   constructor() {
     this.track = new Track();
     this.animations = {};
+  }
+
+  private getRacers(): Promise<GetRacersData> {
+    const controller = new AppController();
+    return controller.getRacers(this.pageNumber);
+  }
+
+  public getPageNumber(): number {
+    return this.pageNumber;
   }
 
   public start(): void {}
@@ -176,7 +190,6 @@ export class Garage {
 
   private generateRacers(
     createRacerFetch: (props: CreateRacerProps) => Promise<Racer>,
-    getRacers: () => Promise<GetRacersData>,
   ): void {
     for (let i = 0; i < 5; i += 1) {
       createRacerFetch({
@@ -184,16 +197,15 @@ export class Garage {
         color: getRandomColor(),
       });
     }
-    this.updateGarageTracks(getRacers);
+    this.updateGarageTracks();
   }
 
   private async removeRacer(
     id: number,
     deleteRacer: (id: number) => Promise<void>,
-    getRacers: () => Promise<GetRacersData>,
   ): Promise<void> {
     const response = await deleteRacer(id);
-    this.updateGarageTracks(getRacers);
+    this.updateGarageTracks();
     return response;
   }
 
@@ -203,7 +215,6 @@ export class Garage {
     switchMoveMode: (props: SwitchMoveModeProps) => Promise<RaceData>,
     setSelectedId: (id: number) => void,
     deleteRacer: (id: number) => Promise<void>,
-    getRacers: () => Promise<GetRacersData>,
   ): void {
     switch (type) {
       case 'racer-start' || 'racer-stop':
@@ -216,7 +227,7 @@ export class Garage {
         setSelectedId(Number(trackEl.dataset.id));
         break;
       case 'racer-remove':
-        this.removeRacer(Number(trackEl.dataset.id), deleteRacer, getRacers);
+        this.removeRacer(Number(trackEl.dataset.id), deleteRacer);
         break;
       default:
         break;
@@ -239,12 +250,43 @@ export class Garage {
     }
   }
 
+  private updatePaginationBtns(): void {
+    const leftBtn = <HTMLButtonElement>(
+      document.querySelector('button[data-type="pagination-left"]')
+    );
+    const rightBtn = <HTMLButtonElement>(
+      document.querySelector('button[data-type="pagination-right"]')
+    );
+
+    if (this.pageNumber === 1) {
+      leftBtn.disabled = true;
+    } else leftBtn.disabled = false;
+
+    if (7 * this.pageNumber >= Number(this.racersCount)) {
+      rightBtn.disabled = true;
+    } else rightBtn.disabled = false;
+  }
+
+  private paginationHandler(type: string | undefined): void {
+    switch (type) {
+      case 'pagination-left':
+        this.pageNumber -= 1;
+        break;
+      case 'pagination-right':
+        this.pageNumber += 1;
+        break;
+      default:
+        break;
+    }
+
+    this.updateGarageTracks();
+  }
+
   private addListeners(
     root: HTMLElement,
     switchMoveMode: (props: SwitchMoveModeProps) => Promise<RaceData>,
     setSelectedId: (id: number) => void,
     createRacerFetch: (props: CreateRacerProps) => Promise<Racer>,
-    getRacers: () => Promise<GetRacersData>,
     deleteRacer: (id: number) => Promise<void>,
   ): void {
     root.addEventListener('click', (e) => {
@@ -260,14 +302,16 @@ export class Garage {
             switchMoveMode,
             setSelectedId,
             deleteRacer,
-            getRacers,
           );
           break;
         case 'race':
           this.raceHandler(target.dataset.type, switchMoveMode);
           break;
         case 'generate':
-          this.generateRacers(createRacerFetch, getRacers);
+          this.generateRacers(createRacerFetch);
+          break;
+        case 'pagination':
+          this.paginationHandler(target.dataset.type);
           break;
         default:
           break;
@@ -305,21 +349,23 @@ export class Garage {
     return generateRacersBtn;
   }
 
-  private async updateGarageTracks(
-    getRacers: () => Promise<GetRacersData>,
-  ): Promise<void> {
+  private async updateGarageTracks(): Promise<void> {
     const tracks = document.querySelector('.garage__tracks');
     if (!tracks) throw new Error('Tracks is not found');
 
     tracks.innerHTML = '';
 
-    const racersData = await getRacers();
+    const racersData = await this.getRacers();
     const racers = racersData.items;
+
+    this.racersCount = Number(racersData.count);
 
     racers.forEach((e) => {
       const el = this.track.createTrack(e);
       tracks?.append(el);
     });
+
+    this.updatePaginationBtns();
   }
 
   private createPagination(): HTMLElement {
@@ -345,7 +391,6 @@ export class Garage {
   }
 
   public print(
-    getRacers: () => Promise<GetRacersData>,
     switchMoveMode: (props: SwitchMoveModeProps) => Promise<RaceData>,
     createRacer: (props: CreateRacerProps) => Promise<Racer>,
     updateRacer: (props: Racer) => Promise<Racer>,
@@ -353,7 +398,10 @@ export class Garage {
   ): void {
     const garageEl = document.createElement('div');
     garageEl.classList.add('garage');
-    const form = new Form();
+    const form = new Form(
+      this.getPageNumber.bind(this),
+      this.updateGarageTracks.bind(this),
+    );
     const setSelectedId = form.setSelectedId.bind(form);
     const tracks = document.createElement('div');
     tracks.classList.add('garage__tracks');
@@ -362,8 +410,6 @@ export class Garage {
     form.printForm({
       createRacer,
       updateRacer,
-      getRacers,
-      updateGarageTracks: this.updateGarageTracks.bind(this),
     });
     garageEl.append(
       this.createStartRaceBtn(),
@@ -373,14 +419,13 @@ export class Garage {
       tracks,
     );
 
-    this.updateGarageTracks(getRacers);
+    this.updateGarageTracks();
 
     this.addListeners(
       garageEl,
       switchMoveMode,
       setSelectedId,
       createRacer,
-      getRacers,
       deleteRacer,
     );
   }
