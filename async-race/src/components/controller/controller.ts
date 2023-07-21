@@ -61,6 +61,16 @@ export const getRacer = async (id: number): Promise<Racer> => {
   return json;
 };
 
+export const getAllRacers = async (): Promise<GetRacersData> => {
+  const url = `${baseUrl}${path.garage}`;
+  const response = await fetch(url);
+  const items = await response.json();
+
+  const count = response.headers.get('X-Total-Count');
+
+  return { items, count };
+};
+
 export const getRacers = async (page: number): Promise<GetRacersData> => {
   const url = `${baseUrl}${path.garage}?_page=${page}&_limit=7`;
   const response = await fetch(url);

@@ -305,16 +305,12 @@ export class Garage {
     return resetRaceBtn;
   }
 
-  private generateRacersBtn(): HTMLElement {
-    const generateRacersBtn = document.createElement('button');
-    generateRacersBtn.classList.add(
-      'btn',
-      'garage__btn',
-      'garage__btn_generate-racers',
-    );
-    generateRacersBtn.dataset.type = 'generate-racers';
-    generateRacersBtn.textContent = 'Generate racers';
-    return generateRacersBtn;
+  private createGenerateRacersBtn(): HTMLElement {
+    const btn = document.createElement('button');
+    btn.classList.add('btn', 'garage__btn', 'garage__btn_generate-racers');
+    btn.dataset.type = 'generate-racers';
+    btn.textContent = 'Generate racers';
+    return btn;
   }
 
   private async updateGarageTracks(): Promise<void> {
@@ -332,6 +328,10 @@ export class Garage {
       const el = this.track.createTrack(e);
       tracks?.append(el);
     });
+
+    const span = document.querySelector('.garage__racers-count');
+    if (!span) throw new Error('racers count span is not found');
+    span.textContent = String(this.racersCount);
 
     this.updatePaginationBtns();
   }
@@ -358,6 +358,12 @@ export class Garage {
     return pagination;
   }
 
+  private createRacersCount(): HTMLSpanElement {
+    const span = document.createElement('span');
+    span.classList.add('garage__racers-count');
+    return span;
+  }
+
   public print(): void {
     const garageEl = document.createElement('div');
     garageEl.classList.add('garage');
@@ -371,7 +377,8 @@ export class Garage {
     garageEl.append(
       this.createStartRaceBtn(),
       this.createResetRaceBtn(),
-      this.generateRacersBtn(),
+      this.createGenerateRacersBtn(),
+      this.createRacersCount(),
       this.createPagination(),
       tracks,
     );
