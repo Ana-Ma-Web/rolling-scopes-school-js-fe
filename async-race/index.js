@@ -669,7 +669,7 @@ class App {
     }
     start() {
         return __awaiter(this, void 0, void 0, function* () {
-            this.view.print(this.controller.getRacers.bind(this.controller), this.controller.switchMoveMode.bind(this.controller), this.controller.createRacer.bind(this.controller), this.controller.updateRacer.bind(this.controller), this.controller.deleteRacer.bind(this.controller));
+            this.view.print(this.controller.switchMoveMode.bind(this.controller), this.controller.createRacer.bind(this.controller), this.controller.updateRacer.bind(this.controller), this.controller.deleteRacer.bind(this.controller));
         });
     }
 }
@@ -748,9 +748,9 @@ class AppController {
             return json;
         });
     }
-    getRacers() {
+    getRacers(page) {
         return __awaiter(this, void 0, void 0, function* () {
-            const url = `${this.baseUrl}${this.path.garage}/`;
+            const url = `${this.baseUrl}${this.path.garage}?_page=${page}&_limit=7`;
             const response = yield fetch(url);
             const items = yield response.json();
             const count = response.headers.get('X-Total-Count');
@@ -786,8 +786,8 @@ class AppView {
     constructor() {
         this.garage = new _garage_garage__WEBPACK_IMPORTED_MODULE_0__.Garage();
     }
-    print(getRacers, switchMoveMode, createRacer, updateRacer, deleteRacer) {
-        this.garage.print(getRacers, switchMoveMode, createRacer, updateRacer, deleteRacer);
+    print(switchMoveMode, createRacer, updateRacer, deleteRacer) {
+        this.garage.print(switchMoveMode, createRacer, updateRacer, deleteRacer);
     }
 }
 
@@ -805,16 +805,24 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   Form: () => (/* binding */ Form)
 /* harmony export */ });
 /* harmony import */ var _helpers_capitalisation__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../helpers/capitalisation */ "./helpers/capitalisation.ts");
-/* harmony import */ var _ui_button__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../ui/button */ "./components/view/ui/button.ts");
+/* harmony import */ var _controller_controller__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../controller/controller */ "./components/controller/controller.ts");
+/* harmony import */ var _ui_button__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../ui/button */ "./components/view/ui/button.ts");
+
 
 
 class Form {
-    constructor() {
+    constructor(getPageNumber, updateGarageTracks) {
         this.selectedId = 0;
         this.newInputValue = 'Anonym';
         this.updInputValue = 'Anonym';
         this.newColorValue = '#7c7d83';
         this.updColorValue = '#7c7d83';
+        this.getPageNumber = getPageNumber;
+        this.updateGarageTracks = updateGarageTracks;
+    }
+    getRacers() {
+        const controller = new _controller_controller__WEBPACK_IMPORTED_MODULE_1__.AppController();
+        return controller.getRacers(this.getPageNumber());
     }
     setSelectedId(id) {
         this.selectedId = id;
@@ -842,12 +850,12 @@ class Form {
                 case 'btn-create':
                     e.preventDefault();
                     this.createRacer(props);
-                    props.updateGarageTracks(props.getRacers);
+                    this.updateGarageTracks();
                     break;
                 case 'btn-update':
                     e.preventDefault();
                     this.updateRacer(props);
-                    props.updateGarageTracks(props.getRacers);
+                    this.updateGarageTracks();
                     break;
                 default:
                     break;
@@ -885,15 +893,6 @@ class Form {
         this.clickFormHandler(props);
         this.InputsHandler();
     }
-    createInput(props) {
-        const input = document.createElement('input');
-        input.type = props.type;
-        input.dataset.type = props.inputDatasetType;
-        input.classList.add('input', `input-${props.type}`, props.class);
-        input.value = props.type === 'text' ? '' : '#7c7d83';
-        input.placeholder = props.type === 'text' ? 'Name' : input.placeholder;
-        return input;
-    }
     createPreview(type) {
         const preview = document.createElement('div');
         preview.classList.add('form__preview', `form__preview_${type}`);
@@ -904,10 +903,19 @@ class Form {
         preview.append(racer, name);
         return preview;
     }
+    createInput(props) {
+        const input = document.createElement('input');
+        input.type = props.type;
+        input.dataset.type = props.inputDatasetType;
+        input.classList.add('input', `input-${props.type}`, props.class);
+        input.value = props.type === 'text' ? '' : '#7c7d83';
+        input.placeholder = props.type === 'text' ? 'Name' : input.placeholder;
+        return input;
+    }
     createInputRow(type) {
         const inputsRow = document.createElement('div');
         inputsRow.classList.add('form__row');
-        const button = new _ui_button__WEBPACK_IMPORTED_MODULE_1__.Button();
+        const button = new _ui_button__WEBPACK_IMPORTED_MODULE_2__.Button();
         const inputBtn = button.createBtn({
             textContent: type === 'update' ? 'Update' : 'Create',
             isDisabled: type === 'update',
@@ -974,6 +982,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _form__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./form */ "./components/view/garage/form.ts");
 /* harmony import */ var _helpers_getRandomName__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../helpers/getRandomName */ "./helpers/getRandomName.ts");
 /* harmony import */ var _ui_button__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../ui/button */ "./components/view/ui/button.ts");
+/* harmony import */ var _controller_controller__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../controller/controller */ "./components/controller/controller.ts");
 var __awaiter = (undefined && undefined.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -988,10 +997,20 @@ var __awaiter = (undefined && undefined.__awaiter) || function (thisArg, _argume
 
 
 
+
 class Garage {
     constructor() {
+        this.pageNumber = 1;
+        this.racersCount = 0;
         this.track = new _track_track__WEBPACK_IMPORTED_MODULE_1__.Track();
         this.animations = {};
+    }
+    getRacers() {
+        const controller = new _controller_controller__WEBPACK_IMPORTED_MODULE_5__.AppController();
+        return controller.getRacers(this.pageNumber);
+    }
+    getPageNumber() {
+        return this.pageNumber;
     }
     start() { }
     animation(id, velocity, distance) {
@@ -1092,23 +1111,23 @@ class Garage {
             });
         });
     }
-    generateRacers(createRacerFetch, getRacers) {
+    generateRacers(createRacerFetch) {
         for (let i = 0; i < 5; i += 1) {
             createRacerFetch({
                 name: (0,_helpers_getRandomName__WEBPACK_IMPORTED_MODULE_3__.getRandomName)(),
                 color: (0,_helpers_getRandomColor__WEBPACK_IMPORTED_MODULE_0__.getRandomColor)(),
             });
         }
-        this.updateGarageTracks(getRacers);
+        this.updateGarageTracks();
     }
-    removeRacer(id, deleteRacer, getRacers) {
+    removeRacer(id, deleteRacer) {
         return __awaiter(this, void 0, void 0, function* () {
             const response = yield deleteRacer(id);
-            this.updateGarageTracks(getRacers);
+            this.updateGarageTracks();
             return response;
         });
     }
-    racerHandler(type, trackEl, switchMoveMode, setSelectedId, deleteRacer, getRacers) {
+    racerHandler(type, trackEl, switchMoveMode, setSelectedId, deleteRacer) {
         switch (type) {
             case 'racer-start' || 0:
                 this.startRacer(Number(trackEl.dataset.id), switchMoveMode);
@@ -1120,7 +1139,7 @@ class Garage {
                 setSelectedId(Number(trackEl.dataset.id));
                 break;
             case 'racer-remove':
-                this.removeRacer(Number(trackEl.dataset.id), deleteRacer, getRacers);
+                this.removeRacer(Number(trackEl.dataset.id), deleteRacer);
                 break;
             default:
                 break;
@@ -1138,7 +1157,34 @@ class Garage {
                 break;
         }
     }
-    addListeners(root, switchMoveMode, setSelectedId, createRacerFetch, getRacers, deleteRacer) {
+    updatePaginationBtns() {
+        const leftBtn = (document.querySelector('button[data-type="pagination-left"]'));
+        const rightBtn = (document.querySelector('button[data-type="pagination-right"]'));
+        if (this.pageNumber === 1) {
+            leftBtn.disabled = true;
+        }
+        else
+            leftBtn.disabled = false;
+        if (7 * this.pageNumber >= Number(this.racersCount)) {
+            rightBtn.disabled = true;
+        }
+        else
+            rightBtn.disabled = false;
+    }
+    paginationHandler(type) {
+        switch (type) {
+            case 'pagination-left':
+                this.pageNumber -= 1;
+                break;
+            case 'pagination-right':
+                this.pageNumber += 1;
+                break;
+            default:
+                break;
+        }
+        this.updateGarageTracks();
+    }
+    addListeners(root, switchMoveMode, setSelectedId, createRacerFetch, deleteRacer) {
         root.addEventListener('click', (e) => {
             var _a;
             const target = e.target;
@@ -1148,13 +1194,16 @@ class Garage {
             const typePrefix = (_a = target.dataset.type) === null || _a === void 0 ? void 0 : _a.split('-')[0];
             switch (typePrefix) {
                 case 'racer':
-                    this.racerHandler(target.dataset.type, trackEl, switchMoveMode, setSelectedId, deleteRacer, getRacers);
+                    this.racerHandler(target.dataset.type, trackEl, switchMoveMode, setSelectedId, deleteRacer);
                     break;
                 case 'race':
                     this.raceHandler(target.dataset.type, switchMoveMode);
                     break;
                 case 'generate':
-                    this.generateRacers(createRacerFetch, getRacers);
+                    this.generateRacers(createRacerFetch);
+                    break;
+                case 'pagination':
+                    this.paginationHandler(target.dataset.type);
                     break;
                 default:
                     break;
@@ -1184,18 +1233,20 @@ class Garage {
         generateRacersBtn.textContent = 'Generate racers';
         return generateRacersBtn;
     }
-    updateGarageTracks(getRacers) {
+    updateGarageTracks() {
         return __awaiter(this, void 0, void 0, function* () {
             const tracks = document.querySelector('.garage__tracks');
             if (!tracks)
                 throw new Error('Tracks is not found');
             tracks.innerHTML = '';
-            const racersData = yield getRacers();
+            const racersData = yield this.getRacers();
             const racers = racersData.items;
+            this.racersCount = Number(racersData.count);
             racers.forEach((e) => {
                 const el = this.track.createTrack(e);
                 tracks === null || tracks === void 0 ? void 0 : tracks.append(el);
             });
+            this.updatePaginationBtns();
         });
     }
     createPagination() {
@@ -1218,10 +1269,10 @@ class Garage {
         pagination.append(paginationBtnLeft, paginationBtnRight);
         return pagination;
     }
-    print(getRacers, switchMoveMode, createRacer, updateRacer, deleteRacer) {
+    print(switchMoveMode, createRacer, updateRacer, deleteRacer) {
         const garageEl = document.createElement('div');
         garageEl.classList.add('garage');
-        const form = new _form__WEBPACK_IMPORTED_MODULE_2__.Form();
+        const form = new _form__WEBPACK_IMPORTED_MODULE_2__.Form(this.getPageNumber.bind(this), this.updateGarageTracks.bind(this));
         const setSelectedId = form.setSelectedId.bind(form);
         const tracks = document.createElement('div');
         tracks.classList.add('garage__tracks');
@@ -1229,12 +1280,10 @@ class Garage {
         form.printForm({
             createRacer,
             updateRacer,
-            getRacers,
-            updateGarageTracks: this.updateGarageTracks.bind(this),
         });
         garageEl.append(this.createStartRaceBtn(), this.createResetRaceBtn(), this.generateRacersBtn(), this.createPagination(), tracks);
-        this.updateGarageTracks(getRacers);
-        this.addListeners(garageEl, switchMoveMode, setSelectedId, createRacer, getRacers, deleteRacer);
+        this.updateGarageTracks();
+        this.addListeners(garageEl, switchMoveMode, setSelectedId, createRacer, deleteRacer);
     }
 }
 
