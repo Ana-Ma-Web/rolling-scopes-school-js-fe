@@ -14,6 +14,7 @@ export type MoveMode = 'started' | 'stopped' | 'drive';
 export interface SwitchMoveModeProps {
   status: MoveMode;
   id: number;
+  setWinner: (id: number) => void;
 }
 export interface CreateRacerProps {
   name: string;
@@ -23,6 +24,7 @@ export interface CreateRacerProps {
 export interface GetRacersData {
   items: Racer[];
   count: string | null;
+  success?: boolean;
 }
 
 export interface Animations {

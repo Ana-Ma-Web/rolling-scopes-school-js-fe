@@ -16,13 +16,18 @@ export class Garage {
 
   private racersCount = 0;
 
+  private finishCount = 0;
+
   private track: Track;
 
   private animations: Animations;
 
-  constructor() {
+  private resetIsWin: () => void;
+
+  constructor(resetIsWin: () => void) {
     this.track = new Track();
     this.animations = {};
+    this.resetIsWin = resetIsWin;
   }
 
   private getPageRacers(): Promise<GetRacersData> {
@@ -82,7 +87,24 @@ export class Garage {
     }
   }
 
-  public async startRacer(id: number): Promise<void> {
+  private raceDoneCounter(): void {
+    this.finishCount += 1;
+    if (this.racersCount >= 7 && this.finishCount === 7) {
+      console.log('isDone', this.racersCount);
+      this.finishCount = 0;
+      console.log(this.resetIsWin);
+      this.resetIsWin();
+    } else if (this.racersCount < 7 && this.finishCount === this.racersCount) {
+      console.log('isDone', this.racersCount);
+      this.finishCount = 0;
+      this.resetIsWin();
+    }
+  }
+
+  public async startRacer(
+    id: number,
+    setWinner: (id: number) => void,
+  ): Promise<void> {
     if (this.animations[id]) this.animations[id].cancel();
 
     const startRaceBtn = <HTMLButtonElement>(
@@ -94,10 +116,10 @@ export class Garage {
       document.querySelector(`.track[data-id="${id}"] .track__btn_stop`)
     );
     stopBtn.disabled = true;
-
     const raceData = await switchMoveMode({
       status: 'started',
       id,
+      setWinner,
     });
 
     this.animations[id] = this.animation(
@@ -105,17 +127,21 @@ export class Garage {
       raceData.velocity,
       raceData.distance,
     );
-
     this.startDisableBtns(id);
 
     try {
-      await switchMoveMode({ status: 'drive', id });
+      await switchMoveMode({ status: 'drive', id, setWinner });
     } catch (error) {
       this.animations[id].pause();
     }
+
+    this.raceDoneCounter();
   }
 
-  public async stopRacer(id: number): Promise<void> {
+  public async stopRacer(
+    id: number,
+    setWinner: (id: number) => void,
+  ): Promise<void> {
     const stopBtn = <HTMLButtonElement>(
       document.querySelector(`.track[data-id="${id}"] .track__btn_stop`)
     );
@@ -130,6 +156,7 @@ export class Garage {
     await switchMoveMode({
       status: 'stopped',
       id,
+      setWinner,
     });
     startBtn.disabled = false;
 
@@ -143,7 +170,7 @@ export class Garage {
     }
   }
 
-  private startRace(): void {
+  private startRace(setWinner: (id: number) => void): void {
     const tracks = document.querySelectorAll('.track');
 
     const startRaceBtn = <HTMLButtonElement>(
@@ -155,11 +182,11 @@ export class Garage {
       const el = <HTMLElement>e;
       const btn = <HTMLButtonElement>el.querySelector(`.track__btn_start`);
       btn.disabled = true;
-      this.startRacer(Number(el.dataset.id));
+      this.startRacer(Number(el.dataset.id), setWinner);
     });
   }
 
-  private async resetRace(): Promise<void> {
+  private async resetRace(setWinner: (id: number) => void): Promise<void> {
     const resetRaceBtn = <HTMLButtonElement>(
       document.querySelector('.garage__btn_race-reset')
     );
@@ -169,7 +196,7 @@ export class Garage {
 
     tracks.forEach((e) => {
       const el = <HTMLElement>e;
-      this.stopRacer(Number(el.dataset.id));
+      this.stopRacer(Number(el.dataset.id), setWinner);
     });
   }
 
@@ -193,13 +220,14 @@ export class Garage {
     type: string | undefined,
     trackEl: HTMLElement,
     setSelectedId: (id: number) => void,
+    setWinner: (id: number) => void,
   ): void {
     switch (type) {
       case 'racer-start' || 'racer-stop':
-        this.startRacer(Number(trackEl.dataset.id));
+        this.startRacer(Number(trackEl.dataset.id), setWinner);
         break;
       case 'racer-stop':
-        this.stopRacer(Number(trackEl.dataset.id));
+        this.stopRacer(Number(trackEl.dataset.id), setWinner);
         break;
       case 'racer-select':
         setSelectedId(Number(trackEl.dataset.id));
@@ -212,13 +240,16 @@ export class Garage {
     }
   }
 
-  private raceHandler(type: string | undefined): void {
+  private raceHandler(
+    type: string | undefined,
+    setWinner: (id: number) => void,
+  ): void {
     switch (type) {
       case 'race-start':
-        this.startRace();
+        this.startRace(setWinner);
         break;
       case 'race-reset':
-        this.resetRace();
+        this.resetRace(setWinner);
         break;
       default:
         break;
@@ -260,6 +291,7 @@ export class Garage {
   private addListeners(
     root: HTMLElement,
     setSelectedId: (id: number) => void,
+    setWinner: (id: number) => void,
   ): void {
     root.addEventListener('click', (e) => {
       const target = <HTMLElement>e.target;
@@ -268,10 +300,15 @@ export class Garage {
       const typePrefix = target.dataset.type?.split('-')[0];
       switch (typePrefix) {
         case 'racer':
-          this.racerHandler(target.dataset.type, trackEl, setSelectedId);
+          this.racerHandler(
+            target.dataset.type,
+            trackEl,
+            setSelectedId,
+            setWinner,
+          );
           break;
         case 'race':
-          this.raceHandler(target.dataset.type);
+          this.raceHandler(target.dataset.type, setWinner);
           break;
         case 'generate':
           this.generateRacers();
@@ -362,7 +399,7 @@ export class Garage {
     return span;
   }
 
-  public print(): void {
+  public print(setWinner: (id: number) => void): void {
     const garageEl = document.createElement('div');
     garageEl.classList.add('garage');
     const form = new Form(this.updateGarageTracks.bind(this));
@@ -383,6 +420,6 @@ export class Garage {
 
     this.updateGarageTracks();
 
-    this.addListeners(garageEl, setSelectedId);
+    this.addListeners(garageEl, setSelectedId, setWinner);
   }
 }

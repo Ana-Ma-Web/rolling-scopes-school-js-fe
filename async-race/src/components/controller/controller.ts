@@ -11,6 +11,7 @@ const baseUrl = 'http://127.0.0.1:3000';
 const path = {
   garage: '/garage',
   engine: '/engine',
+  winners: '/winners',
 };
 
 export const createRacer = async (props: CreateRacerProps): Promise<Racer> => {
@@ -78,5 +79,30 @@ export const switchMoveMode = async (
   const response = await fetch(url, { method: 'PATCH' });
   const data = await response.json();
 
+  try {
+    if (data.success && props.setWinner) {
+      props.setWinner(props.id);
+      console.log('setWinner');
+    }
+  } catch (error) {
+    console.log('setWinner');
+    // props.setWinner(666);
+  }
+  // console.log('data', data, props.id);
+
   return data;
 };
+
+export const getWinners = async (page: number): Promise<GetRacersData> => {
+  const url = `${baseUrl}${path.winners}?_page=${page}&_limit=7&_sort='time'`;
+  const response = await fetch(url);
+  const items = await response.json();
+
+  console.log(items);
+  return items;
+};
+
+// const winners = await getWinners(1);
+
+// console.log(winners);
+getWinners(1);
