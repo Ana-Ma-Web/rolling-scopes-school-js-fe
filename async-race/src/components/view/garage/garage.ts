@@ -4,14 +4,7 @@ import {
   getRacers,
   switchMoveMode,
 } from '../../controller/controller';
-import {
-  GetRacersData,
-  Animations,
-  CreateRacerProps,
-  RaceData,
-  Racer,
-  SwitchMoveModeProps,
-} from '../../../types';
+import { GetRacersData, Animations } from '../../../types';
 import { getRandomColor } from '../../../helpers/getRandomColor';
 import { Track } from '../track/track';
 import { Form } from './form';

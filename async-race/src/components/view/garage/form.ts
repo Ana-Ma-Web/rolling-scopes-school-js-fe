@@ -1,10 +1,5 @@
 import { capitalisation } from '../../../helpers/capitalisation';
-import { CreateRacerProps, GetRacersData, Racer } from '../../../types';
-import {
-  createRacer,
-  getRacers,
-  updateRacer,
-} from '../../controller/controller';
+import { createRacer, updateRacer } from '../../controller/controller';
 import { Button } from '../ui/button';
 
 export class Form {
