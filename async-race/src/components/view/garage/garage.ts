@@ -1,4 +1,10 @@
 import {
+  createRacer,
+  deleteRacer,
+  getRacers,
+  switchMoveMode,
+} from '../../controller/controller';
+import {
   GetRacersData,
   Animations,
   CreateRacerProps,
@@ -11,7 +17,6 @@ import { Track } from '../track/track';
 import { Form } from './form';
 import { getRandomName } from '../../../helpers/getRandomName';
 import { Button } from '../ui/button';
-import { AppController } from '../../controller/controller';
 
 export class Garage {
   private pageNumber = 1;
@@ -27,9 +32,8 @@ export class Garage {
     this.animations = {};
   }
 
-  private getRacers(): Promise<GetRacersData> {
-    const controller = new AppController();
-    return controller.getRacers(this.pageNumber);
+  private getPageRacers(): Promise<GetRacersData> {
+    return getRacers(this.pageNumber);
   }
 
   public getPageNumber(): number {
@@ -87,10 +91,7 @@ export class Garage {
     }
   }
 
-  public async startRacer(
-    id: number,
-    switchMoveMode: (props: SwitchMoveModeProps) => Promise<RaceData>,
-  ): Promise<void> {
+  public async startRacer(id: number): Promise<void> {
     if (this.animations[id]) this.animations[id].cancel();
 
     const startRaceBtn = <HTMLButtonElement>(
@@ -123,10 +124,7 @@ export class Garage {
     }
   }
 
-  public async stopRacer(
-    id: number,
-    switchMoveMode: (props: SwitchMoveModeProps) => Promise<RaceData>,
-  ): Promise<void> {
+  public async stopRacer(id: number): Promise<void> {
     const stopBtn = <HTMLButtonElement>(
       document.querySelector(`.track[data-id="${id}"] .track__btn_stop`)
     );
@@ -154,9 +152,7 @@ export class Garage {
     }
   }
 
-  private startRace(
-    switchMoveMode: (props: SwitchMoveModeProps) => Promise<RaceData>,
-  ): void {
+  private startRace(): void {
     const tracks = document.querySelectorAll('.track');
 
     const startRaceBtn = <HTMLButtonElement>(
@@ -168,13 +164,11 @@ export class Garage {
       const el = <HTMLElement>e;
       const btn = <HTMLButtonElement>el.querySelector(`.track__btn_start`);
       btn.disabled = true;
-      this.startRacer(Number(el.dataset.id), switchMoveMode);
+      this.startRacer(Number(el.dataset.id));
     });
   }
 
-  private async resetRace(
-    switchMoveMode: (props: SwitchMoveModeProps) => Promise<RaceData>,
-  ): Promise<void> {
+  private async resetRace(): Promise<void> {
     const resetRaceBtn = <HTMLButtonElement>(
       document.querySelector('.garage__btn_race-reset')
     );
@@ -184,15 +178,13 @@ export class Garage {
 
     tracks.forEach((e) => {
       const el = <HTMLElement>e;
-      this.stopRacer(Number(el.dataset.id), switchMoveMode);
+      this.stopRacer(Number(el.dataset.id));
     });
   }
 
-  private generateRacers(
-    createRacerFetch: (props: CreateRacerProps) => Promise<Racer>,
-  ): void {
+  private generateRacers(): void {
     for (let i = 0; i < 5; i += 1) {
-      createRacerFetch({
+      createRacer({
         name: getRandomName(),
         color: getRandomColor(),
       });
@@ -200,10 +192,7 @@ export class Garage {
     this.updateGarageTracks();
   }
 
-  private async removeRacer(
-    id: number,
-    deleteRacer: (id: number) => Promise<void>,
-  ): Promise<void> {
+  private async removeRacer(id: number): Promise<void> {
     const response = await deleteRacer(id);
     this.updateGarageTracks();
     return response;
@@ -212,38 +201,33 @@ export class Garage {
   private racerHandler(
     type: string | undefined,
     trackEl: HTMLElement,
-    switchMoveMode: (props: SwitchMoveModeProps) => Promise<RaceData>,
     setSelectedId: (id: number) => void,
-    deleteRacer: (id: number) => Promise<void>,
   ): void {
     switch (type) {
       case 'racer-start' || 'racer-stop':
-        this.startRacer(Number(trackEl.dataset.id), switchMoveMode);
+        this.startRacer(Number(trackEl.dataset.id));
         break;
       case 'racer-stop':
-        this.stopRacer(Number(trackEl.dataset.id), switchMoveMode);
+        this.stopRacer(Number(trackEl.dataset.id));
         break;
       case 'racer-select':
         setSelectedId(Number(trackEl.dataset.id));
         break;
       case 'racer-remove':
-        this.removeRacer(Number(trackEl.dataset.id), deleteRacer);
+        this.removeRacer(Number(trackEl.dataset.id));
         break;
       default:
         break;
     }
   }
 
-  private raceHandler(
-    type: string | undefined,
-    switchMoveMode: (props: SwitchMoveModeProps) => Promise<RaceData>,
-  ): void {
+  private raceHandler(type: string | undefined): void {
     switch (type) {
       case 'race-start':
-        this.startRace(switchMoveMode);
+        this.startRace();
         break;
       case 'race-reset':
-        this.resetRace(switchMoveMode);
+        this.resetRace();
         break;
       default:
         break;
@@ -284,10 +268,7 @@ export class Garage {
 
   private addListeners(
     root: HTMLElement,
-    switchMoveMode: (props: SwitchMoveModeProps) => Promise<RaceData>,
     setSelectedId: (id: number) => void,
-    createRacerFetch: (props: CreateRacerProps) => Promise<Racer>,
-    deleteRacer: (id: number) => Promise<void>,
   ): void {
     root.addEventListener('click', (e) => {
       const target = <HTMLElement>e.target;
@@ -296,19 +277,13 @@ export class Garage {
       const typePrefix = target.dataset.type?.split('-')[0];
       switch (typePrefix) {
         case 'racer':
-          this.racerHandler(
-            target.dataset.type,
-            trackEl,
-            switchMoveMode,
-            setSelectedId,
-            deleteRacer,
-          );
+          this.racerHandler(target.dataset.type, trackEl, setSelectedId);
           break;
         case 'race':
-          this.raceHandler(target.dataset.type, switchMoveMode);
+          this.raceHandler(target.dataset.type);
           break;
         case 'generate':
-          this.generateRacers(createRacerFetch);
+          this.generateRacers();
           break;
         case 'pagination':
           this.paginationHandler(target.dataset.type);
@@ -355,7 +330,7 @@ export class Garage {
 
     tracks.innerHTML = '';
 
-    const racersData = await this.getRacers();
+    const racersData = await this.getPageRacers();
     const racers = racersData.items;
 
     this.racersCount = Number(racersData.count);
@@ -390,27 +365,16 @@ export class Garage {
     return pagination;
   }
 
-  public print(
-    switchMoveMode: (props: SwitchMoveModeProps) => Promise<RaceData>,
-    createRacer: (props: CreateRacerProps) => Promise<Racer>,
-    updateRacer: (props: Racer) => Promise<Racer>,
-    deleteRacer: (id: number) => Promise<void>,
-  ): void {
+  public print(): void {
     const garageEl = document.createElement('div');
     garageEl.classList.add('garage');
-    const form = new Form(
-      this.getPageNumber.bind(this),
-      this.updateGarageTracks.bind(this),
-    );
+    const form = new Form(this.updateGarageTracks.bind(this));
     const setSelectedId = form.setSelectedId.bind(form);
     const tracks = document.createElement('div');
     tracks.classList.add('garage__tracks');
 
     document.body.append(garageEl);
-    form.printForm({
-      createRacer,
-      updateRacer,
-    });
+    form.printForm();
     garageEl.append(
       this.createStartRaceBtn(),
       this.createResetRaceBtn(),
@@ -421,12 +385,6 @@ export class Garage {
 
     this.updateGarageTracks();
 
-    this.addListeners(
-      garageEl,
-      switchMoveMode,
-      setSelectedId,
-      createRacer,
-      deleteRacer,
-    );
+    this.addListeners(garageEl, setSelectedId);
   }
 }
