@@ -1,5 +1,4 @@
 import { capitalisation } from '../../../helpers/capitalisation';
-import { Racer } from '../../../types';
 import { createRacer, updateRacer } from '../../controller/controller';
 import { Button } from '../ui/button';
 import { data } from '../../controller/data';

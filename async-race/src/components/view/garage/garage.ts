@@ -59,26 +59,6 @@ export class Garage {
     return result;
   }
 
-  private startDisableBtns(id: number): void {
-    const resetRaceBtn = <HTMLButtonElement>(
-      document.querySelector('.garage__btn_race-reset')
-    );
-    const startBtn = <HTMLButtonElement>(
-      document.querySelector(`.track[data-id="${id}"] .track__btn_start`)
-    );
-    const stopBtn = <HTMLButtonElement>(
-      document.querySelector(`.track[data-id="${id}"] .track__btn_stop`)
-    );
-    stopBtn.disabled = false;
-    startBtn.disabled = true;
-
-    const stopBtns = document.querySelectorAll(`.track__btn_stop`);
-    const isDone = this.isActiveBtns(<NodeListOf<HTMLButtonElement>>stopBtns);
-    if (isDone) {
-      resetRaceBtn.disabled = false;
-    }
-  }
-
   private raceDoneCounter(): void {
     this.finishCount += 1;
     if (this.racersCount >= 7 && this.finishCount === 7) {
@@ -86,10 +66,95 @@ export class Garage {
       console.log(data.winners.setIsWin);
       data.winners.setIsWin(false);
       console.log('isDone', this.racersCount);
+      this.doneRaceDisableBtns();
     } else if (this.racersCount < 7 && this.finishCount === this.racersCount) {
       this.finishCount = 0;
       data.winners.setIsWin(false);
       console.log('isDone', this.racersCount);
+      this.doneRaceDisableBtns();
+    }
+  }
+
+  private startRaceDisableBtns(): void {
+    const tracks = document.querySelectorAll('.track');
+
+    tracks.forEach((e) => {
+      const el = <HTMLElement>e;
+      const startBtn = <HTMLButtonElement>el.querySelector(`.track__btn_start`);
+      startBtn.disabled = true;
+      const stopBtn = <HTMLButtonElement>el.querySelector(`.track__btn_stop`);
+      stopBtn.disabled = true;
+      const selectBtn = <HTMLButtonElement>(
+        el.querySelector(`.track__btn_select`)
+      );
+      selectBtn.disabled = true;
+      const removeBtn = <HTMLButtonElement>(
+        el.querySelector(`.track__btn_remove`)
+      );
+      removeBtn.disabled = true;
+    });
+    const pagLeftBtn = <HTMLButtonElement>(
+      document.querySelector(`[data-type="pagination-left"]`)
+    );
+    pagLeftBtn.disabled = true;
+    const pagRightBtn = <HTMLButtonElement>(
+      document.querySelector(`[data-type="pagination-right"]`)
+    );
+    pagRightBtn.disabled = true;
+    const genRacersBtn = <HTMLButtonElement>(
+      document.querySelector(`[data-type="generate-racers"]`)
+    );
+    genRacersBtn.disabled = true;
+    const createRacerBtn = <HTMLButtonElement>(
+      document.querySelector(`[data-type="btn-create"]`)
+    );
+    createRacerBtn.disabled = true;
+  }
+
+  private doneRaceDisableBtns(): void {
+    const tracks = document.querySelectorAll('.track');
+
+    tracks.forEach((e) => {
+      const el = <HTMLElement>e;
+      const startBtn = <HTMLButtonElement>el.querySelector(`.track__btn_start`);
+      startBtn.disabled = false;
+      const selectBtn = <HTMLButtonElement>(
+        el.querySelector(`.track__btn_select`)
+      );
+      selectBtn.disabled = false;
+      const removeBtn = <HTMLButtonElement>(
+        el.querySelector(`.track__btn_remove`)
+      );
+      removeBtn.disabled = false;
+    });
+    const genRacersBtn = <HTMLButtonElement>(
+      document.querySelector(`[data-type="generate-racers"]`)
+    );
+    genRacersBtn.disabled = false;
+    const createRacerBtn = <HTMLButtonElement>(
+      document.querySelector(`[data-type="btn-create"]`)
+    );
+    createRacerBtn.disabled = false;
+    const resetRacerBtn = <HTMLButtonElement>(
+      document.querySelector(`[data-type="race-reset"]`)
+    );
+    resetRacerBtn.disabled = false;
+    this.updatePaginationBtns();
+  }
+
+  private startDisableBtns(id: number): void {
+    const resetRaceBtn = <HTMLButtonElement>(
+      document.querySelector('.garage__btn_race-reset')
+    );
+    const startBtn = <HTMLButtonElement>(
+      document.querySelector(`.track[data-id="${id}"] .track__btn_start`)
+    );
+    startBtn.disabled = true;
+
+    const stopBtns = document.querySelectorAll(`.track__btn_stop`);
+    const isDone = this.isActiveBtns(<NodeListOf<HTMLButtonElement>>stopBtns);
+    if (isDone) {
+      resetRaceBtn.disabled = false;
     }
   }
 
@@ -167,12 +232,16 @@ export class Garage {
     );
     startRaceBtn.disabled = true;
 
+    const stopRaceBtn = <HTMLButtonElement>(
+      document.querySelector('.garage__btn_race-reset')
+    );
+    stopRaceBtn.disabled = true;
+
     tracks.forEach((e) => {
       const el = <HTMLElement>e;
-      const btn = <HTMLButtonElement>el.querySelector(`.track__btn_start`);
-      btn.disabled = true;
       this.startRacer(Number(el.dataset.id));
     });
+    this.startRaceDisableBtns();
   }
 
   private async resetRace(): Promise<void> {
