@@ -2,10 +2,9 @@ import { capitalisation } from '../../../helpers/capitalisation';
 import { Racer } from '../../../types';
 import { createRacer, updateRacer } from '../../controller/controller';
 import { Button } from '../ui/button';
+import { data } from '../../controller/data';
 
 export class Form {
-  private selectedId = 0;
-
   private newInputValue = 'Anonym';
 
   private updInputValue = 'Anonym';
@@ -20,14 +19,6 @@ export class Form {
     this.updateGarageTracks = updateGarageTracks;
   }
 
-  public setSelectedId(id: number): void {
-    this.selectedId = id;
-    const selectBtn = <HTMLButtonElement>(
-      document.querySelector('button[data-type="btn-update"]')
-    );
-    selectBtn.disabled = false;
-  }
-
   public async createNewRacer(upd: () => Promise<void>): Promise<void> {
     await createRacer({
       color: this.newColorValue,
@@ -39,7 +30,7 @@ export class Form {
 
   private async updateSelectedRacer(upd: () => Promise<void>): Promise<void> {
     await updateRacer({
-      id: this.selectedId,
+      id: data.form.selectedId,
       color: this.updColorValue,
       name: this.updInputValue ? capitalisation(this.updInputValue) : 'Anonym',
     });

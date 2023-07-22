@@ -1,13 +1,18 @@
 import { Garage } from './garage/garage';
+import { Winners } from './winners/winners';
 
 export class AppView {
   private garage: Garage;
 
-  constructor(setIsWin: (isWin: boolean) => void) {
-    this.garage = new Garage(setIsWin);
+  private winners: Winners;
+
+  constructor() {
+    this.garage = new Garage();
+    this.winners = new Winners();
   }
 
-  public print(setWinner: (id: number) => void): void {
-    this.garage.print(setWinner);
+  public print(): void {
+    this.winners.printWinners();
+    this.garage.printGarage();
   }
 }
