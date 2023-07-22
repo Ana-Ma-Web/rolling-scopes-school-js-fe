@@ -22,12 +22,12 @@ export class Garage {
 
   private animations: Animations;
 
-  private resetIsWin: () => void;
+  private setIsWin: (isWin: boolean) => void;
 
-  constructor(resetIsWin: () => void) {
+  constructor(setIsWin: (isWin: boolean) => void) {
     this.track = new Track();
     this.animations = {};
-    this.resetIsWin = resetIsWin;
+    this.setIsWin = setIsWin;
   }
 
   private getPageRacers(): Promise<GetRacersData> {
@@ -90,14 +90,14 @@ export class Garage {
   private raceDoneCounter(): void {
     this.finishCount += 1;
     if (this.racersCount >= 7 && this.finishCount === 7) {
-      console.log('isDone', this.racersCount);
       this.finishCount = 0;
-      console.log(this.resetIsWin);
-      this.resetIsWin();
+      console.log(this.setIsWin);
+      this.setIsWin(false);
+      console.log('isDone', this.racersCount);
     } else if (this.racersCount < 7 && this.finishCount === this.racersCount) {
-      console.log('isDone', this.racersCount);
       this.finishCount = 0;
-      this.resetIsWin();
+      this.setIsWin(false);
+      console.log('isDone', this.racersCount);
     }
   }
 
@@ -191,6 +191,7 @@ export class Garage {
       document.querySelector('.garage__btn_race-reset')
     );
     resetRaceBtn.disabled = true;
+    this.setIsWin(true);
 
     const tracks = document.querySelectorAll('.track');
 

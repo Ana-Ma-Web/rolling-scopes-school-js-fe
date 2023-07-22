@@ -3,8 +3,8 @@ import { Garage } from './garage/garage';
 export class AppView {
   private garage: Garage;
 
-  constructor(resetIsWin: () => void) {
-    this.garage = new Garage(resetIsWin);
+  constructor(setIsWin: (isWin: boolean) => void) {
+    this.garage = new Garage(setIsWin);
   }
 
   public print(setWinner: (id: number) => void): void {

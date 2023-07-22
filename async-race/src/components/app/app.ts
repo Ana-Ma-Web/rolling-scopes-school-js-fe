@@ -11,7 +11,7 @@ export class App {
   private winners = [0];
 
   constructor() {
-    this.view = new AppView(this.resetIsWin.bind(this));
+    this.view = new AppView(this.setIsWin.bind(this));
   }
 
   private printWinners(): void {
@@ -48,16 +48,16 @@ export class App {
   }
 
   public setWinner(id: number): void {
-    console.log(this.winners);
-    console.log(this.isWin);
     if (!this.isWin) this.winners.push(id);
     this.isWin = true;
+    console.log(this.isWin);
+    console.log(this.winners);
     // console.log(this.winners);
   }
 
-  public resetIsWin(): void {
-    this.isWin = false;
-    console.log('reset', this.isWin);
+  public setIsWin(isWin: boolean): void {
+    this.isWin = isWin;
+    console.log('set', this.isWin);
   }
 
   // private updateWinners(): void {
