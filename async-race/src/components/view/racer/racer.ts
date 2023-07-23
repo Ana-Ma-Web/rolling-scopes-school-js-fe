@@ -1,13 +1,12 @@
-import { Racer } from '../../../types';
 import './racer.css';
 
 export class RacerEl {
-  public createRacer(racer: Racer): HTMLElement {
+  public createRacer(color: string): HTMLElement {
     const el = document.createElement('div');
 
     el.classList.add('racer');
 
-    el.style.backgroundColor = racer.color;
+    el.style.backgroundColor = color;
     return el;
   }
 }

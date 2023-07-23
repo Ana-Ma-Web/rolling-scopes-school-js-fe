@@ -204,6 +204,8 @@ export class Garage {
       await switchMoveMode({ status: 'drive', id, existWinnerCheck, time });
     } catch (error) {
       this.animations[id].pause();
+    } finally {
+      console.log('finally');
     }
 
     this.raceDoneCounter();
@@ -229,25 +231,29 @@ export class Garage {
     });
     startBtn.disabled = false;
 
-    if (!data.garage.getIsRace()) {
-      const resetRaceBtn = <HTMLButtonElement>(
-        document.querySelector('.garage__btn_race-reset')
-      );
-      // resetRaceBtn.disabled = false;
-      console.log('stopRacer resetRaceBtnDisabled', resetRaceBtn.disabled);
-    }
-
     const startBtns = document.querySelectorAll(`.track__btn_start`);
     const isDone = this.isActiveBtns(<NodeListOf<HTMLButtonElement>>startBtns);
     if (isDone) {
-      const startRaceBtn = <HTMLButtonElement>(
-        document.querySelector('.garage__btn_race-start')
-      );
-      startRaceBtn.disabled = false;
-      console.log('done');
+      if (data.garage.stoppedRacers < this.racersCount) {
+        data.garage.stoppedRacers += 1;
+        console.log(
+          'CstopRacer resetRaceBtnDisabled',
+          data.garage.stoppedRacers,
+          this.racersCount,
+        );
+      } else {
+        data.garage.stoppedRacers = 1;
+        const startRaceBtn = <HTMLButtonElement>(
+          document.querySelector('.garage__btn_race-start')
+        );
+        startRaceBtn.disabled = false;
+      }
     }
   }
 
+  // if (7 * data.garage.getPageNumber() >= Number(this.racersCount)) {
+  //   console.log('stopped done', (data.garage.stoppedRacers += 1));
+  // }
   private startRace(): void {
     data.garage.setIsRace(true);
     const tracks = document.querySelectorAll('.track');
@@ -471,13 +477,16 @@ export class Garage {
   }
 
   public printGarage(): void {
+    const main = document.querySelector('main');
+    if (!main) throw new Error('Main is not founs');
+
     const garageEl = document.createElement('div');
     garageEl.classList.add('garage');
     const form = new Form(this.updateGarageTracks.bind(this));
     const tracks = document.createElement('div');
     tracks.classList.add('garage__tracks');
 
-    document.body.append(garageEl);
+    main.append(garageEl);
     form.printForm();
     garageEl.append(
       this.createStartRaceBtn(),

@@ -31,7 +31,7 @@ export class Track {
     trackEl.dataset.id = String(racer.id);
     trackEl.classList.add('track');
 
-    const racerEl = this.racer.createRacer(racer);
+    const racerEl = this.racer.createRacer(racer.color);
 
     const buttonsEl = document.createElement('div');
     buttonsEl.classList.add('track__buttons');

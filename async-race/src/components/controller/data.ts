@@ -2,8 +2,20 @@ import { Winner } from '../../types';
 
 export const data = {
   winners: {
+    page: 1,
     isWin: false,
     winners: [] as Winner[],
+    getPage(): number {
+      return this.page;
+    },
+    nextPage(): void {
+      this.page += 1;
+      console.log('set', this.isWin);
+    },
+    prevPage(): void {
+      this.page -= 1;
+      console.log('set', this.isWin);
+    },
     getIsWin(): boolean {
       return this.isWin;
     },
@@ -56,6 +68,7 @@ export const data = {
 
   garage: {
     pageNumber: 1,
+    stoppedRacers: 1,
     isRace: false,
     getPageNumber(): number {
       return this.pageNumber;
