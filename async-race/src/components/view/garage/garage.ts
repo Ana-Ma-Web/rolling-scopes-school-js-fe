@@ -65,13 +65,24 @@ export class Garage {
       this.finishCount = 0;
       console.log(data.winners.setIsWin);
       data.winners.setIsWin(false);
+      data.garage.setIsRace(false);
       console.log('isDone', this.racersCount);
-      this.doneRaceDisableBtns();
+      // this.doneRaceDisableBtns();
+      const resetRacerBtn = <HTMLButtonElement>(
+        document.querySelector(`[data-type="race-reset"]`)
+      );
+      resetRacerBtn.disabled = false;
     } else if (this.racersCount < 7 && this.finishCount === this.racersCount) {
       this.finishCount = 0;
       data.winners.setIsWin(false);
+      data.garage.setIsRace(false);
       console.log('isDone', this.racersCount);
-      this.doneRaceDisableBtns();
+      // this.doneRaceDisableBtns();
+      const resetRacerBtn = <HTMLButtonElement>(
+        document.querySelector(`[data-type="race-reset"]`)
+      );
+      console.log('isDoneElse', this.racersCount);
+      resetRacerBtn.disabled = false;
     }
   }
 
@@ -135,10 +146,10 @@ export class Garage {
       document.querySelector(`[data-type="btn-create"]`)
     );
     createRacerBtn.disabled = false;
-    const resetRacerBtn = <HTMLButtonElement>(
-      document.querySelector(`[data-type="race-reset"]`)
-    );
-    resetRacerBtn.disabled = false;
+    // const resetRacerBtn = <HTMLButtonElement>(
+    //   document.querySelector(`[data-type="race-reset"]`)
+    // );
+    // resetRacerBtn.disabled = false;
     this.updatePaginationBtns();
   }
 
@@ -156,6 +167,15 @@ export class Garage {
     if (isDone) {
       resetRaceBtn.disabled = false;
     }
+
+    if (!data.garage.getIsRace()) {
+      const stopBtn = <HTMLButtonElement>(
+        document.querySelector(`.track[data-id="${id}"] .track__btn_stop`)
+      );
+      stopBtn.disabled = false;
+      resetRaceBtn.disabled = false;
+      console.log('startDisableBtns', stopBtn.disabled, isDone);
+    }
   }
 
   public async startRacer(id: number): Promise<void> {
@@ -166,18 +186,13 @@ export class Garage {
     );
     startRaceBtn.disabled = true;
 
-    const stopBtn = <HTMLButtonElement>(
-      document.querySelector(`.track[data-id="${id}"] .track__btn_stop`)
-    );
-    stopBtn.disabled = true;
-
-    const setWinner = data.winners.setWinner.bind(data.winners);
+    const existWinnerCheck = data.winners.existWinnerCheck.bind(data.winners);
     const raceData = await switchMoveMode({
       status: 'started',
       id,
-      setWinner,
+      existWinnerCheck,
     });
-
+    const time = raceData.distance / raceData.velocity;
     this.animations[id] = this.animation(
       id,
       raceData.velocity,
@@ -186,7 +201,7 @@ export class Garage {
     this.startDisableBtns(id);
 
     try {
-      await switchMoveMode({ status: 'drive', id, setWinner });
+      await switchMoveMode({ status: 'drive', id, existWinnerCheck, time });
     } catch (error) {
       this.animations[id].pause();
     }
@@ -206,13 +221,21 @@ export class Garage {
 
     if (this.animations[id]) this.animations[id].cancel();
 
-    const setWinner = data.winners.setWinner.bind(data.winners);
+    const existWinnerCheck = data.winners.existWinnerCheck.bind(data.winners);
     await switchMoveMode({
       status: 'stopped',
       id,
-      setWinner,
+      existWinnerCheck,
     });
     startBtn.disabled = false;
+
+    if (!data.garage.getIsRace()) {
+      const resetRaceBtn = <HTMLButtonElement>(
+        document.querySelector('.garage__btn_race-reset')
+      );
+      // resetRaceBtn.disabled = false;
+      console.log('stopRacer resetRaceBtnDisabled', resetRaceBtn.disabled);
+    }
 
     const startBtns = document.querySelectorAll(`.track__btn_start`);
     const isDone = this.isActiveBtns(<NodeListOf<HTMLButtonElement>>startBtns);
@@ -221,10 +244,12 @@ export class Garage {
         document.querySelector('.garage__btn_race-start')
       );
       startRaceBtn.disabled = false;
+      console.log('done');
     }
   }
 
   private startRace(): void {
+    data.garage.setIsRace(true);
     const tracks = document.querySelectorAll('.track');
 
     const startRaceBtn = <HTMLButtonElement>(
@@ -232,15 +257,17 @@ export class Garage {
     );
     startRaceBtn.disabled = true;
 
-    const stopRaceBtn = <HTMLButtonElement>(
+    const resetRaceBtn = <HTMLButtonElement>(
       document.querySelector('.garage__btn_race-reset')
     );
-    stopRaceBtn.disabled = true;
+    resetRaceBtn.disabled = true;
 
     tracks.forEach((e) => {
       const el = <HTMLElement>e;
       this.startRacer(Number(el.dataset.id));
     });
+    data.garage.setIsRace(true);
+    data.winners.setIsWin(false);
     this.startRaceDisableBtns();
   }
 
@@ -250,6 +277,7 @@ export class Garage {
     );
     resetRaceBtn.disabled = true;
     data.winners.setIsWin(true);
+    data.garage.setIsRace(false);
 
     const tracks = document.querySelectorAll('.track');
 
@@ -257,6 +285,7 @@ export class Garage {
       const el = <HTMLElement>e;
       this.stopRacer(Number(el.dataset.id));
     });
+    this.doneRaceDisableBtns();
   }
 
   private generateRacers(): void {

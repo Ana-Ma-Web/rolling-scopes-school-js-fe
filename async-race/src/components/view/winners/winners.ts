@@ -1,19 +1,19 @@
-import { GetRacersData } from '../../../types';
+import { Winner } from '../../../types';
 import { getWinners } from '../../controller/controller';
 
 export class Winners {
   private async updateWinners(
-    get: (page: number) => Promise<GetRacersData>,
-  ): Promise<GetRacersData> {
+    get: (page: number) => Promise<Winner[]>,
+  ): Promise<Winner[]> {
     const racersOnPage = await get(1);
-    // console.log(racersOnPage);
+    console.log(racersOnPage);
     return racersOnPage;
   }
 
   private winnersListener(): void {
     const btn = document.querySelector('button[data-type="win-btn"]');
 
-    btn?.addEventListener('click', (e) => {
+    btn?.addEventListener('click', () => {
       const resp = this.updateWinners(getWinners);
       console.log(resp);
     });

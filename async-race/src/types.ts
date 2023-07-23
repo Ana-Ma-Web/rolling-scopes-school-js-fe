@@ -3,6 +3,12 @@ export interface Racer {
   color: string;
   id: number;
 }
+export interface Winner {
+  id: number;
+  time: number;
+  wins: number;
+  firstWin?: boolean;
+}
 
 export interface RaceData {
   velocity: number;
@@ -14,7 +20,8 @@ export type MoveMode = 'started' | 'stopped' | 'drive';
 export interface SwitchMoveModeProps {
   status: MoveMode;
   id: number;
-  setWinner: (id: number) => void;
+  existWinnerCheck: (id: number, time: number) => Winner | undefined;
+  time?: number;
 }
 export interface CreateRacerProps {
   name: string;
