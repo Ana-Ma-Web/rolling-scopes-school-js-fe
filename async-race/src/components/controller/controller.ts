@@ -121,6 +121,7 @@ export const updateWinner = async (props: Winner): Promise<Racer> => {
 export const switchMoveMode = async (
   props: SwitchMoveModeProps,
 ): Promise<RaceData> => {
+  const { existWinnerCheck, updateWinners } = props.winnerCallbacks;
   const url = `${baseUrl}${path.engine}/?id=${props.id}&status=${props.status}`;
   const response = await fetch(url, { method: 'PATCH' });
   const json = await response.json();
@@ -133,7 +134,7 @@ export const switchMoveMode = async (
       !data.winners.isWin &&
       props.time
     ) {
-      const newWinnerData = props.existWinnerCheck(props.id, props.time);
+      const newWinnerData = existWinnerCheck(props.id, props.time);
       console.log('empty controller existWinnerCheck', data.winners.winners);
       if (newWinnerData?.firstWin) {
         createWinner(newWinnerData);
@@ -141,6 +142,7 @@ export const switchMoveMode = async (
         updateWinner(newWinnerData);
         console.log('not first win');
       }
+      updateWinners();
     }
   } catch (error) {
     console.log('controller switchMoveMode', error);

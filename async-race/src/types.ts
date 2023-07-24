@@ -20,7 +20,10 @@ export type MoveMode = 'started' | 'stopped' | 'drive';
 export interface SwitchMoveModeProps {
   status: MoveMode;
   id: number;
-  existWinnerCheck: (id: number, time: number) => Winner | undefined;
+  winnerCallbacks: {
+    existWinnerCheck: (id: number, time: number) => Winner | undefined;
+    updateWinners: () => void;
+  };
   time?: number;
 }
 export interface CreateRacerProps {

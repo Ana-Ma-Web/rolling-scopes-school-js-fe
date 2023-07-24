@@ -9,7 +9,7 @@ import { RacerEl } from '../racer/racer';
 import { Button } from '../ui/button';
 
 export class Winners {
-  private async updateWinners(): // get: (page: number) => Promise<Winner[]>,
+  public async updateWinners(): // get: (page: number) => Promise<Winner[]>,
   Promise<Winner[]> {
     const winnersOnPage = await getWinners(1);
     const allRacers = await getAllRacers();

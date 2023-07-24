@@ -15,15 +15,25 @@ import { data } from '../../controller/data';
 export class Garage {
   private racersCount = 0;
 
+  private pageRacersCount = 0;
+
   private finishCount = 0;
 
   private track: Track;
 
   private animations: Animations;
 
-  constructor() {
+  private updateWinners;
+
+  constructor(updateWinners: () => void) {
     this.track = new Track();
     this.animations = {};
+    this.updateWinners = updateWinners;
+  }
+
+  private getPageRacersNumber(): number {
+    const tracks = document.querySelectorAll('.track');
+    return tracks.length;
   }
 
   private getPageRacers(): Promise<GetRacersData> {
@@ -186,11 +196,14 @@ export class Garage {
     );
     startRaceBtn.disabled = true;
 
-    const existWinnerCheck = data.winners.existWinnerCheck.bind(data.winners);
+    const winnerCallbacks = {
+      existWinnerCheck: data.winners.existWinnerCheck.bind(data.winners),
+      updateWinners: this.updateWinners,
+    };
     const raceData = await switchMoveMode({
       status: 'started',
       id,
-      existWinnerCheck,
+      winnerCallbacks,
     });
     const time = raceData.distance / raceData.velocity;
     this.animations[id] = this.animation(
@@ -201,13 +214,14 @@ export class Garage {
     this.startDisableBtns(id);
 
     try {
-      await switchMoveMode({ status: 'drive', id, existWinnerCheck, time });
+      await switchMoveMode({ status: 'drive', id, winnerCallbacks, time });
     } catch (error) {
       this.animations[id].pause();
     } finally {
+      this.getPageRacersNumber();
+
       console.log('finally');
     }
-
     this.raceDoneCounter();
   }
 
@@ -216,31 +230,28 @@ export class Garage {
       document.querySelector(`.track[data-id="${id}"] .track__btn_stop`)
     );
     stopBtn.disabled = true;
-
     const startBtn = <HTMLButtonElement>(
       document.querySelector(`.track[data-id="${id}"] .track__btn_start`)
     );
 
     if (this.animations[id]) this.animations[id].cancel();
-
-    const existWinnerCheck = data.winners.existWinnerCheck.bind(data.winners);
+    const winnerCallbacks = {
+      existWinnerCheck: data.winners.existWinnerCheck.bind(data.winners),
+      updateWinners: this.updateWinners,
+    };
     await switchMoveMode({
       status: 'stopped',
       id,
-      existWinnerCheck,
+      winnerCallbacks,
     });
     startBtn.disabled = false;
 
     const startBtns = document.querySelectorAll(`.track__btn_start`);
     const isDone = this.isActiveBtns(<NodeListOf<HTMLButtonElement>>startBtns);
+    // console.log('CstopRacer', data.garage.stoppedRacers, this.racersCount);
     if (isDone) {
-      if (data.garage.stoppedRacers < this.racersCount) {
+      if (data.garage.stoppedRacers < this.getPageRacersNumber()) {
         data.garage.stoppedRacers += 1;
-        console.log(
-          'CstopRacer resetRaceBtnDisabled',
-          data.garage.stoppedRacers,
-          this.racersCount,
-        );
       } else {
         data.garage.stoppedRacers = 1;
         const startRaceBtn = <HTMLButtonElement>(

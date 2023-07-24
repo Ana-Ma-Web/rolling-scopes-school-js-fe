@@ -4,13 +4,13 @@ import { Winners } from './winners/winners';
 import './header.css';
 
 export class AppView {
-  private garage: Garage;
-
   private winners: Winners;
 
+  private garage: Garage;
+
   constructor() {
-    this.garage = new Garage();
     this.winners = new Winners();
+    this.garage = new Garage(this.winners.updateWinners.bind(this.winners));
   }
 
   private headerListener(): void {
