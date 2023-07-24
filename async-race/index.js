@@ -884,28 +884,31 @@ const updateWinner = (props) => __awaiter(void 0, void 0, void 0, function* () {
     return json;
 });
 const switchMoveMode = (props) => __awaiter(void 0, void 0, void 0, function* () {
+    const { existWinnerCheck, updateWinners } = props.winnerCallbacks;
     const url = `${baseUrl}${path.engine}/?id=${props.id}&status=${props.status}`;
     const response = yield fetch(url, { method: 'PATCH' });
     const json = yield response.json();
     try {
-        console.log('success', json.success);
         if (json.success &&
             _data__WEBPACK_IMPORTED_MODULE_0__.data.garage.isRace &&
             !_data__WEBPACK_IMPORTED_MODULE_0__.data.winners.isWin &&
             props.time) {
-            const newWinnerData = props.existWinnerCheck(props.id, props.time);
+            const newWinnerData = existWinnerCheck(props.id, props.time);
             console.log('empty controller existWinnerCheck', _data__WEBPACK_IMPORTED_MODULE_0__.data.winners.winners);
             if (newWinnerData === null || newWinnerData === void 0 ? void 0 : newWinnerData.firstWin) {
                 createWinner(newWinnerData);
             }
             else if (newWinnerData) {
                 updateWinner(newWinnerData);
-                console.log('not first win');
             }
         }
     }
     catch (error) {
         console.log('controller switchMoveMode', error);
+    }
+    finally {
+        console.log('updateWinners');
+        updateWinners();
     }
     return json;
 });
@@ -963,18 +966,16 @@ const data = {
         },
         nextPage() {
             this.page += 1;
-            console.log('set', this.isWin);
         },
         prevPage() {
             this.page -= 1;
-            console.log('set', this.isWin);
         },
         getIsWin() {
             return this.isWin;
         },
         setIsWin(isWin) {
             this.isWin = isWin;
-            console.log('set', this.isWin);
+            // console.log('set', this.isWin);
         },
         existWinnerCheck(id, time) {
             const racerData = Object.assign({ id }, this.countWinsData(id, time));
@@ -982,13 +983,13 @@ const data = {
                 this.winners.push(racerData);
                 console.log('winnersPush', racerData);
                 this.isWin = true;
-                console.log('data setWinner', this.isWin);
+                // console.log('data setWinner', this.isWin);
                 console.log(this.winners);
                 return Object.assign({ firstWin: true }, racerData);
             }
             if (!this.isWin && racerData.wins > 1) {
                 this.isWin = true;
-                console.log('data setWinner', this.isWin);
+                // console.log('data setWinner', this.isWin);
                 console.log(this.winners);
                 return Object.assign({ firstWin: false }, racerData);
             }
@@ -1033,7 +1034,7 @@ const data = {
         },
         setIsRace(isRace) {
             this.isRace = isRace;
-            console.log('set', this.isRace);
+            console.log('setisRace', this.isRace);
         },
     },
     form: {
@@ -1069,8 +1070,8 @@ __webpack_require__.r(__webpack_exports__);
 
 class AppView {
     constructor() {
-        this.garage = new _garage_garage__WEBPACK_IMPORTED_MODULE_0__.Garage();
         this.winners = new _winners_winners__WEBPACK_IMPORTED_MODULE_2__.Winners();
+        this.garage = new _garage_garage__WEBPACK_IMPORTED_MODULE_0__.Garage(this.winners.updateWinners.bind(this.winners));
     }
     headerListener() {
         const main = document.querySelector('main');
@@ -1343,11 +1344,17 @@ var __awaiter = (undefined && undefined.__awaiter) || function (thisArg, _argume
 
 
 class Garage {
-    constructor() {
+    constructor(updateWinners) {
         this.racersCount = 0;
+        this.pageRacersCount = 0;
         this.finishCount = 0;
         this.track = new _track_track__WEBPACK_IMPORTED_MODULE_2__.Track();
         this.animations = {};
+        this.updateWinners = updateWinners;
+    }
+    getPageRacersNumber() {
+        const tracks = document.querySelectorAll('.track');
+        return tracks.length;
     }
     getPageRacers() {
         return (0,_controller_controller__WEBPACK_IMPORTED_MODULE_0__.getRacers)(_controller_data__WEBPACK_IMPORTED_MODULE_6__.data.garage.getPageNumber());
@@ -1376,24 +1383,14 @@ class Garage {
     }
     raceDoneCounter() {
         this.finishCount += 1;
-        if (this.racersCount >= 7 && this.finishCount === 7) {
+        if (this.finishCount === this.getPageRacersNumber()) {
             this.finishCount = 0;
-            console.log(_controller_data__WEBPACK_IMPORTED_MODULE_6__.data.winners.setIsWin);
+            // console.log(data.winners.setIsWin);
             _controller_data__WEBPACK_IMPORTED_MODULE_6__.data.winners.setIsWin(false);
             _controller_data__WEBPACK_IMPORTED_MODULE_6__.data.garage.setIsRace(false);
             console.log('isDone', this.racersCount);
             // this.doneRaceDisableBtns();
             const resetRacerBtn = (document.querySelector(`[data-type="race-reset"]`));
-            resetRacerBtn.disabled = false;
-        }
-        else if (this.racersCount < 7 && this.finishCount === this.racersCount) {
-            this.finishCount = 0;
-            _controller_data__WEBPACK_IMPORTED_MODULE_6__.data.winners.setIsWin(false);
-            _controller_data__WEBPACK_IMPORTED_MODULE_6__.data.garage.setIsRace(false);
-            console.log('isDone', this.racersCount);
-            // this.doneRaceDisableBtns();
-            const resetRacerBtn = (document.querySelector(`[data-type="race-reset"]`));
-            console.log('isDoneElse', this.racersCount);
             resetRacerBtn.disabled = false;
         }
     }
@@ -1462,17 +1459,20 @@ class Garage {
                 this.animations[id].cancel();
             const startRaceBtn = (document.querySelector('.garage__btn_race-start'));
             startRaceBtn.disabled = true;
-            const existWinnerCheck = _controller_data__WEBPACK_IMPORTED_MODULE_6__.data.winners.existWinnerCheck.bind(_controller_data__WEBPACK_IMPORTED_MODULE_6__.data.winners);
+            const winnerCallbacks = {
+                existWinnerCheck: _controller_data__WEBPACK_IMPORTED_MODULE_6__.data.winners.existWinnerCheck.bind(_controller_data__WEBPACK_IMPORTED_MODULE_6__.data.winners),
+                updateWinners: this.updateWinners,
+            };
             const raceData = yield (0,_controller_controller__WEBPACK_IMPORTED_MODULE_0__.switchMoveMode)({
                 status: 'started',
                 id,
-                existWinnerCheck,
+                winnerCallbacks,
             });
             const time = raceData.distance / raceData.velocity;
             this.animations[id] = this.animation(id, raceData.velocity, raceData.distance);
             this.startDisableBtns(id);
             try {
-                yield (0,_controller_controller__WEBPACK_IMPORTED_MODULE_0__.switchMoveMode)({ status: 'drive', id, existWinnerCheck, time });
+                yield (0,_controller_controller__WEBPACK_IMPORTED_MODULE_0__.switchMoveMode)({ status: 'drive', id, winnerCallbacks, time });
             }
             catch (error) {
                 this.animations[id].pause();
@@ -1490,19 +1490,22 @@ class Garage {
             const startBtn = (document.querySelector(`.track[data-id="${id}"] .track__btn_start`));
             if (this.animations[id])
                 this.animations[id].cancel();
-            const existWinnerCheck = _controller_data__WEBPACK_IMPORTED_MODULE_6__.data.winners.existWinnerCheck.bind(_controller_data__WEBPACK_IMPORTED_MODULE_6__.data.winners);
+            const winnerCallbacks = {
+                existWinnerCheck: _controller_data__WEBPACK_IMPORTED_MODULE_6__.data.winners.existWinnerCheck.bind(_controller_data__WEBPACK_IMPORTED_MODULE_6__.data.winners),
+                updateWinners: this.updateWinners,
+            };
             yield (0,_controller_controller__WEBPACK_IMPORTED_MODULE_0__.switchMoveMode)({
                 status: 'stopped',
                 id,
-                existWinnerCheck,
+                winnerCallbacks,
             });
             startBtn.disabled = false;
             const startBtns = document.querySelectorAll(`.track__btn_start`);
             const isDone = this.isActiveBtns(startBtns);
+            // console.log('CstopRacer', data.garage.stoppedRacers, this.racersCount);
             if (isDone) {
-                if (_controller_data__WEBPACK_IMPORTED_MODULE_6__.data.garage.stoppedRacers < this.racersCount) {
+                if (_controller_data__WEBPACK_IMPORTED_MODULE_6__.data.garage.stoppedRacers < this.getPageRacersNumber()) {
                     _controller_data__WEBPACK_IMPORTED_MODULE_6__.data.garage.stoppedRacers += 1;
-                    console.log('CstopRacer resetRaceBtnDisabled', _controller_data__WEBPACK_IMPORTED_MODULE_6__.data.garage.stoppedRacers, this.racersCount);
                 }
                 else {
                     _controller_data__WEBPACK_IMPORTED_MODULE_6__.data.garage.stoppedRacers = 1;
@@ -1878,7 +1881,7 @@ class Winners {
                     time: e.time,
                 }));
             });
-            console.log(winnersOnPage);
+            console.log('winnersOnPage', winnersOnPage);
             return winnersOnPage;
         });
     }
