@@ -23,7 +23,11 @@ var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBP
 // Module
 ___CSS_LOADER_EXPORT___.push([module.id, `body {
   margin: 20px 0;
-}`, "",{"version":3,"sources":["webpack://./components/app/app.css"],"names":[],"mappings":"AAAA;EACE,cAAc;AAChB","sourcesContent":["body {\n  margin: 20px 0;\n}"],"sourceRoot":""}]);
+}
+
+main {
+  position: relative;
+}`, "",{"version":3,"sources":["webpack://./components/app/app.css"],"names":[],"mappings":"AAAA;EACE,cAAc;AAChB;;AAEA;EACE,kBAAkB;AACpB","sourcesContent":["body {\n  margin: 20px 0;\n}\n\nmain {\n  position: relative;\n}"],"sourceRoot":""}]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -49,17 +53,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1___default()((_node_modules_css_loader_dist_runtime_sourceMaps_js__WEBPACK_IMPORTED_MODULE_0___default()));
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, `.winners {
-  display: none;
-  width: 100vw;
-  height: 100vh;
-  background-color: white;
-  
-}
-
-.win-open .winners {
-  display: block;
-}`, "",{"version":3,"sources":["webpack://./components/view/header.css"],"names":[],"mappings":"AAAA;EACE,aAAa;EACb,YAAY;EACZ,aAAa;EACb,uBAAuB;;AAEzB;;AAEA;EACE,cAAc;AAChB","sourcesContent":[".winners {\n  display: none;\n  width: 100vw;\n  height: 100vh;\n  background-color: white;\n  \n}\n\n.win-open .winners {\n  display: block;\n}"],"sourceRoot":""}]);
+___CSS_LOADER_EXPORT___.push([module.id, ``, "",{"version":3,"sources":[],"names":[],"mappings":"","sourceRoot":""}]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -144,7 +138,47 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1___default()((_node_modules_css_loader_dist_runtime_sourceMaps_js__WEBPACK_IMPORTED_MODULE_0___default()));
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, `.pop-up {
+___CSS_LOADER_EXPORT___.push([module.id, `.winners {
+  display: none;
+  width: 100%;
+  height: 100%;
+  background-color: white;
+  position: absolute;
+  top: 0;
+  left: 0;
+
+}
+
+.win-open .winners {
+  display: block;
+}
+
+.winners__list-item {
+  display: flex;
+  gap: 22px;
+}
+
+.winners__list-item div:nth-child(1) {
+  width: 15px;
+}
+
+.winners__list-item div:nth-child(2) {
+  width: 50px;
+}
+
+.winners__list-item div:nth-child(3) {
+  width: 90px;
+}
+
+.winners__list-item div:nth-child(4) {
+  width: 30px;
+}
+
+.winners__list-item div:nth-child(5) {
+  width: 30px;
+}
+
+.pop-up {
   width: 300px;
   height: 114px;
   position: absolute;
@@ -168,8 +202,7 @@ ___CSS_LOADER_EXPORT___.push([module.id, `.pop-up {
   opacity: 1;
   top: 50%;
   transition: 1.5s;
-}
-`, "",{"version":3,"sources":["webpack://./components/view/winners/winners.css"],"names":[],"mappings":"AAAA;EACE,YAAY;EACZ,aAAa;EACb,kBAAkB;EAClB,QAAQ;EACR,SAAS;EACT,gCAAgC;EAChC,WAAW;EACX,uBAAuB;EACvB,aAAa;EACb,sBAAsB;EACtB,mBAAmB;EACnB,6BAA6B;EAC7B,mBAAmB;EACnB,UAAU;EACV,gBAAgB;;EAEhB,UAAU;AACZ;;AAEA;EACE,UAAU;EACV,QAAQ;EACR,gBAAgB;AAClB","sourcesContent":[".pop-up {\n  width: 300px;\n  height: 114px;\n  position: absolute;\n  top: 50%;\n  left: 50%;\n  transform: translate(-50%, -50%);\n  z-index: 10;\n  background-color: white;\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  justify-content: space-evenly;\n  /* display: none; */\n  opacity: 0;\n  transition: 1.5s;\n\n  top: -250%;\n}\n\n.pop-up_show {\n  opacity: 1;\n  top: 50%;\n  transition: 1.5s;\n}\n"],"sourceRoot":""}]);
+}`, "",{"version":3,"sources":["webpack://./components/view/winners/winners.css"],"names":[],"mappings":"AAAA;EACE,aAAa;EACb,WAAW;EACX,YAAY;EACZ,uBAAuB;EACvB,kBAAkB;EAClB,MAAM;EACN,OAAO;;AAET;;AAEA;EACE,cAAc;AAChB;;AAEA;EACE,aAAa;EACb,SAAS;AACX;;AAEA;EACE,WAAW;AACb;;AAEA;EACE,WAAW;AACb;;AAEA;EACE,WAAW;AACb;;AAEA;EACE,WAAW;AACb;;AAEA;EACE,WAAW;AACb;;AAEA;EACE,YAAY;EACZ,aAAa;EACb,kBAAkB;EAClB,QAAQ;EACR,SAAS;EACT,gCAAgC;EAChC,WAAW;EACX,uBAAuB;EACvB,aAAa;EACb,sBAAsB;EACtB,mBAAmB;EACnB,6BAA6B;EAC7B,mBAAmB;EACnB,UAAU;EACV,gBAAgB;;EAEhB,UAAU;AACZ;;AAEA;EACE,UAAU;EACV,QAAQ;EACR,gBAAgB;AAClB","sourcesContent":[".winners {\n  display: none;\n  width: 100%;\n  height: 100%;\n  background-color: white;\n  position: absolute;\n  top: 0;\n  left: 0;\n\n}\n\n.win-open .winners {\n  display: block;\n}\n\n.winners__list-item {\n  display: flex;\n  gap: 22px;\n}\n\n.winners__list-item div:nth-child(1) {\n  width: 15px;\n}\n\n.winners__list-item div:nth-child(2) {\n  width: 50px;\n}\n\n.winners__list-item div:nth-child(3) {\n  width: 90px;\n}\n\n.winners__list-item div:nth-child(4) {\n  width: 30px;\n}\n\n.winners__list-item div:nth-child(5) {\n  width: 30px;\n}\n\n.pop-up {\n  width: 300px;\n  height: 114px;\n  position: absolute;\n  top: 50%;\n  left: 50%;\n  transform: translate(-50%, -50%);\n  z-index: 10;\n  background-color: white;\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  justify-content: space-evenly;\n  /* display: none; */\n  opacity: 0;\n  transition: 1.5s;\n\n  top: -250%;\n}\n\n.pop-up_show {\n  opacity: 1;\n  top: 50%;\n  transition: 1.5s;\n}"],"sourceRoot":""}]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -1017,7 +1050,7 @@ const switchMoveMode = (props) => __awaiter(void 0, void 0, void 0, function* ()
     return json;
 });
 const getWinners = (page) => __awaiter(void 0, void 0, void 0, function* () {
-    const url = `${baseUrl}${path.winners}?_page=${page}&_limit=7&_sort='time'`;
+    const url = `${baseUrl}${path.winners}?_page=${page}&_limit=10&_sort='time'`;
     const response = yield fetch(url);
     const items = yield response.json();
     console.log('getWinners', items);
@@ -1035,6 +1068,7 @@ const getAllWinners = () => __awaiter(void 0, void 0, void 0, function* () {
     const url = `${baseUrl}${path.winners}`;
     const response = yield fetch(url);
     const items = yield response.json();
+    console.log('getAllWinners', items);
     return items;
 });
 const resetWinners = () => __awaiter(void 0, void 0, void 0, function* () {
@@ -1220,7 +1254,7 @@ class AppView {
             textContent: 'Garage',
             isDisabled: true,
         });
-        header.append(winBtn, garageBtn);
+        header.append(garageBtn, winBtn);
         return header;
     }
     print() {
@@ -1493,7 +1527,7 @@ class Garage {
         const nameEl = document.createElement('div');
         nameEl.textContent = props.name;
         const timeEl = document.createElement('div');
-        timeEl.textContent = `${props.time}s`;
+        timeEl.textContent = `time: ${(props.time / 1000).toFixed(2)}s`;
         const racer = new _racer_racer__WEBPACK_IMPORTED_MODULE_7__.RacerEl();
         const racerEl = racer.createRacer(props.color);
         popUp.append(nameEl, timeEl, racerEl);
@@ -1505,9 +1539,6 @@ class Garage {
     whenRacerWins(id, time) {
         return __awaiter(this, void 0, void 0, function* () {
             const tracks = Array.from(document.querySelectorAll('.track'));
-            tracks.forEach((e) => {
-                console.log(e);
-            });
             const winTrack = tracks.find((el) => {
                 const element = el;
                 return Number(element.dataset.id) === id;
@@ -1619,8 +1650,9 @@ class Garage {
                 console.log('start try drive', _controller_data__WEBPACK_IMPORTED_MODULE_6__.data.winners.getIsWin());
                 yield (0,_controller_controller__WEBPACK_IMPORTED_MODULE_0__.switchMoveMode)({ status: 'drive', id, winnerCallbacks, time });
                 console.log('start try drive await', _controller_data__WEBPACK_IMPORTED_MODULE_6__.data.winners.getIsWin());
-                if (!_controller_data__WEBPACK_IMPORTED_MODULE_6__.data.winners.getIsWin())
+                if (!_controller_data__WEBPACK_IMPORTED_MODULE_6__.data.winners.getIsWin() && _controller_data__WEBPACK_IMPORTED_MODULE_6__.data.garage.getIsRace()) {
                     this.whenRacerWins(id, time);
+                }
             }
             catch (error) {
                 this.animations[id].pause();
@@ -1995,6 +2027,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _racer_racer__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../racer/racer */ "./components/view/racer/racer.ts");
 /* harmony import */ var _ui_button__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../ui/button */ "./components/view/ui/button.ts");
 /* harmony import */ var _winners_css__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./winners.css */ "./components/view/winners/winners.css");
+/* harmony import */ var _controller_data__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../controller/data */ "./components/controller/data.ts");
 var __awaiter = (undefined && undefined.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -2008,15 +2041,17 @@ var __awaiter = (undefined && undefined.__awaiter) || function (thisArg, _argume
 
 
 
+
 class Winners {
     updateWinners() {
         return __awaiter(this, void 0, void 0, function* () {
-            const winnersOnPage = yield (0,_controller_controller__WEBPACK_IMPORTED_MODULE_0__.getWinners)(1);
+            const winnersOnPage = yield (0,_controller_controller__WEBPACK_IMPORTED_MODULE_0__.getWinners)(_controller_data__WEBPACK_IMPORTED_MODULE_4__.data.winners.getPage());
             const allRacers = yield (0,_controller_controller__WEBPACK_IMPORTED_MODULE_0__.getAllRacers)();
             const winList = document.querySelector('.winners__list');
             if (!winList)
                 throw new Error('Winners list not found');
             winList.innerHTML = '';
+            winList.append(this.createHeadWinnerLine());
             winnersOnPage.forEach((e, i) => {
                 const curWinner = allRacers.items.find((el) => el.id === e.id);
                 if (!curWinner)
@@ -2030,27 +2065,106 @@ class Winners {
                 }));
             });
             console.log('winnersOnPage', winnersOnPage);
+            this.updatePagination();
             return winnersOnPage;
+        });
+    }
+    isLastPage() {
+        return __awaiter(this, void 0, void 0, function* () {
+            const pageNumber = _controller_data__WEBPACK_IMPORTED_MODULE_4__.data.winners.getPage();
+            const allWinners = yield (0,_controller_controller__WEBPACK_IMPORTED_MODULE_0__.getAllWinners)();
+            const maxPageSize = 10;
+            console.log('isLastPage', pageNumber, maxPageSize, allWinners.length);
+            if (!allWinners.length)
+                return true;
+            if (pageNumber * maxPageSize >= allWinners.length) {
+                return true;
+            }
+            return false;
+        });
+    }
+    updatePagination() {
+        return __awaiter(this, void 0, void 0, function* () {
+            const pageNumber = _controller_data__WEBPACK_IMPORTED_MODULE_4__.data.winners.getPage();
+            const prevBtn = (document.querySelector('button[data-type="win-prev"]'));
+            const nextBtn = (document.querySelector('button[data-type="win-next"]'));
+            if (pageNumber === 1) {
+                console.log('first page number ', true);
+                prevBtn.disabled = true;
+            }
+            else
+                prevBtn.disabled = false;
+            if (yield this.isLastPage()) {
+                console.log('last page number ', true);
+                nextBtn.disabled = true;
+            }
+            else
+                nextBtn.disabled = false;
+            console.log('updatePagination', pageNumber, yield this.isLastPage());
+            //   if (pageNumber * )
+            // }
+        });
+    }
+    paginationHandler(btnType) {
+        return __awaiter(this, void 0, void 0, function* () {
+            switch (btnType) {
+                case 'prev':
+                    _controller_data__WEBPACK_IMPORTED_MODULE_4__.data.winners.prevPage();
+                    break;
+                case 'next':
+                    _controller_data__WEBPACK_IMPORTED_MODULE_4__.data.winners.nextPage();
+                    break;
+                default:
+                    break;
+            }
+            this.updateWinners();
+            this.updatePagination();
         });
     }
     winnersListener() {
         const btn = document.querySelector('button[data-type="win-btn"]');
+        const prevBtn = document.querySelector('button[data-type="win-prev"]');
+        const nextBtn = document.querySelector('button[data-type="win-next"]');
         btn === null || btn === void 0 ? void 0 : btn.addEventListener('click', () => {
             const resp = this.updateWinners();
             console.log(resp);
         });
+        prevBtn === null || prevBtn === void 0 ? void 0 : prevBtn.addEventListener('click', () => {
+            this.paginationHandler('prev');
+        });
+        nextBtn === null || nextBtn === void 0 ? void 0 : nextBtn.addEventListener('click', () => {
+            this.paginationHandler('next');
+        });
+    }
+    createHeadWinnerLine() {
+        const listItem = document.createElement('li');
+        listItem.classList.add('winners__list-item');
+        const number = document.createElement('div');
+        number.textContent = '№';
+        const image = document.createElement('div');
+        image.textContent = `Racer:`;
+        const name = document.createElement('div');
+        name.textContent = `Name:`;
+        const wins = document.createElement('div');
+        wins.textContent = `Wins:`;
+        const time = document.createElement('div');
+        time.textContent = `Time:`;
+        listItem.append(number, image, name, wins, time);
+        return listItem;
     }
     createWinnerLine(props) {
         const racer = new _racer_racer__WEBPACK_IMPORTED_MODULE_1__.RacerEl();
         const listItem = document.createElement('li');
+        listItem.classList.add('winners__list-item');
         const number = document.createElement('div');
+        number.textContent = String(props.number);
         const image = racer.createRacer(props.color);
         const name = document.createElement('div');
-        name.textContent = `name: ${props.name}`;
+        name.textContent = `${props.name}`;
         const wins = document.createElement('div');
-        wins.textContent = `wins: ${props.wins}`;
+        wins.textContent = `${props.wins}`;
         const time = document.createElement('div');
-        time.textContent = `time: ${(props.time / 1000).toFixed(2)}`;
+        time.textContent = `${(props.time / 1000).toFixed(2)}s`;
         listItem.append(number, image, name, wins, time);
         return listItem;
     }
@@ -2063,24 +2177,41 @@ class Winners {
         return popUp;
     }
     printWinners() {
-        const main = document.querySelector('main');
-        if (!main)
-            throw new Error('Main is not founds');
-        const winners = document.createElement('div');
-        winners.classList.add('winners');
-        const button = new _ui_button__WEBPACK_IMPORTED_MODULE_2__.Button();
-        const btn = button.createBtn({
-            datasetType: 'win-btn',
-            rootClass: 'winners',
-            modClass: 'get-winners',
-            textContent: 'Wins',
-            isDisabled: false,
+        return __awaiter(this, void 0, void 0, function* () {
+            const main = document.querySelector('main');
+            if (!main)
+                throw new Error('Main is not founds');
+            const winners = document.createElement('div');
+            winners.classList.add('winners');
+            const button = new _ui_button__WEBPACK_IMPORTED_MODULE_2__.Button();
+            const prevBtn = button.createBtn({
+                datasetType: 'win-prev',
+                rootClass: 'winners',
+                modClass: 'prev',
+                textContent: 'Prev',
+                isDisabled: true,
+            });
+            const nextBtn = button.createBtn({
+                datasetType: 'win-next',
+                rootClass: 'winners',
+                modClass: 'next',
+                textContent: 'Next',
+                isDisabled: yield this.isLastPage(),
+            });
+            const btn = button.createBtn({
+                datasetType: 'win-btn',
+                rootClass: 'winners',
+                modClass: 'get-winners',
+                textContent: 'Wins',
+                isDisabled: false,
+            });
+            const winList = document.createElement('ul');
+            winList.classList.add('winners__list');
+            winList.append(this.createHeadWinnerLine());
+            winners.append(winList, btn, prevBtn, nextBtn);
+            main.append(winners, this.createPopUp());
+            this.winnersListener();
         });
-        const winList = document.createElement('ul');
-        winList.classList.add('winners__list');
-        winners.append(winList, btn);
-        main.append(winners, this.createPopUp());
-        this.winnersListener();
     }
 }
 
