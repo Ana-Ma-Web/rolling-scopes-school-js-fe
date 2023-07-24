@@ -75,6 +75,7 @@ export class Winners {
     if (!main) throw new Error('Main is not founs');
 
     const winners = document.createElement('div');
+    winners.classList.add('winners');
     const button = new Button();
     const btn = button.createBtn({
       datasetType: 'win-btn',

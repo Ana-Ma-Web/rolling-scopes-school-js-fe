@@ -1,6 +1,7 @@
 import { Garage } from './garage/garage';
 import { Button } from './ui/button';
 import { Winners } from './winners/winners';
+import './header.css';
 
 export class AppView {
   private garage: Garage;
@@ -13,11 +14,16 @@ export class AppView {
   }
 
   private headerListener(): void {
+    const main = document.querySelector('main');
     const header = document.querySelector('header');
-    const winBtn = document.querySelector('[data-type="header-win"]');
-    const garageBtn = document.querySelector('[data-type="header-garage"]');
+    const winBtn = <HTMLButtonElement>(
+      document.querySelector('[data-type="header-win"]')
+    );
+    const garageBtn = <HTMLButtonElement>(
+      document.querySelector('[data-type="header-garage"]')
+    );
 
-    if (!header || !winBtn || !garageBtn)
+    if (!header || !winBtn || !garageBtn || !main)
       throw new Error('Header is not found');
 
     header.addEventListener('click', (e) => {
@@ -26,13 +32,18 @@ export class AppView {
 
       switch (target.dataset.type) {
         case 'header-win':
+          main.classList.add('win-open');
+          winBtn.disabled = true;
+          garageBtn.disabled = false;
           break;
         case 'header-garage':
+          main.classList.remove('win-open');
+          winBtn.disabled = false;
+          garageBtn.disabled = true;
           break;
         default:
           break;
       }
-
       return undefined;
     });
   }
@@ -53,7 +64,7 @@ export class AppView {
       rootClass: 'header',
       modClass: 'garage',
       textContent: 'Garage',
-      isDisabled: false,
+      isDisabled: true,
     });
 
     header.append(winBtn, garageBtn);
@@ -68,5 +79,6 @@ export class AppView {
 
     this.winners.printWinners();
     this.garage.printGarage();
+    this.headerListener();
   }
 }
