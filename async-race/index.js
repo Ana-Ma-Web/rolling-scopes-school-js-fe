@@ -125,6 +125,57 @@ ___CSS_LOADER_EXPORT___.push([module.id, `.track {
 
 /***/ }),
 
+/***/ "../node_modules/css-loader/dist/cjs.js!./components/view/winners/winners.css":
+/*!************************************************************************************!*\
+  !*** ../node_modules/css-loader/dist/cjs.js!./components/view/winners/winners.css ***!
+  \************************************************************************************/
+/***/ ((module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _node_modules_css_loader_dist_runtime_sourceMaps_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../../node_modules/css-loader/dist/runtime/sourceMaps.js */ "../node_modules/css-loader/dist/runtime/sourceMaps.js");
+/* harmony import */ var _node_modules_css_loader_dist_runtime_sourceMaps_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_css_loader_dist_runtime_sourceMaps_js__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../../node_modules/css-loader/dist/runtime/api.js */ "../node_modules/css-loader/dist/runtime/api.js");
+/* harmony import */ var _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1__);
+// Imports
+
+
+var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1___default()((_node_modules_css_loader_dist_runtime_sourceMaps_js__WEBPACK_IMPORTED_MODULE_0___default()));
+// Module
+___CSS_LOADER_EXPORT___.push([module.id, `.pop-up {
+  width: 300px;
+  height: 114px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 10;
+  background-color: white;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-evenly;
+  /* display: none; */
+  opacity: 0;
+  transition: 1.5s;
+
+  top: -250%;
+}
+
+.pop-up_show {
+  opacity: 1;
+  top: 50%;
+  transition: 1.5s;
+}
+`, "",{"version":3,"sources":["webpack://./components/view/winners/winners.css"],"names":[],"mappings":"AAAA;EACE,YAAY;EACZ,aAAa;EACb,kBAAkB;EAClB,QAAQ;EACR,SAAS;EACT,gCAAgC;EAChC,WAAW;EACX,uBAAuB;EACvB,aAAa;EACb,sBAAsB;EACtB,mBAAmB;EACnB,6BAA6B;EAC7B,mBAAmB;EACnB,UAAU;EACV,gBAAgB;;EAEhB,UAAU;AACZ;;AAEA;EACE,UAAU;EACV,QAAQ;EACR,gBAAgB;AAClB","sourcesContent":[".pop-up {\n  width: 300px;\n  height: 114px;\n  position: absolute;\n  top: 50%;\n  left: 50%;\n  transform: translate(-50%, -50%);\n  z-index: 10;\n  background-color: white;\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  justify-content: space-evenly;\n  /* display: none; */\n  opacity: 0;\n  transition: 1.5s;\n\n  top: -250%;\n}\n\n.pop-up_show {\n  opacity: 1;\n  top: 50%;\n  transition: 1.5s;\n}\n"],"sourceRoot":""}]);
+// Exports
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
+
+
+/***/ }),
+
 /***/ "../node_modules/css-loader/dist/runtime/api.js":
 /*!******************************************************!*\
   !*** ../node_modules/css-loader/dist/runtime/api.js ***!
@@ -456,6 +507,60 @@ var update = _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js
 
 
        /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_css_loader_dist_cjs_js_track_css__WEBPACK_IMPORTED_MODULE_6__["default"] && _node_modules_css_loader_dist_cjs_js_track_css__WEBPACK_IMPORTED_MODULE_6__["default"].locals ? _node_modules_css_loader_dist_cjs_js_track_css__WEBPACK_IMPORTED_MODULE_6__["default"].locals : undefined);
+
+
+/***/ }),
+
+/***/ "./components/view/winners/winners.css":
+/*!*********************************************!*\
+  !*** ./components/view/winners/winners.css ***!
+  \*********************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! !../../../../node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js */ "../node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js");
+/* harmony import */ var _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _node_modules_style_loader_dist_runtime_styleDomAPI_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! !../../../../node_modules/style-loader/dist/runtime/styleDomAPI.js */ "../node_modules/style-loader/dist/runtime/styleDomAPI.js");
+/* harmony import */ var _node_modules_style_loader_dist_runtime_styleDomAPI_js__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_styleDomAPI_js__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _node_modules_style_loader_dist_runtime_insertBySelector_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! !../../../../node_modules/style-loader/dist/runtime/insertBySelector.js */ "../node_modules/style-loader/dist/runtime/insertBySelector.js");
+/* harmony import */ var _node_modules_style_loader_dist_runtime_insertBySelector_js__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_insertBySelector_js__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _node_modules_style_loader_dist_runtime_setAttributesWithoutAttributes_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! !../../../../node_modules/style-loader/dist/runtime/setAttributesWithoutAttributes.js */ "../node_modules/style-loader/dist/runtime/setAttributesWithoutAttributes.js");
+/* harmony import */ var _node_modules_style_loader_dist_runtime_setAttributesWithoutAttributes_js__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_setAttributesWithoutAttributes_js__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var _node_modules_style_loader_dist_runtime_insertStyleElement_js__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! !../../../../node_modules/style-loader/dist/runtime/insertStyleElement.js */ "../node_modules/style-loader/dist/runtime/insertStyleElement.js");
+/* harmony import */ var _node_modules_style_loader_dist_runtime_insertStyleElement_js__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_insertStyleElement_js__WEBPACK_IMPORTED_MODULE_4__);
+/* harmony import */ var _node_modules_style_loader_dist_runtime_styleTagTransform_js__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! !../../../../node_modules/style-loader/dist/runtime/styleTagTransform.js */ "../node_modules/style-loader/dist/runtime/styleTagTransform.js");
+/* harmony import */ var _node_modules_style_loader_dist_runtime_styleTagTransform_js__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_styleTagTransform_js__WEBPACK_IMPORTED_MODULE_5__);
+/* harmony import */ var _node_modules_css_loader_dist_cjs_js_winners_css__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! !!../../../../node_modules/css-loader/dist/cjs.js!./winners.css */ "../node_modules/css-loader/dist/cjs.js!./components/view/winners/winners.css");
+
+      
+      
+      
+      
+      
+      
+      
+      
+      
+
+var options = {};
+
+options.styleTagTransform = (_node_modules_style_loader_dist_runtime_styleTagTransform_js__WEBPACK_IMPORTED_MODULE_5___default());
+options.setAttributes = (_node_modules_style_loader_dist_runtime_setAttributesWithoutAttributes_js__WEBPACK_IMPORTED_MODULE_3___default());
+
+      options.insert = _node_modules_style_loader_dist_runtime_insertBySelector_js__WEBPACK_IMPORTED_MODULE_2___default().bind(null, "head");
+    
+options.domAPI = (_node_modules_style_loader_dist_runtime_styleDomAPI_js__WEBPACK_IMPORTED_MODULE_1___default());
+options.insertStyleElement = (_node_modules_style_loader_dist_runtime_insertStyleElement_js__WEBPACK_IMPORTED_MODULE_4___default());
+
+var update = _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default()(_node_modules_css_loader_dist_cjs_js_winners_css__WEBPACK_IMPORTED_MODULE_6__["default"], options);
+
+
+
+
+       /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_css_loader_dist_cjs_js_winners_css__WEBPACK_IMPORTED_MODULE_6__["default"] && _node_modules_css_loader_dist_cjs_js_winners_css__WEBPACK_IMPORTED_MODULE_6__["default"].locals ? _node_modules_css_loader_dist_cjs_js_winners_css__WEBPACK_IMPORTED_MODULE_6__["default"].locals : undefined);
 
 
 /***/ }),
@@ -864,7 +969,7 @@ const createWinner = (props) => __awaiter(void 0, void 0, void 0, function* () {
     });
     const items = response.json();
     try {
-        console.log('success', items);
+        // console.log('success', items);
     }
     catch (error) {
         console.log('error');
@@ -907,7 +1012,6 @@ const switchMoveMode = (props) => __awaiter(void 0, void 0, void 0, function* ()
         console.log('controller switchMoveMode', error);
     }
     finally {
-        console.log('updateWinners');
         updateWinners();
     }
     return json;
@@ -982,15 +1086,13 @@ const data = {
             if (!this.isWin && racerData.wins === 1) {
                 this.winners.push(racerData);
                 console.log('winnersPush', racerData);
-                this.isWin = true;
+                // this.isWin = true;
                 // console.log('data setWinner', this.isWin);
                 console.log(this.winners);
                 return Object.assign({ firstWin: true }, racerData);
             }
             if (!this.isWin && racerData.wins > 1) {
-                this.isWin = true;
-                // console.log('data setWinner', this.isWin);
-                console.log(this.winners);
+                // this.isWin = true;
                 return Object.assign({ firstWin: false }, racerData);
             }
             return undefined;
@@ -1034,7 +1136,7 @@ const data = {
         },
         setIsRace(isRace) {
             this.isRace = isRace;
-            console.log('setisRace', this.isRace);
+            console.log('setIsRace', this.isRace);
         },
     },
     form: {
@@ -1327,6 +1429,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _helpers_getRandomName__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../../helpers/getRandomName */ "./helpers/getRandomName.ts");
 /* harmony import */ var _ui_button__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../ui/button */ "./components/view/ui/button.ts");
 /* harmony import */ var _controller_data__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../../controller/data */ "./components/controller/data.ts");
+/* harmony import */ var _racer_racer__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../racer/racer */ "./components/view/racer/racer.ts");
 var __awaiter = (undefined && undefined.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -1343,10 +1446,10 @@ var __awaiter = (undefined && undefined.__awaiter) || function (thisArg, _argume
 
 
 
+
 class Garage {
     constructor(updateWinners) {
         this.racersCount = 0;
-        this.pageRacersCount = 0;
         this.finishCount = 0;
         this.track = new _track_track__WEBPACK_IMPORTED_MODULE_2__.Track();
         this.animations = {};
@@ -1380,6 +1483,47 @@ class Garage {
                 result = false;
         });
         return result;
+    }
+    showPopUp(props) {
+        console.log('Pop Up');
+        const popUp = document.querySelector('.pop-up');
+        if (!popUp)
+            throw new Error('Pop up is not found');
+        popUp.innerHTML = '';
+        const nameEl = document.createElement('div');
+        nameEl.textContent = props.name;
+        const timeEl = document.createElement('div');
+        timeEl.textContent = `${props.time}s`;
+        const racer = new _racer_racer__WEBPACK_IMPORTED_MODULE_7__.RacerEl();
+        const racerEl = racer.createRacer(props.color);
+        popUp.append(nameEl, timeEl, racerEl);
+        popUp.classList.add('pop-up_show');
+        setTimeout(() => {
+            popUp.classList.remove('pop-up_show');
+        }, 3500);
+    }
+    whenRacerWins(id, time) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const tracks = Array.from(document.querySelectorAll('.track'));
+            tracks.forEach((e) => {
+                console.log(e);
+            });
+            const winTrack = tracks.find((el) => {
+                const element = el;
+                return Number(element.dataset.id) === id;
+            });
+            const element = winTrack;
+            const nameEl = element.querySelector('.name');
+            if (!nameEl)
+                throw new Error('Name is not found');
+            const name = nameEl.textContent ? nameEl.textContent : '';
+            const racer = element.querySelector('.racer');
+            const color = racer.style.backgroundColor;
+            // const name = element.dataset.id;
+            this.showPopUp({ name, color, time });
+            // console.log('winTrack', id, name, color, time);
+            _controller_data__WEBPACK_IMPORTED_MODULE_6__.data.winners.setIsWin(true);
+        });
     }
     raceDoneCounter() {
         this.finishCount += 1;
@@ -1472,13 +1616,14 @@ class Garage {
             this.animations[id] = this.animation(id, raceData.velocity, raceData.distance);
             this.startDisableBtns(id);
             try {
+                console.log('start try drive', _controller_data__WEBPACK_IMPORTED_MODULE_6__.data.winners.getIsWin());
                 yield (0,_controller_controller__WEBPACK_IMPORTED_MODULE_0__.switchMoveMode)({ status: 'drive', id, winnerCallbacks, time });
+                console.log('start try drive await', _controller_data__WEBPACK_IMPORTED_MODULE_6__.data.winners.getIsWin());
+                if (!_controller_data__WEBPACK_IMPORTED_MODULE_6__.data.winners.getIsWin())
+                    this.whenRacerWins(id, time);
             }
             catch (error) {
                 this.animations[id].pause();
-            }
-            finally {
-                console.log('finally');
             }
             this.raceDoneCounter();
         });
@@ -1508,6 +1653,7 @@ class Garage {
                     _controller_data__WEBPACK_IMPORTED_MODULE_6__.data.garage.stoppedRacers += 1;
                 }
                 else {
+                    console.log('isDone');
                     _controller_data__WEBPACK_IMPORTED_MODULE_6__.data.garage.stoppedRacers = 1;
                     const startRaceBtn = (document.querySelector('.garage__btn_race-start'));
                     startRaceBtn.disabled = false;
@@ -1717,7 +1863,7 @@ class Garage {
     printGarage() {
         const main = document.querySelector('main');
         if (!main)
-            throw new Error('Main is not founs');
+            throw new Error('Main is not founds');
         const garageEl = document.createElement('div');
         garageEl.classList.add('garage');
         const form = new _form__WEBPACK_IMPORTED_MODULE_3__.Form(this.updateGarageTracks.bind(this));
@@ -1848,6 +1994,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _controller_controller__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../controller/controller */ "./components/controller/controller.ts");
 /* harmony import */ var _racer_racer__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../racer/racer */ "./components/view/racer/racer.ts");
 /* harmony import */ var _ui_button__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../ui/button */ "./components/view/ui/button.ts");
+/* harmony import */ var _winners_css__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./winners.css */ "./components/view/winners/winners.css");
 var __awaiter = (undefined && undefined.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -1857,6 +2004,7 @@ var __awaiter = (undefined && undefined.__awaiter) || function (thisArg, _argume
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+
 
 
 
@@ -1906,10 +2054,18 @@ class Winners {
         listItem.append(number, image, name, wins, time);
         return listItem;
     }
+    createPopUp() {
+        const main = document.querySelector('main');
+        if (!main)
+            throw new Error('Main is not founds');
+        const popUp = document.createElement('div');
+        popUp.classList.add('pop-up');
+        return popUp;
+    }
     printWinners() {
         const main = document.querySelector('main');
         if (!main)
-            throw new Error('Main is not founs');
+            throw new Error('Main is not founds');
         const winners = document.createElement('div');
         winners.classList.add('winners');
         const button = new _ui_button__WEBPACK_IMPORTED_MODULE_2__.Button();
@@ -1923,7 +2079,7 @@ class Winners {
         const winList = document.createElement('ul');
         winList.classList.add('winners__list');
         winners.append(winList, btn);
-        main.append(winners);
+        main.append(winners, this.createPopUp());
         this.winnersListener();
     }
 }
