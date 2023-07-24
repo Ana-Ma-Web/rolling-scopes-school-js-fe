@@ -32,8 +32,7 @@ export class Winners {
         }),
       );
     });
-
-    console.log(winnersOnPage);
+    console.log('winnersOnPage', winnersOnPage);
     return winnersOnPage;
   }
 

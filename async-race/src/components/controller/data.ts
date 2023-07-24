@@ -10,18 +10,16 @@ export const data = {
     },
     nextPage(): void {
       this.page += 1;
-      console.log('set', this.isWin);
     },
     prevPage(): void {
       this.page -= 1;
-      console.log('set', this.isWin);
     },
     getIsWin(): boolean {
       return this.isWin;
     },
     setIsWin(isWin: boolean): void {
       this.isWin = isWin;
-      console.log('set', this.isWin);
+      // console.log('set', this.isWin);
     },
     existWinnerCheck(id: number, time: number): Winner | undefined {
       const racerData = { id, ...this.countWinsData(id, time) };
@@ -30,14 +28,14 @@ export const data = {
         this.winners.push(racerData);
         console.log('winnersPush', racerData);
         this.isWin = true;
-        console.log('data setWinner', this.isWin);
+        // console.log('data setWinner', this.isWin);
         console.log(this.winners);
         return { firstWin: true, ...racerData };
       }
 
       if (!this.isWin && racerData.wins > 1) {
         this.isWin = true;
-        console.log('data setWinner', this.isWin);
+        // console.log('data setWinner', this.isWin);
         console.log(this.winners);
         return { firstWin: false, ...racerData };
       }
@@ -84,7 +82,7 @@ export const data = {
     },
     setIsRace(isRace: boolean): void {
       this.isRace = isRace;
-      console.log('set', this.isRace);
+      console.log('setisRace', this.isRace);
     },
   },
 

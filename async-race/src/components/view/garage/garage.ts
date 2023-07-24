@@ -71,9 +71,9 @@ export class Garage {
 
   private raceDoneCounter(): void {
     this.finishCount += 1;
-    if (this.racersCount >= 7 && this.finishCount === 7) {
+    if (this.finishCount === this.getPageRacersNumber()) {
       this.finishCount = 0;
-      console.log(data.winners.setIsWin);
+      // console.log(data.winners.setIsWin);
       data.winners.setIsWin(false);
       data.garage.setIsRace(false);
       console.log('isDone', this.racersCount);
@@ -81,17 +81,6 @@ export class Garage {
       const resetRacerBtn = <HTMLButtonElement>(
         document.querySelector(`[data-type="race-reset"]`)
       );
-      resetRacerBtn.disabled = false;
-    } else if (this.racersCount < 7 && this.finishCount === this.racersCount) {
-      this.finishCount = 0;
-      data.winners.setIsWin(false);
-      data.garage.setIsRace(false);
-      console.log('isDone', this.racersCount);
-      // this.doneRaceDisableBtns();
-      const resetRacerBtn = <HTMLButtonElement>(
-        document.querySelector(`[data-type="race-reset"]`)
-      );
-      console.log('isDoneElse', this.racersCount);
       resetRacerBtn.disabled = false;
     }
   }
@@ -218,8 +207,6 @@ export class Garage {
     } catch (error) {
       this.animations[id].pause();
     } finally {
-      this.getPageRacersNumber();
-
       console.log('finally');
     }
     this.raceDoneCounter();

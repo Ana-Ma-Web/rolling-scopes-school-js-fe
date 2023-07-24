@@ -125,9 +125,7 @@ export const switchMoveMode = async (
   const url = `${baseUrl}${path.engine}/?id=${props.id}&status=${props.status}`;
   const response = await fetch(url, { method: 'PATCH' });
   const json = await response.json();
-
   try {
-    console.log('success', json.success);
     if (
       json.success &&
       data.garage.isRace &&
@@ -140,12 +138,13 @@ export const switchMoveMode = async (
         createWinner(newWinnerData);
       } else if (newWinnerData) {
         updateWinner(newWinnerData);
-        console.log('not first win');
       }
-      updateWinners();
     }
   } catch (error) {
     console.log('controller switchMoveMode', error);
+  } finally {
+    console.log('updateWinners');
+    updateWinners();
   }
 
   return json;
