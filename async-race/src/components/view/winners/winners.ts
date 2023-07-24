@@ -14,6 +14,7 @@ export class Winners {
 
     if (!winList) throw new Error('Winners list not found');
     winList.innerHTML = '';
+    winList.append(this.createHeadWinnerLine());
 
     winnersOnPage.forEach((e, i) => {
       const curWinner = allRacers.items.find((el) => el.id === e.id);
@@ -41,6 +42,26 @@ export class Winners {
     });
   }
 
+  private createHeadWinnerLine(): HTMLElement {
+    const listItem = document.createElement('li');
+    listItem.classList.add('winners__list-item');
+
+    const number = document.createElement('div');
+    number.textContent = '№';
+    const image = document.createElement('div');
+    image.textContent = `Racer:`;
+    const name = document.createElement('div');
+    name.textContent = `Name:`;
+    const wins = document.createElement('div');
+    wins.textContent = `Wins:`;
+    const time = document.createElement('div');
+    time.textContent = `Time:`;
+
+    listItem.append(number, image, name, wins, time);
+
+    return listItem;
+  }
+
   private createWinnerLine(props: {
     number: number;
     color: string;
@@ -50,15 +71,17 @@ export class Winners {
   }): HTMLElement {
     const racer = new RacerEl();
     const listItem = document.createElement('li');
+    listItem.classList.add('winners__list-item');
 
     const number = document.createElement('div');
+    number.textContent = String(props.number);
     const image = racer.createRacer(props.color);
     const name = document.createElement('div');
-    name.textContent = `name: ${props.name}`;
+    name.textContent = `${props.name}`;
     const wins = document.createElement('div');
-    wins.textContent = `wins: ${props.wins}`;
+    wins.textContent = `${props.wins}`;
     const time = document.createElement('div');
-    time.textContent = `time: ${(props.time / 1000).toFixed(2)}`;
+    time.textContent = `${(props.time / 1000).toFixed(2)}`;
 
     listItem.append(number, image, name, wins, time);
 
@@ -92,6 +115,7 @@ export class Winners {
 
     const winList = document.createElement('ul');
     winList.classList.add('winners__list');
+    winList.append(this.createHeadWinnerLine());
     winners.append(winList, btn);
 
     main.append(winners, this.createPopUp());

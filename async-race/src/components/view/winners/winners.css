@@ -1,3 +1,40 @@
+.winners {
+  display: none;
+  width: 100vw;
+  height: 100vh;
+  background-color: white;
+
+}
+
+.win-open .winners {
+  display: block;
+}
+
+.winners__list-item {
+  display: flex;
+  gap: 22px;
+}
+
+.winners__list-item div:nth-child(1) {
+  width: 15px;
+}
+
+.winners__list-item div:nth-child(2) {
+  width: 50px;
+}
+
+.winners__list-item div:nth-child(3) {
+  width: 90px;
+}
+
+.winners__list-item div:nth-child(4) {
+  width: 30px;
+}
+
+.winners__list-item div:nth-child(5) {
+  width: 30px;
+}
+
 .pop-up {
   width: 300px;
   height: 114px;
