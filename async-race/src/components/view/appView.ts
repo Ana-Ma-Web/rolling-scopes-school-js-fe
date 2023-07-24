@@ -67,7 +67,7 @@ export class AppView {
       isDisabled: true,
     });
 
-    header.append(winBtn, garageBtn);
+    header.append(garageBtn, winBtn);
 
     return header;
   }

@@ -81,7 +81,7 @@ export class Garage {
     const nameEl = document.createElement('div');
     nameEl.textContent = props.name;
     const timeEl = document.createElement('div');
-    timeEl.textContent = `${props.time}s`;
+    timeEl.textContent = `time: ${(props.time / 1000).toFixed(2)}s`;
     const racer = new RacerEl();
     const racerEl = racer.createRacer(props.color);
 
