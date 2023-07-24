@@ -27,16 +27,14 @@ export const data = {
       if (!this.isWin && racerData.wins === 1) {
         this.winners.push(racerData);
         console.log('winnersPush', racerData);
-        this.isWin = true;
+        // this.isWin = true;
         // console.log('data setWinner', this.isWin);
         console.log(this.winners);
         return { firstWin: true, ...racerData };
       }
 
       if (!this.isWin && racerData.wins > 1) {
-        this.isWin = true;
-        // console.log('data setWinner', this.isWin);
-        console.log(this.winners);
+        // this.isWin = true;
         return { firstWin: false, ...racerData };
       }
 
@@ -82,7 +80,7 @@ export const data = {
     },
     setIsRace(isRace: boolean): void {
       this.isRace = isRace;
-      console.log('setisRace', this.isRace);
+      console.log('setIsRace', this.isRace);
     },
   },
 

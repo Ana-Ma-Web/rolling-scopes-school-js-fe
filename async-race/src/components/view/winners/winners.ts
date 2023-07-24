@@ -1,12 +1,8 @@
-import {
-  getRacers,
-  getAllRacers,
-  getWinners,
-} from '../../controller/controller';
+import { getAllRacers, getWinners } from '../../controller/controller';
 import { Winner } from '../../../types';
-import { data } from '../../controller/data';
 import { RacerEl } from '../racer/racer';
 import { Button } from '../ui/button';
+import './winners.css';
 
 export class Winners {
   public async updateWinners(): // get: (page: number) => Promise<Winner[]>,
@@ -69,9 +65,19 @@ export class Winners {
     return listItem;
   }
 
+  private createPopUp(): HTMLElement {
+    const main = document.querySelector('main');
+    if (!main) throw new Error('Main is not founds');
+
+    const popUp = document.createElement('div');
+    popUp.classList.add('pop-up');
+
+    return popUp;
+  }
+
   public printWinners(): void {
     const main = document.querySelector('main');
-    if (!main) throw new Error('Main is not founs');
+    if (!main) throw new Error('Main is not founds');
 
     const winners = document.createElement('div');
     winners.classList.add('winners');
@@ -88,7 +94,7 @@ export class Winners {
     winList.classList.add('winners__list');
     winners.append(winList, btn);
 
-    main.append(winners);
+    main.append(winners, this.createPopUp());
 
     this.winnersListener();
   }

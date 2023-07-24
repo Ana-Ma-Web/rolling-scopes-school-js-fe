@@ -11,11 +11,10 @@ import { Form } from './form';
 import { getRandomName } from '../../../helpers/getRandomName';
 import { Button } from '../ui/button';
 import { data } from '../../controller/data';
+import { RacerEl } from '../racer/racer';
 
 export class Garage {
   private racersCount = 0;
-
-  private pageRacersCount = 0;
 
   private finishCount = 0;
 
@@ -67,6 +66,56 @@ export class Garage {
     });
 
     return result;
+  }
+
+  private showPopUp(props: {
+    name: string;
+    color: string;
+    time: number;
+  }): void {
+    console.log('Pop Up');
+    const popUp = document.querySelector('.pop-up');
+    if (!popUp) throw new Error('Pop up is not found');
+    popUp.innerHTML = '';
+
+    const nameEl = document.createElement('div');
+    nameEl.textContent = props.name;
+    const timeEl = document.createElement('div');
+    timeEl.textContent = `${props.time}s`;
+    const racer = new RacerEl();
+    const racerEl = racer.createRacer(props.color);
+
+    popUp.append(nameEl, timeEl, racerEl);
+
+    popUp.classList.add('pop-up_show');
+    setTimeout(() => {
+      popUp.classList.remove('pop-up_show');
+    }, 3500);
+  }
+
+  private async whenRacerWins(id: number, time: number): Promise<void> {
+    const tracks = Array.from(document.querySelectorAll('.track'));
+
+    tracks.forEach((e) => {
+      console.log(e);
+    });
+
+    const winTrack = tracks.find((el) => {
+      const element = <HTMLElement>el;
+      return Number(element.dataset.id) === id;
+    });
+    const element = <HTMLElement>winTrack;
+
+    const nameEl = element.querySelector('.name');
+    if (!nameEl) throw new Error('Name is not found');
+    const name = nameEl.textContent ? nameEl.textContent : '';
+    const racer = <HTMLElement>element.querySelector('.racer');
+    const color = racer.style.backgroundColor;
+    // const name = element.dataset.id;
+
+    this.showPopUp({ name, color, time });
+    // console.log('winTrack', id, name, color, time);
+    data.winners.setIsWin(true);
   }
 
   private raceDoneCounter(): void {
@@ -203,11 +252,12 @@ export class Garage {
     this.startDisableBtns(id);
 
     try {
+      console.log('start try drive', data.winners.getIsWin());
       await switchMoveMode({ status: 'drive', id, winnerCallbacks, time });
+      console.log('start try drive await', data.winners.getIsWin());
+      if (!data.winners.getIsWin()) this.whenRacerWins(id, time);
     } catch (error) {
       this.animations[id].pause();
-    } finally {
-      console.log('finally');
     }
     this.raceDoneCounter();
   }
@@ -240,6 +290,7 @@ export class Garage {
       if (data.garage.stoppedRacers < this.getPageRacersNumber()) {
         data.garage.stoppedRacers += 1;
       } else {
+        console.log('isDone');
         data.garage.stoppedRacers = 1;
         const startRaceBtn = <HTMLButtonElement>(
           document.querySelector('.garage__btn_race-start')
@@ -476,7 +527,7 @@ export class Garage {
 
   public printGarage(): void {
     const main = document.querySelector('main');
-    if (!main) throw new Error('Main is not founs');
+    if (!main) throw new Error('Main is not founds');
 
     const garageEl = document.createElement('div');
     garageEl.classList.add('garage');

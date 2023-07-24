@@ -95,7 +95,7 @@ export const createWinner = async (props: Winner): Promise<GetRacersData> => {
   const items = response.json();
 
   try {
-    console.log('success', items);
+    // console.log('success', items);
   } catch (error) {
     console.log('error');
   }
@@ -143,7 +143,6 @@ export const switchMoveMode = async (
   } catch (error) {
     console.log('controller switchMoveMode', error);
   } finally {
-    console.log('updateWinners');
     updateWinners();
   }
 
