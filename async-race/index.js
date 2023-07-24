@@ -30,6 +30,42 @@ ___CSS_LOADER_EXPORT___.push([module.id, `body {
 
 /***/ }),
 
+/***/ "../node_modules/css-loader/dist/cjs.js!./components/view/header.css":
+/*!***************************************************************************!*\
+  !*** ../node_modules/css-loader/dist/cjs.js!./components/view/header.css ***!
+  \***************************************************************************/
+/***/ ((module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _node_modules_css_loader_dist_runtime_sourceMaps_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../node_modules/css-loader/dist/runtime/sourceMaps.js */ "../node_modules/css-loader/dist/runtime/sourceMaps.js");
+/* harmony import */ var _node_modules_css_loader_dist_runtime_sourceMaps_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_css_loader_dist_runtime_sourceMaps_js__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../node_modules/css-loader/dist/runtime/api.js */ "../node_modules/css-loader/dist/runtime/api.js");
+/* harmony import */ var _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1__);
+// Imports
+
+
+var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1___default()((_node_modules_css_loader_dist_runtime_sourceMaps_js__WEBPACK_IMPORTED_MODULE_0___default()));
+// Module
+___CSS_LOADER_EXPORT___.push([module.id, `.winners {
+  display: none;
+  width: 100vw;
+  height: 100vh;
+  background-color: white;
+  
+}
+
+.win-open .winners {
+  display: block;
+}`, "",{"version":3,"sources":["webpack://./components/view/header.css"],"names":[],"mappings":"AAAA;EACE,aAAa;EACb,YAAY;EACZ,aAAa;EACb,uBAAuB;;AAEzB;;AAEA;EACE,cAAc;AAChB","sourcesContent":[".winners {\n  display: none;\n  width: 100vw;\n  height: 100vh;\n  background-color: white;\n  \n}\n\n.win-open .winners {\n  display: block;\n}"],"sourceRoot":""}]);
+// Exports
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
+
+
+/***/ }),
+
 /***/ "../node_modules/css-loader/dist/cjs.js!./components/view/racer/racer.css":
 /*!********************************************************************************!*\
   !*** ../node_modules/css-loader/dist/cjs.js!./components/view/racer/racer.css ***!
@@ -258,6 +294,60 @@ var update = _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js
 
 
        /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_css_loader_dist_cjs_js_app_css__WEBPACK_IMPORTED_MODULE_6__["default"] && _node_modules_css_loader_dist_cjs_js_app_css__WEBPACK_IMPORTED_MODULE_6__["default"].locals ? _node_modules_css_loader_dist_cjs_js_app_css__WEBPACK_IMPORTED_MODULE_6__["default"].locals : undefined);
+
+
+/***/ }),
+
+/***/ "./components/view/header.css":
+/*!************************************!*\
+  !*** ./components/view/header.css ***!
+  \************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! !../../../node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js */ "../node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js");
+/* harmony import */ var _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _node_modules_style_loader_dist_runtime_styleDomAPI_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! !../../../node_modules/style-loader/dist/runtime/styleDomAPI.js */ "../node_modules/style-loader/dist/runtime/styleDomAPI.js");
+/* harmony import */ var _node_modules_style_loader_dist_runtime_styleDomAPI_js__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_styleDomAPI_js__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _node_modules_style_loader_dist_runtime_insertBySelector_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! !../../../node_modules/style-loader/dist/runtime/insertBySelector.js */ "../node_modules/style-loader/dist/runtime/insertBySelector.js");
+/* harmony import */ var _node_modules_style_loader_dist_runtime_insertBySelector_js__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_insertBySelector_js__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _node_modules_style_loader_dist_runtime_setAttributesWithoutAttributes_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! !../../../node_modules/style-loader/dist/runtime/setAttributesWithoutAttributes.js */ "../node_modules/style-loader/dist/runtime/setAttributesWithoutAttributes.js");
+/* harmony import */ var _node_modules_style_loader_dist_runtime_setAttributesWithoutAttributes_js__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_setAttributesWithoutAttributes_js__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var _node_modules_style_loader_dist_runtime_insertStyleElement_js__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! !../../../node_modules/style-loader/dist/runtime/insertStyleElement.js */ "../node_modules/style-loader/dist/runtime/insertStyleElement.js");
+/* harmony import */ var _node_modules_style_loader_dist_runtime_insertStyleElement_js__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_insertStyleElement_js__WEBPACK_IMPORTED_MODULE_4__);
+/* harmony import */ var _node_modules_style_loader_dist_runtime_styleTagTransform_js__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! !../../../node_modules/style-loader/dist/runtime/styleTagTransform.js */ "../node_modules/style-loader/dist/runtime/styleTagTransform.js");
+/* harmony import */ var _node_modules_style_loader_dist_runtime_styleTagTransform_js__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_styleTagTransform_js__WEBPACK_IMPORTED_MODULE_5__);
+/* harmony import */ var _node_modules_css_loader_dist_cjs_js_header_css__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! !!../../../node_modules/css-loader/dist/cjs.js!./header.css */ "../node_modules/css-loader/dist/cjs.js!./components/view/header.css");
+
+      
+      
+      
+      
+      
+      
+      
+      
+      
+
+var options = {};
+
+options.styleTagTransform = (_node_modules_style_loader_dist_runtime_styleTagTransform_js__WEBPACK_IMPORTED_MODULE_5___default());
+options.setAttributes = (_node_modules_style_loader_dist_runtime_setAttributesWithoutAttributes_js__WEBPACK_IMPORTED_MODULE_3___default());
+
+      options.insert = _node_modules_style_loader_dist_runtime_insertBySelector_js__WEBPACK_IMPORTED_MODULE_2___default().bind(null, "head");
+    
+options.domAPI = (_node_modules_style_loader_dist_runtime_styleDomAPI_js__WEBPACK_IMPORTED_MODULE_1___default());
+options.insertStyleElement = (_node_modules_style_loader_dist_runtime_insertStyleElement_js__WEBPACK_IMPORTED_MODULE_4___default());
+
+var update = _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default()(_node_modules_css_loader_dist_cjs_js_header_css__WEBPACK_IMPORTED_MODULE_6__["default"], options);
+
+
+
+
+       /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_css_loader_dist_cjs_js_header_css__WEBPACK_IMPORTED_MODULE_6__["default"] && _node_modules_css_loader_dist_cjs_js_header_css__WEBPACK_IMPORTED_MODULE_6__["default"].locals ? _node_modules_css_loader_dist_cjs_js_header_css__WEBPACK_IMPORTED_MODULE_6__["default"].locals : undefined);
 
 
 /***/ }),
@@ -685,13 +775,19 @@ class App {
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   createRacer: () => (/* binding */ createRacer),
+/* harmony export */   createWinner: () => (/* binding */ createWinner),
 /* harmony export */   deleteRacer: () => (/* binding */ deleteRacer),
+/* harmony export */   deleteWinner: () => (/* binding */ deleteWinner),
+/* harmony export */   getAllRacers: () => (/* binding */ getAllRacers),
+/* harmony export */   getAllWinners: () => (/* binding */ getAllWinners),
 /* harmony export */   getRacer: () => (/* binding */ getRacer),
 /* harmony export */   getRacers: () => (/* binding */ getRacers),
 /* harmony export */   getWinners: () => (/* binding */ getWinners),
 /* harmony export */   switchMoveMode: () => (/* binding */ switchMoveMode),
-/* harmony export */   updateRacer: () => (/* binding */ updateRacer)
+/* harmony export */   updateRacer: () => (/* binding */ updateRacer),
+/* harmony export */   updateWinner: () => (/* binding */ updateWinner)
 /* harmony export */ });
+/* harmony import */ var _data__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./data */ "./components/controller/data.ts");
 var __awaiter = (undefined && undefined.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -701,6 +797,7 @@ var __awaiter = (undefined && undefined.__awaiter) || function (thisArg, _argume
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+
 const baseUrl = 'http://127.0.0.1:3000';
 const path = {
     garage: '/garage',
@@ -709,22 +806,22 @@ const path = {
 };
 const createRacer = (props) => __awaiter(void 0, void 0, void 0, function* () {
     const url = `${baseUrl}${path.garage}/`;
-    const data = { name: props.name, color: props.color };
+    const racerData = { name: props.name, color: props.color };
     const response = yield fetch(url, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(data),
+        body: JSON.stringify(racerData),
     });
     const json = yield response.json();
     return json;
 });
 const updateRacer = (props) => __awaiter(void 0, void 0, void 0, function* () {
     const url = `${baseUrl}${path.garage}/${props.id}`;
-    const data = { name: props.name, color: props.color };
+    const racerData = { name: props.name, color: props.color };
     const response = yield fetch(url, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(data),
+        body: JSON.stringify(racerData),
     });
     const json = yield response.json();
     return json;
@@ -750,33 +847,98 @@ const getRacers = (page) => __awaiter(void 0, void 0, void 0, function* () {
     const count = response.headers.get('X-Total-Count');
     return { items, count };
 });
+const getAllRacers = () => __awaiter(void 0, void 0, void 0, function* () {
+    const url = `${baseUrl}${path.garage}`;
+    const response = yield fetch(url);
+    const items = yield response.json();
+    const count = response.headers.get('X-Total-Count');
+    return { items, count };
+});
+const createWinner = (props) => __awaiter(void 0, void 0, void 0, function* () {
+    const url = `${baseUrl}${path.winners}`;
+    const winnerData = { id: props.id, time: props.time, wins: props.wins };
+    const response = yield fetch(url, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(winnerData),
+    });
+    const items = response.json();
+    try {
+        console.log('success', items);
+    }
+    catch (error) {
+        console.log('error');
+    }
+    console.log('createWinners', response);
+    return items;
+});
+const updateWinner = (props) => __awaiter(void 0, void 0, void 0, function* () {
+    const url = `${baseUrl}${path.winners}/${props.id}`;
+    const winnerData = { time: props.time, wins: props.wins };
+    const response = yield fetch(url, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(winnerData),
+    });
+    const json = yield response.json();
+    return json;
+});
 const switchMoveMode = (props) => __awaiter(void 0, void 0, void 0, function* () {
     const url = `${baseUrl}${path.engine}/?id=${props.id}&status=${props.status}`;
     const response = yield fetch(url, { method: 'PATCH' });
-    const data = yield response.json();
+    const json = yield response.json();
     try {
-        if (data.success && props.setWinner) {
-            props.setWinner(props.id);
-            console.log('setWinner');
+        console.log('success', json.success);
+        if (json.success &&
+            _data__WEBPACK_IMPORTED_MODULE_0__.data.garage.isRace &&
+            !_data__WEBPACK_IMPORTED_MODULE_0__.data.winners.isWin &&
+            props.time) {
+            const newWinnerData = props.existWinnerCheck(props.id, props.time);
+            console.log('empty controller existWinnerCheck', _data__WEBPACK_IMPORTED_MODULE_0__.data.winners.winners);
+            if (newWinnerData === null || newWinnerData === void 0 ? void 0 : newWinnerData.firstWin) {
+                createWinner(newWinnerData);
+            }
+            else if (newWinnerData) {
+                updateWinner(newWinnerData);
+                console.log('not first win');
+            }
         }
     }
     catch (error) {
-        console.log('setWinner');
-        // props.setWinner(666);
+        console.log('controller switchMoveMode', error);
     }
-    // console.log('data', data, props.id);
-    return data;
+    return json;
 });
 const getWinners = (page) => __awaiter(void 0, void 0, void 0, function* () {
     const url = `${baseUrl}${path.winners}?_page=${page}&_limit=7&_sort='time'`;
     const response = yield fetch(url);
     const items = yield response.json();
-    console.log(items);
+    console.log('getWinners', items);
     return items;
 });
-// const winners = await getWinners(1);
-// console.log(winners);
-getWinners(1);
+const deleteWinner = (id) => __awaiter(void 0, void 0, void 0, function* () {
+    const url = `${baseUrl}${path.winners}/${id}`;
+    const response = yield fetch(url, {
+        method: 'DELETE',
+    });
+    const json = yield response.json();
+    return json;
+});
+const getAllWinners = () => __awaiter(void 0, void 0, void 0, function* () {
+    const url = `${baseUrl}${path.winners}`;
+    const response = yield fetch(url);
+    const items = yield response.json();
+    return items;
+});
+const resetWinners = () => __awaiter(void 0, void 0, void 0, function* () {
+    const winners = yield getAllWinners();
+    console.log('getAllWinners', winners);
+    winners.forEach((e) => {
+        deleteWinner(e.id);
+    });
+    console.log('getAllWinnersAfter', winners);
+});
+console.log(resetWinners());
 
 
 /***/ }),
@@ -793,8 +955,20 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 const data = {
     winners: {
+        page: 1,
         isWin: false,
         winners: [],
+        getPage() {
+            return this.page;
+        },
+        nextPage() {
+            this.page += 1;
+            console.log('set', this.isWin);
+        },
+        prevPage() {
+            this.page -= 1;
+            console.log('set', this.isWin);
+        },
         getIsWin() {
             return this.isWin;
         },
@@ -802,16 +976,49 @@ const data = {
             this.isWin = isWin;
             console.log('set', this.isWin);
         },
-        setWinner(id) {
-            if (!this.isWin)
-                this.winners.push(id);
-            this.isWin = true;
-            console.log(this.isWin);
-            console.log(this.winners);
+        existWinnerCheck(id, time) {
+            const racerData = Object.assign({ id }, this.countWinsData(id, time));
+            if (!this.isWin && racerData.wins === 1) {
+                this.winners.push(racerData);
+                console.log('winnersPush', racerData);
+                this.isWin = true;
+                console.log('data setWinner', this.isWin);
+                console.log(this.winners);
+                return Object.assign({ firstWin: true }, racerData);
+            }
+            if (!this.isWin && racerData.wins > 1) {
+                this.isWin = true;
+                console.log('data setWinner', this.isWin);
+                console.log(this.winners);
+                return Object.assign({ firstWin: false }, racerData);
+            }
+            return undefined;
+        },
+        // setWinner(id: number, time: number): void {
+        //   const racerData = this.countWinsData(id, time);
+        //   if (!this.isWin && racerData.wins <= 1) {
+        //     this.winners.push({ id, ...racerData });
+        //     const resp = createWinner({ id, ...racerData });
+        //     console.log(resp);
+        //   }
+        //   this.isWin = true;
+        //   console.log('data setWinner', this.isWin);
+        //   console.log(this.winners);
+        // },
+        countWinsData(id, time) {
+            const curRacer = this.winners.find((e) => e.id === id);
+            if (curRacer) {
+                curRacer.wins += 1;
+                curRacer.time = curRacer.time < time ? curRacer.time : time;
+                return { wins: curRacer.wins, time: curRacer.time };
+            }
+            return { wins: 1, time };
         },
     },
     garage: {
         pageNumber: 1,
+        stoppedRacers: 1,
+        isRace: false,
         getPageNumber() {
             return this.pageNumber;
         },
@@ -820,6 +1027,13 @@ const data = {
         },
         prevPageNumber() {
             this.pageNumber -= 1;
+        },
+        getIsRace() {
+            return this.isRace;
+        },
+        setIsRace(isRace) {
+            this.isRace = isRace;
+            console.log('set', this.isRace);
         },
     },
     form: {
@@ -846,17 +1060,72 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   AppView: () => (/* binding */ AppView)
 /* harmony export */ });
 /* harmony import */ var _garage_garage__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./garage/garage */ "./components/view/garage/garage.ts");
-/* harmony import */ var _winners_winners__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./winners/winners */ "./components/view/winners/winners.ts");
+/* harmony import */ var _ui_button__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./ui/button */ "./components/view/ui/button.ts");
+/* harmony import */ var _winners_winners__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./winners/winners */ "./components/view/winners/winners.ts");
+/* harmony import */ var _header_css__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./header.css */ "./components/view/header.css");
+
+
 
 
 class AppView {
     constructor() {
         this.garage = new _garage_garage__WEBPACK_IMPORTED_MODULE_0__.Garage();
-        this.winners = new _winners_winners__WEBPACK_IMPORTED_MODULE_1__.Winners();
+        this.winners = new _winners_winners__WEBPACK_IMPORTED_MODULE_2__.Winners();
+    }
+    headerListener() {
+        const main = document.querySelector('main');
+        const header = document.querySelector('header');
+        const winBtn = (document.querySelector('[data-type="header-win"]'));
+        const garageBtn = (document.querySelector('[data-type="header-garage"]'));
+        if (!header || !winBtn || !garageBtn || !main)
+            throw new Error('Header is not found');
+        header.addEventListener('click', (e) => {
+            const target = e.target;
+            if (!target.dataset.type)
+                return undefined;
+            switch (target.dataset.type) {
+                case 'header-win':
+                    main.classList.add('win-open');
+                    winBtn.disabled = true;
+                    garageBtn.disabled = false;
+                    break;
+                case 'header-garage':
+                    main.classList.remove('win-open');
+                    winBtn.disabled = false;
+                    garageBtn.disabled = true;
+                    break;
+                default:
+                    break;
+            }
+            return undefined;
+        });
+    }
+    createHeader() {
+        const header = document.createElement('header');
+        const button = new _ui_button__WEBPACK_IMPORTED_MODULE_1__.Button();
+        const winBtn = button.createBtn({
+            datasetType: 'header-win',
+            rootClass: 'header',
+            modClass: 'winners',
+            textContent: 'Winners',
+            isDisabled: false,
+        });
+        const garageBtn = button.createBtn({
+            datasetType: 'header-garage',
+            rootClass: 'header',
+            modClass: 'garage',
+            textContent: 'Garage',
+            isDisabled: true,
+        });
+        header.append(winBtn, garageBtn);
+        return header;
     }
     print() {
+        const main = document.createElement('main');
+        document.body.append(this.createHeader(), main);
         this.winners.printWinners();
         this.garage.printGarage();
+        this.headerListener();
     }
 }
 
@@ -1105,30 +1374,86 @@ class Garage {
         });
         return result;
     }
-    startDisableBtns(id) {
-        const resetRaceBtn = (document.querySelector('.garage__btn_race-reset'));
-        const startBtn = (document.querySelector(`.track[data-id="${id}"] .track__btn_start`));
-        const stopBtn = (document.querySelector(`.track[data-id="${id}"] .track__btn_stop`));
-        stopBtn.disabled = false;
-        startBtn.disabled = true;
-        const stopBtns = document.querySelectorAll(`.track__btn_stop`);
-        const isDone = this.isActiveBtns(stopBtns);
-        if (isDone) {
-            resetRaceBtn.disabled = false;
-        }
-    }
     raceDoneCounter() {
         this.finishCount += 1;
         if (this.racersCount >= 7 && this.finishCount === 7) {
             this.finishCount = 0;
             console.log(_controller_data__WEBPACK_IMPORTED_MODULE_6__.data.winners.setIsWin);
             _controller_data__WEBPACK_IMPORTED_MODULE_6__.data.winners.setIsWin(false);
+            _controller_data__WEBPACK_IMPORTED_MODULE_6__.data.garage.setIsRace(false);
             console.log('isDone', this.racersCount);
+            // this.doneRaceDisableBtns();
+            const resetRacerBtn = (document.querySelector(`[data-type="race-reset"]`));
+            resetRacerBtn.disabled = false;
         }
         else if (this.racersCount < 7 && this.finishCount === this.racersCount) {
             this.finishCount = 0;
             _controller_data__WEBPACK_IMPORTED_MODULE_6__.data.winners.setIsWin(false);
+            _controller_data__WEBPACK_IMPORTED_MODULE_6__.data.garage.setIsRace(false);
             console.log('isDone', this.racersCount);
+            // this.doneRaceDisableBtns();
+            const resetRacerBtn = (document.querySelector(`[data-type="race-reset"]`));
+            console.log('isDoneElse', this.racersCount);
+            resetRacerBtn.disabled = false;
+        }
+    }
+    startRaceDisableBtns() {
+        const tracks = document.querySelectorAll('.track');
+        tracks.forEach((e) => {
+            const el = e;
+            const startBtn = el.querySelector(`.track__btn_start`);
+            startBtn.disabled = true;
+            const stopBtn = el.querySelector(`.track__btn_stop`);
+            stopBtn.disabled = true;
+            const selectBtn = (el.querySelector(`.track__btn_select`));
+            selectBtn.disabled = true;
+            const removeBtn = (el.querySelector(`.track__btn_remove`));
+            removeBtn.disabled = true;
+        });
+        const pagLeftBtn = (document.querySelector(`[data-type="pagination-left"]`));
+        pagLeftBtn.disabled = true;
+        const pagRightBtn = (document.querySelector(`[data-type="pagination-right"]`));
+        pagRightBtn.disabled = true;
+        const genRacersBtn = (document.querySelector(`[data-type="generate-racers"]`));
+        genRacersBtn.disabled = true;
+        const createRacerBtn = (document.querySelector(`[data-type="btn-create"]`));
+        createRacerBtn.disabled = true;
+    }
+    doneRaceDisableBtns() {
+        const tracks = document.querySelectorAll('.track');
+        tracks.forEach((e) => {
+            const el = e;
+            const startBtn = el.querySelector(`.track__btn_start`);
+            startBtn.disabled = false;
+            const selectBtn = (el.querySelector(`.track__btn_select`));
+            selectBtn.disabled = false;
+            const removeBtn = (el.querySelector(`.track__btn_remove`));
+            removeBtn.disabled = false;
+        });
+        const genRacersBtn = (document.querySelector(`[data-type="generate-racers"]`));
+        genRacersBtn.disabled = false;
+        const createRacerBtn = (document.querySelector(`[data-type="btn-create"]`));
+        createRacerBtn.disabled = false;
+        // const resetRacerBtn = <HTMLButtonElement>(
+        //   document.querySelector(`[data-type="race-reset"]`)
+        // );
+        // resetRacerBtn.disabled = false;
+        this.updatePaginationBtns();
+    }
+    startDisableBtns(id) {
+        const resetRaceBtn = (document.querySelector('.garage__btn_race-reset'));
+        const startBtn = (document.querySelector(`.track[data-id="${id}"] .track__btn_start`));
+        startBtn.disabled = true;
+        const stopBtns = document.querySelectorAll(`.track__btn_stop`);
+        const isDone = this.isActiveBtns(stopBtns);
+        if (isDone) {
+            resetRaceBtn.disabled = false;
+        }
+        if (!_controller_data__WEBPACK_IMPORTED_MODULE_6__.data.garage.getIsRace()) {
+            const stopBtn = (document.querySelector(`.track[data-id="${id}"] .track__btn_stop`));
+            stopBtn.disabled = false;
+            resetRaceBtn.disabled = false;
+            console.log('startDisableBtns', stopBtn.disabled, isDone);
         }
     }
     startRacer(id) {
@@ -1137,21 +1462,23 @@ class Garage {
                 this.animations[id].cancel();
             const startRaceBtn = (document.querySelector('.garage__btn_race-start'));
             startRaceBtn.disabled = true;
-            const stopBtn = (document.querySelector(`.track[data-id="${id}"] .track__btn_stop`));
-            stopBtn.disabled = true;
-            const setWinner = _controller_data__WEBPACK_IMPORTED_MODULE_6__.data.winners.setWinner.bind(_controller_data__WEBPACK_IMPORTED_MODULE_6__.data.winners);
+            const existWinnerCheck = _controller_data__WEBPACK_IMPORTED_MODULE_6__.data.winners.existWinnerCheck.bind(_controller_data__WEBPACK_IMPORTED_MODULE_6__.data.winners);
             const raceData = yield (0,_controller_controller__WEBPACK_IMPORTED_MODULE_0__.switchMoveMode)({
                 status: 'started',
                 id,
-                setWinner,
+                existWinnerCheck,
             });
+            const time = raceData.distance / raceData.velocity;
             this.animations[id] = this.animation(id, raceData.velocity, raceData.distance);
             this.startDisableBtns(id);
             try {
-                yield (0,_controller_controller__WEBPACK_IMPORTED_MODULE_0__.switchMoveMode)({ status: 'drive', id, setWinner });
+                yield (0,_controller_controller__WEBPACK_IMPORTED_MODULE_0__.switchMoveMode)({ status: 'drive', id, existWinnerCheck, time });
             }
             catch (error) {
                 this.animations[id].pause();
+            }
+            finally {
+                console.log('finally');
             }
             this.raceDoneCounter();
         });
@@ -1163,42 +1490,58 @@ class Garage {
             const startBtn = (document.querySelector(`.track[data-id="${id}"] .track__btn_start`));
             if (this.animations[id])
                 this.animations[id].cancel();
-            const setWinner = _controller_data__WEBPACK_IMPORTED_MODULE_6__.data.winners.setWinner.bind(_controller_data__WEBPACK_IMPORTED_MODULE_6__.data.winners);
+            const existWinnerCheck = _controller_data__WEBPACK_IMPORTED_MODULE_6__.data.winners.existWinnerCheck.bind(_controller_data__WEBPACK_IMPORTED_MODULE_6__.data.winners);
             yield (0,_controller_controller__WEBPACK_IMPORTED_MODULE_0__.switchMoveMode)({
                 status: 'stopped',
                 id,
-                setWinner,
+                existWinnerCheck,
             });
             startBtn.disabled = false;
             const startBtns = document.querySelectorAll(`.track__btn_start`);
             const isDone = this.isActiveBtns(startBtns);
             if (isDone) {
-                const startRaceBtn = (document.querySelector('.garage__btn_race-start'));
-                startRaceBtn.disabled = false;
+                if (_controller_data__WEBPACK_IMPORTED_MODULE_6__.data.garage.stoppedRacers < this.racersCount) {
+                    _controller_data__WEBPACK_IMPORTED_MODULE_6__.data.garage.stoppedRacers += 1;
+                    console.log('CstopRacer resetRaceBtnDisabled', _controller_data__WEBPACK_IMPORTED_MODULE_6__.data.garage.stoppedRacers, this.racersCount);
+                }
+                else {
+                    _controller_data__WEBPACK_IMPORTED_MODULE_6__.data.garage.stoppedRacers = 1;
+                    const startRaceBtn = (document.querySelector('.garage__btn_race-start'));
+                    startRaceBtn.disabled = false;
+                }
             }
         });
     }
+    // if (7 * data.garage.getPageNumber() >= Number(this.racersCount)) {
+    //   console.log('stopped done', (data.garage.stoppedRacers += 1));
+    // }
     startRace() {
+        _controller_data__WEBPACK_IMPORTED_MODULE_6__.data.garage.setIsRace(true);
         const tracks = document.querySelectorAll('.track');
         const startRaceBtn = (document.querySelector('.garage__btn_race-start'));
         startRaceBtn.disabled = true;
+        const resetRaceBtn = (document.querySelector('.garage__btn_race-reset'));
+        resetRaceBtn.disabled = true;
         tracks.forEach((e) => {
             const el = e;
-            const btn = el.querySelector(`.track__btn_start`);
-            btn.disabled = true;
             this.startRacer(Number(el.dataset.id));
         });
+        _controller_data__WEBPACK_IMPORTED_MODULE_6__.data.garage.setIsRace(true);
+        _controller_data__WEBPACK_IMPORTED_MODULE_6__.data.winners.setIsWin(false);
+        this.startRaceDisableBtns();
     }
     resetRace() {
         return __awaiter(this, void 0, void 0, function* () {
             const resetRaceBtn = (document.querySelector('.garage__btn_race-reset'));
             resetRaceBtn.disabled = true;
             _controller_data__WEBPACK_IMPORTED_MODULE_6__.data.winners.setIsWin(true);
+            _controller_data__WEBPACK_IMPORTED_MODULE_6__.data.garage.setIsRace(false);
             const tracks = document.querySelectorAll('.track');
             tracks.forEach((e) => {
                 const el = e;
                 this.stopRacer(Number(el.dataset.id));
             });
+            this.doneRaceDisableBtns();
         });
     }
     generateRacers() {
@@ -1369,12 +1712,15 @@ class Garage {
         return span;
     }
     printGarage() {
+        const main = document.querySelector('main');
+        if (!main)
+            throw new Error('Main is not founs');
         const garageEl = document.createElement('div');
         garageEl.classList.add('garage');
         const form = new _form__WEBPACK_IMPORTED_MODULE_3__.Form(this.updateGarageTracks.bind(this));
         const tracks = document.createElement('div');
         tracks.classList.add('garage__tracks');
-        document.body.append(garageEl);
+        main.append(garageEl);
         form.printForm();
         garageEl.append(this.createStartRaceBtn(), this.createResetRaceBtn(), this.createGenerateRacersBtn(), this.createRacersCount(), this.createPagination(), tracks);
         this.updateGarageTracks();
@@ -1398,10 +1744,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _racer_css__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./racer.css */ "./components/view/racer/racer.css");
 
 class RacerEl {
-    createRacer(racer) {
+    createRacer(color) {
         const el = document.createElement('div');
         el.classList.add('racer');
-        el.style.backgroundColor = racer.color;
+        el.style.backgroundColor = color;
         return el;
     }
 }
@@ -1446,7 +1792,7 @@ class Track {
         const trackEl = document.createElement('div');
         trackEl.dataset.id = String(racer.id);
         trackEl.classList.add('track');
-        const racerEl = this.racer.createRacer(racer);
+        const racerEl = this.racer.createRacer(racer.color);
         const buttonsEl = document.createElement('div');
         buttonsEl.classList.add('track__buttons');
         const name = document.createElement('span');
@@ -1497,6 +1843,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   Winners: () => (/* binding */ Winners)
 /* harmony export */ });
 /* harmony import */ var _controller_controller__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../controller/controller */ "./components/controller/controller.ts");
+/* harmony import */ var _racer_racer__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../racer/racer */ "./components/view/racer/racer.ts");
+/* harmony import */ var _ui_button__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../ui/button */ "./components/view/ui/button.ts");
 var __awaiter = (undefined && undefined.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -1507,29 +1855,72 @@ var __awaiter = (undefined && undefined.__awaiter) || function (thisArg, _argume
     });
 };
 
+
+
 class Winners {
-    updateWinners(get) {
+    updateWinners() {
         return __awaiter(this, void 0, void 0, function* () {
-            const racersOnPage = yield get(1);
-            // console.log(racersOnPage);
-            return racersOnPage;
+            const winnersOnPage = yield (0,_controller_controller__WEBPACK_IMPORTED_MODULE_0__.getWinners)(1);
+            const allRacers = yield (0,_controller_controller__WEBPACK_IMPORTED_MODULE_0__.getAllRacers)();
+            const winList = document.querySelector('.winners__list');
+            if (!winList)
+                throw new Error('Winners list not found');
+            winList.innerHTML = '';
+            winnersOnPage.forEach((e, i) => {
+                const curWinner = allRacers.items.find((el) => el.id === e.id);
+                if (!curWinner)
+                    throw new Error('Winner is not found');
+                winList.append(this.createWinnerLine({
+                    number: i + 1,
+                    color: curWinner.color,
+                    name: curWinner.name,
+                    wins: e.wins,
+                    time: e.time,
+                }));
+            });
+            console.log(winnersOnPage);
+            return winnersOnPage;
         });
     }
     winnersListener() {
         const btn = document.querySelector('button[data-type="win-btn"]');
-        btn === null || btn === void 0 ? void 0 : btn.addEventListener('click', (e) => {
-            const resp = this.updateWinners(_controller_controller__WEBPACK_IMPORTED_MODULE_0__.getWinners);
+        btn === null || btn === void 0 ? void 0 : btn.addEventListener('click', () => {
+            const resp = this.updateWinners();
             console.log(resp);
         });
     }
+    createWinnerLine(props) {
+        const racer = new _racer_racer__WEBPACK_IMPORTED_MODULE_1__.RacerEl();
+        const listItem = document.createElement('li');
+        const number = document.createElement('div');
+        const image = racer.createRacer(props.color);
+        const name = document.createElement('div');
+        name.textContent = `name: ${props.name}`;
+        const wins = document.createElement('div');
+        wins.textContent = `wins: ${props.wins}`;
+        const time = document.createElement('div');
+        time.textContent = `time: ${(props.time / 1000).toFixed(2)}`;
+        listItem.append(number, image, name, wins, time);
+        return listItem;
+    }
     printWinners() {
+        const main = document.querySelector('main');
+        if (!main)
+            throw new Error('Main is not founs');
         const winners = document.createElement('div');
-        const btn = document.createElement('button');
-        btn.dataset.type = 'win-btn';
-        btn.textContent = 'win';
-        const winList = document.createElement('div');
+        winners.classList.add('winners');
+        const button = new _ui_button__WEBPACK_IMPORTED_MODULE_2__.Button();
+        const btn = button.createBtn({
+            datasetType: 'win-btn',
+            rootClass: 'winners',
+            modClass: 'get-winners',
+            textContent: 'Wins',
+            isDisabled: false,
+        });
+        const winList = document.createElement('ul');
+        winList.classList.add('winners__list');
         winners.append(winList, btn);
-        document.body.append(winners);
+        main.append(winners);
         this.winnersListener();
     }
 }
