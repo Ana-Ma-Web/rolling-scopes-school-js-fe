@@ -150,7 +150,7 @@ export const switchMoveMode = async (
 };
 
 export const getWinners = async (page: number): Promise<Winner[]> => {
-  const url = `${baseUrl}${path.winners}?_page=${page}&_limit=7&_sort='time'`;
+  const url = `${baseUrl}${path.winners}?_page=${page}&_limit=10&_sort='time'`;
   const response = await fetch(url);
   const items: Winner[] = await response.json();
 
@@ -174,6 +174,7 @@ export const getAllWinners = async (): Promise<Winner[]> => {
   const response = await fetch(url);
   const items: Winner[] = await response.json();
 
+  console.log('getAllWinners', items);
   return items;
 };
 

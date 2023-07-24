@@ -96,10 +96,6 @@ export class Garage {
   private async whenRacerWins(id: number, time: number): Promise<void> {
     const tracks = Array.from(document.querySelectorAll('.track'));
 
-    tracks.forEach((e) => {
-      console.log(e);
-    });
-
     const winTrack = tracks.find((el) => {
       const element = <HTMLElement>el;
       return Number(element.dataset.id) === id;
@@ -255,7 +251,9 @@ export class Garage {
       console.log('start try drive', data.winners.getIsWin());
       await switchMoveMode({ status: 'drive', id, winnerCallbacks, time });
       console.log('start try drive await', data.winners.getIsWin());
-      if (!data.winners.getIsWin()) this.whenRacerWins(id, time);
+      if (!data.winners.getIsWin() && data.garage.getIsRace()) {
+        this.whenRacerWins(id, time);
+      }
     } catch (error) {
       this.animations[id].pause();
     }

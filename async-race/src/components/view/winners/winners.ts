@@ -1,13 +1,18 @@
-import { getAllRacers, getWinners } from '../../controller/controller';
+import {
+  getAllRacers,
+  getAllWinners,
+  getWinners,
+} from '../../controller/controller';
 import { Winner } from '../../../types';
 import { RacerEl } from '../racer/racer';
 import { Button } from '../ui/button';
 import './winners.css';
+import { data } from '../../controller/data';
 
 export class Winners {
   public async updateWinners(): // get: (page: number) => Promise<Winner[]>,
   Promise<Winner[]> {
-    const winnersOnPage = await getWinners(1);
+    const winnersOnPage = await getWinners(data.winners.getPage());
     const allRacers = await getAllRacers();
 
     const winList = document.querySelector('.winners__list');
@@ -30,15 +35,78 @@ export class Winners {
       );
     });
     console.log('winnersOnPage', winnersOnPage);
+    this.updatePagination();
     return winnersOnPage;
+  }
+
+  private async isLastPage(): Promise<boolean> {
+    const pageNumber = data.winners.getPage();
+    const allWinners = await getAllWinners();
+    const maxPageSize = 10;
+
+    console.log('isLastPage', pageNumber, maxPageSize, allWinners.length);
+    if (!allWinners.length) return true;
+    if (pageNumber * maxPageSize >= allWinners.length) {
+      return true;
+    }
+    return false;
+  }
+
+  private async updatePagination(): Promise<void> {
+    const pageNumber = data.winners.getPage();
+
+    const prevBtn = <HTMLButtonElement>(
+      document.querySelector('button[data-type="win-prev"]')
+    );
+    const nextBtn = <HTMLButtonElement>(
+      document.querySelector('button[data-type="win-next"]')
+    );
+
+    if (pageNumber === 1) {
+      console.log('first page number ', true);
+      prevBtn.disabled = true;
+    } else prevBtn.disabled = false;
+    if (await this.isLastPage()) {
+      console.log('last page number ', true);
+      nextBtn.disabled = true;
+    } else nextBtn.disabled = false;
+    console.log('updatePagination', pageNumber, await this.isLastPage());
+
+    //   if (pageNumber * )
+    // }
+  }
+
+  private async paginationHandler(btnType: 'next' | 'prev'): Promise<void> {
+    switch (btnType) {
+      case 'prev':
+        data.winners.prevPage();
+        break;
+      case 'next':
+        data.winners.nextPage();
+        break;
+      default:
+        break;
+    }
+    this.updateWinners();
+    this.updatePagination();
   }
 
   private winnersListener(): void {
     const btn = document.querySelector('button[data-type="win-btn"]');
+    const prevBtn = document.querySelector('button[data-type="win-prev"]');
+    const nextBtn = document.querySelector('button[data-type="win-next"]');
 
     btn?.addEventListener('click', () => {
       const resp = this.updateWinners();
       console.log(resp);
+    });
+
+    prevBtn?.addEventListener('click', () => {
+      this.paginationHandler('prev');
+    });
+
+    nextBtn?.addEventListener('click', () => {
+      this.paginationHandler('next');
     });
   }
 
@@ -81,7 +149,7 @@ export class Winners {
     const wins = document.createElement('div');
     wins.textContent = `${props.wins}`;
     const time = document.createElement('div');
-    time.textContent = `${(props.time / 1000).toFixed(2)}`;
+    time.textContent = `${(props.time / 1000).toFixed(2)}s`;
 
     listItem.append(number, image, name, wins, time);
 
@@ -98,13 +166,27 @@ export class Winners {
     return popUp;
   }
 
-  public printWinners(): void {
+  public async printWinners(): Promise<void> {
     const main = document.querySelector('main');
     if (!main) throw new Error('Main is not founds');
 
     const winners = document.createElement('div');
     winners.classList.add('winners');
     const button = new Button();
+    const prevBtn = button.createBtn({
+      datasetType: 'win-prev',
+      rootClass: 'winners',
+      modClass: 'prev',
+      textContent: 'Prev',
+      isDisabled: true,
+    });
+    const nextBtn = button.createBtn({
+      datasetType: 'win-next',
+      rootClass: 'winners',
+      modClass: 'next',
+      textContent: 'Next',
+      isDisabled: await this.isLastPage(),
+    });
     const btn = button.createBtn({
       datasetType: 'win-btn',
       rootClass: 'winners',
@@ -116,7 +198,7 @@ export class Winners {
     const winList = document.createElement('ul');
     winList.classList.add('winners__list');
     winList.append(this.createHeadWinnerLine());
-    winners.append(winList, btn);
+    winners.append(winList, btn, prevBtn, nextBtn);
 
     main.append(winners, this.createPopUp());
 
