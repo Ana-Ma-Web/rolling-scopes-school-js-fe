@@ -149,8 +149,12 @@ export const switchMoveMode = async (
   return json;
 };
 
-export const getWinners = async (page: number): Promise<Winner[]> => {
-  const url = `${baseUrl}${path.winners}?_page=${page}&_limit=10&_sort='time'`;
+export const getWinners = async (
+  page: number,
+  sortType: 'wins' | 'time',
+): Promise<Winner[]> => {
+  const url = `${baseUrl}${path.winners}?_page=${page}&_limit=10&_sort=${sortType}_order=ASC`;
+  console.log(url);
   const response = await fetch(url);
   const items: Winner[] = await response.json();
 

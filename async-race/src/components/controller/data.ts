@@ -3,6 +3,7 @@ import { Winner } from '../../types';
 export const data = {
   winners: {
     page: 1,
+    sortType: 'time' as 'time' | 'wins',
     isWin: false,
     winners: [] as Winner[],
     getPage(): number {

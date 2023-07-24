@@ -48,7 +48,7 @@ export class Garage {
     this.animations[id] = racer.animate(
       [
         { transform: 'translateX(0)' },
-        { transform: `translateX(calc(${track?.clientWidth}px - 50px))` },
+        { transform: `translateX(calc(${track?.clientWidth}px - 22px))` },
       ],
       {
         fill: 'forwards',
@@ -106,7 +106,8 @@ export class Garage {
     if (!nameEl) throw new Error('Name is not found');
     const name = nameEl.textContent ? nameEl.textContent : '';
     const racer = <HTMLElement>element.querySelector('.racer');
-    const color = racer.style.backgroundColor;
+    const color = racer.dataset.color ? racer.dataset.color : 'black';
+
     // const name = element.dataset.id;
 
     this.showPopUp({ name, color, time });
