@@ -12,7 +12,7 @@ const randomItem = (strLetters: string): string => {
   return arr[index];
 };
 
-export const getRandomName = (): string => {
+const createRandomName = (): string => {
   let name = '';
   const syllableCount = getRandomNumber(2) + 3;
   const endingType = getRandomNumber(2);
@@ -28,4 +28,8 @@ export const getRandomName = (): string => {
   }
 
   return capitalisation(name);
+};
+
+export const getRandomName = (): string => {
+  return `${createRandomName()} ${createRandomName()}`;
 };
