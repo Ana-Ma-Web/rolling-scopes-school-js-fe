@@ -4,6 +4,8 @@ export const data = {
   winners: {
     page: 1,
     sortType: 'time' as 'time' | 'wins',
+    winsOrderType: 'ASC' as 'ASC' | 'DESC',
+    timeOrderType: 'ASC' as 'ASC' | 'DESC',
     isWin: false,
     winners: [] as Winner[],
     getPage(): number {

@@ -12,7 +12,15 @@ import { data } from '../../controller/data';
 export class Winners {
   public async updateWinners(): Promise<Winner[]> {
     const { sortType } = data.winners;
-    const winnersOnPage = await getWinners(data.winners.getPage(), sortType);
+    const orderType =
+      sortType === 'time'
+        ? data.winners.timeOrderType
+        : data.winners.winsOrderType;
+    const winnersOnPage = await getWinners(
+      data.winners.getPage(),
+      sortType,
+      orderType,
+    );
     const allRacers = await getAllRacers();
 
     const winList = document.querySelector('.winners__list');
@@ -86,9 +94,15 @@ export class Winners {
     switch (btnType) {
       case 'wins':
         data.winners.sortType = 'wins';
+
+        data.winners.winsOrderType =
+          data.winners.winsOrderType === 'ASC' ? 'DESC' : 'ASC';
         break;
       case 'time':
         data.winners.sortType = 'time';
+
+        data.winners.timeOrderType =
+          data.winners.timeOrderType === 'ASC' ? 'DESC' : 'ASC';
         break;
       default:
         break;
