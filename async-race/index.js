@@ -901,8 +901,8 @@ const switchMoveMode = (props) => __awaiter(void 0, void 0, void 0, function* ()
     }
     return json;
 });
-const getWinners = (page, sortType) => __awaiter(void 0, void 0, void 0, function* () {
-    const url = `${baseUrl}${path.winners}?_page=${page}&_limit=10&_sort=${sortType}&_order='ASC'`;
+const getWinners = (page, sortType, orderType) => __awaiter(void 0, void 0, void 0, function* () {
+    const url = `${baseUrl}${path.winners}?_page=${page}&_limit=10&_sort=${sortType}&_order=${orderType}`;
     const response = yield fetch(url);
     const items = yield response.json();
     return items;
@@ -939,6 +939,8 @@ const data = {
     winners: {
         page: 1,
         sortType: 'time',
+        winsOrderType: 'ASC',
+        timeOrderType: 'ASC',
         isWin: false,
         winners: [],
         getPage() {
@@ -1854,7 +1856,10 @@ class Winners {
     updateWinners() {
         return __awaiter(this, void 0, void 0, function* () {
             const { sortType } = _controller_data__WEBPACK_IMPORTED_MODULE_4__.data.winners;
-            const winnersOnPage = yield (0,_controller_controller__WEBPACK_IMPORTED_MODULE_0__.getWinners)(_controller_data__WEBPACK_IMPORTED_MODULE_4__.data.winners.getPage(), sortType);
+            const orderType = sortType === 'time'
+                ? _controller_data__WEBPACK_IMPORTED_MODULE_4__.data.winners.timeOrderType
+                : _controller_data__WEBPACK_IMPORTED_MODULE_4__.data.winners.winsOrderType;
+            const winnersOnPage = yield (0,_controller_controller__WEBPACK_IMPORTED_MODULE_0__.getWinners)(_controller_data__WEBPACK_IMPORTED_MODULE_4__.data.winners.getPage(), sortType, orderType);
             const allRacers = yield (0,_controller_controller__WEBPACK_IMPORTED_MODULE_0__.getAllRacers)();
             const winList = document.querySelector('.winners__list');
             if (!winList)
@@ -1927,9 +1932,13 @@ class Winners {
             switch (btnType) {
                 case 'wins':
                     _controller_data__WEBPACK_IMPORTED_MODULE_4__.data.winners.sortType = 'wins';
+                    _controller_data__WEBPACK_IMPORTED_MODULE_4__.data.winners.winsOrderType =
+                        _controller_data__WEBPACK_IMPORTED_MODULE_4__.data.winners.winsOrderType === 'ASC' ? 'DESC' : 'ASC';
                     break;
                 case 'time':
                     _controller_data__WEBPACK_IMPORTED_MODULE_4__.data.winners.sortType = 'time';
+                    _controller_data__WEBPACK_IMPORTED_MODULE_4__.data.winners.timeOrderType =
+                        _controller_data__WEBPACK_IMPORTED_MODULE_4__.data.winners.timeOrderType === 'ASC' ? 'DESC' : 'ASC';
                     break;
                 default:
                     break;
