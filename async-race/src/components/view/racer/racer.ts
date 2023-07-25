@@ -12,7 +12,6 @@ export class RacerEl {
     el.innerHTML = this.getSvg(color);
     el.dataset.color = color;
 
-    // el.style.backgroundColor = color;
     return el;
   }
 }

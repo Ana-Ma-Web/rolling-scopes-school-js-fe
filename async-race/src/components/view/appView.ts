@@ -35,6 +35,7 @@ export class AppView {
           main.classList.add('win-open');
           winBtn.disabled = true;
           garageBtn.disabled = false;
+          this.winners.updateWinners();
           break;
         case 'header-garage':
           main.classList.remove('win-open');

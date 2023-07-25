@@ -10,10 +10,8 @@ import './winners.css';
 import { data } from '../../controller/data';
 
 export class Winners {
-  public async updateWinners(): // get: (page: number) => Promise<Winner[]>,
-  Promise<Winner[]> {
+  public async updateWinners(): Promise<Winner[]> {
     const { sortType } = data.winners;
-    console.log('updateWinners sortType', sortType);
     const winnersOnPage = await getWinners(data.winners.getPage(), sortType);
     const allRacers = await getAllRacers();
 
@@ -21,7 +19,6 @@ export class Winners {
 
     if (!winList) throw new Error('Winners list not found');
     winList.innerHTML = '';
-    // winList.append(this.createHeadWinnerLine());
 
     winnersOnPage.forEach((e, i) => {
       const curWinner = allRacers.items.find((el) => el.id === e.id);
@@ -36,7 +33,6 @@ export class Winners {
         }),
       );
     });
-    console.log('winnersOnPage', winnersOnPage);
     this.updatePagination();
     return winnersOnPage;
   }
@@ -46,7 +42,6 @@ export class Winners {
     const allWinners = await getAllWinners();
     const maxPageSize = 10;
 
-    console.log('isLastPage', pageNumber, maxPageSize, allWinners.length);
     if (!allWinners.length) return true;
     if (pageNumber * maxPageSize >= allWinners.length) {
       return true;
@@ -65,26 +60,14 @@ export class Winners {
     );
 
     if (pageNumber === 1) {
-      console.log('first page number ', true);
       prevBtn.disabled = true;
     } else prevBtn.disabled = false;
     if (await this.isLastPage()) {
-      console.log('last page number ', true);
       nextBtn.disabled = true;
     } else nextBtn.disabled = false;
-    console.log('updatePagination', pageNumber, await this.isLastPage());
-
-    //   if (pageNumber * )
-    // }
   }
 
   private async paginationHandler(btnType: 'next' | 'prev'): Promise<void> {
-    const prevBtn = <HTMLButtonElement>(
-      document.querySelector('button[data-type="win-prev"]')
-    );
-    const nextBtn = <HTMLButtonElement>(
-      document.querySelector('button[data-type="win-next"]')
-    );
     switch (btnType) {
       case 'prev':
         data.winners.prevPage();
@@ -121,8 +104,7 @@ export class Winners {
     const timeBtn = document.querySelector('div[data-type="header-time"]');
 
     btn?.addEventListener('click', () => {
-      const resp = this.updateWinners();
-      console.log(resp);
+      this.updateWinners();
     });
 
     prevBtn?.addEventListener('click', () => {
@@ -134,12 +116,10 @@ export class Winners {
     });
 
     winsBtn?.addEventListener('click', () => {
-      console.log('click wins');
       this.sortHandler('wins');
     });
 
     timeBtn?.addEventListener('click', () => {
-      console.log('click time');
       this.sortHandler('time');
     });
   }
@@ -233,7 +213,6 @@ export class Winners {
 
     const winList = document.createElement('ul');
     winList.classList.add('winners__list');
-    // winList.append(this.createHeadWinnerLine());
     winners.append(this.createHeadWinnerLine(), winList, btn, prevBtn, nextBtn);
 
     main.append(winners, this.createPopUp());

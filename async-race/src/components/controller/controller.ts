@@ -94,13 +94,6 @@ export const createWinner = async (props: Winner): Promise<GetRacersData> => {
   });
   const items = response.json();
 
-  try {
-    // console.log('success', items);
-  } catch (error) {
-    console.log('error');
-  }
-
-  console.log('createWinners', response);
   return items;
 };
 
@@ -133,15 +126,12 @@ export const switchMoveMode = async (
       props.time
     ) {
       const newWinnerData = existWinnerCheck(props.id, props.time);
-      console.log('empty controller existWinnerCheck', data.winners.winners);
       if (newWinnerData?.firstWin) {
         createWinner(newWinnerData);
       } else if (newWinnerData) {
         updateWinner(newWinnerData);
       }
     }
-  } catch (error) {
-    console.log('controller switchMoveMode', error);
   } finally {
     updateWinners();
   }
@@ -154,11 +144,9 @@ export const getWinners = async (
   sortType: 'wins' | 'time',
 ): Promise<Winner[]> => {
   const url = `${baseUrl}${path.winners}?_page=${page}&_limit=10&_sort=${sortType}_order=ASC`;
-  console.log(url);
   const response = await fetch(url);
   const items: Winner[] = await response.json();
 
-  console.log('getWinners', items);
   return items;
 };
 
@@ -178,17 +166,5 @@ export const getAllWinners = async (): Promise<Winner[]> => {
   const response = await fetch(url);
   const items: Winner[] = await response.json();
 
-  console.log('getAllWinners', items);
   return items;
 };
-
-const resetWinners = async (): Promise<void> => {
-  const winners = await getAllWinners();
-  console.log('getAllWinners', winners);
-  winners.forEach((e) => {
-    deleteWinner(e.id);
-  });
-  console.log('getAllWinnersAfter', winners);
-};
-
-console.log(resetWinners());

@@ -1,6 +1,7 @@
 import {
   createRacer,
   deleteRacer,
+  deleteWinner,
   getRacers,
   switchMoveMode,
 } from '../../controller/controller';
@@ -73,7 +74,6 @@ export class Garage {
     color: string;
     time: number;
   }): void {
-    console.log('Pop Up');
     const popUp = document.querySelector('.pop-up');
     if (!popUp) throw new Error('Pop up is not found');
     popUp.innerHTML = '';
@@ -108,10 +108,7 @@ export class Garage {
     const racer = <HTMLElement>element.querySelector('.racer');
     const color = racer.dataset.color ? racer.dataset.color : 'black';
 
-    // const name = element.dataset.id;
-
     this.showPopUp({ name, color, time });
-    // console.log('winTrack', id, name, color, time);
     data.winners.setIsWin(true);
   }
 
@@ -119,11 +116,8 @@ export class Garage {
     this.finishCount += 1;
     if (this.finishCount === this.getPageRacersNumber()) {
       this.finishCount = 0;
-      // console.log(data.winners.setIsWin);
       data.winners.setIsWin(false);
       data.garage.setIsRace(false);
-      console.log('isDone', this.racersCount);
-      // this.doneRaceDisableBtns();
       const resetRacerBtn = <HTMLButtonElement>(
         document.querySelector(`[data-type="race-reset"]`)
       );
@@ -191,10 +185,6 @@ export class Garage {
       document.querySelector(`[data-type="btn-create"]`)
     );
     createRacerBtn.disabled = false;
-    // const resetRacerBtn = <HTMLButtonElement>(
-    //   document.querySelector(`[data-type="race-reset"]`)
-    // );
-    // resetRacerBtn.disabled = false;
     this.updatePaginationBtns();
   }
 
@@ -219,7 +209,6 @@ export class Garage {
       );
       stopBtn.disabled = false;
       resetRaceBtn.disabled = false;
-      console.log('startDisableBtns', stopBtn.disabled, isDone);
     }
   }
 
@@ -249,9 +238,7 @@ export class Garage {
     this.startDisableBtns(id);
 
     try {
-      console.log('start try drive', data.winners.getIsWin());
       await switchMoveMode({ status: 'drive', id, winnerCallbacks, time });
-      console.log('start try drive await', data.winners.getIsWin());
       if (!data.winners.getIsWin() && data.garage.getIsRace()) {
         this.whenRacerWins(id, time);
       }
@@ -284,12 +271,10 @@ export class Garage {
 
     const startBtns = document.querySelectorAll(`.track__btn_start`);
     const isDone = this.isActiveBtns(<NodeListOf<HTMLButtonElement>>startBtns);
-    // console.log('CstopRacer', data.garage.stoppedRacers, this.racersCount);
     if (isDone) {
       if (data.garage.stoppedRacers < this.getPageRacersNumber()) {
         data.garage.stoppedRacers += 1;
       } else {
-        console.log('isDone');
         data.garage.stoppedRacers = 1;
         const startRaceBtn = <HTMLButtonElement>(
           document.querySelector('.garage__btn_race-start')
@@ -299,9 +284,6 @@ export class Garage {
     }
   }
 
-  // if (7 * data.garage.getPageNumber() >= Number(this.racersCount)) {
-  //   console.log('stopped done', (data.garage.stoppedRacers += 1));
-  // }
   private startRace(): void {
     data.garage.setIsRace(true);
     const tracks = document.querySelectorAll('.track');
@@ -353,6 +335,7 @@ export class Garage {
   }
 
   private async removeRacer(id: number): Promise<void> {
+    await deleteWinner(id);
     const response = await deleteRacer(id);
     this.updateGarageTracks();
     return response;

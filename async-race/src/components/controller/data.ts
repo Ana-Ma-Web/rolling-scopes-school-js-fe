@@ -20,38 +20,21 @@ export const data = {
     },
     setIsWin(isWin: boolean): void {
       this.isWin = isWin;
-      // console.log('set', this.isWin);
     },
     existWinnerCheck(id: number, time: number): Winner | undefined {
       const racerData = { id, ...this.countWinsData(id, time) };
 
       if (!this.isWin && racerData.wins === 1) {
         this.winners.push(racerData);
-        console.log('winnersPush', racerData);
-        // this.isWin = true;
-        // console.log('data setWinner', this.isWin);
-        console.log(this.winners);
         return { firstWin: true, ...racerData };
       }
 
       if (!this.isWin && racerData.wins > 1) {
-        // this.isWin = true;
         return { firstWin: false, ...racerData };
       }
 
       return undefined;
     },
-    // setWinner(id: number, time: number): void {
-    //   const racerData = this.countWinsData(id, time);
-    //   if (!this.isWin && racerData.wins <= 1) {
-    //     this.winners.push({ id, ...racerData });
-    //     const resp = createWinner({ id, ...racerData });
-    //     console.log(resp);
-    //   }
-    //   this.isWin = true;
-    //   console.log('data setWinner', this.isWin);
-    //   console.log(this.winners);
-    // },
     countWinsData(id: number, time: number): { wins: number; time: number } {
       const curRacer = this.winners.find((e) => e.id === id);
       if (curRacer) {
@@ -81,7 +64,6 @@ export const data = {
     },
     setIsRace(isRace: boolean): void {
       this.isRace = isRace;
-      console.log('setIsRace', this.isRace);
     },
   },
 
