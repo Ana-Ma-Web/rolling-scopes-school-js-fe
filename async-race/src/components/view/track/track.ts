@@ -2,6 +2,7 @@ import { capitalisation } from '../../../helpers/capitalisation';
 import { Racer } from '../../../types';
 import { RacerEl } from '../racer/racer';
 import { Button } from '../ui/button';
+import { flag } from './flag';
 import './track.css';
 
 export class Track {
@@ -46,7 +47,7 @@ export class Track {
       this.createButton('select'),
       this.createButton('remove'),
     );
-    trackEl.append(name, buttonsEl, racerEl);
+    trackEl.append(name, buttonsEl, racerEl, flag());
     return trackEl;
   }
 }

@@ -1,5 +1,11 @@
 .track {
   width: calc(100vw - 80px);
   margin-left: 40px;
-  border-bottom: 1px solid grey;
+  position: relative;
+}
+
+.flag {
+  position: absolute;
+  bottom: 0;
+  right: 24px;
 }
