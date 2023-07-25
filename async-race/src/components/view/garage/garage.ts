@@ -325,6 +325,10 @@ export class Garage {
   }
 
   private generateRacers(): void {
+    const startRaceBtn = <HTMLButtonElement>(
+      document.querySelector('.garage__btn_race-start')
+    );
+    startRaceBtn.disabled = false;
     for (let i = 0; i < 100; i += 1) {
       createRacer({
         name: getRandomName(),

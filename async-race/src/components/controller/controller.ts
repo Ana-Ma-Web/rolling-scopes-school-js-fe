@@ -169,3 +169,11 @@ export const getAllWinners = async (): Promise<Winner[]> => {
 
   return items;
 };
+
+const resetWinners = async (): Promise<void> => {
+  const winners = await getAllWinners();
+  winners.forEach((e) => {
+    deleteWinner(e.id);
+  });
+};
+resetWinners();
