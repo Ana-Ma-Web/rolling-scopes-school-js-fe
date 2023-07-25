@@ -1,7 +1,6 @@
 import { Garage } from './garage/garage';
 import { Button } from './ui/button';
 import { Winners } from './winners/winners';
-import './header.css';
 
 export class AppView {
   private winners: Winners;
