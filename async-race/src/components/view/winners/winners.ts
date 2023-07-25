@@ -126,7 +126,7 @@ export class Winners {
 
   private createHeadWinnerLine(): HTMLElement {
     const listItem = document.createElement('ul');
-    listItem.classList.add('winners__list-item');
+    listItem.classList.add('winners__list-header');
 
     const number = document.createElement('div');
     number.textContent = '№';
