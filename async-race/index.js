@@ -1728,7 +1728,7 @@ class Garage {
         });
     }
     generateRacers() {
-        for (let i = 0; i < 5; i += 1) {
+        for (let i = 0; i < 100; i += 1) {
             (0,_controller_controller__WEBPACK_IMPORTED_MODULE_0__.createRacer)({
                 name: (0,_helpers_getRandomName__WEBPACK_IMPORTED_MODULE_4__.getRandomName)(),
                 color: (0,_helpers_getRandomColor__WEBPACK_IMPORTED_MODULE_1__.getRandomColor)(),
