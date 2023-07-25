@@ -122,6 +122,33 @@ ___CSS_LOADER_EXPORT___.push([module.id, `.winners {
   width: 30px;
 }
 
+.winners__list-header {
+  display: flex;
+  gap: 22px;
+}
+
+.winners__list-header div:nth-child(1) {
+  width: 15px;
+}
+
+.winners__list-header div:nth-child(2) {
+  width: 50px;
+}
+
+.winners__list-header div:nth-child(3) {
+  width: 90px;
+}
+
+.winners__list-header div:nth-child(4) {
+  cursor: pointer;
+  width: 30px;
+}
+
+.winners__list-header div:nth-child(5) {
+  cursor: pointer;
+  width: 30px;
+}
+
 .pop-up {
   width: 300px;
   height: 114px;
@@ -146,7 +173,7 @@ ___CSS_LOADER_EXPORT___.push([module.id, `.winners {
   opacity: 1;
   top: 50%;
   transition: 1.5s;
-}`, "",{"version":3,"sources":["webpack://./components/view/winners/winners.css"],"names":[],"mappings":"AAAA;EACE,aAAa;EACb,WAAW;EACX,YAAY;EACZ,uBAAuB;EACvB,kBAAkB;EAClB,MAAM;EACN,OAAO;AACT;;AAEA;EACE,cAAc;AAChB;;AAEA;EACE,aAAa;EACb,SAAS;AACX;;AAEA;EACE,WAAW;AACb;;AAEA;EACE,WAAW;AACb;;AAEA;EACE,WAAW;AACb;;AAEA;EACE,WAAW;AACb;;AAEA;EACE,WAAW;AACb;;AAEA;EACE,YAAY;EACZ,aAAa;EACb,kBAAkB;EAClB,QAAQ;EACR,SAAS;EACT,gCAAgC;EAChC,WAAW;EACX,uBAAuB;EACvB,aAAa;EACb,sBAAsB;EACtB,mBAAmB;EACnB,6BAA6B;EAC7B,mBAAmB;EACnB,UAAU;EACV,gBAAgB;;EAEhB,UAAU;AACZ;;AAEA;EACE,UAAU;EACV,QAAQ;EACR,gBAAgB;AAClB","sourcesContent":[".winners {\n  display: none;\n  width: 100%;\n  height: 100%;\n  background-color: white;\n  position: absolute;\n  top: 0;\n  left: 0;\n}\n\n.win-open .winners {\n  display: block;\n}\n\n.winners__list-item {\n  display: flex;\n  gap: 22px;\n}\n\n.winners__list-item div:nth-child(1) {\n  width: 15px;\n}\n\n.winners__list-item div:nth-child(2) {\n  width: 50px;\n}\n\n.winners__list-item div:nth-child(3) {\n  width: 90px;\n}\n\n.winners__list-item div:nth-child(4) {\n  width: 30px;\n}\n\n.winners__list-item div:nth-child(5) {\n  width: 30px;\n}\n\n.pop-up {\n  width: 300px;\n  height: 114px;\n  position: absolute;\n  top: 50%;\n  left: 50%;\n  transform: translate(-50%, -50%);\n  z-index: 10;\n  background-color: white;\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  justify-content: space-evenly;\n  /* display: none; */\n  opacity: 0;\n  transition: 1.5s;\n\n  top: -250%;\n}\n\n.pop-up_show {\n  opacity: 1;\n  top: 50%;\n  transition: 1.5s;\n}"],"sourceRoot":""}]);
+}`, "",{"version":3,"sources":["webpack://./components/view/winners/winners.css"],"names":[],"mappings":"AAAA;EACE,aAAa;EACb,WAAW;EACX,YAAY;EACZ,uBAAuB;EACvB,kBAAkB;EAClB,MAAM;EACN,OAAO;AACT;;AAEA;EACE,cAAc;AAChB;;AAEA;EACE,aAAa;EACb,SAAS;AACX;;AAEA;EACE,WAAW;AACb;;AAEA;EACE,WAAW;AACb;;AAEA;EACE,WAAW;AACb;;AAEA;EACE,WAAW;AACb;;AAEA;EACE,WAAW;AACb;;AAEA;EACE,aAAa;EACb,SAAS;AACX;;AAEA;EACE,WAAW;AACb;;AAEA;EACE,WAAW;AACb;;AAEA;EACE,WAAW;AACb;;AAEA;EACE,eAAe;EACf,WAAW;AACb;;AAEA;EACE,eAAe;EACf,WAAW;AACb;;AAEA;EACE,YAAY;EACZ,aAAa;EACb,kBAAkB;EAClB,QAAQ;EACR,SAAS;EACT,gCAAgC;EAChC,WAAW;EACX,uBAAuB;EACvB,aAAa;EACb,sBAAsB;EACtB,mBAAmB;EACnB,6BAA6B;EAC7B,mBAAmB;EACnB,UAAU;EACV,gBAAgB;;EAEhB,UAAU;AACZ;;AAEA;EACE,UAAU;EACV,QAAQ;EACR,gBAAgB;AAClB","sourcesContent":[".winners {\n  display: none;\n  width: 100%;\n  height: 100%;\n  background-color: white;\n  position: absolute;\n  top: 0;\n  left: 0;\n}\n\n.win-open .winners {\n  display: block;\n}\n\n.winners__list-item {\n  display: flex;\n  gap: 22px;\n}\n\n.winners__list-item div:nth-child(1) {\n  width: 15px;\n}\n\n.winners__list-item div:nth-child(2) {\n  width: 50px;\n}\n\n.winners__list-item div:nth-child(3) {\n  width: 90px;\n}\n\n.winners__list-item div:nth-child(4) {\n  width: 30px;\n}\n\n.winners__list-item div:nth-child(5) {\n  width: 30px;\n}\n\n.winners__list-header {\n  display: flex;\n  gap: 22px;\n}\n\n.winners__list-header div:nth-child(1) {\n  width: 15px;\n}\n\n.winners__list-header div:nth-child(2) {\n  width: 50px;\n}\n\n.winners__list-header div:nth-child(3) {\n  width: 90px;\n}\n\n.winners__list-header div:nth-child(4) {\n  cursor: pointer;\n  width: 30px;\n}\n\n.winners__list-header div:nth-child(5) {\n  cursor: pointer;\n  width: 30px;\n}\n\n.pop-up {\n  width: 300px;\n  height: 114px;\n  position: absolute;\n  top: 50%;\n  left: 50%;\n  transform: translate(-50%, -50%);\n  z-index: 10;\n  background-color: white;\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  justify-content: space-evenly;\n  /* display: none; */\n  opacity: 0;\n  transition: 1.5s;\n\n  top: -250%;\n}\n\n.pop-up_show {\n  opacity: 1;\n  top: 50%;\n  transition: 1.5s;\n}"],"sourceRoot":""}]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -875,7 +902,7 @@ const switchMoveMode = (props) => __awaiter(void 0, void 0, void 0, function* ()
     return json;
 });
 const getWinners = (page, sortType) => __awaiter(void 0, void 0, void 0, function* () {
-    const url = `${baseUrl}${path.winners}?_page=${page}&_limit=10&_sort=${sortType}_order=ASC`;
+    const url = `${baseUrl}${path.winners}?_page=${page}&_limit=10&_sort=${sortType}&_order='ASC'`;
     const response = yield fetch(url);
     const items = yield response.json();
     return items;
@@ -1934,7 +1961,7 @@ class Winners {
     }
     createHeadWinnerLine() {
         const listItem = document.createElement('ul');
-        listItem.classList.add('winners__list-item');
+        listItem.classList.add('winners__list-header');
         const number = document.createElement('div');
         number.textContent = '№';
         const image = document.createElement('div');
