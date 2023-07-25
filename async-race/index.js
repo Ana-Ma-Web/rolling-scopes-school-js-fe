@@ -931,6 +931,13 @@ const getAllWinners = () => __awaiter(void 0, void 0, void 0, function* () {
     const items = yield response.json();
     return items;
 });
+const resetWinners = () => __awaiter(void 0, void 0, void 0, function* () {
+    const winners = yield getAllWinners();
+    winners.forEach((e) => {
+        deleteWinner(e.id);
+    });
+});
+resetWinners();
 
 
 /***/ }),
@@ -1543,6 +1550,8 @@ class Garage {
         });
     }
     generateRacers() {
+        const startRaceBtn = (document.querySelector('.garage__btn_race-start'));
+        startRaceBtn.disabled = false;
         for (let i = 0; i < 100; i += 1) {
             (0,_controller_controller__WEBPACK_IMPORTED_MODULE_0__.createRacer)({
                 name: (0,_helpers_getRandomName__WEBPACK_IMPORTED_MODULE_4__.getRandomName)(),
