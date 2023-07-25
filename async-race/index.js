@@ -2085,7 +2085,7 @@ const randomItem = (strLetters) => {
     const index = (0,_getRandomNumber__WEBPACK_IMPORTED_MODULE_1__.getRandomNumber)(arr.length);
     return arr[index];
 };
-const getRandomName = () => {
+const createRandomName = () => {
     let name = '';
     const syllableCount = (0,_getRandomNumber__WEBPACK_IMPORTED_MODULE_1__.getRandomNumber)(2) + 3;
     const endingType = (0,_getRandomNumber__WEBPACK_IMPORTED_MODULE_1__.getRandomNumber)(2);
@@ -2100,6 +2100,9 @@ const getRandomName = () => {
         }
     }
     return (0,_capitalisation__WEBPACK_IMPORTED_MODULE_0__.capitalisation)(name);
+};
+const getRandomName = () => {
+    return `${createRandomName()} ${createRandomName()}`;
 };
 
 
