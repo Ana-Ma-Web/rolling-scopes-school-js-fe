@@ -1771,7 +1771,6 @@ const flag = () => {
     const element = document.createElement('div');
     element.innerHTML = svg;
     element.classList.add('flag');
-    console.log(element);
     return element;
 };
 
