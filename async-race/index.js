@@ -34,61 +34,6 @@ main {
 
 /***/ }),
 
-/***/ "../node_modules/css-loader/dist/cjs.js!./components/view/header.css":
-/*!***************************************************************************!*\
-  !*** ../node_modules/css-loader/dist/cjs.js!./components/view/header.css ***!
-  \***************************************************************************/
-/***/ ((module, __webpack_exports__, __webpack_require__) => {
-
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-/* harmony import */ var _node_modules_css_loader_dist_runtime_sourceMaps_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../node_modules/css-loader/dist/runtime/sourceMaps.js */ "../node_modules/css-loader/dist/runtime/sourceMaps.js");
-/* harmony import */ var _node_modules_css_loader_dist_runtime_sourceMaps_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_css_loader_dist_runtime_sourceMaps_js__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../node_modules/css-loader/dist/runtime/api.js */ "../node_modules/css-loader/dist/runtime/api.js");
-/* harmony import */ var _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1__);
-// Imports
-
-
-var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1___default()((_node_modules_css_loader_dist_runtime_sourceMaps_js__WEBPACK_IMPORTED_MODULE_0___default()));
-// Module
-___CSS_LOADER_EXPORT___.push([module.id, ``, "",{"version":3,"sources":[],"names":[],"mappings":"","sourceRoot":""}]);
-// Exports
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
-
-
-/***/ }),
-
-/***/ "../node_modules/css-loader/dist/cjs.js!./components/view/racer/racer.css":
-/*!********************************************************************************!*\
-  !*** ../node_modules/css-loader/dist/cjs.js!./components/view/racer/racer.css ***!
-  \********************************************************************************/
-/***/ ((module, __webpack_exports__, __webpack_require__) => {
-
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-/* harmony import */ var _node_modules_css_loader_dist_runtime_sourceMaps_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../../node_modules/css-loader/dist/runtime/sourceMaps.js */ "../node_modules/css-loader/dist/runtime/sourceMaps.js");
-/* harmony import */ var _node_modules_css_loader_dist_runtime_sourceMaps_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_css_loader_dist_runtime_sourceMaps_js__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../../node_modules/css-loader/dist/runtime/api.js */ "../node_modules/css-loader/dist/runtime/api.js");
-/* harmony import */ var _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1__);
-// Imports
-
-
-var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1___default()((_node_modules_css_loader_dist_runtime_sourceMaps_js__WEBPACK_IMPORTED_MODULE_0___default()));
-// Module
-___CSS_LOADER_EXPORT___.push([module.id, `.racer{
-  /* width: 24px;
-  height: 24px; */
-}`, "",{"version":3,"sources":["webpack://./components/view/racer/racer.css"],"names":[],"mappings":"AAAA;EACE;iBACe;AACjB","sourcesContent":[".racer{\n  /* width: 24px;\n  height: 24px; */\n}"],"sourceRoot":""}]);
-// Exports
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
-
-
-/***/ }),
-
 /***/ "../node_modules/css-loader/dist/cjs.js!./components/view/track/track.css":
 /*!********************************************************************************!*\
   !*** ../node_modules/css-loader/dist/cjs.js!./components/view/track/track.css ***!
@@ -146,7 +91,6 @@ ___CSS_LOADER_EXPORT___.push([module.id, `.winners {
   position: absolute;
   top: 0;
   left: 0;
-
 }
 
 .win-open .winners {
@@ -202,7 +146,7 @@ ___CSS_LOADER_EXPORT___.push([module.id, `.winners {
   opacity: 1;
   top: 50%;
   transition: 1.5s;
-}`, "",{"version":3,"sources":["webpack://./components/view/winners/winners.css"],"names":[],"mappings":"AAAA;EACE,aAAa;EACb,WAAW;EACX,YAAY;EACZ,uBAAuB;EACvB,kBAAkB;EAClB,MAAM;EACN,OAAO;;AAET;;AAEA;EACE,cAAc;AAChB;;AAEA;EACE,aAAa;EACb,SAAS;AACX;;AAEA;EACE,WAAW;AACb;;AAEA;EACE,WAAW;AACb;;AAEA;EACE,WAAW;AACb;;AAEA;EACE,WAAW;AACb;;AAEA;EACE,WAAW;AACb;;AAEA;EACE,YAAY;EACZ,aAAa;EACb,kBAAkB;EAClB,QAAQ;EACR,SAAS;EACT,gCAAgC;EAChC,WAAW;EACX,uBAAuB;EACvB,aAAa;EACb,sBAAsB;EACtB,mBAAmB;EACnB,6BAA6B;EAC7B,mBAAmB;EACnB,UAAU;EACV,gBAAgB;;EAEhB,UAAU;AACZ;;AAEA;EACE,UAAU;EACV,QAAQ;EACR,gBAAgB;AAClB","sourcesContent":[".winners {\n  display: none;\n  width: 100%;\n  height: 100%;\n  background-color: white;\n  position: absolute;\n  top: 0;\n  left: 0;\n\n}\n\n.win-open .winners {\n  display: block;\n}\n\n.winners__list-item {\n  display: flex;\n  gap: 22px;\n}\n\n.winners__list-item div:nth-child(1) {\n  width: 15px;\n}\n\n.winners__list-item div:nth-child(2) {\n  width: 50px;\n}\n\n.winners__list-item div:nth-child(3) {\n  width: 90px;\n}\n\n.winners__list-item div:nth-child(4) {\n  width: 30px;\n}\n\n.winners__list-item div:nth-child(5) {\n  width: 30px;\n}\n\n.pop-up {\n  width: 300px;\n  height: 114px;\n  position: absolute;\n  top: 50%;\n  left: 50%;\n  transform: translate(-50%, -50%);\n  z-index: 10;\n  background-color: white;\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  justify-content: space-evenly;\n  /* display: none; */\n  opacity: 0;\n  transition: 1.5s;\n\n  top: -250%;\n}\n\n.pop-up_show {\n  opacity: 1;\n  top: 50%;\n  transition: 1.5s;\n}"],"sourceRoot":""}]);
+}`, "",{"version":3,"sources":["webpack://./components/view/winners/winners.css"],"names":[],"mappings":"AAAA;EACE,aAAa;EACb,WAAW;EACX,YAAY;EACZ,uBAAuB;EACvB,kBAAkB;EAClB,MAAM;EACN,OAAO;AACT;;AAEA;EACE,cAAc;AAChB;;AAEA;EACE,aAAa;EACb,SAAS;AACX;;AAEA;EACE,WAAW;AACb;;AAEA;EACE,WAAW;AACb;;AAEA;EACE,WAAW;AACb;;AAEA;EACE,WAAW;AACb;;AAEA;EACE,WAAW;AACb;;AAEA;EACE,YAAY;EACZ,aAAa;EACb,kBAAkB;EAClB,QAAQ;EACR,SAAS;EACT,gCAAgC;EAChC,WAAW;EACX,uBAAuB;EACvB,aAAa;EACb,sBAAsB;EACtB,mBAAmB;EACnB,6BAA6B;EAC7B,mBAAmB;EACnB,UAAU;EACV,gBAAgB;;EAEhB,UAAU;AACZ;;AAEA;EACE,UAAU;EACV,QAAQ;EACR,gBAAgB;AAClB","sourcesContent":[".winners {\n  display: none;\n  width: 100%;\n  height: 100%;\n  background-color: white;\n  position: absolute;\n  top: 0;\n  left: 0;\n}\n\n.win-open .winners {\n  display: block;\n}\n\n.winners__list-item {\n  display: flex;\n  gap: 22px;\n}\n\n.winners__list-item div:nth-child(1) {\n  width: 15px;\n}\n\n.winners__list-item div:nth-child(2) {\n  width: 50px;\n}\n\n.winners__list-item div:nth-child(3) {\n  width: 90px;\n}\n\n.winners__list-item div:nth-child(4) {\n  width: 30px;\n}\n\n.winners__list-item div:nth-child(5) {\n  width: 30px;\n}\n\n.pop-up {\n  width: 300px;\n  height: 114px;\n  position: absolute;\n  top: 50%;\n  left: 50%;\n  transform: translate(-50%, -50%);\n  z-index: 10;\n  background-color: white;\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  justify-content: space-evenly;\n  /* display: none; */\n  opacity: 0;\n  transition: 1.5s;\n\n  top: -250%;\n}\n\n.pop-up_show {\n  opacity: 1;\n  top: 50%;\n  transition: 1.5s;\n}"],"sourceRoot":""}]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -378,114 +322,6 @@ var update = _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js
 
 
        /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_css_loader_dist_cjs_js_app_css__WEBPACK_IMPORTED_MODULE_6__["default"] && _node_modules_css_loader_dist_cjs_js_app_css__WEBPACK_IMPORTED_MODULE_6__["default"].locals ? _node_modules_css_loader_dist_cjs_js_app_css__WEBPACK_IMPORTED_MODULE_6__["default"].locals : undefined);
-
-
-/***/ }),
-
-/***/ "./components/view/header.css":
-/*!************************************!*\
-  !*** ./components/view/header.css ***!
-  \************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-/* harmony import */ var _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! !../../../node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js */ "../node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js");
-/* harmony import */ var _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _node_modules_style_loader_dist_runtime_styleDomAPI_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! !../../../node_modules/style-loader/dist/runtime/styleDomAPI.js */ "../node_modules/style-loader/dist/runtime/styleDomAPI.js");
-/* harmony import */ var _node_modules_style_loader_dist_runtime_styleDomAPI_js__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_styleDomAPI_js__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var _node_modules_style_loader_dist_runtime_insertBySelector_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! !../../../node_modules/style-loader/dist/runtime/insertBySelector.js */ "../node_modules/style-loader/dist/runtime/insertBySelector.js");
-/* harmony import */ var _node_modules_style_loader_dist_runtime_insertBySelector_js__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_insertBySelector_js__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony import */ var _node_modules_style_loader_dist_runtime_setAttributesWithoutAttributes_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! !../../../node_modules/style-loader/dist/runtime/setAttributesWithoutAttributes.js */ "../node_modules/style-loader/dist/runtime/setAttributesWithoutAttributes.js");
-/* harmony import */ var _node_modules_style_loader_dist_runtime_setAttributesWithoutAttributes_js__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_setAttributesWithoutAttributes_js__WEBPACK_IMPORTED_MODULE_3__);
-/* harmony import */ var _node_modules_style_loader_dist_runtime_insertStyleElement_js__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! !../../../node_modules/style-loader/dist/runtime/insertStyleElement.js */ "../node_modules/style-loader/dist/runtime/insertStyleElement.js");
-/* harmony import */ var _node_modules_style_loader_dist_runtime_insertStyleElement_js__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_insertStyleElement_js__WEBPACK_IMPORTED_MODULE_4__);
-/* harmony import */ var _node_modules_style_loader_dist_runtime_styleTagTransform_js__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! !../../../node_modules/style-loader/dist/runtime/styleTagTransform.js */ "../node_modules/style-loader/dist/runtime/styleTagTransform.js");
-/* harmony import */ var _node_modules_style_loader_dist_runtime_styleTagTransform_js__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_styleTagTransform_js__WEBPACK_IMPORTED_MODULE_5__);
-/* harmony import */ var _node_modules_css_loader_dist_cjs_js_header_css__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! !!../../../node_modules/css-loader/dist/cjs.js!./header.css */ "../node_modules/css-loader/dist/cjs.js!./components/view/header.css");
-
-      
-      
-      
-      
-      
-      
-      
-      
-      
-
-var options = {};
-
-options.styleTagTransform = (_node_modules_style_loader_dist_runtime_styleTagTransform_js__WEBPACK_IMPORTED_MODULE_5___default());
-options.setAttributes = (_node_modules_style_loader_dist_runtime_setAttributesWithoutAttributes_js__WEBPACK_IMPORTED_MODULE_3___default());
-
-      options.insert = _node_modules_style_loader_dist_runtime_insertBySelector_js__WEBPACK_IMPORTED_MODULE_2___default().bind(null, "head");
-    
-options.domAPI = (_node_modules_style_loader_dist_runtime_styleDomAPI_js__WEBPACK_IMPORTED_MODULE_1___default());
-options.insertStyleElement = (_node_modules_style_loader_dist_runtime_insertStyleElement_js__WEBPACK_IMPORTED_MODULE_4___default());
-
-var update = _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default()(_node_modules_css_loader_dist_cjs_js_header_css__WEBPACK_IMPORTED_MODULE_6__["default"], options);
-
-
-
-
-       /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_css_loader_dist_cjs_js_header_css__WEBPACK_IMPORTED_MODULE_6__["default"] && _node_modules_css_loader_dist_cjs_js_header_css__WEBPACK_IMPORTED_MODULE_6__["default"].locals ? _node_modules_css_loader_dist_cjs_js_header_css__WEBPACK_IMPORTED_MODULE_6__["default"].locals : undefined);
-
-
-/***/ }),
-
-/***/ "./components/view/racer/racer.css":
-/*!*****************************************!*\
-  !*** ./components/view/racer/racer.css ***!
-  \*****************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-/* harmony import */ var _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! !../../../../node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js */ "../node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js");
-/* harmony import */ var _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _node_modules_style_loader_dist_runtime_styleDomAPI_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! !../../../../node_modules/style-loader/dist/runtime/styleDomAPI.js */ "../node_modules/style-loader/dist/runtime/styleDomAPI.js");
-/* harmony import */ var _node_modules_style_loader_dist_runtime_styleDomAPI_js__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_styleDomAPI_js__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var _node_modules_style_loader_dist_runtime_insertBySelector_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! !../../../../node_modules/style-loader/dist/runtime/insertBySelector.js */ "../node_modules/style-loader/dist/runtime/insertBySelector.js");
-/* harmony import */ var _node_modules_style_loader_dist_runtime_insertBySelector_js__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_insertBySelector_js__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony import */ var _node_modules_style_loader_dist_runtime_setAttributesWithoutAttributes_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! !../../../../node_modules/style-loader/dist/runtime/setAttributesWithoutAttributes.js */ "../node_modules/style-loader/dist/runtime/setAttributesWithoutAttributes.js");
-/* harmony import */ var _node_modules_style_loader_dist_runtime_setAttributesWithoutAttributes_js__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_setAttributesWithoutAttributes_js__WEBPACK_IMPORTED_MODULE_3__);
-/* harmony import */ var _node_modules_style_loader_dist_runtime_insertStyleElement_js__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! !../../../../node_modules/style-loader/dist/runtime/insertStyleElement.js */ "../node_modules/style-loader/dist/runtime/insertStyleElement.js");
-/* harmony import */ var _node_modules_style_loader_dist_runtime_insertStyleElement_js__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_insertStyleElement_js__WEBPACK_IMPORTED_MODULE_4__);
-/* harmony import */ var _node_modules_style_loader_dist_runtime_styleTagTransform_js__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! !../../../../node_modules/style-loader/dist/runtime/styleTagTransform.js */ "../node_modules/style-loader/dist/runtime/styleTagTransform.js");
-/* harmony import */ var _node_modules_style_loader_dist_runtime_styleTagTransform_js__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_styleTagTransform_js__WEBPACK_IMPORTED_MODULE_5__);
-/* harmony import */ var _node_modules_css_loader_dist_cjs_js_racer_css__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! !!../../../../node_modules/css-loader/dist/cjs.js!./racer.css */ "../node_modules/css-loader/dist/cjs.js!./components/view/racer/racer.css");
-
-      
-      
-      
-      
-      
-      
-      
-      
-      
-
-var options = {};
-
-options.styleTagTransform = (_node_modules_style_loader_dist_runtime_styleTagTransform_js__WEBPACK_IMPORTED_MODULE_5___default());
-options.setAttributes = (_node_modules_style_loader_dist_runtime_setAttributesWithoutAttributes_js__WEBPACK_IMPORTED_MODULE_3___default());
-
-      options.insert = _node_modules_style_loader_dist_runtime_insertBySelector_js__WEBPACK_IMPORTED_MODULE_2___default().bind(null, "head");
-    
-options.domAPI = (_node_modules_style_loader_dist_runtime_styleDomAPI_js__WEBPACK_IMPORTED_MODULE_1___default());
-options.insertStyleElement = (_node_modules_style_loader_dist_runtime_insertStyleElement_js__WEBPACK_IMPORTED_MODULE_4___default());
-
-var update = _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default()(_node_modules_css_loader_dist_cjs_js_racer_css__WEBPACK_IMPORTED_MODULE_6__["default"], options);
-
-
-
-
-       /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_css_loader_dist_cjs_js_racer_css__WEBPACK_IMPORTED_MODULE_6__["default"] && _node_modules_css_loader_dist_cjs_js_racer_css__WEBPACK_IMPORTED_MODULE_6__["default"].locals ? _node_modules_css_loader_dist_cjs_js_racer_css__WEBPACK_IMPORTED_MODULE_6__["default"].locals : undefined);
 
 
 /***/ }),
@@ -1001,13 +837,6 @@ const createWinner = (props) => __awaiter(void 0, void 0, void 0, function* () {
         body: JSON.stringify(winnerData),
     });
     const items = response.json();
-    try {
-        // console.log('success', items);
-    }
-    catch (error) {
-        console.log('error');
-    }
-    console.log('createWinners', response);
     return items;
 });
 const updateWinner = (props) => __awaiter(void 0, void 0, void 0, function* () {
@@ -1032,7 +861,6 @@ const switchMoveMode = (props) => __awaiter(void 0, void 0, void 0, function* ()
             !_data__WEBPACK_IMPORTED_MODULE_0__.data.winners.isWin &&
             props.time) {
             const newWinnerData = existWinnerCheck(props.id, props.time);
-            console.log('empty controller existWinnerCheck', _data__WEBPACK_IMPORTED_MODULE_0__.data.winners.winners);
             if (newWinnerData === null || newWinnerData === void 0 ? void 0 : newWinnerData.firstWin) {
                 createWinner(newWinnerData);
             }
@@ -1041,9 +869,6 @@ const switchMoveMode = (props) => __awaiter(void 0, void 0, void 0, function* ()
             }
         }
     }
-    catch (error) {
-        console.log('controller switchMoveMode', error);
-    }
     finally {
         updateWinners();
     }
@@ -1051,10 +876,8 @@ const switchMoveMode = (props) => __awaiter(void 0, void 0, void 0, function* ()
 });
 const getWinners = (page, sortType) => __awaiter(void 0, void 0, void 0, function* () {
     const url = `${baseUrl}${path.winners}?_page=${page}&_limit=10&_sort=${sortType}_order=ASC`;
-    console.log(url);
     const response = yield fetch(url);
     const items = yield response.json();
-    console.log('getWinners', items);
     return items;
 });
 const deleteWinner = (id) => __awaiter(void 0, void 0, void 0, function* () {
@@ -1069,18 +892,8 @@ const getAllWinners = () => __awaiter(void 0, void 0, void 0, function* () {
     const url = `${baseUrl}${path.winners}`;
     const response = yield fetch(url);
     const items = yield response.json();
-    console.log('getAllWinners', items);
     return items;
 });
-const resetWinners = () => __awaiter(void 0, void 0, void 0, function* () {
-    const winners = yield getAllWinners();
-    console.log('getAllWinners', winners);
-    winners.forEach((e) => {
-        deleteWinner(e.id);
-    });
-    console.log('getAllWinnersAfter', winners);
-});
-console.log(resetWinners());
 
 
 /***/ }),
@@ -1115,35 +928,18 @@ const data = {
         },
         setIsWin(isWin) {
             this.isWin = isWin;
-            // console.log('set', this.isWin);
         },
         existWinnerCheck(id, time) {
             const racerData = Object.assign({ id }, this.countWinsData(id, time));
             if (!this.isWin && racerData.wins === 1) {
                 this.winners.push(racerData);
-                console.log('winnersPush', racerData);
-                // this.isWin = true;
-                // console.log('data setWinner', this.isWin);
-                console.log(this.winners);
                 return Object.assign({ firstWin: true }, racerData);
             }
             if (!this.isWin && racerData.wins > 1) {
-                // this.isWin = true;
                 return Object.assign({ firstWin: false }, racerData);
             }
             return undefined;
         },
-        // setWinner(id: number, time: number): void {
-        //   const racerData = this.countWinsData(id, time);
-        //   if (!this.isWin && racerData.wins <= 1) {
-        //     this.winners.push({ id, ...racerData });
-        //     const resp = createWinner({ id, ...racerData });
-        //     console.log(resp);
-        //   }
-        //   this.isWin = true;
-        //   console.log('data setWinner', this.isWin);
-        //   console.log(this.winners);
-        // },
         countWinsData(id, time) {
             const curRacer = this.winners.find((e) => e.id === id);
             if (curRacer) {
@@ -1172,7 +968,6 @@ const data = {
         },
         setIsRace(isRace) {
             this.isRace = isRace;
-            console.log('setIsRace', this.isRace);
         },
     },
     form: {
@@ -1201,8 +996,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _garage_garage__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./garage/garage */ "./components/view/garage/garage.ts");
 /* harmony import */ var _ui_button__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./ui/button */ "./components/view/ui/button.ts");
 /* harmony import */ var _winners_winners__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./winners/winners */ "./components/view/winners/winners.ts");
-/* harmony import */ var _header_css__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./header.css */ "./components/view/header.css");
-
 
 
 
@@ -1227,6 +1020,7 @@ class AppView {
                     main.classList.add('win-open');
                     winBtn.disabled = true;
                     garageBtn.disabled = false;
+                    this.winners.updateWinners();
                     break;
                 case 'header-garage':
                     main.classList.remove('win-open');
@@ -1521,7 +1315,6 @@ class Garage {
         return result;
     }
     showPopUp(props) {
-        console.log('Pop Up');
         const popUp = document.querySelector('.pop-up');
         if (!popUp)
             throw new Error('Pop up is not found');
@@ -1552,9 +1345,7 @@ class Garage {
             const name = nameEl.textContent ? nameEl.textContent : '';
             const racer = element.querySelector('.racer');
             const color = racer.dataset.color ? racer.dataset.color : 'black';
-            // const name = element.dataset.id;
             this.showPopUp({ name, color, time });
-            // console.log('winTrack', id, name, color, time);
             _controller_data__WEBPACK_IMPORTED_MODULE_6__.data.winners.setIsWin(true);
         });
     }
@@ -1562,11 +1353,8 @@ class Garage {
         this.finishCount += 1;
         if (this.finishCount === this.getPageRacersNumber()) {
             this.finishCount = 0;
-            // console.log(data.winners.setIsWin);
             _controller_data__WEBPACK_IMPORTED_MODULE_6__.data.winners.setIsWin(false);
             _controller_data__WEBPACK_IMPORTED_MODULE_6__.data.garage.setIsRace(false);
-            console.log('isDone', this.racersCount);
-            // this.doneRaceDisableBtns();
             const resetRacerBtn = (document.querySelector(`[data-type="race-reset"]`));
             resetRacerBtn.disabled = false;
         }
@@ -1608,10 +1396,6 @@ class Garage {
         genRacersBtn.disabled = false;
         const createRacerBtn = (document.querySelector(`[data-type="btn-create"]`));
         createRacerBtn.disabled = false;
-        // const resetRacerBtn = <HTMLButtonElement>(
-        //   document.querySelector(`[data-type="race-reset"]`)
-        // );
-        // resetRacerBtn.disabled = false;
         this.updatePaginationBtns();
     }
     startDisableBtns(id) {
@@ -1627,7 +1411,6 @@ class Garage {
             const stopBtn = (document.querySelector(`.track[data-id="${id}"] .track__btn_stop`));
             stopBtn.disabled = false;
             resetRaceBtn.disabled = false;
-            console.log('startDisableBtns', stopBtn.disabled, isDone);
         }
     }
     startRacer(id) {
@@ -1649,9 +1432,7 @@ class Garage {
             this.animations[id] = this.animation(id, raceData.velocity, raceData.distance);
             this.startDisableBtns(id);
             try {
-                console.log('start try drive', _controller_data__WEBPACK_IMPORTED_MODULE_6__.data.winners.getIsWin());
                 yield (0,_controller_controller__WEBPACK_IMPORTED_MODULE_0__.switchMoveMode)({ status: 'drive', id, winnerCallbacks, time });
-                console.log('start try drive await', _controller_data__WEBPACK_IMPORTED_MODULE_6__.data.winners.getIsWin());
                 if (!_controller_data__WEBPACK_IMPORTED_MODULE_6__.data.winners.getIsWin() && _controller_data__WEBPACK_IMPORTED_MODULE_6__.data.garage.getIsRace()) {
                     this.whenRacerWins(id, time);
                 }
@@ -1681,13 +1462,11 @@ class Garage {
             startBtn.disabled = false;
             const startBtns = document.querySelectorAll(`.track__btn_start`);
             const isDone = this.isActiveBtns(startBtns);
-            // console.log('CstopRacer', data.garage.stoppedRacers, this.racersCount);
             if (isDone) {
                 if (_controller_data__WEBPACK_IMPORTED_MODULE_6__.data.garage.stoppedRacers < this.getPageRacersNumber()) {
                     _controller_data__WEBPACK_IMPORTED_MODULE_6__.data.garage.stoppedRacers += 1;
                 }
                 else {
-                    console.log('isDone');
                     _controller_data__WEBPACK_IMPORTED_MODULE_6__.data.garage.stoppedRacers = 1;
                     const startRaceBtn = (document.querySelector('.garage__btn_race-start'));
                     startRaceBtn.disabled = false;
@@ -1695,9 +1474,6 @@ class Garage {
             }
         });
     }
-    // if (7 * data.garage.getPageNumber() >= Number(this.racersCount)) {
-    //   console.log('stopped done', (data.garage.stoppedRacers += 1));
-    // }
     startRace() {
         _controller_data__WEBPACK_IMPORTED_MODULE_6__.data.garage.setIsRace(true);
         const tracks = document.querySelectorAll('.track');
@@ -1738,6 +1514,7 @@ class Garage {
     }
     removeRacer(id) {
         return __awaiter(this, void 0, void 0, function* () {
+            yield (0,_controller_controller__WEBPACK_IMPORTED_MODULE_0__.deleteWinner)(id);
             const response = yield (0,_controller_controller__WEBPACK_IMPORTED_MODULE_0__.deleteRacer)(id);
             this.updateGarageTracks();
             return response;
@@ -1924,8 +1701,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   RacerEl: () => (/* binding */ RacerEl)
 /* harmony export */ });
-/* harmony import */ var _racer_css__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./racer.css */ "./components/view/racer/racer.css");
-
 class RacerEl {
     getSvg(color) {
         return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24"><path fill="${color}" d="M5.50045 20.0005C6.32888 20.0005 7.00045 20.672 7.00045 21.5005C7.00045 22.3289 6.32888 23.0005 5.50045 23.0005C4.67203 23.0005 4.00045 22.3289 4.00045 21.5005C4.00045 20.672 4.67203 20.0005 5.50045 20.0005ZM18.5005 20.0005C19.3289 20.0005 20.0005 20.672 20.0005 21.5005C20.0005 22.3289 19.3289 23.0005 18.5005 23.0005C17.672 23.0005 17.0005 22.3289 17.0005 21.5005C17.0005 20.672 17.672 20.0005 18.5005 20.0005ZM2.17203 1.75781L5.99981 5.58581V16.9998L20.0005 17.0005V19.0005H5.00045C4.44817 19.0005 4.00045 18.5527 4.00045 18.0005L3.99981 6.41381L0.757812 3.17203L2.17203 1.75781ZM16.0005 3.00045C16.5527 3.00045 17.0005 3.44817 17.0005 4.00045L16.9998 5.99981L19.9936 6.00045C20.5497 6.00045 21.0005 6.45612 21.0005 6.99585V15.0051C21.0005 15.5548 20.5505 16.0005 19.9936 16.0005H8.0073C7.45123 16.0005 7.00045 15.5448 7.00045 15.0051V6.99585C7.00045 6.44611 7.4504 6.00045 8.0073 6.00045L10.9998 5.99981L11.0005 4.00045C11.0005 3.44817 11.4482 3.00045 12.0005 3.00045H16.0005ZM11.0005 8.00045H10.0005V14.0005H11.0005V8.00045ZM18.0005 8.00045H17.0005V14.0005H18.0005V8.00045ZM15.0005 5.00045H13.0005V6.00045H15.0005V5.00045Z"></path></svg>`;
@@ -1935,7 +1710,6 @@ class RacerEl {
         el.classList.add('racer');
         el.innerHTML = this.getSvg(color);
         el.dataset.color = color;
-        // el.style.backgroundColor = color;
         return el;
     }
 }
@@ -2053,14 +1827,12 @@ class Winners {
     updateWinners() {
         return __awaiter(this, void 0, void 0, function* () {
             const { sortType } = _controller_data__WEBPACK_IMPORTED_MODULE_4__.data.winners;
-            console.log('updateWinners sortType', sortType);
             const winnersOnPage = yield (0,_controller_controller__WEBPACK_IMPORTED_MODULE_0__.getWinners)(_controller_data__WEBPACK_IMPORTED_MODULE_4__.data.winners.getPage(), sortType);
             const allRacers = yield (0,_controller_controller__WEBPACK_IMPORTED_MODULE_0__.getAllRacers)();
             const winList = document.querySelector('.winners__list');
             if (!winList)
                 throw new Error('Winners list not found');
             winList.innerHTML = '';
-            // winList.append(this.createHeadWinnerLine());
             winnersOnPage.forEach((e, i) => {
                 const curWinner = allRacers.items.find((el) => el.id === e.id);
                 if (!curWinner)
@@ -2073,7 +1845,6 @@ class Winners {
                     time: e.time,
                 }));
             });
-            console.log('winnersOnPage', winnersOnPage);
             this.updatePagination();
             return winnersOnPage;
         });
@@ -2083,7 +1854,6 @@ class Winners {
             const pageNumber = _controller_data__WEBPACK_IMPORTED_MODULE_4__.data.winners.getPage();
             const allWinners = yield (0,_controller_controller__WEBPACK_IMPORTED_MODULE_0__.getAllWinners)();
             const maxPageSize = 10;
-            console.log('isLastPage', pageNumber, maxPageSize, allWinners.length);
             if (!allWinners.length)
                 return true;
             if (pageNumber * maxPageSize >= allWinners.length) {
@@ -2098,26 +1868,19 @@ class Winners {
             const prevBtn = (document.querySelector('button[data-type="win-prev"]'));
             const nextBtn = (document.querySelector('button[data-type="win-next"]'));
             if (pageNumber === 1) {
-                console.log('first page number ', true);
                 prevBtn.disabled = true;
             }
             else
                 prevBtn.disabled = false;
             if (yield this.isLastPage()) {
-                console.log('last page number ', true);
                 nextBtn.disabled = true;
             }
             else
                 nextBtn.disabled = false;
-            console.log('updatePagination', pageNumber, yield this.isLastPage());
-            //   if (pageNumber * )
-            // }
         });
     }
     paginationHandler(btnType) {
         return __awaiter(this, void 0, void 0, function* () {
-            const prevBtn = (document.querySelector('button[data-type="win-prev"]'));
-            const nextBtn = (document.querySelector('button[data-type="win-next"]'));
             switch (btnType) {
                 case 'prev':
                     _controller_data__WEBPACK_IMPORTED_MODULE_4__.data.winners.prevPage();
@@ -2154,8 +1917,7 @@ class Winners {
         const winsBtn = document.querySelector('div[data-type="header-wins"]');
         const timeBtn = document.querySelector('div[data-type="header-time"]');
         btn === null || btn === void 0 ? void 0 : btn.addEventListener('click', () => {
-            const resp = this.updateWinners();
-            console.log(resp);
+            this.updateWinners();
         });
         prevBtn === null || prevBtn === void 0 ? void 0 : prevBtn.addEventListener('click', () => {
             this.paginationHandler('prev');
@@ -2164,11 +1926,9 @@ class Winners {
             this.paginationHandler('next');
         });
         winsBtn === null || winsBtn === void 0 ? void 0 : winsBtn.addEventListener('click', () => {
-            console.log('click wins');
             this.sortHandler('wins');
         });
         timeBtn === null || timeBtn === void 0 ? void 0 : timeBtn.addEventListener('click', () => {
-            console.log('click time');
             this.sortHandler('time');
         });
     }
@@ -2245,7 +2005,6 @@ class Winners {
             });
             const winList = document.createElement('ul');
             winList.classList.add('winners__list');
-            // winList.append(this.createHeadWinnerLine());
             winners.append(this.createHeadWinnerLine(), winList, btn, prevBtn, nextBtn);
             main.append(winners, this.createPopUp());
             this.winnersListener();
