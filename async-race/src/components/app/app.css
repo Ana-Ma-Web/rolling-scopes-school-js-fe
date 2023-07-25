@@ -1,3 +1,7 @@
+html {
+  background-color: rgb(211, 241, 245);
+  overflow: hidden;
+}
 body {
   margin: 20px 0;
 }

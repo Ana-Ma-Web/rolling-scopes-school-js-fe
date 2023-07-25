@@ -217,17 +217,10 @@ export class Winners {
       textContent: 'Next',
       isDisabled: await this.isLastPage(),
     });
-    const btn = button.createBtn({
-      datasetType: 'win-btn',
-      rootClass: 'winners',
-      modClass: 'get-winners',
-      textContent: 'Wins',
-      isDisabled: false,
-    });
 
     const winList = document.createElement('ul');
     winList.classList.add('winners__list');
-    winners.append(this.createHeadWinnerLine(), winList, btn, prevBtn, nextBtn);
+    winners.append(this.createHeadWinnerLine(), winList, prevBtn, nextBtn);
 
     main.append(winners, this.createPopUp());
 
