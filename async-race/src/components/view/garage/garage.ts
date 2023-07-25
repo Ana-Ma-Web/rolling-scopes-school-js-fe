@@ -343,7 +343,7 @@ export class Garage {
   }
 
   private generateRacers(): void {
-    for (let i = 0; i < 5; i += 1) {
+    for (let i = 0; i < 100; i += 1) {
       createRacer({
         name: getRandomName(),
         color: getRandomColor(),
