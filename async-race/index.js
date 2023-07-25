@@ -933,9 +933,7 @@ const getAllWinners = () => __awaiter(void 0, void 0, void 0, function* () {
 });
 const resetWinners = () => __awaiter(void 0, void 0, void 0, function* () {
     const winners = yield getAllWinners();
-    winners.forEach((e) => {
-        deleteWinner(e.id);
-    });
+    _data__WEBPACK_IMPORTED_MODULE_0__.data.winners.winners = winners;
 });
 resetWinners();
 
