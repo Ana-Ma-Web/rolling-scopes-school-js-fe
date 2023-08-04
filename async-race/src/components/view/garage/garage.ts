@@ -126,23 +126,8 @@ export class Garage {
   }
 
   private startRaceDisableBtns(): void {
-    const tracks = document.querySelectorAll('.track');
+    this.raceDisableBtns(true);
 
-    tracks.forEach((e) => {
-      const el = <HTMLElement>e;
-      const startBtn = <HTMLButtonElement>el.querySelector(`.track__btn_start`);
-      startBtn.disabled = true;
-      const stopBtn = <HTMLButtonElement>el.querySelector(`.track__btn_stop`);
-      stopBtn.disabled = true;
-      const selectBtn = <HTMLButtonElement>(
-        el.querySelector(`.track__btn_select`)
-      );
-      selectBtn.disabled = true;
-      const removeBtn = <HTMLButtonElement>(
-        el.querySelector(`.track__btn_remove`)
-      );
-      removeBtn.disabled = true;
-    });
     const pagLeftBtn = <HTMLButtonElement>(
       document.querySelector(`[data-type="pagination-left"]`)
     );
@@ -151,40 +136,39 @@ export class Garage {
       document.querySelector(`[data-type="pagination-right"]`)
     );
     pagRightBtn.disabled = true;
-    const genRacersBtn = <HTMLButtonElement>(
-      document.querySelector(`[data-type="generate-racers"]`)
-    );
-    genRacersBtn.disabled = true;
-    const createRacerBtn = <HTMLButtonElement>(
-      document.querySelector(`[data-type="btn-create"]`)
-    );
-    createRacerBtn.disabled = true;
   }
 
-  private doneRaceDisableBtns(): void {
+  private raceDisableBtns(isStart: boolean): void {
     const tracks = document.querySelectorAll('.track');
 
     tracks.forEach((e) => {
       const el = <HTMLElement>e;
       const startBtn = <HTMLButtonElement>el.querySelector(`.track__btn_start`);
-      startBtn.disabled = false;
+      startBtn.disabled = isStart;
+      const stopBtn = <HTMLButtonElement>el.querySelector(`.track__btn_stop`);
+      stopBtn.disabled = isStart || stopBtn.disabled;
       const selectBtn = <HTMLButtonElement>(
         el.querySelector(`.track__btn_select`)
       );
-      selectBtn.disabled = false;
+      selectBtn.disabled = isStart;
       const removeBtn = <HTMLButtonElement>(
         el.querySelector(`.track__btn_remove`)
       );
-      removeBtn.disabled = false;
+      removeBtn.disabled = isStart;
+      const createRacerBtn = <HTMLButtonElement>(
+        document.querySelector(`[data-type="btn-create"]`)
+      );
+      createRacerBtn.disabled = isStart;
     });
+
     const genRacersBtn = <HTMLButtonElement>(
       document.querySelector(`[data-type="generate-racers"]`)
     );
-    genRacersBtn.disabled = false;
-    const createRacerBtn = <HTMLButtonElement>(
-      document.querySelector(`[data-type="btn-create"]`)
-    );
-    createRacerBtn.disabled = false;
+    genRacersBtn.disabled = isStart;
+  }
+
+  private doneRaceDisableBtns(): void {
+    this.raceDisableBtns(false);
     this.updatePaginationBtns();
   }
 
